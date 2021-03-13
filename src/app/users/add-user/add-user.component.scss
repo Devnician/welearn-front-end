@@ -1,0 +1,143 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+.mat-card-title {
+  text-align: center;
+  border-bottom: solid 1px#8b98a5;
+}
+
+.image-field {
+  height: auto;
+  width: 31%;
+  padding-right: 2%;
+
+  margin: 5px;
+  padding: 5px;
+
+  box-sizing: border-box;
+  background-color: rgb(249, 250, 255);
+  border: solid 0.5px#8b98a5;
+  border-radius: 1px;
+  // font-family:'Lucida Console', monospace;
+}
+
+mat-card {
+  width: 100%;
+}
+
+.error {
+  width: 100%;
+  min-width: auto;
+  color: white;
+  background-color: red;
+}
+
+// .mat-raised-button {
+//   display: flex;
+
+//   justify-content: flex-end;
+
+//   background-color:       #1976d2;
+
+//   border-color: #1976d2;
+//   color: white;
+
+//   font-size: 16px;
+//    margin: 5px;
+
+//   &:hover, &:focus, &:active {
+//     border-color: #1976d2 !important;
+//     background-color:  #1976d2 !important;
+//   }
+// }
+
+// #container {
+//   height: 100%;
+//   width: 100%;
+//   display: flex;
+
+// }
+// #leftThing {
+//   width: 45%;
+
+// }
+// // #content {
+// //   width: 10%;
+
+// // }
+// #rightThing {
+//   width: 45%;
+
+// }
+
+//  .eye-button{
+//   border-color: none !important;
+//   background-color:   none !important;
+//  }
+
+.mat-raised-button {
+  &:hover,
+  &:focus {
+    border-color: rgb(224, 219, 219) !important;
+    color: #1976d2;
+    background-color: rgb(224, 219, 219) !important;
+  }
+}
+
+.image-bar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.img-preview-container {
+  background-color: rgb(237, 238, 252);
+  position: relative;
+  cursor: pointer;
+  width: auto;
+}
+
+.img-loading-overlay {
+  background-color: black;
+  bottom: 0;
+  left: 0;
+  opacity: 0.2;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.img-spinning-circle {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.img-spinning-circle:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

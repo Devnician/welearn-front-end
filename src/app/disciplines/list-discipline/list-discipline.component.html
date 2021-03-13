@@ -1,0 +1,50 @@
+<loader [show]=show></loader>
+<div class="b-bar">
+    <button class="mdc-fab" aria-label="Favorite" (click)="addDiscipline()" matTooltip="добавяне на дисциплина" [disabled]="disableEdit === true">
+        <div class="mdc-fab__exited"></div>
+        <span class="mdc-fab__icon material-icons">add</span>
+    </button>
+</div>
+<div class="mat-elevation-z8">
+    <table mat-table #table [dataSource]="paginator.slice">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.number'|translate}} </th>
+            <td mat-cell *matCellDef="let discipline"> {{discipline.id}} </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.group_name' |translate}} </th>
+            <td mat-cell *matCellDef="let discipline"> {{discipline.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.createdAt'|translate}} </th>
+            <td mat-cell *matCellDef="let discipline"> {{discipline.createdAt | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="updatedAt">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.updatedAt'|translate}} </th>
+            <td mat-cell *matCellDef="let discipline"> {{discipline.updatedAt | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lector">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.lector'|translate}} </th>
+            <td mat-cell *matCellDef="let discipline"> {{discipline.lector?.firstName}} {{discipline.lector?.lastName}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="assistant">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.assistant'|translate}} </th>
+            <td mat-cell *matCellDef="let discipline"> {{discipline?.assistant?.firstName}}
+                {{discipline.assistant?.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let discipline">
+                <button class="pepe-table-button" mat-raised-button (click)="editDiscipline(discipline)" [disabled]="disableEdit === true">
+                    <mat-icon class="list-mat-icon">edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize
+        [pageSizeOptions]="paginator.pageOptions" showFirstLastButtons (page)="handlePage($event)"></mat-paginator>
+</div>

@@ -1,0 +1,87 @@
+<div style="z-index:50000; position : fixed;display : flex; top: 0.3rem; right: 0.3rem;">
+  <span [ngClass]="{
+    'version-info' : isHeaderVisible === true,
+    'version-infoo' : isHeaderVisible === false 
+    }">v:{{version}}</span>
+</div>
+
+<div style="z-index:50000; position : fixed;display : flex; top: 0.0rem; right: 0.0rem;">
+  <span class="dot" [ngClass]="{
+    'dot-red' : serverOnline == false,
+    'dot-green' : serverOnline == true}"></span>
+</div>
+
+<div *ngIf="isHeaderVisible">
+  <mat-toolbar color="primary">
+    <button mat-button (click)="sidenav.toggle()">
+      <mat-icon matTooltip="menu">menu</mat-icon>
+    </button>
+    <ul class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item">
+        <a *ngIf="breadcrumb.enabled" routerLink="{{breadcrumb.url}}">
+          {{ breadcrumb.label | translate }}
+        </a>
+        <!-- the last one is disabled - for the smart users :-) -->
+        <span *ngIf="!breadcrumb.enabled">
+          {{ breadcrumb.label | translate }}
+        </span>
+      </li>
+    </ul>
+    <span class="filler">{{usersMessage}}</span>
+    <div>
+      <div style="display: flex; align-items: center;  padding-top: 10px;">
+        <div style="display: block; align-items: center; ">
+          <div style="font-size: 16px; height: 20px; text-align: end;">{{user.firstName}} {{user.lastName}}</div>
+          <div style="font-size: 12px; text-align: end;">{{user.roleBg}}</div>
+        </div>
+        <button mat-icon-button class="user-logo" [matMenuTriggerFor]="appMenu">
+          <mat-icon matTooltip="menu">account_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item (click)="editMyAccountData()"> {{'wl.my_account' | translate}}
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="langMenu"> {{'wl.language' | translate}}
+      </button>
+      <button mat-menu-item [routerLink]="'home/help-page'">{{'wl.help' | translate}} </button>
+      <button mat-menu-item (click)="logout()">{{'wl.logout' | translate}} </button>
+    </mat-menu>
+    <mat-menu #langMenu="matMenu">
+      <button mat-menu-item (click)="useLanguage('en')">EN</button>
+      <button mat-menu-item (click)="useLanguage('bg')">BG</button>
+    </mat-menu>
+  </mat-toolbar>
+</div>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+    (closed)="events.push('close!')">
+    <!-- (mouseleave)="sidenav.close()" -->
+    <mat-nav-list>
+      <div class="example-list" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div *ngFor="let option of menuOptions" cdkDrag>
+          <section class="menu-section" [routerLink]="option.route" (click)="sidenav.toggle()">
+            <mat-icon color="primary">{{option.matIcon}}</mat-icon>
+            <span style="color:'primary'">{{option.value | translate}}</span>
+            <div class="example-handle" cdkDragHandle>
+              <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                </path>
+                <path d="M0 0h24v24H0z" fill="none"></path>
+              </svg>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- <pre>{{router | json}}</pre> -->

@@ -1,0 +1,50 @@
+<div style="z-index:5; position : fixed;display : flex; top: 4.5rem; right: 0.5rem;">
+    <button class="mdc-fab" aria-label="Favorite" (click)="addRole()" matTooltip="добавяне на роля">
+        <div class="mdc-fab__exited"></div>
+        <span class="mdc-fab__icon material-icons">add</span>
+    </button>
+</div>
+<div *ngIf="isDone" class="mat-elevation-z8">
+    <table mat-table #table [dataSource]="paginator.slice">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> id </th>
+            <td mat-cell *matCellDef="let role"> {{role.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef> {{'wl.role' | translate}} </th>
+            <td mat-cell *matCellDef="let role"> {{lang=== 'bg' ? role.roleBg : role.role }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description" sticky>
+            <th mat-header-cell *matHeaderCellDef> {{'wl.description' | translate}} </th>
+            <td mat-cell *matCellDef="let role"> {{lang=== 'bg' ? role.descriptionBg : role.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef>промени</th>
+            <td mat-cell *matCellDef="let role">
+                <button class="pepe-table-button" mat-raised-button (click)="editRole(role)">
+                    <!-- {{'wl.edit' | translate}} -->
+                    <mat-icon class="list-mat-icon">edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef>изтрий</th>
+            <td mat-cell *matCellDef="let role">
+                <button class="pepe-table-button" mat-raised-button (click)="deleteRole(role)">                   
+                    <mat-icon class="list-mat-icon">delete</mat-icon>
+                </button>
+            </td>
+        </ng-container> -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize
+        [pageSizeOptions]="paginator.pageOptions" showFirstLastButtons (page)="handlePage($event)">
+    </mat-paginator>
+</div>

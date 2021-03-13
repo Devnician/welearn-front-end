@@ -1,0 +1,922 @@
+<!-- <div (window:resize)="onResize($event)"></div> -->
+<mat-dialog-content [formGroup]="form">
+
+    <div *ngIf="classType === 'group'">
+        <h4 *ngIf="mode === 'create'">Добавяне на грепа</h4>
+        <h4 *ngIf="mode === 'edit'">редактиране на група</h4>
+
+        <div class="f-row">
+            <mat-form-field class="half-field">
+                <input matInput placeholder="name" formControlName="name" type="text" class="form-control"
+                    autocomplete="off">
+            </mat-form-field> 
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.start_date' | translate}}" type="date" class="form-control"
+                  formControlName="startDate" id="startDate" required>
+                <mat-error *ngIf="isFieldValid('startDate')">{{valido.getErrorMessage('startDate') | translate}}</mat-error>
+              </mat-form-field>
+              <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.end_date' | translate}}" type="date" class="form-control"
+                  formControlName="end_date" id="end_date" required>
+                <mat-error *ngIf="isFieldValid('end_date')">{{valido.getErrorMessage('end_date') | translate}}</mat-error>
+              </mat-form-field>
+            <!-- <mat-form-field class="half-field">
+                <input matInput placeholder="{{'wl.address' | translate}}" formControlName="address" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="half-field">
+                <input matInput placeholder="{{'wl.phone' | translate}}" formControlName="phone" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="half-field">
+                <input matInput placeholder="{{'wl.email' | translate}}" formControlName="email" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="full-field">
+                <textarea matInput placeholder="{{'wl.info' | translate}}" formControlName="info" type="text"
+                    class="form-control" rows="3" autocomplete="off"> </textarea>
+            </mat-form-field> -->
+
+            <div class="sp">
+                <input matInput placeholder="{{'wl.open' | translate}}" formControlName="open"
+                    type="text" class="form-control" autocomplete="off">
+                <mat-slide-toggle #slide color="primary" formControlName="open" style="padding-right: 10px;"
+                    (change)="changeSimState($event )">
+                    <span *ngIf="!slide.checked" style="color: crimson;">barred</span>
+                    <span *ngIf="slide.checked">active</span>
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="classType === 'packet'">
+        <h4 *ngIf="mode === 'create'">Insert packet data</h4>
+        <h4 *ngIf="mode === 'edit'">Edit packet data</h4>
+        <div class="f-row">
+            <mat-form-field class="half-field">
+                <input matInput placeholder="packet" formControlName="packet" type="text" class="form-control"
+                    autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="half-field">
+                <input matInput placeholder="{{'wl.packet' | translate}}" formControlName="packetBg" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field class="full-field">
+                <textarea matInput placeholder="{{'wl.info' | translate}}" formControlName="info" type="text"
+                    class="form-control" rows="3" autocomplete="off"> </textarea>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div *ngIf="classType === 'gps'">
+        <h4 *ngIf="mode === 'create'">Добавяне на тип gps</h4>
+        <h4 *ngIf="mode === 'edit'">Редактиране на тип gps</h4>
+        <div class="f-row">
+            <mat-form-field class="two-on-row">
+                <input matInput placeholder="{{'wl.manifacturer' | translate}}" formControlName="manufacturer"
+                    type="text" class="form-control" autocomplete="off">
+                <mat-error *ngIf="isFieldValid('manufacturer')">{{valido.getErrorMessage('manufacturer') | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="two-on-row">
+                <input matInput placeholder="{{'wl.version' | translate}}" formControlName="version" type="text"
+                    class="form-control" autocomplete="off">
+                <mat-error *ngIf="isFieldValid('version')">{{valido.getErrorMessage('version') | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="one-on-row">
+                <textarea matInput placeholder="{{'wl.info' | translate}}" formControlName="info" type="text"
+                    rows="5" class="form-control" autocomplete="off"> </textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <!-- SERVER -->
+    <div *ngIf="classType === 'server'">
+        <h4 *ngIf="mode === 'create'">{{'wl.server_add' | translate}} </h4>
+        <h4 *ngIf="mode === 'edit'">{{'wl.server_edit' | translate}}</h4>
+        <div class="f-row">
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="domain" formControlName="domain" type="text" class="form-control"
+                    autocomplete="off">
+                <mat-error *ngIf="isFieldValid('domain')">{{valido.getErrorMessage('domain') | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.ip' | translate}}" formControlName="ip" type="text"
+                    class="form-control" autocomplete="off">
+                <mat-error *ngIf="isFieldValid('ip')">{{valido.getErrorMessage('ip') | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.port' | translate}}" formControlName="port" type="number"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.diplayText' | translate}}" formControlName="diplayText"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_protocol' | translate}}" formControlName="protocol"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_pgHost' | translate}}" formControlName="pgHost" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_pgDb' | translate}}" formControlName="pgDb" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_pgPort' | translate}}" formControlName="pgPort"
+                    type="number" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_pgUser' | translate}}" formControlName="pgUser" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_pgPassword' | translate}}" formControlName="pgPassword"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="four-on-row">
+                <input matInput placeholder="{{'wl.server_pgQueryType' | translate}}" formControlName="pgQueryType"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="two-on-row">
+                <textarea matInput placeholder="{{'wl.description' | translate}}" formControlName="description"
+                    type="text" rows="2" class="form-control" autocomplete="off"></textarea>
+            </mat-form-field>
+            <mat-form-field class="two-on-row">
+                <textarea matInput placeholder="{{'wl.notes' | translate}}" formControlName="notes" type="text"
+                    rows="2" class="form-control" autocomplete="off"> </textarea>
+            </mat-form-field>
+        </div>
+    </div>
+
+
+    <!-- IN REPOSITORY: AVAILABLE, UNMOUNTED DEVICES  -->
+    <div *ngIf="classType === 'device'">
+        <h4 *ngIf="mode === 'create'">{{'wl.add_device' | translate}}</h4>
+        <h4 *ngIf="mode === 'edit'">{{'wl.edit_device' | translate}}</h4>
+        <h4 *ngIf="mode === 'editTicketAndSim'">Добавяне на сим карта в устройството</h4>
+        <div class="f-row">
+            <mat-form-field class="three-on-row">
+                <input matInput placeholder="name" formControlName="name" type="text" class="form-control"
+                    autocomplete="off">
+                <mat-error *ngIf="isFieldValid('name')">{{valido.getErrorMessage('name') | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="three-on-row">
+                <input matInput placeholder="{{'wl.gpsModel' | translate}}" formControlName="gpsModel" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="three-on-row">
+                <input matInput placeholder="{{'wl.gpsVersion' | translate}}" formControlName="gpsVersion"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field *ngIf="simFound" class="three-on-row">
+                <div style="display: flex;">
+                    <input matInput placeholder="{{'wl.simNumber' | translate}}" formControlName="serial" type="text"
+                        class="form-control" autocomplete="off">
+                    <button type="button" style="height: 25px;margin: -5px 0px;" color="accent"
+                        matTooltip="Изваждане на сим" (click)="removeSimCardFromDevice()">
+                        <mat-icon>no_sim</mat-icon>
+                    </button>
+                </div>
+            </mat-form-field>
+            <mat-form-field *ngIf="simFound" class="three-on-row">
+                <input matInput placeholder="{{'wl.phoneNumber' | translate}}" formControlName="phone" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <!-- SIM PROCESS -->
+            <div class="{{simFound ? 'inner-row-three' : 'inner-row-one'}}">
+                <div style="width: 35%;padding-right: 10px;">
+                    <mat-radio-group style="display: flex;flex-direction: column;width: max-content;">
+                        <div>
+                            <input type="radio" value='Telenor' (change)="filterSimByHolder($event);"
+                                formControlName="holder">
+                            <span>Telenor</span>
+                        </div>
+                        <div>
+                            <input type="radio" value='Tikomi' (change)="filterSimByHolder($event);"
+                                formControlName="holder">
+                            <span>Tikomi</span>
+                        </div>
+                        <div>
+                            <input type="radio" value='Electroninvest' (change)="filterSimByHolder($event);"
+                                formControlName="holder">
+                            <span>Electroninvest</span>
+                        </div>
+                    </mat-radio-group>
+                </div>
+                <!--ADD SIM IN DEVICE  -->
+                <mat-form-field style="min-width: 60% !important;">
+                    <mat-label *ngIf="simFound">{{'wl.newSimNumber' | translate}}</mat-label>
+                    <mat-label *ngIf="!simFound">{{'wl.simNumber' | translate}}</mat-label>
+                    <mat-select #matmat formControlName="newSim" id="newSim"
+                        (selectionChange)="newSimSelected($event.value)">
+                        <input style="width: 100%;" (keyup)="onSimFiltered($event.target.value)">
+                        <mat-option [value]=''>Избери {{simFound?'нова ':''}}сим карта</mat-option>
+                        <mat-option style="height: 30px;" *ngFor="let sim of simCardsOrigin" [value]="sim"
+                            class="form-control" id="sim">
+                            {{sim.serial}} / {{sim.phone}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field class="two-on-row">
+                <textarea matInput placeholder="{{'wl.info_device' | translate}}" type="text" class="form-control"
+                    formControlName="info" id="info" rows="5" readonly></textarea>
+            </mat-form-field>
+            <mat-form-field *ngIf="simFound" class="two-on-row">
+                <textarea matInput placeholder="{{'wl.info_sim' | translate}}" type="text" class="form-control"
+                    formControlName="history" id="history" rows="5" readonly></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <!-- <div *ngIf="classType === 'checkDevice'">
+
+        <div class="f-row">
+            <mat-form-field class="two-on-row">
+                <mat-label>{{'wl.dbHost' | translate}}</mat-label>
+                <mat-select formControlName="server" id="serverId">
+                    <mat-option *ngFor="let server of servers" [value]="server.id" class="form-control" id="serverId">
+                        {{server.domain}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="two-on-row">
+                <input matInput placeholder="{{'wl.device_num' | translate}}" formControlName="device" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <div *ngIf="postPois.length == 0 && postgreChecked == true">Няма информация</div>
+
+            <div class="scroll-row">
+                <table class="table table-hover" style="width: 100%;">
+                    <thead>
+                        <style>
+                            table,
+                            th,
+                            td {
+                                border: 1px solid black;
+                                font-size: 14px;
+                            }
+                        </style>
+                        <tr>
+                            <td>time</td>
+                            <td>latitide</td>
+                            <td>longitude</td>
+                            <td>altitude</td>
+                            <td>angle</td>
+                            <td>can speed</td>
+                            <td>accel pedal</td>
+                            <td>fuel perc</td>
+                            <td>fuel lit</td>
+                            <td>engine rpm</td>
+                            <td>total fuel</td>
+                            <td>total dist</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let post of postPois">
+                            <td>{{post.time}}</td>
+                            <td>{{post.latitide}}</td>
+                            <td>{{post.longitude}}</td>
+                            <td>{{post.altitude}}</td>
+                            <td>{{post.angle}}</td>
+                            <td>{{post.canSpeed}}</td>
+                            <td>{{post.accelPedal}}</td>
+                            <td>{{post.fuelPerc}}</td>
+                            <td>{{post.fuelLit}}</td>
+                            <td>{{post.engineRpm}}</td>
+                            <td>{{post.totalFuel}}</td>
+                            <td>{{post.totalDist}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- MOUNTED DEVICE -->
+    <!-- <div *ngIf="classType === 'deviceMounted' || classType === 'deviceInCust'">
+
+        <h4 *ngIf="mode === 'create'">{{'wl.add_device' | translate}}</h4>
+        <h4 *ngIf="mode === 'edit'">{{'wl.edit_device' | translate}}</h4>
+        <div class="f-row">
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="name" formControlName="name" type="text" class="form-control"
+                    autocomplete="off">
+                <mat-error *ngIf="isFieldValid('name')">{{valido.getErrorMessage('name') | translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.gpsModel' | translate}}" formControlName="gpsModel" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.gpsVersion' | translate}}" formControlName="gpsVersion"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field *ngIf="isMounted" class="five-on-row">
+                <input matInput placeholder="{{'wl.logDir' | translate}}" formControlName="logDir" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            
+
+            <div *ngIf="isMounted" class="inner-row-trans">
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.requestDate' | translate}}" type="text" class="form-control"
+                        formControlName="requestDate" value=readonly>
+                </mat-form-field>
+
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.installationDate' | translate}}" type="text"
+                        class="form-control" formControlName="installationDate" readonly>
+                </mat-form-field>
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.installеdOnAddress' | translate}}" type="text"
+                        class="form-control" formControlName="installationAddress" readonly>
+                </mat-form-field>
+                
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.carRegNum' | translate}}" type="text" class="form-control"
+                        formControlName="carRegNum">
+                </mat-form-field>
+            </div>
+            <div *ngIf="isMounted" class="inner-row-trans">
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.carBrand' | translate}}" type="text" class="form-control"
+                        formControlName="carBrand">
+                </mat-form-field>
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.carModel' | translate}}" type="text" class="form-control"
+                        formControlName="carModel">
+                </mat-form-field>
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.carType' | translate}}" type="text" class="form-control"
+                        formControlName="carType">
+                </mat-form-field>
+                <mat-form-field class="five-on-row">
+                    <input matInput placeholder="{{'wl.carYear' | translate}}" type="text" class="form-control"
+                        formControlName="carYear">
+                </mat-form-field>
+            </div> -->
+            <!-- <div *ngIf="isMounted" class="inner-row-trans">
+                
+                <mat-form-field class="six-on-row">
+                    <input matInput placeholder="{{'wl.sensorOne' | translate}}" type="text" class="form-control"
+                        formControlName="sensorOne">
+                </mat-form-field>
+                <mat-form-field class="six-on-row">
+                    <input matInput placeholder="{{'wl.sensorTwo' | translate}}" type="text" class="form-control"
+                        formControlName="sensorTwo">
+                </mat-form-field>
+                <mat-form-field class="six-on-row">
+                    <input matInput placeholder="{{'wl.sensorThree' | translate}}" type="text" class="form-control"
+                        formControlName="sensorThree">
+                </mat-form-field>
+                <mat-form-field class="six-on-row">
+                    <input matInput placeholder="{{'wl.sensorFour' | translate}}" type="text" class="form-control"
+                        formControlName="sensorFour">
+                </mat-form-field>
+            </div> -->
+
+            <!-- <div *ngIf="simFound" class="inner-row-trans">
+               
+                <div class="sim-prop">
+                    <div class="sp">
+                        <input matInput placeholder="{{'wl.simNumber' | translate}}" formControlName="serial"
+                            type="text" class="form-control" autocomplete="off">
+                        <mat-slide-toggle #slide color="primary" formControlName="enabled" style="padding-right: 10px;"
+                            (change)="changeSimState($event )">
+                            <span *ngIf="!slide.checked" style="color: crimson;">barred</span>
+                            <span *ngIf="slide.checked">active</span>
+                        </mat-slide-toggle>
+                    </div>
+                    <mat-form-field class="sp">
+                        <input matInput placeholder="{{'wl.phoneNumber' | translate}}" formControlName="phone"
+                            type="text" class="form-control" autocomplete="off">
+                        <mat-error *ngIf="isFieldValid('phone')"> {{'wl.invalid_gsm_number' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="sim-change">
+                    <div style="width: 35%;padding-right: 10px;">
+                        <mat-radio-group style="display: flex; flex-direction: column;">
+                            <div>
+                                <input type="radio" value='Telenor' (change)="filterSimByHolder($event);"
+                                    formControlName="holder">
+                                <span>Telenor</span>
+                            </div>
+                            <div>
+                                <input type="radio" value='Tikomi' (change)="filterSimByHolder($event);"
+                                    formControlName="holder">
+                                <span>Tikomi</span>
+                            </div>
+                            <div>
+                                <input type="radio" value='Electroninvest' (change)="filterSimByHolder($event);"
+                                    formControlName="holder">
+                                <span>Electroninvest</span>
+                            </div>
+                        </mat-radio-group>
+                    </div>
+                    <mat-form-field style="min-width: 60% !important;" matTooltip="смяна на картата">
+                        <mat-label>{{'wl.newSimNumber' | translate}}</mat-label>
+                        <mat-select #matmat formControlName="newSim" id="newSim"
+                            (selectionChange)="newSimSelected($event.value)">
+                            <input style="width: 100%;" (keyup)="onSimFiltered($event.target.value)">
+                            <mat-option [value]=''>Избери нова сим карта</mat-option>
+                            <mat-option style="height: 30px;" *ngFor="let sim of simCardsOrigin" [value]="sim"
+                                class="form-control" id="newSim">
+                                <div style="font-size: small;">
+                                    {{sim.serial}}/{{sim.phone}}
+                                </div>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="inner-row-trans">
+
+                <mat-form-field *ngIf="isMounted" class="two-on-row">
+                    <textarea matInput placeholder="{{'wl.oldSim' | translate}}" formControlName="oldSim" type="text"
+                        class="form-control" readonly></textarea>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="!simFound" class="two-on-row">
+                    <mat-label>{{'wl.select_sim_card' | translate}}</mat-label>
+                    <mat-select (selectionChange)="newSimSelected($event.value)" class="width:80px"
+                        formControlName="sim">
+                        <input style="width:-webkit-fill-available;height: 25px;margin: 2px;"
+                            (keyup)="dm.onSimFiltered($event.target.value)">
+                        <mat-option style="height: 30px;" *ngFor="let sim of dm.availableSimFiltered" [value]="sim"
+                            id="sim" class="form-control">
+                            {{sim.serial}} - {{sim.phone}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field class="two-on-row">
+                    <textarea matInput placeholder="{{'wl.info' | translate}}" type="text" class="form-control"
+                        formControlName="info" id="info" readonly></textarea>
+                </mat-form-field>
+            </div>
+            <div *ngIf="isMounted" class="image-bar">
+                <div class="image-field">
+                    <mat-spinner *ngIf="map[0].snippet.pending" [diameter]="70"></mat-spinner>
+
+                    <button type="button" mat-icon-button color="primary" (click)="imageInput.click()">
+                        <mat-icon aria-label="image" class="md-20">image</mat-icon>
+                    </button>
+
+                    <button *ngIf="isMedia === true" type="button" mat-icon-button color="primary"
+                        (click)="imageInput.click()">
+                        <mat-icon aria-label="camera" class="md-20">camera</mat-icon>
+                    </button>
+
+                    <button type="button" mat-icon-button color="accent" (click)="removeFile(0)">
+                        <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                    </button>
+
+                    <input #imageInput type="file" style="display: none;" accept="image/*;"
+                        (change)="addFile(imageInput,0)">
+
+                    <input #ImageInput type="file" style="display: none;" accept="image/*;capture=camera"
+                        (change)="addFile(ImageInput,0)">
+
+
+                    <div>
+                        <img style="width:100%;height:auto;" *ngIf="map[0].sanitized && !map[0].snippet.src"
+                            [src]="map[0].sanitized" />
+                        <img style="width:100%;height:auto;" *ngIf="map[0].snippet.src" [src]="map[0].snippet.src" />
+                    </div>
+                </div>
+
+                <div class="image-field">
+                    <mat-spinner *ngIf="map[1].snippet.pending" [diameter]="70"></mat-spinner>
+
+                    <button type="button" mat-icon-button color="primary" (click)="imageInput2.click()">
+                        <mat-icon aria-label="image" class="md-20">image</mat-icon>
+                    </button>
+
+                    <input #imageInput2 type="file" style="display: none;" accept="image/*;"
+                        (change)="addFile(imageInput2,1)">
+
+                    <button *ngIf="isMedia === true" type="button" mat-icon-button color="primary"
+                        (click)="ImageInput2.click()">
+                        <mat-icon aria-label="camera" class="md-20">camera</mat-icon>
+                    </button>
+
+                    <input #ImageInput2 type="file" style="display: none;" accept="image/*;capture=camera"
+                        (change)="addFile(ImageInput2,1)">
+
+                    <button type="button" mat-icon-button color="accent" (click)="removeFile(1)">
+                        <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                    </button>
+
+                    <div>
+                        <img style="width:100%;height:auto;" *ngIf="map[1].sanitized && !map[1].snippet.src"
+                            [src]="map[1].sanitized" />
+                        <img style="width:100%;height:auto;" *ngIf="map[1].snippet.src" [src]="map[1].snippet.src" />
+                    </div>
+                </div>
+
+                <div class="image-field">
+                    <mat-spinner *ngIf="map[2].snippet.pending" [diameter]="70"></mat-spinner>
+
+                    <button type="button" mat-icon-button color="primary" (click)="imageInput3.click()">
+                        <mat-icon aria-label="image" class="md-20">image</mat-icon>
+                    </button>
+
+                    <input #imageInput3 type="file" style="display: none;" accept="image/*;"
+                        (change)="addFile(imageInput3,2)">
+
+                    <button *ngIf="isMedia === true" type="button" mat-icon-button color="primary"
+                        (click)="ImageInput3.click()">
+                        <mat-icon aria-label="camera" class="md-20">camera</mat-icon>
+                    </button>
+
+                    <input #ImageInput3 type="file" style="display: none;" accept="image/*;capture=camera"
+                        (change)="addFile(ImageInput3,2)">
+
+                    <button type="button" mat-icon-button color="accent" (click)="removeFile(2)">
+                        <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                    </button>
+
+                    <div>
+                        <img style="width:100%;height:auto;" *ngIf="map[2].sanitized && !map[2].snippet.src"
+                            [src]="map[2].sanitized" />
+                        <img style="width:100%;height:auto;" *ngIf="map[2].snippet.src" [src]="map[2].snippet.src" />
+                    </div>
+                </div>
+
+                <div class="image-field">
+                    <mat-spinner *ngIf="map[3].snippet.pending" [diameter]="70"></mat-spinner>
+
+                    <button type="button" mat-icon-button color="primary" (click)="imageInput4.click()">
+                        <mat-icon aria-label="image" class="md-20">image</mat-icon>
+                    </button>
+
+                    <input #imageInput4 type="file" style="display: none;" accept="image/*;"
+                        (change)="addFile(imageInput4,3)">
+
+                    <button *ngIf="isMedia === true" type="button" mat-icon-button color="primary"
+                        (click)="ImageInput4.click()">
+                        <mat-icon aria-label="camera" class="md-20">camera</mat-icon>
+                    </button>
+
+                    <input #ImageInput4 type="file" style="display: none;" accept="image/*;capture=camera"
+                        (change)="addFile(ImageInput4,3)">
+
+                    <button type="button" mat-icon-button color="accent" (click)="removeFile(3)">
+                        <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                    </button>
+
+                    <div>
+                        <img style="width:100%;height:auto;" *ngIf="map[3].sanitized && !map[3].snippet.src"
+                            [src]="map[3].sanitized" />
+                        <img style="width:100%;height:auto;" *ngIf="map[3].snippet.src" [src]="map[3].snippet.src" />
+                    </div>
+                </div>
+
+                <div class="image-field">
+                    <mat-spinner *ngIf="map[4].snippet.pending" [diameter]="70"></mat-spinner>
+
+                    <button type="button" mat-icon-button color="primary" (click)="imageInput5.click()">
+                        <mat-icon aria-label="image" class="md-20">image</mat-icon>
+                    </button>
+
+                    <input #imageInput5 type="file" style="display: none;" accept="image/*;"
+                        (change)="addFile(imageInput5,4)">
+                  
+
+                    <button *ngIf="isMedia === true" type="button" mat-icon-button color="primary"
+                        (click)="ImageInput5.click()">
+                        <mat-icon aria-label="camera" class="md-20">camera</mat-icon>
+                    </button>
+
+                    <input #ImageInput5 type="file" style="display: none;" accept="image/*;capture=camera"
+                        (change)="addFile(ImageInput5,4)">
+                    <button type="button" mat-icon-button color="accent" (click)="removeFile(4)">
+                        <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                    </button>
+                    <div>
+                        <img style="width:100%;height:auto;" *ngIf="map[4].sanitized && !map[4].snippet.src"
+                            [src]="map[4].sanitized" />
+                        <img style="width:100%;height:auto;" *ngIf="map[4].snippet.src" [src]="map[4].snippet.src" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div *ngIf="classType === 'deviceImages'">
+
+        <div class="f-row">
+            <mat-form-field class="one-on-row">
+                <input matInput placeholder="name" formControlName="name" type="text" class="form-control"
+                    autocomplete="off">
+                <mat-error *ngIf="isFieldValid('name')">{{valido.getErrorMessage('name') | translate}}
+                </mat-error>
+            </mat-form-field>
+
+        </div> -->
+        <!-- <div class="image-bar">
+
+            <div class="image-field">
+
+                <button type="button" mat-icon-button color="primary" (click)="iimageInput.click()">
+                    <mat-icon aria-label="cloud_upload" class="md-20">cloud_upload</mat-icon>
+                </button>
+
+                <input #iimageInput type="file" style="display: none;" accept="image/*"
+                    (change)="addFile(iimageInput,0)">
+
+                <button type="button" mat-icon-button color="accent" (click)="removeFile(0)">
+                    <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                </button>
+
+                <div>
+                    <img style="width:100%;height:auto;" *ngIf="map[0].sanitized && !map[0].snippet.src"
+                        [src]="map[0].sanitized" />
+                    <img style="width:100%;height:auto;" *ngIf="map[0].snippet.src" [src]="map[0].snippet.src" />
+                </div>
+                <mat-spinner *ngIf="map[0].snippet.pending" [diameter]="70"></mat-spinner>
+            </div>
+
+            <div class="image-field">
+                <button type="button" mat-icon-button color="primary" (click)="iimageInput2.click()">
+                    <mat-icon aria-label="cloud_upload" class="md-20">cloud_upload</mat-icon>
+                </button>
+
+                <input #iimageInput2 type="file" style="display: none;" accept="image/*"
+                    (change)="addFile(iimageInput2,1)">
+
+                <button type="button" mat-icon-button color="accent" (click)="removeFile(1)">
+                    <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                </button>
+
+                <div>
+                    <img style="width:100%;height:auto;" *ngIf="map[1].sanitized && !map[1].snippet.src"
+                        [src]="map[1].sanitized" />
+                    <img style="width:100%;height:auto;" *ngIf="map[1].snippet.src" [src]="map[1].snippet.src" />
+                </div>
+                <mat-spinner *ngIf="map[1].snippet.pending" [diameter]="70"></mat-spinner>
+            </div>
+
+
+            <div class="image-field">
+                <button type="button" mat-icon-button color="primary" (click)="iimageInput3.click()">
+                    <mat-icon aria-label="cloud_upload" class="md-20">cloud_upload</mat-icon>
+                </button>
+
+                <input #iimageInput3 type="file" style="display: none;" accept="image/*"
+                    (change)="addFile(iimageInput3,2)">
+
+                <button type="button" mat-icon-button color="accent" (click)="removeFile(2)">
+                    <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                </button>
+
+                <div>
+                    <img style="width:100%;height:auto;" *ngIf="map[2].sanitized && !map[2].snippet.src"
+                        [src]="map[2].sanitized" />
+                    <img style="width:100%;height:auto;" *ngIf="map[2].snippet.src" [src]="map[2].snippet.src" />
+                </div>
+                <mat-spinner *ngIf="map[2].snippet.pending" [diameter]="70"></mat-spinner>
+            </div>
+
+            <div class="image-field">
+                <button type="button" mat-icon-button color="primary" (click)="iimageInput4.click()">
+                    <mat-icon aria-label="cloud_upload" class="md-20">cloud_upload</mat-icon>
+                </button>
+
+                <input #iimageInput4 type="file" style="display: none;" accept="image/*"
+                    (change)="addFile(iimageInput4,3)">
+
+                <button type="button" mat-icon-button color="accent" (click)="removeFile(3)">
+                    <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                </button>
+
+                <div>
+                    <img style="width:100%;height:auto;" *ngIf="map[3].sanitized && !map[3].snippet.src"
+                        [src]="map[3].sanitized" />
+                    <img style="width:100%;height:auto;" *ngIf="map[3].snippet.src" [src]="map[3].snippet.src" />
+                </div>
+                <mat-spinner *ngIf="map[3].snippet.pending" [diameter]="70"></mat-spinner>
+            </div>
+
+            <div class="image-field">
+                <button type="button" mat-icon-button color="primary" (click)="iimageInput5.click()">
+                    <mat-icon aria-label="cloud_upload" class="md-20">cloud_upload</mat-icon>
+                </button>
+
+                <input #iimageInput5 type="file" style="display: none;" accept="image/*"
+                    (change)="addFile(iimageInput5,4)">
+
+                <button type="button" mat-icon-button color="accent" (click)="removeFile(4)">
+                    <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                </button>
+
+                <div>
+                    <img style="width:100%;height:auto;" *ngIf="map[4].sanitized && !map[4].snippet.src"
+                        [src]="map[4].sanitized" />
+                    <img style="width:100%;height:auto;" *ngIf="map[4].snippet.src" [src]="map[4].snippet.src" />
+                </div>
+                <mat-spinner *ngIf="map[4].snippet.pending" [diameter]="70"></mat-spinner>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="classType === 'addPhoneCall'">
+        <h4>Разговор с клиент</h4>
+        <div class="f-row">
+            <mat-form-field class="one-on-row">
+                <input matInput placeholder="{{'wl.customer' | translate}}" formControlName="customerName"
+                    type="text" class="form-control" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="one-on-row">
+                <textarea matInput placeholder="{{'wl.description' | translate}}" formControlName="description"
+                    type="text" class="form-control" rows="5" autocomplete="off"></textarea>
+                <mat-error *ngIf="isFieldValid('description')">{{valido.getErrorMessage('description') | translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="one-on-row">
+                <mat-label>{{'wl.topic' | translate}}</mat-label>
+                <mat-select formControlName="resume" id="resume">
+                    <mat-option *ngFor="let resume of resumes" [value]="resume.id" class="form-control" id="resume">
+                        {{resume.resume}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isFieldValid('resume')">{{valido.getErrorMessage('resume') | translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+
+    <div *ngIf="classType === 'commentPhoneCall'">
+        <h4>Добавяне на коментар</h4>
+        <div class="f-row">
+
+            <mat-form-field class="two-on-row">
+                <input matInput placeholder="{{'wl.customer' | translate}}" formControlName="customerName"
+                    type="text" class="form-control" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="two-on-row">
+                <input matInput placeholder="{{'wl.topic' | translate}}" formControlName="resume" type="text"
+                    class="form-control" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="one-on-row">
+                <textarea matInput placeholder="{{'wl.description' | translate}}" formControlName="description"
+                    type="text" class="form-control" rows="5" readonly></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="one-on-row">
+                <textarea matInput placeholder="{{'wl.comment' | translate}}" formControlName="comment" type="text"
+                    class="form-control" rows="5" autocomplete="off"></textarea> 
+              
+            </mat-form-field> 
+        </div>
+    </div> -->
+
+
+
+
+<!-- 
+    <div *ngIf="classType === 'equipment'">
+        <h4>Оборудване - {{mode}}</h4>
+        <div class="f-row">
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.sku' | translate}}" formControlName="sku" type="text"
+                    class="form-control">
+            </mat-form-field>
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.model' | translate}}" formControlName="model" type="text"
+                    class="form-control">
+            </mat-form-field>
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.version' | translate}}" formControlName="version" type="text"
+                    class="form-control">
+            </mat-form-field>
+
+            <mat-form-field class="six-on-row">
+                <input matInput placeholder="{{'wl.price' | translate}}" formControlName="price" type="number"
+                    class="form-control">
+            </mat-form-field>
+            <mat-form-field class="six-on-row">
+                <input matInput placeholder="{{'wl.salePrice' | translate}}" formControlName="salePrice"
+                    type="number" class="form-control">
+            </mat-form-field>
+            <mat-form-field class="one-on-row">
+                <input matInput placeholder="{{'wl.description' | translate}}" formControlName="description"
+                    type="text" class="form-control">
+            </mat-form-field>
+            <mat-form-field class="one-on-row">
+                <input matInput placeholder="{{'wl.info' | translate}}" formControlName="info" type="text"
+                    class="form-control">
+            </mat-form-field>
+
+        </div>
+    </div>
+
+
+    <div *ngIf="classType === 'simBash'">
+        <h4 *ngIf="mode === 'edit'">Редактиране на данни на сим карта</h4>
+        <div class="f-row">
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.customerNumber' | translate}}" formControlName="cNumber"
+                    type="text" class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.phoneNumber' | translate}}" formControlName="phone" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.simNumber' | translate}}" formControlName="serial" type="text"
+                    class="form-control" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.creditLimit' | translate}}" formControlName="creditLimit"
+                    type="number" class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.lastChange' | translate}}" formControlName="updatedAt" type="text"
+                    class="form-control" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.lastChangeBy' | translate}}" formControlName="updatedBy"
+                    type="text" class="form-control" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.roaming' | translate}}" formControlName="roaming" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.ratePlan' | translate}}" formControlName="ratePlan" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <input matInput placeholder="{{'wl.holder' | translate}}" formControlName="holder" type="text"
+                    class="form-control" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field class="five-on-row">
+                <mat-select formControlName="state" id="state" placeholder="{{'wl.state' | translate}}">
+                    <mat-option *ngFor="let stat of states" [value]="stat.id" class="form-control" id="stat">
+                        {{stat.display}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="full-field">
+                <textarea matInput placeholder="{{'wl.info' | translate}}" formControlName="info" type="text"
+                    class="form-control" rows="3" autocomplete="off"> </textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-field">
+                <textarea matInput placeholder="{{'wl.history' | translate}}" formControlName="history" type="text"
+                    class="form-control" rows="3" readonly> </textarea>
+            </mat-form-field>
+        </div>
+    </div> -->
+
+ 
+
+
+    <mat-dialog-actions class="dialog-button-bar" style="margin-bottom: 0 !important;">
+        <button mat-raised-button class="pepe-button" color="primary" (click)="close()">{{'wl.cancel' |
+            translate}}</button>
+        <button *ngIf="classType !== 'checkDevice'" mat-raised-button class="pepe-button" color="primary"
+            (click)="save()">{{'wl.save' | translate}}</button>
+        <button *ngIf="classType === 'checkDevice'" mat-raised-button class="pepe-button" color="primary"
+            (click)="check()">{{'wl.check' | translate}}</button>
+    </mat-dialog-actions>
+
+    <!-- <pre>{{form.value|json}}</pre> -->
+</mat-dialog-content>

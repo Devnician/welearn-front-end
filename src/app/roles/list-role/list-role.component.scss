@@ -1,0 +1,20 @@
+table {
+  width: 100%;
+}
+tr.mat-header-row {
+  font-weight: bold;
+}
+
+.mat-column-delete {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-cell,
+.mat-header-cell {
+  text-align: center !important;
+}

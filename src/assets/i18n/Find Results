@@ -1,0 +1,782 @@
+Searching 256 files for "version" (case sensitive)
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.component.html:
+    1  <div style="z-index:50000; position : fixed;display : flex; top: 0.3rem; right: 0.3rem;">
+    2    <span [ngClass]="{
+    3:     'version-info' : isHeaderVisible === true,
+    4:     'version-infoo' : isHeaderVisible === false 
+    5:     }">v:{{version}}</span>
+    6  </div>
+    7  
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.component.scss:
+  142  }
+  143  
+  144: .version-info {
+  145  	font-size: 7pt;
+  146  	float: right;
+  147  	color: rgb(255, 255, 255);
+  148  }
+  149: .version-infoo {
+  150  	font-size: 7pt;
+  151  	float: right;
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.component.ts:
+   28  
+   29  const jwtHelper = new JwtHelperService();
+   30: //const { version: appVersion } = require('../../package.json');
+   31  
+   32  export class MenuOptions {
+   ..
+   50  
+   51  export class AppComponent implements OnInit, OnDestroy {
+   52:   version: string = '1.0.02';
+   53    // @ViewChild(MatSidenav ) sidenav: MatSidenav;
+   54    @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
+
+F:\Master2020SoftwareEngineering\torga\src\app\devices\list\devices.component.html:
+   35              <td mat-cell *matCellDef="let d"> {{d.manifacturer}} </td>
+   36          </ng-container>
+   37:         <ng-container matColumnDef="version">
+   38:             <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+   39:             <td mat-cell *matCellDef="let d"> {{d.version}} </td>
+   40          </ng-container>
+   41          <ng-container matColumnDef="qty">
+
+F:\Master2020SoftwareEngineering\torga\src\app\devices\list\devices.component.ts:
+   18  export class DevicesComponent extends BaseComponent implements OnInit, OnDestroy {
+   19    displayedColumns = ['id', 'name', 'gpsModel', 'gpsVersion', 'edit'];
+   20:   displayedColumnsAw = ['id', 'statusbg', 'manifacturer', 'version', 'qty', 'edit'];
+   21    hasWaitingDevices: boolean = false;
+   22    awaitDevicesPaginator: PPaginator;
+
+F:\Master2020SoftwareEngineering\torga\src\app\dialog-modal\dialog-modal.component.html:
+   61              </mat-form-field>
+   62              <mat-form-field class="two-on-row">
+   63:                 <input matInput placeholder="{{'torga.version' | translate}}" formControlName="version" type="text"
+   64                      class="form-control" autocomplete="off">
+   65:                 <mat-error *ngIf="isFieldValid('version')">{{valido.getErrorMessage('version') | translate}}
+   66                  </mat-error>
+   67              </mat-form-field>
+   ..
+  803              </mat-form-field>
+  804              <mat-form-field class="five-on-row">
+  805:                 <input matInput placeholder="{{'torga.version' | translate}}" formControlName="version" type="text"
+  806                      class="form-control">
+  807              </mat-form-field>
+
+F:\Master2020SoftwareEngineering\torga\src\app\dialog-modal\dialog-modal.component.scss:
+   60  }
+   61  
+   62: .version-info {
+   63    font-size: 8pt;
+   64    float: right;
+
+F:\Master2020SoftwareEngineering\torga\src\app\dialog-modal\dialog-modal.component.ts:
+  266        sku: [newOne ? '' : equipment.sku, this.mode == 'create' ? Validators.required : ''],
+  267        model: [newOne ? '' : equipment.model],
+  268:       version: [newOne ? '' : equipment.version],
+  269        price: [newOne ? '' : equipment.price.toFixed(2)],
+  270        salePrice: [newOne ? '' : equipment.salePrice.toFixed(2)],
+  ...
+  278        id: [newOne ? '' : gpsType.id],
+  279        manufacturer: [newOne ? '' : gpsType.manufacturer, Validators.required],
+  280:       version: [newOne ? '' : gpsType.version, Validators.required],
+  281        info: [newOne ? '' : gpsType.info]
+  282      });
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\add\add.component.html:
+  100                                  value="{{device.gpsModel}}">
+  101                                  <mat-option *ngFor="let gps of gpsDeviceTypes" [value]="gps">
+  102:                                     {{gps.manufacturer}} {{gps.version}}
+  103                                  </mat-option>
+  104                              </mat-select>
+  ...
+  108  
+  109                      <ng-container matColumnDef="gpsVersion">
+  110:                         <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+  111                          <td mat-cell *matCellDef="let device; let i = index;" [formGroupName]="i">
+  112                              {{device.value.gpsVersion}} </td>
+  ...
+  142                                  <td>name</td>
+  143                                  <td>gps manifacturer</td>
+  144:                                 <td>gps version</td>
+  145                                  <td><button style="width: 100%;" type="button" (click)="addDeviceRow()">+</button></td>
+  146  
+  ...
+  157                                          (selectionChange)="gpsTypeSelected(device,mat.value)">
+  158                                          <mat-option *ngFor="let gps of gpsDeviceTypes" [value]="gps"
+  159:                                             matTooltip="{{gps.manufacturer}} {{gps.version}}" matTooltipPosition="right"
+  160                                              id="roleId">
+  161:                                             {{gps.manufacturer}} {{gps.version}}
+  162                                          </mat-option>
+  163                                      </mat-select>
+  ...
+  271  
+  272                      <ng-container matColumnDef="description">
+  273:                         <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+  274                          <td mat-cell *matCellDef="let eq; let i = index;" [formGroupName]="i">
+  275                              {{eq.value.description}} </td>
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\add\add.component.ts:
+  205    gpsTypeSelected(index: number, gps: any) {
+  206      this.devicess.controls[index].get('gpsModel').patchValue(gps.manufacturer);
+  207:     this.devicess.controls[index].get('gpsVersion').patchValue(gps.version);
+  208      this.devicess.controls[index].get('gpsTypeId').patchValue(gps.id);
+  209    }
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\other\other.component.html:
+   28              <td mat-cell *matCellDef="let eq"> {{eq.model}} </td>
+   29          </ng-container>
+   30:         <ng-container matColumnDef="version">
+   31:             <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+   32:             <td mat-cell *matCellDef="let eq"> {{eq.version}} </td>
+   33          </ng-container>
+   34          <ng-container matColumnDef="description">
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\other\other.component.ts:
+   13  export class OtherComponent extends BaseComponent implements OnInit {
+   14    equipments: Equipment[] = [];
+   15:   displayedColumns = ['id', 'sku', 'model', 'version', 'description', 'quantity', 'blocked', 'price', 'salePrice'/*, 'edit'*/];
+   16    constructor(ar: ActivatedRoute, private donkey: DonkeyService) {
+   17      super(ar);
+   ..
+   44        case 'car':
+   45          //hide some columns from the driver
+   46:         this.displayedColumns = ['id', 'sku', 'model', 'version', 'description', 'quantity'/*, 'edit'*/];
+   47          this.api.getEquipmentsFor(this.storage.type, this.storage.id).subscribe(data => {
+   48            if (data.status === 200) {
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\transfer-edit\transfer-edit.component.html:
+  218                                              value="{{device.value.gpsVersion}}">
+  219                                              <mat-option *ngFor="let gps of gpsDeviceTypes" [value]="gps">
+  220:                                                 {{gps.manufacturer}} {{gps.version}}
+  221                                              </mat-option>
+  222                                          </mat-select>
+  ...
+  228  
+  229                              <ng-container matColumnDef="gpsVersion">
+  230:                                 <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+  231                                  <td mat-cell *matCellDef="let device; let i = index;" [formGroupName]="i">
+  232                                      {{device.value.gpsVersion}} </td>
+  ...
+  389                      </ng-container>
+  390                      <ng-container matColumnDef="description">
+  391:                         <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+  392                          <td mat-cell *matCellDef="let eq; let i = index;" [formGroupName]="i">
+  393                              {{eq.value.description}} </td>
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\transfer-edit\transfer-edit.component.ts:
+  376    gpsTypeSelected(index: number, gps: GpsDeviceType) {
+  377      this.devicesQty.controls[index].get('gpsModel').patchValue(gps.manufacturer);
+  378:     this.devicesQty.controls[index].get('gpsVersion').patchValue(gps.version);
+  379      this.devicesQty.controls[index].get('gpsTypeId').patchValue(gps.id);
+  380    }
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\transfer\transfer.component.html:
+  178                                      value="{{device.gpsModel}}">
+  179                                      <mat-option *ngFor="let gps of gpsDeviceTypes" [value]="gps">
+  180:                                         {{gps.manufacturer}} {{gps.version}}
+  181                                      </mat-option>
+  182                                  </mat-select>
+  ...
+  186  
+  187                          <ng-container matColumnDef="gpsVersion">
+  188:                             <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+  189                              <td mat-cell *matCellDef="let device; let i = index;" [formGroupName]="i">
+  190                                  {{device.value.gpsVersion}} </td>
+  ...
+  347  
+  348                  <ng-container matColumnDef="description">
+  349:                     <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+  350                      <td mat-cell *matCellDef="let eq; let i = index;" [formGroupName]="i">
+  351                          {{eq.value.description}} </td>
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\transfer\transfer.component.ts:
+   76    gpsTypeSelected(index: number, gps: GpsDeviceType) {
+   77      this.devicesQty.controls[index].get('gpsModel').patchValue(gps.manufacturer);
+   78:     this.devicesQty.controls[index].get('gpsVersion').patchValue(gps.version);
+   79      this.devicesQty.controls[index].get('gpsTypeId').patchValue(gps.id);
+   80    }
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\types\types.component.html:
+   25                      <td mat-cell *matCellDef="let eq"> {{eq.model}} </td>
+   26                  </ng-container>
+   27:                 <ng-container matColumnDef="version">
+   28:                     <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+   29:                     <td mat-cell *matCellDef="let eq"> {{eq.version}} </td>
+   30                  </ng-container>
+   31                  <ng-container matColumnDef="description">
+   ..
+   70                      <td mat-cell *matCellDef="let gps"> {{gps.manufacturer}} </td>
+   71                  </ng-container>
+   72:                 <ng-container matColumnDef="version">
+   73:                     <th mat-header-cell *matHeaderCellDef> {{'torga.version' | translate}} </th>
+   74:                     <td mat-cell *matCellDef="let gps"> {{gps.version}} </td>
+   75                  </ng-container>
+   76                  <ng-container matColumnDef="info">
+
+F:\Master2020SoftwareEngineering\torga\src\app\equipment\types\types.component.ts:
+   19    equipments: Equipment[] = [];
+   20    gpsTypes: GpsDeviceType[] = [];
+   21:   typesDisplayedColumns = ['id', 'sku', 'model', 'version', 'description', 'price', 'salePrice', 'edit'];
+   22:   gpsDisplayedColumns = ['id', 'manufacturer', 'version', 'info', 'edit'];
+   23  
+   24    index: number = 0;
+   ..
+   44          if (data) {
+   45            this.gpsTypes = data.result;
+   46:           this.deviceTypesPaginator.init(this.gpsTypes, 'version');
+   47            this.show = false;
+   48          } else {
+
+F:\Master2020SoftwareEngineering\torga\src\app\model\equipment.model.ts:
+    6      salePrice: number;
+    7      model: string;
+    8:     version: string;
+    9      info: string
+   10      ////////////////////////
+
+F:\Master2020SoftwareEngineering\torga\src\app\model\gpsdevicetype.model.ts:
+    2      id: number;
+    3      manufacturer: string;
+    4:     version: string;
+    5      info: string;
+    6  }
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\bg.json:
+  238          "transfer_list": "трансфери",
+  239          "sender_receiver_equals": "Изпращачът и получателят са един и същ обект",
+  240:         "version": "версия",
+  241          "price": "цена",
+  242          "salePrice": "продажна цена",
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\en.json:
+  163          "selectTicketType": "select ticket type",
+  164          "gpsModel": "gps model",
+  165:         "gpsVersion": "gps version",
+  166          "selectTicketPriority": "select ticket priority",
+  167          "ustomerChange": "customer change",
+  ...
+  238          "transfer_list": "transfers",
+  239          "sender_receiver_equals": "The sender and the recipient are the same object",
+  240:         "version": "version",
+  241          "price": "price",
+  242          "salePrice": "sale price",
+
+F:\Master2020SoftwareEngineering\torga\src\assets\js\jsvat.js:
+ 1070      var nextchar = '';
+ 1071  
+ 1072:     // The result of the conversion goes here
+ 1073      var result = '';
+ 1074  
+
+F:\Master2020SoftwareEngineering\torga\src\polyfills.ts:
+   12   *      file.
+   13   *
+   14:  * The current setup is for so-called "evergreen" browsers; the last versions of browsers that
+   15   * automatically update themselves. This includes Safari >= 10, Chrome >= 55 (including Opera),
+   16   * Edge >= 13 on the desktop, and iOS 10 and Chrome on mobile.
+
+59 matches across 24 files
+
+
+Searching 256 files for "1.0.02" (case sensitive)
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.component.ts:
+   50  
+   51  export class AppComponent implements OnInit, OnDestroy {
+   52:   version: string = '1.0.02';
+   53    // @ViewChild(MatSidenav ) sidenav: MatSidenav;
+   54    @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
+
+1 match in 1 file
+
+
+Searching 256 files for "добре дошли" (case sensitive)
+
+0 matches
+
+Searching 256 files for "добре дошли"
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\bg.json:
+   40          "help": "помощ",
+   41          "logout": "излез",
+   42:         "login": "Добре дошли в e-org",
+   43          "log_in": "вход",
+   44          "username": "потребителско име",
+
+1 match in 1 file
+
+
+Searching 256 files for "login"
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.component.ts:
+  166  
+  167    /**
+  168:    * Called after succesfull login
+  169     */
+  170    prepareTheCollections() {
+  ...
+  338  
+  339    /**
+  340:   * Clear after user and mark as logged out. Redirect to login page.
+  341    */
+  342    logout(): void {
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.module.ts:
+    5  import { AppComponent } from './app.component';
+    6  import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+    7: import { LoginComponent } from './login/login.component';
+    8  import { MainscreenComponent } from './mainscreen/mainscreen.component';
+    9  import { AddUserComponent } from './users/add-user/add-user.component';
+   ..
+  124  import { OtherComponent } from './equipment/other/other.component';
+  125  import { BlitcenComponent } from './blitcen/blitcen.component';
+  126: import { DialogInfoComponent } from './dialog-info/dialog-info.component';
+  127  import { ReportsComponent } from './reports/reports.component';
+  128  import { DialogCourseComponent } from './dialog-course/dialog-course.component';
+  ...
+  212      AppComponent,
+  213  
+  214:     LoginComponent,
+  215  
+  216      AddUserComponent,
+  ...
+  253      OtherComponent,
+  254      BlitcenComponent,
+  255:     DialogInfoComponent,
+  256      ReportsComponent,
+  257      DialogCourseComponent,
+  ...
+  343  
+  344      DialogModalComponent,
+  345:     DialogInfoComponent,
+  346    ],
+  347  
+
+F:\Master2020SoftwareEngineering\torga\src\app\app.routing.ts:
+    1  import { RouterModule, Routes } from '@angular/router';
+    2: import { LoginComponent } from "./login/login.component";
+    3  import { MainscreenComponent } from "./mainscreen/mainscreen.component";
+    4  /**
+    .
+   69      children: [
+   70  
+   71:       { path: '', component: LoginComponent },
+   72  
+   73        {
+   74:         path: 'login', component: LoginComponent,
+   75:         //  data: { breadcrumb: 'login' },
+   76        },
+   77  
+
+F:\Master2020SoftwareEngineering\torga\src\app\blitcen\blitcen.component.ts:
+   10  import { DonkeyService } from '../core/donkey.service';
+   11  import { Valido } from '../core/valido';
+   12: import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
+   13  import { Ticket } from '../model/ticket.model';
+   14  import { User } from '../model/user.model';
+   ..
+   81      }
+   82      if (failed === true) {
+   83:       this.pleaseLogin();
+   84      }
+   85    }
+   86:   pleaseLogin() {//will clear all there
+   87      this.router.navigate(['']);
+   88    }
+   ..
+   99      let dialogData: any = { 'label': label, 'singleMessage': singleMessage, 'messages': messages };
+  100  
+  101:     const dialogRef = this.infoDialog.open(DialogInfoComponent, {
+  102        width: 'auto',
+  103        data: { dialogData }
+  ...
+  110     * @param messages 
+  111     */
+  112:   showConfirmDialog(label: string, singleMessage: string, messages: string[]): MatDialogRef<DialogInfoComponent> {
+  113  
+  114      let dialogData: any = { 'label': label, 'singleMessage': singleMessage, 'messages': messages, 'confirmation': true };
+  115:     const dialogRef = this.infoDialog.open(DialogInfoComponent, {
+  116        width: 'auto',
+  117        data: { dialogData }
+
+F:\Master2020SoftwareEngineering\torga\src\app\core\api.service.ts:
+   95    }
+   96  
+   97:   login(loginPayload: { username: any; password: any; }): Observable<ApiResponse> {
+   98      // try {
+   99:     return this.http.post<ApiResponse>(this.host + 'token/generate-token', loginPayload);
+  100  
+  101      // this.response = 
+
+F:\Master2020SoftwareEngineering\torga\src\app\core\interceptor.ts:
+   28  
+   29          localStorage.removeItem('user');
+   30:         this.router.navigate(['login']);
+   31        }
+   32      }
+
+F:\Master2020SoftwareEngineering\torga\src\app\customers\list-customers\list-customers.component.html:
+  128                      <td mat-cell *matCellDef="let customer">
+  129  
+  130:                         <!-- <a href="https://www.sleda-gps.eu/telenor/login1.aspx" target="_blank"
+  131                          rel="noopener">{{customer.company}}</a> -->
+  132  
+  ...
+  134                          <!-- <a href="javascript:void(0);" (click)="{{showThePortal()}}" target="_blank">{{customer.company}}</a> -->
+  135                          <!-- <a href="javascript:void(0);" (click)="{{generateCustomLink()}}" target="_blank"> -->
+  136:                         <!-- <a href="https://www.sleda-gps.eu/telenor/login1.aspx" target="_blank">
+  137                      {{customer.company}} </a> -->
+  138  
+
+F:\Master2020SoftwareEngineering\torga\src\app\customers\list-customers\list-customers.component.ts:
+   89      //   }
+   90      // );
+   91:     //this.api.getLoginPortalHTML();
+   92      // const hash = '?TextBox2=some_text&TextBox7=more%20text';
+   93:     //  https://www.sleda-gps.eu/telenor/sohologin.aspx
+   94      // classname=" + encodeURIComponent(classname)
+   95  
+   96:     const example = "https://www.sleda-gps.eu/telenor/login1.aspx";
+   97      let url: URL = new URL(example);
+   98      let w: Window = window.open(example, "_blank");
+   ..
+  330      } else {
+  331        console.log('no user in memory');
+  332:       // maybe redirect to login..
+  333      }
+  334  
+
+F:\Master2020SoftwareEngineering\torga\src\app\dialog-info\dialog-info.component.spec.ts:
+    1  import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+    2  
+    3: import { DialogInfoComponent } from './dialog-info.component';
+    4  
+    5: describe('DialogInfoComponent', () => {
+    6:   let component: DialogInfoComponent;
+    7:   let fixture: ComponentFixture<DialogInfoComponent>;
+    8  
+    9    beforeEach(async(() => {
+   10      TestBed.configureTestingModule({
+   11:       declarations: [ DialogInfoComponent ]
+   12      })
+   13      .compileComponents();
+   ..
+   15  
+   16    beforeEach(() => {
+   17:     fixture = TestBed.createComponent(DialogInfoComponent);
+   18      component = fixture.componentInstance;
+   19      fixture.detectChanges();
+
+F:\Master2020SoftwareEngineering\torga\src\app\dialog-info\dialog-info.component.ts:
+   14  })
+   15  
+   16: export class DialogInfoComponent implements OnInit {
+   17    constructor(
+   18:     public dialogRef: MatDialogRef<DialogInfoComponent>,
+   19      @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
+   20    }
+
+F:\Master2020SoftwareEngineering\torga\src\app\login\login.component.html:
+    1  <!-- <div class="row">
+    2  
+    3:     <div class="col-md-6 login-container">
+    4        <h2 style="margin: auto">Вход в системата</h2>
+    5:       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    6          <div class="form-group">
+    7            
+    .
+   11              </mat-form-field>
+   12   
+   13:           <div class="error" *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">Потребителското име е задължително</div>
+   14          </div>
+   15          <div class="form-group">
+   ..
+   22  
+   23  
+   24:           <div class="error" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">Паролата е задължителна</div>
+   25          </div>
+   26          
+   27:         <button  mat-raised-button [disabled]="loginForm.invalid">Вход</button>
+   28  
+   29:         <div *ngIf="invalidLogin" class="error">
+   30            <div>Invalid credentials.</div>
+   31          </div>
+   ..
+   36  
+   37  <mat-card>
+   38:   <mat-card-title>{{'torga.login' | translate}} </mat-card-title>
+   39  
+   40    <mat-card-content>
+   41      <!-- (keydown.enter)="$event.preventDefault()" -->
+   42:     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
+   43  
+   44        <mat-form-field>
+   ..
+   48  
+   49        <div class="error"
+   50:         *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
+   51          {{'torga.username_required' | translate}}</div>
+   52  
+   ..
+   57  
+   58        <div class="error"
+   59:         *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+   60          {{'torga.password_required' | translate}}</div>
+   61  
+   62        <div class="button-bar">
+   63:         <div *ngIf="invalidLogin" class="error">
+   64            <div>{{invalidMessage}}</div>
+   65          </div>
+   66  
+   67          <button type="submit" mat-raised-button class="pepe-button" color="primary"
+   68:           [disabled]="loginForm.invalid">{{'torga.log_in' | translate}}</button>
+   69        </div>
+   70  
+
+F:\Master2020SoftwareEngineering\torga\src\app\login\login.component.scss:
+    2  //     color: #FF0000;
+    3  //   }
+    4:   /* .login-container {
+    5      display: flex;
+    6      flex-direction: column;
+    .
+   19  
+   20  
+   21: // .login {
+   22  //   width: 400px;
+   23  //   margin: 16px auto;
+   ..
+   25  // }
+   26  
+   27: // .login-header,
+   28: // .login p {
+   29  //   margin-top: 0;
+   30  //   margin-bottom: 0;
+   31  // }
+   32  
+   33: // .login-triangle {
+   34  //   width: 0;
+   35  //   margin-right: auto;
+   ..
+   39  // }
+   40  
+   41: // .login-header {
+   42  //   background: rgb(12, 77, 129);
+   43  //   padding: 20px;
+   ..
+   49  // }
+   50  
+   51: // .login-container {
+   52  //   background: #ebebeb;
+   53  //   padding: 12px;
+   54  // }
+   55  
+   56: // .login p {
+   57  //   padding: 12px;
+   58  // }
+   59  
+   60: // .login input {
+   61  //   box-sizing: border-box;
+   62  //   display: block;
+   ..
+   70  // }
+   71  
+   72: // .login input[type="email"],
+   73: // .login input[type="password"] {
+   74  //   background: #fff;
+   75  //   border-color: #bbb;
+   ..
+   77  // }
+   78  
+   79: // .login input[type="email"]:focus,
+   80: // .login input[type="password"]:focus {
+   81  //   border-color: #888;
+   82  // }
+   83  
+   84: // .login input[type="submit"] {
+   85  //   background: rgb(1, 29, 51);
+   86  //   border-color: transparent;
+   ..
+   89  // }
+   90  
+   91: // .login input[type="submit"]:hover {
+   92  //   background: #17c;
+   93  // }
+   94  
+   95: // .login input[type="submit"]:focus {
+   96  //   border-color: #05a;
+   97  // }
+
+F:\Master2020SoftwareEngineering\torga\src\app\login\login.component.spec.ts:
+    1  import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+    2  
+    3: import { LoginComponent } from './login.component';
+    4  
+    5: describe('LoginComponent', () => {
+    6:   let component: LoginComponent;
+    7:   let fixture: ComponentFixture<LoginComponent>;
+    8  
+    9    beforeEach(async(() => {
+   10      TestBed.configureTestingModule({
+   11:       declarations: [ LoginComponent ]
+   12      })
+   13      .compileComponents();
+   ..
+   15  
+   16    beforeEach(() => {
+   17:     fixture = TestBed.createComponent(LoginComponent);
+   18      component = fixture.componentInstance;
+   19      fixture.detectChanges();
+
+F:\Master2020SoftwareEngineering\torga\src\app\login\login.component.ts:
+   11  
+   12  @Component({
+   13:   selector: 'app-login',
+   14:   templateUrl: './login.component.html',
+   15:   styleUrls: ['./login.component.scss']
+   16  })
+   17: export class LoginComponent implements OnInit {
+   18    protected apiService: ApiService;
+   19    // user: User;
+   20:   loginForm: FormGroup;
+   21:   invalidLogin: boolean = false;
+   22    invalidMessage: string;
+   23  
+   ..
+   27    ngOnInit() {
+   28      this.app.clearUserData();
+   29:     this.loginForm = this.formBuilder.group({
+   30        username: ['', Validators.compose([Validators.required])],
+   31        password: ['', Validators.required]
+   ..
+   40        switch (whoIs) {
+   41          case 1:
+   42:           this.loginForm.get('username').patchValue(environment.user);
+   43:           this.loginForm.get('password').patchValue(environment.pass);
+   44            break;
+   45          case 2:
+   46:           this.loginForm.get('username').patchValue(environment.user1);
+   47:           this.loginForm.get('password').patchValue(environment.pass1);
+   48            break;
+   49          case 3:
+   50:           this.loginForm.get('username').patchValue(environment.user2);
+   51:           this.loginForm.get('password').patchValue(environment.pass2);
+   52            break;
+   53          case 31:
+   54:           this.loginForm.get('username').patchValue(environment.user22);
+   55:           this.loginForm.get('password').patchValue(environment.pass22);
+   56            break;
+   57          case 4:
+   58:           this.loginForm.get('username').patchValue(environment.user3);
+   59:           this.loginForm.get('password').patchValue(environment.pass3);
+   60            break;
+   61  
+   ..
+   74      this.apiService = injector.get(ApiService);
+   75  
+   76:     if (this.valido.isThereForbiddenWords(this.loginForm.get('username').value) ||
+   77:       this.valido.isThereForbiddenWords(this.loginForm.get('password').value)) {
+   78:       this.invalidLogin = true;
+   79        this.invalidMessage = 'Използвате забранени думи.';
+   80        return;
+   81      }
+   82:     if (this.loginForm.invalid) {
+   83        return;
+   84      }
+   85  
+   86  
+   87:     const loginPayload = {
+   88:       username: this.loginForm.controls.username.value,
+   89:       password: this.loginForm.controls.password.value
+   90      }
+   91  
+   92:     this.apiService.login(loginPayload).subscribe(data => {
+   93  
+   94        if (data.status === 200) {
+   95          /**
+   96:          * Switch for login result
+   97           */
+   98          switch (data.message) {
+   99            case 'wrong_user':
+  100:             this.invalidLogin = true;
+  101              this.invalidMessage = 'грешно потребителско име';
+  102              return;
+  103            case 'wrong_pass':
+  104:             this.invalidLogin = true;
+  105              this.invalidMessage = 'грешна парола';
+  106              return;
+  107            case 'logged':
+  108:             this.invalidLogin = true;
+  109              this.invalidMessage = 'някой е влязъл с този акаунт';
+  110              return;
+  ...
+  112            case 'success':
+  113              let user: User = new User();
+  114:             user.username = loginPayload.username;
+  115              user.roleId = data.result.roleId;
+  116              user.id = data.result.id;
+  ...
+  129              break;
+  130            case 'deleted':
+  131:             this.invalidLogin = true;
+  132              this.invalidMessage = 'вашия акаунт е изтрит';
+  133              break;
+  ...
+  136  
+  137        } else {
+  138:         this.invalidLogin = true;
+  139          alert(data.message);
+  140        }
+  ...
+  144  
+  145    ngOnDestroy() {
+  146:     // console.log('login destructor');
+  147    }
+  148  
+
+F:\Master2020SoftwareEngineering\torga\src\app\users\edit-user\edit-user.component.ts:
+   85  
+   86        lockedBy: [],
+   87:       loginTime: [],
+   88        logoutTime: [],
+   89        loggedIn: []
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\bg.json:
+   40          "help": "помощ",
+   41          "logout": "излез",
+   42:         "login": "Добре дошли в WeLearn",
+   43          "log_in": "вход",
+   44          "username": "потребителско име",
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\en.json:
+   40          "help": "help",
+   41          "logout": "logout",
+   42:         "login": "Welcome to e-org",
+   43:         "log_in": "login",
+   44          "username": "username",
+   45          "password": "password",
+
+117 matches across 17 files
+
+
+Searching 256 files for ""login""
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\bg.json:
+   40          "help": "помощ",
+   41          "logout": "излез",
+   42:         "login": "Добре дошли в WeLearn",
+   43          "log_in": "вход",
+   44          "username": "потребителско име",
+
+F:\Master2020SoftwareEngineering\torga\src\assets\i18n\en.json:
+   40          "help": "help",
+   41          "logout": "logout",
+   42:         "login": "Welcome to WeLearn",
+   43:         "log_in": "login",
+   44          "username": "username",
+   45          "password": "password",
+
+3 matches across 2 files

@@ -1,0 +1,71 @@
+<loader [show]=show></loader>  
+<div class="b-bar">
+  <button class="mdc-fab" aria-label="Favorite" (click)="addGroup()" matTooltip="добавяне на група"  [disabled]="disableEdit === true">
+    <div class="mdc-fab__exited"></div>
+    <span class="mdc-fab__icon material-icons">add</span>
+  </button>
+</div>
+<div class="mat-elevation-z8">
+  <table mat-table #table [dataSource]="paginator.slice">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.id'|translate}} </th>
+      <td mat-cell *matCellDef="let group"> {{group.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.group_name' |translate}} </th>
+      <td mat-cell *matCellDef="let group"> {{group.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.start_date'|translate}} </th>
+      <td mat-cell *matCellDef="let group"> {{group.startDate | date:'dd/MM/yyyy'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="endDate">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.end_date'|translate}} </th>
+      <td mat-cell *matCellDef="let group"> {{group.endDate | date:'dd/MM/yyyy'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="open">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.state'|translate}} </th>
+      <td mat-cell *matCellDef="let group">
+        <mat-slide-toggle #slide color="primary" style="padding-right: 10px;" (change)="changeGroupState($event)"
+        [checked]="group.open === 1" [disabled]="disableEdit === true">
+
+          <span *ngIf="!slide.checked" style="color: crimson;">затворена</span>
+          <span *ngIf="slide.checked">отворена</span>
+        </mat-slide-toggle>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="disciplines">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.disciplines'|translate}} </th>
+      <td mat-cell *matCellDef="let group"> {{group.disciplines.length}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="count">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.participants'|translate}} </th>
+      <td mat-cell *matCellDef="let group"> {{group.students.length}} </td>
+    </ng-container>
+    <ng-container matColumnDef="lector">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.lector'|translate}} </th>
+      <td mat-cell *matCellDef="let group">  <mat-icon *ngIf="group.lector" class="list-mat-icon">person</mat-icon>  </td>
+    </ng-container>
+
+    <ng-container matColumnDef="assistant">
+      <th mat-header-cell *matHeaderCellDef> {{'wl.assistant'|translate}} </th>
+      <td mat-cell *matCellDef="let group">
+        <mat-icon *ngIf="group.assistant" class="list-mat-icon">person</mat-icon> 
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> </th> 
+      <td mat-cell *matCellDef="let group">
+        <button class="pepe-table-button" mat-raised-button (click)="editGroup(group)"  [disabled]="disableEdit === true">
+          <mat-icon class="list-mat-icon">edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize [pageSizeOptions]="paginator.pageOptions"
+    showFirstLastButtons (page)="handlePage($event)"></mat-paginator> 
+</div>

@@ -1,0 +1,212 @@
+ 
+
+:host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 8px 0;
+}
+
+p {
+    margin: 0;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.toolbar {
+    height: 60px;
+    margin: -8px;
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+}
+
+.toolbar img {
+    margin: 0 16px;
+}
+
+
+.timeLabel{
+     color:  'primary' !important;  
+}
+
+// .content {
+//     display:   flex;
+//     margin: 32px auto;
+//     padding: 0 16px;
+//     max-width: auto;
+    
+//     flex-direction: row;
+//     flex-wrap: wrap;
+//     align-items: center;
+//     // grid-column-gap: 0.5rem;
+//     // grid-row-gap: 0.4rem;
+//     // grid-template-columns: auto auto auto;
+// }
+ 
+
+.card svg.material-icons path {
+    fill: #888;
+}
+
+.card-container {
+    width: 25%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.card {
+    border-radius: 4px;
+    border: 1px solid rgb(168, 160, 243);
+    background-color: #fafafa;
+    height: 40px;
+    width: 200px;
+    margin: 0 8px 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    line-height: 24px;
+}
+
+.card-container .card:not(:last-child) {
+    margin-right: 0;
+}
+
+.card.card-small {
+    height: 16px;
+    width: 168px;
+}
+
+.card-container .card:not(.highlight-card) {
+    cursor: pointer;
+}
+
+.card-container .card:not(.highlight-card):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 17px rgba(black, 0.35);
+}
+
+.card-container .card:not(.highlight-card):hover .material-icons path {
+    fill: rgb(105, 103, 103);
+}
+
+.card.highlight-card {
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    border: none;
+    width: auto;
+    min-width: 30%;
+    position: relative;
+}
+
+.card.card.highlight-card span {
+    margin-left: 60px;
+}
+
+ 
+
+a,
+a:visited,
+a:hover {
+    color: #1976d2;      
+}
+
+a:hover {
+    color: #125699;
+}
+
+span{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+table{
+    width:95%;
+   //@extend display:   flex;
+    margin: 20px auto;
+    padding: 5px;
+}
+.card-td {
+    border-radius: 2px;
+    border: 1px solid rgb(168, 160, 243);
+    background-color: #fafafa;
+    height: 25px;
+    width: auto !important;
+    text-align: center;
+    margin: 0 8px 16px;
+    padding: 5px;
+    color: #1976d2;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: center;
+    // align-items: center;
+    // transition: all 0.2s ease-in-out;
+    line-height: 24px;
+}
+
+
+
+
+/* Responsive Styles */
+@media screen and (max-width: 767px) {
+
+    .card-container>*:not(.circle-link),
+    // .terminal {
+    //     width: 100%;
+    // }
+
+    .card:not(.highlight-card) {
+        height: 16px;
+        margin: 8px 0;
+    }
+
+    .card.highlight-card span {
+        margin-left: 72px;
+    }
+
+    .card-container{
+        width: 100%;
+    }
+
+    svg#rocket-smoke {
+        right: 120px;
+        transform: rotate(-5deg);
+    }
+    .content {
+        display:   flex;
+        margin:   auto;
+        padding: 0 16px;
+        max-width: 960px;        
+        flex-direction: column;       
+        align-items: center;
+        // grid-column-gap: 0.5rem;
+        // grid-row-gap: 0.4rem;
+        // grid-template-columns: auto auto auto;
+    }
+    .card {
+        width: 100%;
+    }
+ 
+    
+}

@@ -1,0 +1,38 @@
+
+ 
+.list-group-item{
+    list-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #E4E4E4;
+
+    input[type=checkbox]{
+        height: 20px;
+        width: 20px;
+        vertical-align:middle;
+
+    }
+
+    div.child-list{
+        margin-top: 5px;
+        
+        .list-group-item{
+            background-color: #fff;
+        }
+    }
+     pre{
+        color: grey;
+        font-family: "Times New Roman", Times, serif;
+        font-size-adjust: 0.58;
+}
+}
+
+// .checkboxwithicon{
+//     position:absolute;
+//   }
+//   .checkboxwithicon::after{
+//     content:url('http://icons.iconarchive.com/icons/icojam/blueberry-basic/32/check-icon.png');
+//     position:absolute;
+//     top:-10px;
+//     left:15px;
+//   }

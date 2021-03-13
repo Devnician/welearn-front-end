@@ -1,0 +1,188 @@
+.mat-toolbar {
+	position: fixed; //sticky;
+	position: -webkit-sticky; /* For macOS/iOS Safari */
+	top: 0; /* Sets the sticky toolbar to be on top */
+	z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.user-logo {
+	height: 40px;
+	width: 40px;
+	margin: 0px;
+}
+.user-logo:hover {
+	opacity: 0.8;
+}
+.filler {
+	flex: 1 1 auto;
+	text-align: center;
+}
+.gap {
+	margin-right: 10px;
+}
+
+.mat-sidenav {
+	overflow: auto;
+	position: absolute;
+	bottom: 0;
+	top: 64px;
+}
+
+.mat-sidenav-container,
+.mat-sidenav-content {
+	height: 100%;
+}
+
+.menu-section {
+	border-radius: 2px;
+	border-bottom: 1px solid rgb(168, 160, 243);
+	border-right: 1px solid rgb(168, 160, 243);
+	background-color: #fafafa;
+	height: auto;
+	margin: 5px;
+	padding: 5px;
+	display: flex;
+	flex-direction: row;
+
+	transition: all 0.2s ease-in-out;
+	span {
+		padding-left: 15px;
+		width: 100%;
+		padding-right: 15px;
+		color: "primary" !important;
+	}
+	.mat-icon {
+		padding-left: 15px;
+		vertical-align: middle;
+		//	color:  "primary";
+	}
+
+	.example-handle {
+		//position: absolute;
+		// top: 10px;
+		// right: 10px;
+		padding-right: 10px;
+		color: #ccc;
+		cursor: move;
+		width: 20px;
+		height: 20px;
+	}
+}
+.menu-section {
+	fill: #888;
+}
+
+main {
+	width: 100%;
+	overflow: auto;
+	position: absolute;
+	bottom: 0;
+	top: 64px;
+}
+
+.example-box {
+	padding: 20px 10px;
+	border-bottom: solid 1px #ccc;
+	color: rgba(0, 0, 0, 0.87);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	cursor: move;
+	background: white;
+	font-size: 14px;
+}
+
+.cdk-drag-preview {
+	box-sizing: border-box;
+	border-radius: 4px;
+	box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+		0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+	opacity: 0;
+}
+
+.cdk-drag-animating {
+	transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+	border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+	transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.breadcrumb {
+	padding: 10px 12px;
+	list-style: none !important;
+	list-style-type: none;
+	background-color: "primary";
+}
+.breadcrumb li {
+	display: inline;
+	font-size: 16px;
+}
+.breadcrumb li + li:before {
+	padding: 8px;
+	color: rgba(255, 255, 255);
+	content: "/\00a0";
+}
+.breadcrumb li a {
+	color: rgba(255, 255, 255);
+	text-decoration: none;
+}
+.breadcrumb li a:hover {
+	color: "accent";
+	text-decoration: underline;
+}
+
+.version-info {
+	font-size: 7pt;
+	float: right;
+	color: rgb(255, 255, 255);
+}
+.version-infoo {
+	font-size: 7pt;
+	float: right;
+}
+//   table loader
+.loader-hidden {
+	visibility: hidden;
+}
+.loader-overlay {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	opacity: 1;
+	z-index: 500000;
+}
+//end table loader
+
+::ng-deep.mat-select-value {
+	color: rgba(0, 0, 0, 0.99) !important;
+}
+::ng-deep.mat-input-element {
+	color: rgba(0, 0, 0, 0.99) !important;
+}
+::ng-deep.mat-form-field-disabled {
+	background-color: rgb(184, 204, 241);
+}
+
+.dot {
+	height: 3px;
+	width: 35px;
+	//	border-radius: 50%; - circle
+	display: inline-block;
+}
+.dot-red {
+	background-color: red;
+}
+.dot-green {
+	background-color: limegreen;
+}

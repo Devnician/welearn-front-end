@@ -1,0 +1,112 @@
+<mat-card>
+  <mat-card-title> Добавяне на потребител </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="addForm" (ngSubmit)="onSubmit()" class="addUserForm">
+      <div class="f-row">
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.first_name' | translate}}" type="text" class="form-control"
+            formControlName="firstName" id="firstName" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('firstName')">{{valido.getErrorMessage('firstName') | translate}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.middle_name' | translate}}" type="text" class="form-control"
+            formControlName="middleName" id="middleName" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('middleName')">{{valido.getErrorMessage('middleName') | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.last_name' | translate}}" type="text" class="form-control"
+            formControlName="lastName" id="lastName" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('lastName')">{{valido.getErrorMessage('lastName') | translate}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.birth_date' | translate}}" type="date" class="form-control"
+            formControlName="birthDate" id="birthDate" required>
+          <mat-error *ngIf="isFieldValid('birthDate')">{{valido.getErrorMessage('birthDate') | translate}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.address' | translate}}" type="text" class="form-control"
+            formControlName="address" id="address" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('address')">{{valido.getErrorMessage('address') | translate}}</mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.phone_number_private' | translate}}" type="text" class="form-control"
+            formControlName="phoneNumber" id="phoneNumber" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('phoneNumber')">
+            {{valido.getErrorMessage('phoneNumberPrivate') | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.email' | translate}}" type="text" class="form-control"
+            formControlName="email" id="email" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('email')">{{valido.getErrorMessage('email') | translate}}</mat-error>
+        </mat-form-field>       
+        <mat-form-field class="five-on-row">
+          <mat-label> {{'wl.select_role' | translate}}</mat-label>
+          <mat-select name="roleId" formControlName="roleId" required>
+            <mat-option *ngFor="let role of roles" [value]="role.id" class="form-control"
+              matTooltip="{{role.description}}" matTooltipPosition="right" id="roleId">
+              {{role.role}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="isFieldValid('roleId')">{{valido.getErrorMessage('roleId') | translate}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.username' | translate}}" type="text" formControlName="username"
+            id="username" autocomplete="off" required>
+          <mat-error *ngIf="isFieldValid('username')">{{valido.getErrorMessage('username') | translate}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="five-on-row">
+          <input matInput placeholder="{{'wl.password' | translate}}" type="{{passFieldType}}" class="form-control"
+            formControlName="password" id="pwd" autocomplete="off" required
+            matTooltip="Поне по една цифра, малка буква, голяма буква и специален символ. Минимлна дължина 6 символа.">
+          <button class="eye-button" type="button" (click)="changePassType()" matSuffix mat-icon-button>
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>           
+          <mat-error *ngIf="isFieldValid('password')">{{valido.getErrorMessage('password') | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="f-row">
+        <div class="image-field">
+          <label>{{'wl.id_card' | translate}}</label>
+          <input #imageInput type="file" style="width:100%;height:auto;" accept="image/*"
+            (change)="addFile(imageInput,'idcard')">
+          <div *ngIf="IDCard" class="img-preview-container">
+            <div class="img-preview{{IDCard.status === 'fail' ? '-error' : ''}}"
+              [ngStyle]="{'background-image': 'url('+ IDCard.src + ')'}">
+            </div>
+            <div *ngIf="IDCard.pending" class="img-loading-overlay">
+              <div class="img-spinning-circle"></div>
+            </div>
+            <div *ngIf="IDCard.status === 'fail'" class="alert alert-danger"> Image Upload Failed!</div>
+            <img style="width:100%;height:auto;" *ngIf="IDCard.src" [src]="IDCard.src" />
+          </div>
+        </div>
+
+        <div class="image-field">
+          <label>{{'wl.driving_license' | translate}}</label>
+          <input #imageInput2 type="file" style="width:100%;height:auto;" accept="image/*"
+            (change)="addFile(imageInput2,'drlicense')">
+          <div *ngIf="DrivingLicense" class="img-preview-container">
+            <div *ngIf="DrivingLicense.pending" class="img-loading-overlay">
+              <div class="img-spinning-circle"></div>
+            </div>
+            <div *ngIf="DrivingLicense.status === 'fail'" class="alert alert-danger"> Image Upload Failed!
+            </div>
+            <img style="width:100%;height:auto;" *ngIf="DrivingLicense.src" [src]="DrivingLicense.src" />
+          </div>
+        </div>
+      </div> -->
+
+      <div class="button-bar">
+        <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="reset()">
+          <mat-icon>clear_all</mat-icon>{{'wl.reset' | translate}}
+        </button>
+        <button mat-raised-button type="submit" color="primary"
+          (click)="onSubmit()">{{'wl.submit' | translate}}</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

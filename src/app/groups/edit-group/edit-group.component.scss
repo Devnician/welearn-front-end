@@ -1,0 +1,55 @@
+
+.group-table {
+  width: 80%;
+  margin: 2px;
+  position: relative;
+  overflow: auto;
+}
+
+
+tr.mat-header-row {
+  font-weight: bold;
+}
+
+.mat-column-remove,
+.mat-column-online,
+.mat-column-mark {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-cell,
+.mat-header-cell {
+  text-align: center !important;
+}
+
+.disciplines-table {
+  width: 20%;
+  margin: 2px;
+  position: relative;
+  overflow: scroll;
+
+  .disciplines-header {
+    height: 55px;
+    display: flex;
+    margin-left: 10px;
+  }
+  .disciplines-list {
+    height: calc(100% - 55px);
+    background-color: #ffffff;
+
+    .disciplines-row {
+      padding: 5px;
+      margin: 5px;
+      box-sizing: border-box;
+      background-color: rgb(249, 250, 255);
+      border: solid 0.5px#8b98a5;
+      border-radius: 1px;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+<mat-card>
+    <mat-card-title> Добавяне на роля </mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+
+            <mat-form-field>
+                <input matInput placeholder="role" type="role" formControlName="role" id="role" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="description" type="description" class="form-control"
+                    formControlName="description" id="description" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="роля" type="text" class="form-control" formControlName="roleBg" id="roleBg"
+                    autocomplete="off" required>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="описание" type="text" class="form-control" formControlName="descriptionBg"
+                    id="descriptionBg" autocomplete="off" required>
+            </mat-form-field>
+            <!--       
+            <mat-form-field>
+              <input matInput placeholder="firstName" type="text" class="form-control" formControlName="firstName"
+                id="firstName" autocomplete="off">
+            </mat-form-field> -->
+
+
+            <div class="button">
+
+                <button mat-raised-button>Добави</button>
+
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

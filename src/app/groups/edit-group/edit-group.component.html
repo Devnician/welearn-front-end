@@ -1,0 +1,90 @@
+<div style="display: flex; flex-direction: row; width: 100%; height: 100%">
+    <div class="group-table">
+        <div class="mat-elevation-z8">
+            <div class="b-bar">
+                <button class="mdc-fab" aria-label="Favorite" (click)="addStudent()" matTooltip="добавяне на обучаван">
+                    <div class="mdc-fab__exited"></div>
+                    <span class="mdc-fab__icon material-icons">add</span>
+                </button>
+            </div>
+            <table mat-table #table [dataSource]="paginator.slice">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> {{'wl.number'|translate}} </th>
+                    <td mat-cell *matCellDef="let user"> {{user.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value, 'firstName')"
+                                placeholder="{{'wl.first_name'|translate}}">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef> {{'wl.last_name'|translate}} </th>
+                    <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="middleName">>
+                    <th mat-header-cell *matHeaderCellDef>{{'wl.middle_name'|translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let user"> {{user.middleName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="mark">>
+                    <th mat-header-cell *matHeaderCellDef>{{'wl.mark'|translate}}
+                    <td mat-cell *matCellDef="let user">
+                        <button class="pepe-table-button" mat-raised-button (click)="showEvaluationMarks(user)">
+                            <mat-icon class="list-mat-icon" matTooltip="оценки">playlist_add_check</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="remove">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let user">
+                        <button class="pepe-table-button" mat-raised-button (click)="removeStudent(user)">
+                            <mat-icon class="list-mat-icon" matTooltip="премахване">remove</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize
+                [pageSizeOptions]="paginator.pageOptions" showFirstLastButtons (page)="handlePage($event)">
+            </mat-paginator>
+        </div>
+    </div>
+
+
+    <div class="disciplines-table">
+        <div class="b-bar">
+            <div>
+                <button class="mdc-fab" aria-label="Favorite" (click)="addDiscipline()"
+                    matTooltip="добавяне на дисциплина">
+                    <div class="mdc-fab__exited"></div>
+                    <span class="mdc-fab__icon material-icons">book</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="disciplines-header">
+            <h4>Дисциплини</h4>
+        </div>
+
+        <mat-divider></mat-divider>
+        <cdk-virtual-scroll-viewport class="disciplines-list" itemSize="5">
+            <ng-container *cdkVirtualFor="let discipline of studentGroup.disciplines">
+                <div class="disciplines-row" (click)="editCourse(course)">
+                    <div> {{discipline.name}}</div>
+                    <div> лектор : Иван Иванов</div>
+                    <div> асистент: Иван Иванов</div>
+                    <mat-divider></mat-divider>
+                </div>
+            </ng-container>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+
+</div>

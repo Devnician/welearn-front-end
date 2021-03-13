@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+  border-spacing: 0 1px 0 1px !important;
+}
+
+tr.mat-header-row {
+  font-weight: bold;
+}
+
+.mat-column-show,
+.mat-column-online {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-cell,
+.mat-header-cell {
+  text-align: center !important;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-red {
+  background-color: red;
+}
+.dot-green {
+  background-color: green;
+}
