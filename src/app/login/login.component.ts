@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
 
     //LOGIN
     //0 - admin 
-    // 1 - teacher
+    //1 - teacher
     //3-student
     let result = this.app.users[0];
     data.result = result;
