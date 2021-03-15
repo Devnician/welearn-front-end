@@ -1,10 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { applySourceSpanToExpressionIfNeeded } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
+import { Discipline } from 'src/app/model/discipline.model';
 import { StudentsGroup } from 'src/app/model/students-group.model';
 import { User } from 'src/app/model/user.model';
 
@@ -35,38 +35,42 @@ import { User } from 'src/app/model/user.model';
   ]
 })
 export class EditGroupComponent extends BaseComponent implements OnInit {
-studentGroup:StudentsGroup;
-displayedColumns = [ 'id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
-  constructor( app: AppComponent, ar: ActivatedRoute,private donkey: DonkeyService) { 
+  studentGroup: StudentsGroup;
+  displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
 
+
+  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
- this.studentGroup = donkey.getData();
- 
-
+    this.studentGroup = donkey.getData();
   }
 
   ngOnInit(): void {
-    if(!this.studentGroup){
+    if (!this.studentGroup) {
       alert('Group is null');
-   }else{
-     console.log(this.studentGroup);
-     this.loadPaginator(this.studentGroup.students,'firstName');
-   }
+    } else {
+      console.log(this.studentGroup);
+      this.loadPaginator(this.studentGroup.students, 'firstName');
+    }
   }
-  addStudent(){
-    //here open select dialog
+  addStudent() {
+    alert('add sudent');
   }
 
-  removeStudent(user:User){
+  removeStudent(user: User) {
     alert('arer you sure');
   }
 
-  addDiscipline(){
+  addDiscipline() {
     alert('not implemented yet');
   }
 
-  showEvaluationMarks(user:User){
+  editDiscipline(discipline: Discipline) {
+    console.log(discipline);
+    alert('edit ...');
+  }
 
+  showEvaluationMarks(user: User) {
+    alert('show marks..');
   }
 
 }

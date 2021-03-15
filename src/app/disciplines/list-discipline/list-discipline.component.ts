@@ -17,7 +17,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   disciplines: Discipline[] = [];
   collectionsUtil: CollectionsUtil;
   groups: StudentsGroup[];
-  disableEdit:boolean = false;
+  disableEdit: boolean = false;
   constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar); this.collectionsUtil = new CollectionsUtil();
   }
@@ -26,33 +26,31 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
     this.disciplines = this.app.disciplines;
 
-    if(this.user.roleId === 2){
-        this.disciplines = this.app.disciplines.filter(d=> (d.lector?.id === this.user.id || d.assistent?.id === this.user.id));
-    }else if (this.user.roleId === 3){
-     this. disableEdit = true;
+    if (this.user.roleId === 2) {
+      this.disciplines = this.app.disciplines.filter(d => (d.lector?.id === this.user.id || d.assistent?.id === this.user.id));
+    } else if (this.user.roleId === 3) {
+      this.disableEdit = true;
       this.groups = this.collectionsUtil.getGroups();
-      this.groups = this.groups.filter(gr=>(gr.students.findIndex(st=>st.id === this.user.id) !== -1));
+      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.id === this.user.id) !== -1));
 
       let array = [];
       this.groups.forEach(group => {
-        group.disciplines.forEach(disc => {         
-            array.push(disc.id);          
+        group.disciplines.forEach(disc => {
+          array.push(disc.id);
         })
       });
-console.log('HERRRRRREEE')
       this.disciplines = this.disciplines.filter(user => array.indexOf(user.id) !== -1);
-
-    } 
+    }
 
     this.loadPaginator(this.disciplines, 'name');
   }
 
   addDiscipline() {
-    alert('not implemented yet');
+    this.router.navigate(['home/list-discipline/add-discipline']);
   }
   editDiscipline(discipline: Discipline) {
-    console.log(discipline);
-    alert('not implemented yet');
+    this.donkey.setData(discipline);
+    this.router.navigate(['home/list-discipline/edit-discipline']);
   }
 
 }

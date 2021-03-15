@@ -22,13 +22,11 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
     super();
     // this.snackBar.open("Something went wrong!", "Ok", {
     //   duration: 1000,
-    // });
+    // }); 
   }
   ngOnInit() {
     this.roles = this.app.roles;
-    //this.loadRoles();
-
-
+    //this.loadRoles(); 
     this.addForm = this.formBuilder.group({
       id: [],
       username: ['', Validators.required],

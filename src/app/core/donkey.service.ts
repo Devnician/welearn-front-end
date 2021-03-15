@@ -5,7 +5,6 @@ import { Menu } from '../model/menu.model';
 export class DonkeyService {
     private data: any;
     private info: string;
-
     private flag: boolean;
     private menu: Menu; //parent menu with user rights
     private loaded: boolean = false;

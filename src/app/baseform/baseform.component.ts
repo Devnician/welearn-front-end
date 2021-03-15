@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BlitcenComponent } from '../blitcen/blitcen.component'; 
+import { BlitcenComponent } from '../blitcen/blitcen.component';
 import { Role } from '../model/role.model';
 
 export class ImageSnippet {
@@ -13,14 +13,15 @@ export class ImageSnippet {
   template: 'NO UI TO BE FOUND HERE!',
   styleUrls: ['./baseform.component.scss']
 })
+
 export class BaseformComponent extends BlitcenComponent implements OnInit {
   passFieldType: string = 'password';
-  roles: Role[] = []; 
+  roles: Role[] = [];
   constructor() {
     super();
-    if (this.canFetch === true) { 
-      this.loadRoles(); 
-    }    
+    if (this.canFetch === true) {
+      this.loadRoles();
+    }
   }
   ngOnInit() {
   }
@@ -39,5 +40,9 @@ export class BaseformComponent extends BlitcenComponent implements OnInit {
    */
   changePassType() {
     this.passFieldType = this.passFieldType === 'text' ? 'password' : 'text';
-  }   
+  }
+
+  goBack() {
+    history.back();
+  }
 }

@@ -80,7 +80,8 @@ export class LoginComponent implements OnInit {
     //0 - admin 
     //1 - teacher
     //3-student
-    let result = this.app.users[0];
+    let result = this.app.users[1
+    ];
     data.result = result;
 
     //  this.apiService.login(loginPayload).subscribe(data => {

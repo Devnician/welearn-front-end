@@ -55,7 +55,9 @@ export class BlitcenComponent {
   private checkUser() {
     this.user = this.app.user;
     this.canFetch = true;
-    // let failed: boolean = false;
+    let failed: boolean = false;
+
+
     // try {
     //   let token = localStorage.getItem('user');
     //   if (isNullOrUndefined(token) === true || jwtHelper.isTokenExpired(token)) {
@@ -65,6 +67,7 @@ export class BlitcenComponent {
     //       const tokenPayload = jwtHelper.decodeToken(token);
     //       if (tokenPayload.userId === this.app.user.id) {
     //         this.user = this.app.user;
+    //         console.log(this.user);
     //         this.canFetch = true;
     //       } else {
     //         failed = true;
@@ -77,12 +80,11 @@ export class BlitcenComponent {
     //   failed = true;
     // }
     // if (failed === true) {
-    //   this.pleaseLogin();
+    //   this.goToLoginPage();
     // }
-
-
   }
-  pleaseLogin() {//will clear all there
+
+  goToLoginPage() {
     this.router.navigate(['']);
   }
 
@@ -94,10 +96,8 @@ export class BlitcenComponent {
   }
 
   showInfoDialog(label: string, singleMessage: string, messages: string[]): void {
-    //let label: string = "Необходимо е да:";
     let dialogData: any = { 'label': label, 'singleMessage': singleMessage, 'messages': messages };
-
-    const dialogRef = this.infoDialog.open(DialogInfoComponent, {
+    this.infoDialog.open(DialogInfoComponent, {
       width: 'auto',
       data: { dialogData }
     });
@@ -172,7 +172,7 @@ export class BlitcenComponent {
   /**
    * Loads data into donkey object and send him to given module
    * @param donkey  The donkey of caller
-   * @param data Objetc for processing
+   * @param data Object for processing
    * @param info  Useful data or key
    * @param path for where
    */

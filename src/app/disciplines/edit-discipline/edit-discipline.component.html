@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-title> редактиране на дисциплина </mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="editDisciplineForm">
+            <div class="button-bar">
+                <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="goBack()">
+                    {{'wl.cancel' | translate}}
+                </button>
+                <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">{{'wl.save' |
+                    translate}}</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

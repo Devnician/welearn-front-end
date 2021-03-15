@@ -5,44 +5,61 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from "rxjs/index";
 import { environment } from '../../environments/environment';
 import { ApiResponse } from "../model/api.response";
+import { User } from '../model/user.model';
 
 @Injectable()
- 
-export class ApiService {  
-  host: string = environment.restUrl; 
-  //Paths
+
+export class ApiService {
+  host: string = environment.restUrl;
+
   usersUrl: string = this.host + 'users/';
   errorUrl: string = this.host + 'support/err'
   usersRolesUrl: string = this.host + 'users/roles/';
   usersMenusUrl: string = this.host + 'users/menus/';
-  usersPositionsUrl: string = this.host + 'users/positions'
-  
-  officesUrl: string = this.host + 'users/offices/';
-  carsUrl: string = this.host + 'users/cars/';
-  //Customers paths
-  customersUrl: string = this.host + 'customers/';
- 
-
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
-
   }
+
+  login(loginPayload: { username: any; password: any; }): Observable<ApiResponse> {
+    return this.doPost(this.host + 'token/generate-token', loginPayload);
+  }
+
+  logoutUser(id: number): Observable<ApiResponse> {
+    return this.doGet(this.usersUrl + 'logout/' + id);
+  }
+
+  createUser(user: User): Observable<ApiResponse> {
+    return this.doPost(this.usersUrl, user);
+  }
+
+  updateUser(user: User): Observable<ApiResponse> {
+    return this.doPut(this.usersUrl, user);
+  }
+
+  getUsers(): Observable<ApiResponse> {
+    return this.doGet(this.usersUrl);
+  }
+  //////.......
+
+  ////////////////////////////////////////////////////////////////
   private doGet(query: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(query);
   }
-  // checkServer(): Observable<ApiResponse> {
-  //   return this.http.get<ApiResponse>(this.usersUrl + 'ping/');
+  private doPost(url: string, object: any): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(url, object);
+  }
+  private doPut(url: string, object: any): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(url, object);
+  }
+  private doDelete(url: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(url);
+  }
+
+  // deleteUser(id: number): Observable<ApiResponse> {
+  //   return this.http.delete<ApiResponse>(this.usersUrl + id);
   // }
-  // callTestMethod(): Observable<ApiResponse> {
-  //   let res: Observable<ApiResponse> = this.http.get<ApiResponse>(this.customersUrl + 'test/');
-  //   return res;
-  // }
-  // callTestMethod2(): Observable<ApiResponse> {
-  //   return this.http.get<ApiResponse>(this.customersUrl + 'test2/');
-  // }
-  // callTestMethod3(): Observable<ApiResponse> {
-  //   return this.http.get<ApiResponse>(this.customersUrl + 'test3/');
-  // }
+
+
   // downloadCustomersCsv(): Observable<ApiResponse> {
   //   return this.http.get<ApiResponse>(this.customersUrl + 'ascsv/');
   // }
@@ -79,12 +96,8 @@ export class ApiService {
   // //
   // //###########################################################
 
-  getUsers(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.usersUrl);
-  }
-  // getUserByIdForEdit(id: number, lockedBy: number): Observable<ApiResponse> {
-  //   return this.http.get<ApiResponse>(this.usersUrl + id + '/' + lockedBy);
-  // }
+
+
   // getGroupOfUserLikeFirstName(firstName: string): Observable<ApiResponse> {
   //   return this.http.put<ApiResponse>(this.usersUrl + "likefirstname/", firstName);
   // }
@@ -92,12 +105,7 @@ export class ApiService {
   //   return this.http.get<ApiResponse>(this.usersUrl + 'unlock/' + id);
   // }
 
-  // /**
-  //  * Add's new user 
-  //  */
-  // createUser(user: User): Observable<ApiResponse> {
-  //   return this.http.post<ApiResponse>(this.usersUrl, user);
-  // }
+
 
   // updateUser(user: User): Observable<ApiResponse> {
   //   if (user.password == 'unknown' || user.password == '') {
@@ -110,9 +118,7 @@ export class ApiService {
   //   return this.http.delete<ApiResponse>(this.usersUrl + id);
   // }
 
-  // logoutUser(id: number): Observable<ApiResponse> {
-  //   return this.http.get<ApiResponse>(this.usersUrl + 'logout/' + id);
-  // }
+
 
   // syncUserLogout(id: number): Promise<ApiResponse> {
   //   return this.http.get<ApiResponse>(this.usersUrl + 'logoutt/' + id).toPromise();
@@ -177,7 +183,7 @@ export class ApiService {
   //   return this.http.get<ApiResponse>(this.usersPositionsUrl);
   // }
 
-  
+
 
   // /**
   //  * 
@@ -202,7 +208,7 @@ export class ApiService {
   //   return this.http.post<ApiResponse>(this.usersUrl + 'uploadimg', formData);
   // }
 
-  
+
 
   // saveCarsImages(images: File[], carId: number): Observable<ApiResponse> {
   //   const formData = new FormData();
@@ -260,9 +266,9 @@ export class ApiService {
   // //   }
   // //   return this.http.post<ApiResponse>(this.ticketsUrl + 'devices/uploadimages/' + deviceId, formData);
   // // }
- 
- 
- 
+
+
+
   // sendExcelToSpring(file: File, type: string): Observable<ApiResponse> {
 
   //   const formData = new FormData();
@@ -288,6 +294,6 @@ export class ApiService {
   //   return this.http.post<ApiResponse>(this.customersUrl + 'uploadexcel', formData);
 
   // }
-  
- 
+
+
 }

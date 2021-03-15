@@ -1,34 +1,38 @@
 import { RouterModule, Routes } from '@angular/router';
+import { CalendarComponent } from './calendar/calendar/calendar.component';
+import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipline.component';
+import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
+import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
+import { DocumentsComponent } from './documents/documents.component';
+import { AddEventComponent } from './events/add-event/add-event.component';
+import { EditEventComponent } from './events/edit-event/edit-event.component';
+import { ListEventComponent } from './events/list-event/list-event.component';
+import { AddGroupComponent } from './groups/add-group/add-group.component';
+import { EditGroupComponent } from './groups/edit-group/edit-group.component';
+import { ListGroupComponent } from './groups/list-group/list-group.component';
+/**
+ *
+ */
+import { HelpPageComponent } from "./help-page/help-page.component";
 import { LoginComponent } from "./login/login.component";
 import { MainscreenComponent } from "./mainscreen/mainscreen.component";
-/**
- * User
- */
-import { AddUserComponent } from "./users/add-user/add-user.component";
-import { ListUserComponent } from "./users/list-user/list-user.component";
-import { EditUserComponent } from "./users/edit-user/edit-user.component";
-
 /**
  * Roles
  */
 import { AddRoleComponent } from "./roles/add-role/add-role.component";
 import { EditRoleComponent } from "./roles/edit-role/edit-role.component";
 import { ListRoleComponent } from "./roles/list-role/list-role.component";
-/**
- * 
- */
-import { HelpPageComponent } from "./help-page/help-page.component";
-import { CalendarComponent } from './calendar/calendar/calendar.component';
- 
-import { DocumentsComponent } from './documents/documents.component'; 
-import { ListGroupComponent } from './groups/list-group/list-group.component';
-import { ListEventComponent } from './events/list-event/list-event.component';
-import { AddEventComponent } from './events/add-event/add-event.component';
-import { EditEventComponent } from './events/edit-event/edit-event.component';
-import { ListScheduleComponent } from './schedule/list-schedule/list-schedule.component';
-import { EditGroupComponent } from './groups/edit-group/edit-group.component';
-import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { RoomComponent } from './rooms/room/room.component';
+import { ListScheduleComponent } from './schedule/list-schedule/list-schedule.component';
+/**
+ * User
+ */
+import { AddUserComponent } from "./users/add-user/add-user.component";
+import { EditUserComponent } from "./users/edit-user/edit-user.component";
+import { ListUserComponent } from "./users/list-user/list-user.component";
+
+
+
 
 const routes: Routes = [
   {
@@ -122,6 +126,10 @@ const routes: Routes = [
                 path: 'edit-group', component: EditGroupComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
               },
+              {
+                path: 'add-group', component: AddGroupComponent,
+                data: { breadcrumb: 'wl.add_breadcrumb' },
+              },
             ]
           },
           {
@@ -130,7 +138,7 @@ const routes: Routes = [
             children: [
               {
                 path: '', component: ListScheduleComponent,
-              } 
+              }
             ]
           },
           {
@@ -139,12 +147,18 @@ const routes: Routes = [
             children: [
               {
                 path: '', component: ListDisciplineComponent,
-              } 
+              },
+              {
+                path: 'edit-discipline', component: AddDisciplineComponent,
+                data: { breadcrumb: 'wl.edit_breadcrumb' },
+              },
+              {
+                path: 'add-discipline', component: EditDisciplineComponent,
+                data: { breadcrumb: 'wl.add_breadcrumb' },
+              },
             ]
           },
-          
           //Singe pages
-          
           {
             path: 'help-page', component: HelpPageComponent,
             data: { breadcrumb: 'wl.help' },
@@ -153,11 +167,11 @@ const routes: Routes = [
             path: 'calendar', component: CalendarComponent,
             data: { breadcrumb: 'wl.calendar' },
           },
-       
+
           {
             path: 'documents', component: DocumentsComponent,
             data: { breadcrumb: 'wl.menu_documents' },
-          },         
+          },
         ]
       },
 

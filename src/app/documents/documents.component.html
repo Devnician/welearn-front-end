@@ -1,20 +1,11 @@
 <ul>
-
-
     <li *ngFor="let parent of parents" class="header" (click)="showHide(parent)">{{parent.name}}<ul>
-
             <div *ngIf="parent.expanded === true">
-
                 <li *ngFor="let child of parent.children" class="item" (click)="loadChildDoc(parent,child)">
                     {{child.name}}
-
                     <span class="tooltiptext">изтегли</span>
                 </li>
-
             </div>
         </ul>
-
     </li>
-
-
 </ul>

@@ -1,23 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 
-export class StatisticRow {
-  objectId: number;
-  one: any;
-  two: any;
-  three: any;
-  four: any;
-  five: any;
-  six: any;
-  seven: any;
-  eight: any; 
+export class EventsRow {
+  type: any;
+  date: any;
+  discipline: any;
 }
 
-export class Row {
-  type: string;
-  statys: any;
-  counter: any;
-}
+
 
 @Component({
   selector: 'app-mainscreen',
@@ -25,8 +15,9 @@ export class Row {
   styleUrls: ['./mainscreen.component.scss']
 })
 export class MainscreenComponent extends BlitcenComponent implements OnInit {
-  menuOpt: any; 
-//  show = true; 
+  rows: EventsRow[] = [];
+  menuOpt: any;
+  show = true;
   constructor() {
     super();
   }
@@ -35,6 +26,8 @@ export class MainscreenComponent extends BlitcenComponent implements OnInit {
    * Show only menu buttons in main screen for now
    */
   ngOnInit() {
-    this.menuOpt = this.app.menuOptions;  
+    this.menuOpt = this.app.menuOptions;
+    this.rows.push({ type: 'eventType', date: new Date(), discipline: 'DB' })
+    this.show = false;
   }
 }

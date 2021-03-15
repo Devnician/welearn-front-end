@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Menu } from 'src/app/model/menu.model';
-import { Role } from 'src/app/model/role.model'; 
+import { Role } from 'src/app/model/role.model';
 
 @Component({
   selector: 'app-edit-role',
@@ -19,7 +19,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   allMenus: Menu[] = []; // all menus
   menus: FormArray = this.formBuilder.array([]); // current role menus
   availableMenus: FormArray = this.formBuilder.array([]); // for asign
-  
+
   statusesDirty: boolean = false;
 
   constructor(private donkey: DonkeyService, public snackBar: MatSnackBar) {
@@ -123,8 +123,8 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
           preview: this.formBuilder.control(_menu.preview),
           edit: this.formBuilder.control(_menu.edit),
           remove: this.formBuilder.control(_menu.remove),
-          
-          
+
+
         })
       )
     );
@@ -169,7 +169,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       m.preview = 1;
       m.edit = 0;
       m.remove = 0;
-     
+
       m.route = found.route;
       m.icon = found.icon;
 
@@ -207,7 +207,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
     //     }
     //   });
     //   console.log(updatedRole);
-      
+
     //   this.api.updateRole(updatedRole)
     //     // .pipe(first())
     //     .subscribe(

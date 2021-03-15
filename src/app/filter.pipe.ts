@@ -17,11 +17,9 @@ export class FilterPipe implements PipeTransform {
       return items;
     }
 
-
     searchText = searchText.toLowerCase();
     return items.filter(element =>
       element[props]?.toLowerCase().includes(searchText)
-      // === searchText;//  .toLocaleLowerCase().includes(searchText);
     );
   }
 }

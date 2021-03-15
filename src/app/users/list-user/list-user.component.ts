@@ -136,9 +136,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   editUser(user: User): void {
     console.log(user);
     user.password = '*';
-    this.donkey.setData(user);
-    //  window.localStorage.removeItem("editUserId");
-    //   window.localStorage.setItem("editUserId", user.id.toString());
+    this.donkey.setData(user); 
     this.router.navigate(['home/list-user/edit-user']);
   };
   /**

@@ -43,11 +43,7 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit() {
-    let userId = window.localStorage.getItem("editUserId");
-
-    //  let selfEdit = window.localStorage.getItem("selfedit");//, "1");
-
-    if (!userId) {
+    if (!this.editUser.id) {
       history.back();
     }
 
@@ -222,10 +218,6 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
     //   }
     // );
 
-  }
-
-  goBack() {
-    history.back();
   }
 
   /**

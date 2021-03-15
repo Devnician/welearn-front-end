@@ -10,14 +10,13 @@ import { PPaginator } from '../utils/paginator.model';
   styleUrls: ['./base.component.scss']
 })
 
-
 /**
  * Base class for components that contains TABLE. Included are Pagination, filtering by props and other utility methods.
  */
 export class BaseComponent extends BlitcenComponent implements OnDestroy {
-  show = false;  
+  show = false;
   officeId: number = 0;
-  paginator: PPaginator;  
+  paginator: PPaginator;
   protected activatedRoute: ActivatedRoute;
   storage: any = {};
 
@@ -25,7 +24,7 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   constructor(ar: ActivatedRoute) {
     super();
     this.injectPaginator();
-    this.activatedRoute = ar;   
+    this.activatedRoute = ar;
   }
 
   injectPaginator() {
@@ -35,7 +34,7 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   loadStorageVars() {
     this.storage.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.storage.type = this.activatedRoute.snapshot.paramMap.get('type');
-  }  
+  }
 
   /**
    * Loads pager with given collection.
@@ -63,8 +62,8 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   /**
    * Clears pginator, if no one of inheritors does this
    */
-  ngOnDestroy(): void { 
+  ngOnDestroy(): void {
     delete this.paginator;
   }
-  
+
 }

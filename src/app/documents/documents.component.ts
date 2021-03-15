@@ -34,10 +34,8 @@ export class DocumentsComponent extends BlitcenComponent implements OnInit {
         { id: 22, name: "док 2" }
       ]
     });
-
   }
   loadChildDoc(parent: any, child: any) {
-
     // if (parent.id === 1) {
     //   this.api.downloadProtocol(child.name).subscribe(data => {
 
@@ -62,5 +60,4 @@ export class DocumentsComponent extends BlitcenComponent implements OnInit {
       }
     })
   }
-
 }

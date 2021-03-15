@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 //for errors
 interface HashTable<T> {
     [key: string]: string;
@@ -9,20 +9,13 @@ declare const checkVATNumber: any;
 
 @Injectable()
 export class Valido {
-
-
     private errorMessages: HashTable<string> = {};
     private forbiddenWords = ["select", "insert", "update", "delete", "drop", "fuck"];
     //Patterns
     private domain: string = '(([www.]*([a-z]*\\-)?([a-z]{1,}\\.)){1,2}[a-z]+)|(?:\\d{1,3}\.){3}\\d{1,3}';
-
     private phonePattern: string = '\\+?\\d{9,15}';
     private carYearPattern: string = '[12]\\d{3}';//dummy car year validator
     private regNumberPattern: string = '[ABEKMHOPCTYX]{1,2}\\ ?[0-9]{4}\\ ?[ABEKMHOPCTYX]{1,2}';
-  
-    //[ABEKMHOPCTYX]{1,2}\ ?[0-9]{4}\ ?([ABEKMHOPCTYX]{1,2}|[0-9]{2})
-
-
     private checkVat = checkVATNumber;
 
     constructor() {
@@ -33,17 +26,11 @@ export class Valido {
     }
     loadErrorMessages() {
         this.errorMessages['required'] = 'wl.required_field';
-
         this.errorMessages['password'] = 'wl.error_password';
         this.errorMessages['username'] = 'wl.error_username';
-
-
-
         this.errorMessages['name'] = 'wl.invalid_device_pattern';
         this.errorMessages['domain'] = 'wl.invalid_domain_pattern';
         this.errorMessages['ip'] = 'wl.invalid_ip_pattern';
-
-
         //baseform component
         this.errorMessages['email'] = 'wl.error_email';
         this.errorMessages['password'] = 'wl.error_password';
@@ -56,17 +43,9 @@ export class Valido {
         this.errorMessages['roleId'] = 'wl.error_roleId';
         this.errorMessages['positionId'] = 'wl.positionId';
         this.errorMessages['phoneNumberPrivate'] = 'wl.error_phoneNumberPrivate';
-        this.errorMessages['bulstat'] = "wl.bulstat_invalid";
-        this.errorMessages['db_names'] = "wl.db_names_invalid";
-        this.errorMessages['invalid_reg_num_pattern'] = "wl.invalid_reg_num_pattern";
-
-
-
-
     }
 
     getErrorMessage(field: string): string {
-
         let displayError: string = this.errorMessages[field];
         if (displayError) {
             return displayError;
@@ -111,8 +90,8 @@ export class Valido {
             Validators.required,
             Validators.pattern("\\+?359\\d{9}")
         ] : [
-                Validators.pattern("\\+?359\\d{9}")
-            ];
+            Validators.pattern("\\+?359\\d{9}")
+        ];
     }
 
     validatePhone(req: boolean) {
@@ -193,7 +172,6 @@ export class Valido {
             ];
     }
 
- 
     /**
      * Minimum min characters, at least one uppercase letter, one lowercase letter, one number and one special character:
      */
@@ -204,10 +182,7 @@ export class Valido {
             Validators.maxLength(max),
             Validators.pattern('(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\\#\\$\\%\\=\\@\\!\\{\\}\\,\\`\\~\\&\\*\\(\\)\\<\\>\\?\\.\\:\\;\\_\\|\\^\\/\\+\\t\\[\\]\\"\\-])[\\da-zA-Z\\#\\$\\%\\=\\@\\!\\{\\}\\,\\`\\~\\&\\*\\(\\)\\<\\>\\?\\.\\:\\;\\_\\|\\^\\/\\+\\t\\[\\]\\"\\-]{' + min + ',' + max + '}')  // validates input is digit
         ];
-
     }
-
-
 
     validateAllFormFields(formGroup: FormGroup) {         //{1}
         Object.keys(formGroup.controls).forEach(field => {  //{2}
@@ -224,6 +199,4 @@ export class Valido {
             }
         });
     }
-
-
 }

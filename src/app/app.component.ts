@@ -128,6 +128,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   loadUsers() {
+
     // this.apiService.getUsers().subscribe(data => {
     //   this.users = data.result;
     // });
@@ -301,20 +302,19 @@ export class AppComponent implements OnInit, OnDestroy {
   * Clear after user and mark as logged out. Redirect to login page.
   */
   logout(): void {
-    // clearInterval(this.interval);
-    // try {
+    clearInterval(this.interval);
+    try {
+      if (this.user) {
+        this.apiService.logoutUser(this.user.id)
+          .subscribe(data => {
+            let d = data;
+            this.clearUserData();
+          });
+      }
 
-    //   if (isNullOrUndefined(this.user) === false) {
-    //     this.apiService.logoutUser(this.user.id)
-    //       .subscribe(data => {
-    //         let d = data;
-    //         this.clearUserData();
-    //       });
-    //   }
-
-    // } catch (error) {
-    //   this.clearUserData();
-    // }
+    } catch (error) {
+      this.clearUserData();
+    }
     this.router.navigate(['']);
 
   }
@@ -467,23 +467,17 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param userId 
    */
   getUserObject(userId: number) {
+    console.log(this.users);
     try {
       return this.users.find(u => u.id === userId);
-
     } catch (error) {
       return undefined;
     }
   }
-  editMyAccountData() {
-    //this.user
-    console.log(this.user);
-    this.donkey.setData(this.getUserObject(this.user.id));
-    this.donkey.setInfo("self");
-    //  window.localStorage.removeItem("editUserId");
-    //  window.localStorage.setItem("editUserId", this.user.id.toString());
-    //  window.localStorage.setItem("selfedit", "1");
+  editMyAccount() {
+    this.donkey.setData(this.user);//this.getUserObject(this.user.id));
+    this.donkey.setInfo("self");   
     this.router.navigate(['home/list-user/edit-user']);
-
   }
 
   ngOnDestroy(): void {

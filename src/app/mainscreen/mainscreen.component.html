@@ -1,9 +1,4 @@
 <loader [show]=show></loader>
-
-<div style="z-index:5000; position : fixed;display : flex; top: 4rem; right: 1.5rem;">
-    <div class="timeLabel">{{refreshTime}}</div>
-</div>
-
 <table class="statistic" class="mat-elevation-z8">
     <tr>
         <th class="card-td" colspan="6">важни събития</th>
@@ -15,9 +10,8 @@
     </tr>
     <tr *ngFor="let row of rows">
         <td class="card-td">{{row.type}}</td>
-        <td class="card-td">{{row.status}}</td>
-        <td class="card-td">{{row.counter}}</td>
+        <td class="card-td">{{row.date}}</td>
+        <td class="card-td">{{row.discipline}}</td>
     </tr>
-</table>  
-
+</table>
 <router-outlet></router-outlet>

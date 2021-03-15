@@ -57,7 +57,6 @@
         </div>
     </div>
 
-
     <div class="disciplines-table">
         <div class="b-bar">
             <div>
@@ -72,11 +71,10 @@
         <div class="disciplines-header">
             <h4>Дисциплини</h4>
         </div>
-
         <mat-divider></mat-divider>
         <cdk-virtual-scroll-viewport class="disciplines-list" itemSize="5">
             <ng-container *cdkVirtualFor="let discipline of studentGroup.disciplines">
-                <div class="disciplines-row" (click)="editCourse(course)">
+                <div class="disciplines-row" (click)="editDiscipline(discipline)">
                     <div> {{discipline.name}}</div>
                     <div> лектор : Иван Иванов</div>
                     <div> асистент: Иван Иванов</div>
@@ -85,6 +83,4 @@
             </ng-container>
         </cdk-virtual-scroll-viewport>
     </div>
-
-
 </div>

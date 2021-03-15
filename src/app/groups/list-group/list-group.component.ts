@@ -17,6 +17,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
   collectionsUtil: CollectionsUtil;
   displayedColumns = ['id', 'name', 'startDate', 'endDate', 'open', 'disciplines', 'count', 'lector', 'assistant', 'edit'];
   disableEdit: boolean = false;
+
   constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
     this.collectionsUtil = new CollectionsUtil();
@@ -36,6 +37,8 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     this.attachLectors();
     this.loadPaginator(this.groups, 'name');
   }
+
+
   attachLectors() {
     let users: User[] = this.app.users;
     this.groups.forEach(gr => {
@@ -57,7 +60,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     console.log(event.value);
   }
   addGroup() {
-    alert('not implemented yet');
+    this.router.navigate(['home/list-group/add-group']);
   }
 
 }

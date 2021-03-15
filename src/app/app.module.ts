@@ -114,6 +114,9 @@ import { ListScheduleComponent } from './schedule/list-schedule/list-schedule.co
 import { EditGroupComponent } from './groups/edit-group/edit-group.component';
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { RoomComponent } from './rooms/room/room.component';
+import { AddGroupComponent } from './groups/add-group/add-group.component';
+import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipline.component';
+import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
 
 
 @NgModule({
@@ -146,6 +149,9 @@ import { RoomComponent } from './rooms/room/room.component';
     EditGroupComponent,
     ListDisciplineComponent,
     RoomComponent,
+    AddGroupComponent,
+    AddDisciplineComponent,
+    EditDisciplineComponent,
     //  CalendarComponent,
     // NavComponent
 
