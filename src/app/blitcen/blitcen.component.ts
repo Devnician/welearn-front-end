@@ -88,9 +88,16 @@ export class BlitcenComponent {
     this.router.navigate(['']);
   }
 
-  showSnack(arg0: string, action: string, arg1: number): MatSnackBarRef<SimpleSnackBar> {
+  /**
+   * 
+   * @param arg0  text
+   * @param action  buttons
+   * @param duartion in milliseconds 
+   * @returns 
+   */
+  showSnack(arg0: string, action: string, duartion: number): MatSnackBarRef<SimpleSnackBar> {
     let snackBarRef = this.snack.open(arg0, action, {
-      duration: arg1,
+      duration: duartion,
     });
     return snackBarRef;
   }

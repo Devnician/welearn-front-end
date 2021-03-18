@@ -1,14 +1,15 @@
 import { User } from "./user.model";
 
-export class Discipline{
-    id:number;
-    name:string;
-    createdAt:any;
-    updatedAt:any;
+export class Discipline {
+    id: number;
+    name: string;
+    createdAt: any;
+    updatedAt: any;
 
+    lectorId: number;
+    assitentId: number;
 
-
-     
-    lector:User;
-    assistent:User;
+    //transient
+    lector: User;
+    assistant: User;
 }

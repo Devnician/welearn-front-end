@@ -24,7 +24,7 @@ export class ApiService {
     return this.doPost(this.host + 'token/generate-token', loginPayload);
   }
 
-  logoutUser(id: number): Observable<ApiResponse> {
+  logout(id: number): Observable<ApiResponse> {
     return this.doGet(this.usersUrl + 'logout/' + id);
   }
 
@@ -124,19 +124,7 @@ export class ApiService {
   //   return this.http.get<ApiResponse>(this.usersUrl + 'logoutt/' + id).toPromise();
   // }
 
-  // getTechniciansForThisOffice(officeId: number): Observable<ApiResponse> {
-  //   return this.http.put<ApiResponse>(this.usersUrl + "technicians/", officeId);
-  // }
 
-  // getAvailableTechniciansForThisOffice(officeId: number): Observable<ApiResponse> {
-  //   return this.http.put<ApiResponse>(this.usersUrl + "avtechnicians/", officeId);
-  // }
-  // /**
-  //  * Try to get car of this user
-  //  */
-  // getCarOfThisUser(carID: number): Observable<ApiResponse> {
-  //   return this.http.put<ApiResponse>(this.usersUrl + "techincar/", carID);
-  // }
 
 
   // //###########################################################
@@ -174,16 +162,6 @@ export class ApiService {
   // }
 
 
-  // //###########################################################
-  // //
-  // // POSITIONS
-  // //
-  // //###########################################################
-  // getPositions(): Observable<ApiResponse> {
-  //   return this.http.get<ApiResponse>(this.usersPositionsUrl);
-  // }
-
-
 
   // /**
   //  * 
@@ -202,40 +180,11 @@ export class ApiService {
   //     formData.append('images', images[1], user.id + '_drlic.' + images[1].type.split('/')[1]);
   //   } else {
   //     formData.append('images', null);
-  //   }
-
-
+  //   } 
   //   return this.http.post<ApiResponse>(this.usersUrl + 'uploadimg', formData);
   // }
 
 
-
-  // saveCarsImages(images: File[], carId: number): Observable<ApiResponse> {
-  //   const formData = new FormData();
-
-  //   if (images[0]) {
-  //     formData.append('images', images[0], carId + '_front.' + images[0].type.split('/')[1]);
-  //   } else {
-  //     formData.append('images', null);
-  //   }
-  //   if (images[1]) {
-  //     formData.append('images', images[1], carId + '_back.' + images[1].type.split('/')[1]);
-  //   } else {
-  //     formData.append('images', null);
-  //   }
-  //   if (images[2]) {
-  //     formData.append('images', images[2], carId + '_side.' + images[2].type.split('/')[1]);
-  //   } else {
-  //     formData.append('images', null);
-  //   }
-  //   if (images[3]) {
-  //     formData.append('images', images[3], carId + '_reg_card.' + images[3].type.split('/')[1]);
-  //   } else {
-  //     formData.append('images', null);
-  //   }
-
-  //   return this.http.post<ApiResponse>(this.carsUrl + 'uploadimages/' + carId, formData);
-  // }
 
   // // saveDeviceImages(images: File[], deviceId: number): Observable<ApiResponse> {
   // //   const formData = new FormData();
@@ -270,7 +219,6 @@ export class ApiService {
 
 
   // sendExcelToSpring(file: File, type: string): Observable<ApiResponse> {
-
   //   const formData = new FormData();
 
   //   try {

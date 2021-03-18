@@ -132,7 +132,7 @@ $warn: mat-color($wl-warn);
 
 .two-on-row {
   height: auto;
-  flex: 0 1 calc(50% - 2px);
+  flex: 1 1 calc(50% - 2px);
   width: 100%; // calc(100%/4);
   margin: 1px;
   padding: 5px;
@@ -144,7 +144,7 @@ $warn: mat-color($wl-warn);
 
 .three-on-row {
   height: auto;
-  flex: 0 1 calc(33.33% - 2px);
+  flex: 1 1 calc(33.33% - 2px);
   width: 100%; // calc(100%/4);
   margin: 1px;
   padding: 5px;
@@ -203,18 +203,17 @@ $warn: mat-color($wl-warn);
   width: 100%;
   display: flex;
   position: absolute;
-  bottom: 0px; 
+  bottom: 0px;
   z-index: 5000;
   padding-bottom: 10px;
   justify-content: center;
   align-items: center;
-  .divider{
-    width:15px;
-    height:auto;
-    display:inline-block;
+  .divider {
+    width: 15px;
+    height: auto;
+    display: inline-block;
+  }
 }
-}
-
 
 .button-bar,
 .dialog-button-bar {

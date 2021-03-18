@@ -305,7 +305,7 @@ export class AppComponent implements OnInit, OnDestroy {
     clearInterval(this.interval);
     try {
       if (this.user) {
-        this.apiService.logoutUser(this.user.id)
+        this.apiService.logout(this.user.id)
           .subscribe(data => {
             let d = data;
             this.clearUserData();

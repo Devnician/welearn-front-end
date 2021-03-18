@@ -47,7 +47,6 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
       gr.lector = lector;
       gr.assistant = assistant;
     });
-
     console.log(this.groups);
   }
 

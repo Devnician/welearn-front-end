@@ -149,11 +149,11 @@ const routes: Routes = [
                 path: '', component: ListDisciplineComponent,
               },
               {
-                path: 'edit-discipline', component: AddDisciplineComponent,
+                path: 'edit-discipline', component: EditDisciplineComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
               },
               {
-                path: 'add-discipline', component: EditDisciplineComponent,
+                path: 'add-discipline', component: AddDisciplineComponent,
                 data: { breadcrumb: 'wl.add_breadcrumb' },
               },
             ]

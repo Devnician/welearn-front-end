@@ -2,6 +2,64 @@
     <mat-card-title> редактиране на дисциплина </mat-card-title>
     <mat-card-content>
         <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="editDisciplineForm">
+            <div class="f-row">
+                <mat-form-field class="four-on-row">
+                    <input matInput placeholder="{{'wl.discipline' | translate}}" type="text" class="form-control"
+                        formControlName="name" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="four-on-row">
+                    <input matInput placeholder="{{'wl.created' | translate}}" type="datetime-local"
+                        class="form-control" formControlName="createdAt">
+                </mat-form-field>
+                <mat-form-field class="four-on-row">
+                    <input matInput placeholder="{{'wl.updated' | translate}}" type="datetime-local"
+                        class="form-control" formControlName="updatedAt">
+                </mat-form-field>
+
+                <mat-form-field class="two-on-row">
+                    <mat-label>{{'wl.lector' | translate}}</mat-label>
+                    <mat-select #lSel placeholder="{{'torga.lector' | translate}}" formControlName="lectorId">
+                        <mat-option *ngFor="let lector of lectors" [value]="lector.id" class="form-control">
+                            {{lector.firstName}} {{lector.middleName}} {{lector.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="two-on-row">
+                    <mat-label>{{'wl.assistant' | translate}}</mat-label>
+                    <mat-select #aSel placeholder="{{'wl.assistant' | translate}}" formControlName="assistantId">
+                        <mat-option *ngFor="let lector of lectors" [value]="lector.id" class="form-control">
+                            {{lector.firstName}} {{lector.middleName}} {{lector.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div>
+                    <div style="display: flex; align-items: baseline;">
+                        <input #docFirst type="file" style="width:100%;height:auto;margin: 3px;" accept=".doc,.docx"
+                            (change)="uploadDoc(docFirst)">
+                        <button type="button" mat-icon-button color="accent" (click)="docFirst.value=''">
+                            <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                        </button>
+                    </div>
+                    <div style="display: flex; align-items: baseline;">
+                        <input #docSecond type="file" style="width:100%;height:auto;margin: 3px;" accept=".doc,.docx"
+                            (change)="uploadDoc(docSecond)">
+                        <button type="button" mat-icon-button color="accent" (click)="docSecond.value=''">
+                            <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                        </button>
+                    </div>
+                    <div style="display: flex; align-items: baseline;">
+                        <input #docThird type="file" style="width:100%;height:auto;margin: 3px;" accept=".doc,.docx"
+                            (change)="uploadDoc(docThird)">
+                        <button type="button" mat-icon-button color="accent" (click)="docThird.value=''">
+                            <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div class="button-bar">
                 <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="goBack()">
                     {{'wl.cancel' | translate}}
@@ -11,4 +69,5 @@
             </div>
         </form>
     </mat-card-content>
+    <pre>{{editForm.value | json}}</pre>
 </mat-card>

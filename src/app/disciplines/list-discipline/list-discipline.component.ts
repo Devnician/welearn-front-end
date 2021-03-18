@@ -27,7 +27,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
     this.disciplines = this.app.disciplines;
 
     if (this.user.roleId === 2) {
-      this.disciplines = this.app.disciplines.filter(d => (d.lector?.id === this.user.id || d.assistent?.id === this.user.id));
+      this.disciplines = this.app.disciplines.filter(d => (d.lector?.id === this.user.id || d.assistant?.id === this.user.id));
     } else if (this.user.roleId === 3) {
       this.disableEdit = true;
       this.groups = this.collectionsUtil.getGroups();
