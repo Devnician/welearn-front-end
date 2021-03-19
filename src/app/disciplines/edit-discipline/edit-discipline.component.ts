@@ -5,6 +5,7 @@ import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
 import { User } from 'src/app/model/user.model';
+import { TimeUtil } from 'src/app/utils/time-util';
 
 @Component({
   selector: 'app-edit-discipline',
@@ -12,9 +13,6 @@ import { User } from 'src/app/model/user.model';
   styleUrls: ['./edit-discipline.component.scss']
 })
 export class EditDisciplineComponent extends BaseformComponent implements OnInit {
-  // @ViewChild('docFirst') firstDoc: ElementRef;
-  // @ViewChild('docFirst') secondDoc: ElementRef;
-  // @ViewChild('docFirst') thirdDoc: ElementRef;
   editForm: FormGroup;
   discipline: Discipline;
   lectors: User[];
@@ -22,19 +20,20 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
   constructor(donkey: DonkeyService) {
     super();
     this.discipline = donkey.getData();
-    console.log(this.discipline);
-    this.discipline.createdAt = this.adjustDate(this.discipline.createdAt);
-    this.discipline.updatedAt = this.adjustDate(this.discipline.updatedAt);
+    this.discipline.createdAt = TimeUtil.adjustDateStringToDate(this.discipline.createdAt);
+    this.discipline.updatedAt = TimeUtil.adjustDateStringToDate(this.discipline.updatedAt);
 
-    this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
-    console.log(this.lectors);
   }
   /**
    * Initializes the form
    */
   ngOnInit(): void {
+
+    //TODO --- add api call in onInit Method for loading just lectors.
+    this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
+
     this.editForm = this.formBuilder.group({
-      id: [],
+      id: this.discipline.id,
       name: this.discipline.name,
       createdAt: { value: this.discipline.createdAt, disabled: true },
       updatedAt: { value: this.discipline.updatedAt, disabled: true },
@@ -43,29 +42,21 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
     });
   }
 
-  adjustDate(dateString: any): any {
-
-    if (!dateString) {
-      return '';
-    }
-    try {
-      return new Date(dateString).toISOString().substring(0, 16);
-    } catch (error) {
-      return '';
-    }
-  }
-
-
   reset() {
     this.editForm.reset();
   }
 
   onSubmit() {
-
     if (!this.editForm.valid) {
       this.valido.validateAllFormFields(this.editForm);
       return;
     }
+
+    alert("api call");
+    let discipline: Discipline = this.editForm.getRawValue();
+    console.log(discipline);
+
+    //TODO add post api call for array with documents
   }
 
   uploadDoc(input: any) {
@@ -75,7 +66,7 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
       input.value = '';
     } else {
       console.log(file);
-      // put all in array and send to API on submit
+      // place the documents in an array so that they can be sent for recording
     }
   }
 }

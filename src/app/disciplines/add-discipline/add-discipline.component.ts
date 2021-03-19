@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
+import { Discipline } from 'src/app/model/discipline.model';
 
 @Component({
   selector: 'app-add-discipline',
@@ -16,7 +17,12 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
 
   ngOnInit(): void {
     this.addForm = this.formBuilder.group({
-      id: [],
+      id: 0,
+      name: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      lectorId: 0,
+      assistantId: 0
     });
   }
 
@@ -29,6 +35,11 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
+    alert("api call");
+    let discipline: Discipline = this.addForm.getRawValue();
+    console.log(discipline);
+    //TODO add post api call for array with documents
+
   }
 
 }

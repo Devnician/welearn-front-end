@@ -22,12 +22,23 @@ export class TimeUtil {
      * @param dateString 
      */
     adjustDate(dateString: any): any {
-        // 2019-05-15T00:00
+        // 2019-05-15 
         if (!dateString) {
             return '';
         }
         try {
             return new Date(dateString).toISOString().substring(0, 10);
+        } catch (error) {
+            return '';
+        }
+    }
+
+    public static adjustDateStringToDate(dateString: any): any {
+        if (!dateString) {
+            return '';
+        }
+        try {
+            return new Date(dateString).toISOString().substring(0, 16);
         } catch (error) {
             return '';
         }
