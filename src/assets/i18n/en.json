@@ -23,6 +23,7 @@
         "select_group": "select group",
         "select_owner": "select owner",
         "room": "room",
+        "removing": "removing",
         "customers": "customers",
         "add": "add",
         "text": "This is a simple demonstration app for ngx-translate",

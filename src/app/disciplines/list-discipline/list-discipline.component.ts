@@ -18,8 +18,11 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   collectionsUtil: CollectionsUtil;
   groups: StudentsGroup[];
   disableEdit: boolean = false;
+
   constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
-    super(ar); this.collectionsUtil = new CollectionsUtil();
+    super(ar);
+
+    this.collectionsUtil = new CollectionsUtil();
   }
 
   ngOnInit(): void {
@@ -48,9 +51,9 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   addDiscipline() {
     this.router.navigate(['home/list-discipline/add-discipline']);
   }
+
   editDiscipline(discipline: Discipline) {
     this.donkey.setData(discipline);
     this.router.navigate(['home/list-discipline/edit-discipline']);
   }
-
 }

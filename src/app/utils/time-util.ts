@@ -33,7 +33,7 @@ export class TimeUtil {
         }
     }
 
-    public static adjustDateStringToDate(dateString: any): any {
+    public static adjustDateStringToDateTime(dateString: any): any {
         if (!dateString) {
             return '';
         }

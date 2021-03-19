@@ -1,0 +1,26 @@
+:host {
+    width: 100%;
+    height: auto;
+    justify-content: center;
+}
+.pepe_table {
+    height: auto;
+    flex: 1 1 calc(90% - 6px);
+    width: 100%;
+    margin: 3px;
+    padding: 1px;
+    box-sizing: border-box;
+}
+.mat-cell,
+.mat-header-cell {
+    text-align: center !important;
+}
+.mat-column-id,
+.mat-column-remove {
+    flex: 0 0 8% !important;
+    width: 8% !important;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}

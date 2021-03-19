@@ -11,11 +11,11 @@ export class CollectionsUtil {
     //  receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
     receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
     receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
-   // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
+    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
     receivedMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups' });
     receivedMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book' });
     receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
-   
+
 
     return receivedMenus;
   }
@@ -23,13 +23,13 @@ export class CollectionsUtil {
     let receivedMenus = [];
     //  receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
     receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
-  //  receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
-   // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
+    //  receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
+    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
     receivedMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups' });
     receivedMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book' });
     receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
     receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
-   
+
 
     return receivedMenus;
   }
@@ -37,11 +37,11 @@ export class CollectionsUtil {
     let receivedMenus = [];
     //  receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
     receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
-  //  receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
-   // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
+    //  receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
+    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
     receivedMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups' });
     receivedMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book' });
-   // receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
+    // receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
     receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
 
     return receivedMenus;
@@ -91,6 +91,28 @@ export class CollectionsUtil {
     user.deleted = 0;
     user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
     users.push(user);
+
+    user = new User();
+    user.id = 8000;
+    user.birthDate = new Date();
+    user.address = 'Пловдив, ул. 24-ти май № 24';
+    user.phoneNumber = '0899123456';
+    user.otherContacts = '';
+    user.email = 'super@domain.com';
+    user.firstName = 'Стефания';
+    user.middleName = 'Николаева';
+    user.lastName = 'Колева';
+    user.role = '';
+    user.roleBg = '';
+    user.roleId = 2;
+    user.username = 'kiki';
+    user.password = '*****';
+    user.loggedIn = 1;
+    user.deleted = 0;
+    user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+    users.push(user);
+
+
     user = new User();
     user.id = 22;
     user.birthDate = new Date();
@@ -220,13 +242,13 @@ export class CollectionsUtil {
     group.assitantId = 0;
     list.push(group);
 
-    group  = new StudentsGroup();
+    group = new StudentsGroup();
     group.id = 2;
     group.name = 'MSE2021';
     group.startDate = new Date();
     group.endDate = new Date(new Date().getTime() + (30 * 24 * 60 * 60 * 1000));
     group.open = 0;
-   // group.students.push(this.getUsers()[2]);
+    // group.students.push(this.getUsers()[2]);
     group.disciplines = this.getDisciplines();
     group.lectorId = 0;
     group.assitantId = 0;
@@ -237,14 +259,16 @@ export class CollectionsUtil {
   }
 
   getDisciplines(): Discipline[] {
-    let lector = this.getUsers()[1];
+    let lectors = this.getUsers().filter(user => user.roleId === 2);
+    // console.log(lectors);
 
-    let list: Discipline[] = []; 
-    list.push({ id: 1, name: 'ООП',createdAt : new Date(),updatedAt : new Date() ,lector :lector} as Discipline);
-    list.push({ id: 2, name: 'БАЗИ ДАННИ',createdAt : new Date(),updatedAt : new Date() ,lector :lector} as Discipline);
-    list.push({ id: 3, name: 'ПРАКТИКУМ 1',createdAt : new Date(),updatedAt : new Date(),lector :lector } as Discipline);
-    list.push({ id: 4, name: 'ПСС' ,createdAt : new Date(),updatedAt : new Date() } as Discipline);
-    list.push({ id: 5, name: 'КСМ',createdAt : new Date(),updatedAt : new Date()  } as Discipline);
+
+    let list: Discipline[] = [];
+    list.push({ id: 1, name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lector: lectors[0] } as Discipline);
+    list.push({ id: 2, name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lector: lectors[1] } as Discipline);
+    list.push({ id: 3, name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt: new Date(), lector: lectors[2] } as Discipline);
+    list.push({ id: 4, name: 'ПСС', createdAt: new Date(), updatedAt: new Date() } as Discipline);
+    list.push({ id: 5, name: 'КСМ', createdAt: new Date(), updatedAt: new Date() } as Discipline);
     return list;
   }
 

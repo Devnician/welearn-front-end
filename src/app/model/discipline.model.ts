@@ -7,7 +7,7 @@ export class Discipline {
     updatedAt: any;
 
     lectorId: number;
-    assitentId: number;
+    assitantId: number;
 
     //transient
     lector: User;

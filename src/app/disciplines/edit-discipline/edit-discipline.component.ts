@@ -20,8 +20,8 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
   constructor(donkey: DonkeyService) {
     super();
     this.discipline = donkey.getData();
-    this.discipline.createdAt = TimeUtil.adjustDateStringToDate(this.discipline.createdAt);
-    this.discipline.updatedAt = TimeUtil.adjustDateStringToDate(this.discipline.updatedAt);
+    this.discipline.createdAt = TimeUtil.adjustDateStringToDateTime(this.discipline.createdAt);
+    this.discipline.updatedAt = TimeUtil.adjustDateStringToDateTime(this.discipline.updatedAt);
 
   }
   /**
