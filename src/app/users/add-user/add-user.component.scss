@@ -36,49 +36,6 @@ mat-card {
   background-color: red;
 }
 
-// .mat-raised-button {
-//   display: flex;
-
-//   justify-content: flex-end;
-
-//   background-color:       #1976d2;
-
-//   border-color: #1976d2;
-//   color: white;
-
-//   font-size: 16px;
-//    margin: 5px;
-
-//   &:hover, &:focus, &:active {
-//     border-color: #1976d2 !important;
-//     background-color:  #1976d2 !important;
-//   }
-// }
-
-// #container {
-//   height: 100%;
-//   width: 100%;
-//   display: flex;
-
-// }
-// #leftThing {
-//   width: 45%;
-
-// }
-// // #content {
-// //   width: 10%;
-
-// // }
-// #rightThing {
-//   width: 45%;
-
-// }
-
-//  .eye-button{
-//   border-color: none !important;
-//   background-color:   none !important;
-//  }
-
 .mat-raised-button {
   &:hover,
   &:focus {
@@ -133,6 +90,7 @@ mat-card {
   border-color: #fff transparent #fff transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);

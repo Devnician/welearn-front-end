@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { ApiService } from './core/api.service';
 import { DonkeyService } from './core/donkey.service';
 import { Discipline } from './model/discipline.model';
-import { Menu } from './model/menu.model';
+import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
 import { User } from './model/user.model';
 import { CollectionsUtil } from './utils/collections-util';
@@ -18,14 +18,13 @@ import { CollectionsUtil } from './utils/collections-util';
 //registerLocaleData(localeEn);
 registerLocaleData(localeBg);
 const jwtHelper = new JwtHelperService();
-//const { version: appVersion } = require('../../package.json');
 
-export class MenuOptions {
-  key: number
-  value: string;
-  route: string;
-  matIcon: string;
-}
+// export class MenuOptions {
+//   key: number
+//   value: string;
+//   route: string;
+//   matIcon: string;
+// }
 
 export interface IBreadCrumb {
   label: string;
@@ -41,43 +40,35 @@ export interface IBreadCrumb {
 
 export class AppComponent implements OnInit, OnDestroy {
   version: string = '1.0.00';
-  // @ViewChild(MatSidenav ) sidenav: MatSidenav;
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
-  private interval: any;
+
   static myapp: AppComponent;
   static lang: string;
+  static isMedia: boolean = false;
+
+  private interval: any;
   user: User;
   isHeaderVisible: boolean;
-  placeholder: string = 'breadcrumd';
-  // users: User[] = [];
   roles: Role[] = [];
   events: string[] = []; // for sidenav
   opened: boolean;
-
-  //   { key: 1, value: 'wl.menu_list_users', route: '/list-user', matIcon: 'supervised_user_circle' }, // added, func
-
   menuOptions: MenuOptions[] = [];
-  menus: Menu[] = [];
-  apiAlive: boolean = true;//"primary";
+  apiAlive: boolean = true;
   subscription: Subscription;
   public breadcrumbs: IBreadCrumb[] = [];
-  static readonly ROUTE_DATA_BREADCRUMB = 'breadcrumb';
 
   static collections: CollectionsUtil = new CollectionsUtil();
-  users: User[] = AppComponent.collections.getUsers();
-  disciplines: Discipline[] = AppComponent.collections.getDisciplines();
+  users: User[] = [];
+  disciplines: Discipline[] = [];
 
 
-  propsLoaded: boolean = false;
-  static isMedia: boolean = false;
+
   serverOnline = true;
   usersMessage: string = '';
   constructor(public router: Router, private apiService: ApiService, private translate: TranslateService, public snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private donkey: DonkeyService) {
     AppComponent.myapp = this;
     translate.setDefaultLang('bg');
     AppComponent.lang = 'bg';
-
-
 
     if ("user" in localStorage) {
       // ('Welcome..');
@@ -89,22 +80,25 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event instanceof NavigationStart) {
         /**
          * This property(router.navigated) is false when the router starts and
-         *  after the first navigation it changes to true. And that’s it.
-        
+         *  after the first navigation it changes to true. And that’s it.        
          */
-
         let browserRefresh = !router.navigated;
-
         //TODO HERE UNLOCK ALL
-
         if (browserRefresh) {
-
           this.clearUserData();
         } else {
           // ('Just going somewhere. Check user here');
         }
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.determineIsMedia(window.innerWidth);
+    this.subsForRouterEvents();
+    this.fetchDisciplines();
+    this.router.navigate(['']);
+    //TODO - save me func place. read saved credentials from storage..
   }
 
 
@@ -114,9 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
   determineIsMedia(pixelWidth: any) {
-    if (pixelWidth < 251) {
-      AppComponent.isMedia = true;
-    } else if (pixelWidth < 451) {
+    if (pixelWidth < 451) {
       AppComponent.isMedia = true;
     } else {
       AppComponent.isMedia = false;
@@ -127,12 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.serverOnline = arg0;
   }
 
-  loadUsers() {
 
-    // this.apiService.getUsers().subscribe(data => {
-    //   this.users = data.result;
-    // });
-  }
 
 
   /**
@@ -146,55 +133,42 @@ export class AppComponent implements OnInit, OnDestroy {
     AppComponent.lang = language;
   }
 
-  ngOnInit(): void {
-    this.determineIsMedia(window.innerWidth);
-    this.subsForRouterEvents();
-    this.router.navigate(['']);
-    //TODO - save me func place. read saved credentials from storage..
+
+  fetchDisciplines() {
+    //TODO - API CALL
+    this.disciplines = AppComponent.collections.getDisciplines();
   }
 
+
+
   /**
-   * Called after succesfull login
+   * callback after succesfull login
    */
   prepareTheCollections() {
     this.serverOnline = true;
-
-    // this.interval = setInterval(() => {
-    //   this.apiService.checkServer().subscribe(
-    //     data => {
-    //       if (data) {
-    //         this.serverOnline = data.result;
-    //       } else {
-    //         this.serverOnline = false;
-    //       }
-    //     }
-    //   );
-    // }, 3000);
-
-
     this.loadUsers();
     this.loadRolesAndDetermineCurrentUserRole();
-    this.loadMenus();
-
+    this.buildMenuAccordingRole();
   }
 
+  loadUsers() {
+    //TODO - API CALL
+    this.users = AppComponent.collections.getUsers();
+    // this.apiService.getUsers().subscribe(data => {
+    //   this.users = data.result;
+    // });
+  }
 
   loadRolesAndDetermineCurrentUserRole() {
     this.roles = AppComponent.collections.getRoles();
-
     let role = this.roles.find(x => x.id === this.user.roleId);
-
     if (role) {
       this.user.role = role.role;
       this.user.roleBg = role.roleBg;
     }
-
-
-
     // this.apiService.getRoles().subscribe(data => {
     //   this.roles = data.result;
     //   let role = this.roles.find(x => x.id === this.user.roleId);
-
     //   if (role) {
     //     this.user.role = role.role;
     //     this.user.roleBg = role.roleBg;
@@ -202,60 +176,39 @@ export class AppComponent implements OnInit, OnDestroy {
     // });
   }
 
-  private loadMenus() {
-    //get saved order
-    let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
+  private buildMenuAccordingRole() {
 
-    // let receivedMenus = [];
-    // receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
-    // receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
-    // receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'group' });
-    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
-
+    let unordered: MenuOptions[] = [];
     if (this.user.roleId == 1) {
-      this.menuOptions = AppComponent.collections.getAdminMenus();
+      unordered = AppComponent.collections.getAdminMenus();
     } else if (this.user.roleId == 2) {
-      this.menuOptions = AppComponent.collections.getTeacherMenus();
+      unordered = AppComponent.collections.getTeacherMenus();
     } else {
-      this.menuOptions = AppComponent.collections.getTrainedMenus();
+      unordered = AppComponent.collections.getTrainedMenus();
     }
+    //get saved order if any
+    let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
+    if (order) { // order it 
 
-
-
-
-    // this.apiService.getMenusForRole(this.user.roleId).subscribe(
-    //   data => {
-    //     this.menus = data.result;
-    //     let receivedMenus = [];
-    //     receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
-    //     for (const menu of this.menus) {
-    //       receivedMenus.push({ key: menu.menuId, value: 'wl.' + menu.menu, route: menu.route, matIcon: menu.icon });
-    //     }
-
-    //     if (order) { // order it 
-    //       let addedLater = [];
-    //       order.forEach(element => {
-    //         let toBeRemoved: number;
-    //         for (let index = 0; index < receivedMenus.length; index++) {
-    //           const foundOne = receivedMenus[index];
-    //           if (element === foundOne['key']) {
-    //             this.menuOptions.push(foundOne);
-    //             toBeRemoved = element;
-    //             break;
-    //           }
-    //         }
-    //         receivedMenus = receivedMenus.filter(e => e['key'] !== toBeRemoved);
-    //       });
-    //       if (receivedMenus.length > 0) { // if menus are more than saved, add it on bottom            
-    //         receivedMenus.forEach(r => { this.menuOptions.push(r) });
-    //       }
-    //       this.saveOrderOfMenus();
-    //     } else { //show them as they arrived
-    //       this.menuOptions = receivedMenus;
-    //     } 
-
-    //   }
-    // );
+      order.forEach(element => {
+        let toBeRemoved: number;
+        for (let index = 0; index < unordered.length; index++) {
+          const foundOne = unordered[index];
+          if (element === foundOne['key']) {
+            this.menuOptions.push(foundOne);
+            toBeRemoved = element;
+            break;
+          }
+        }
+        unordered = unordered.filter(e => e['key'] !== toBeRemoved);
+      });
+      if (unordered.length > 0) { // if menus are more than saved, add it on bottom            
+        unordered.forEach(r => { this.menuOptions.push(r) });
+      }
+      this.saveOrderOfMenus();
+    } else { //show them as they arrived
+      this.menuOptions = unordered;
+    }
   }
 
 
@@ -293,7 +246,6 @@ export class AppComponent implements OnInit, OnDestroy {
         });
         break;
       default:
-
         break;
     }
   }
@@ -316,7 +268,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.clearUserData();
     }
     this.router.navigate(['']);
-
   }
 
   /**
@@ -325,13 +276,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * Clears data, hides menu and header
    */
   clearUserData() {
-
-    this.propsLoaded = false;
     this.menuOptions = [];
-    this.menus = [];
     this.opened = false;
     this.isHeaderVisible = false;
-
     localStorage.removeItem('user');
     delete this.user;
   }
@@ -340,8 +287,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * Gets menu according the url parameter
    * @param url 
    */
-  getCurrentMenuObject(url: string): Menu {
-    return this.menus.find(menu => menu.route === url);
+  getCurrentMenuObject(url: string): MenuOptions {
+    return this.menuOptions.find(menu => menu.route === url);
   }
 
 
@@ -349,7 +296,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * rearrange menus
    * @param event 
    */
-  drop(event: CdkDragDrop<Menu[]>) {
+  drop(event: CdkDragDrop<MenuOptions[]>) {
     moveItemInArray(this.menuOptions, event.previousIndex, event.currentIndex);
     this.saveOrderOfMenus();
   }
@@ -443,15 +390,6 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       let user: User = this.users.find(u => u.id === userId);
       if (user) {
-
-        // if (atachOfficeName === true) {
-        //   let off: Office = this.offices.find(of => of.id === user.officeId);
-        //   if (off) {
-        //     return user.firstName + ' ' + user.lastName + '/' + off.name;
-        //   }
-        // } else {
-        //   return user.firstName + ' ' + user.lastName;
-        // }
         return user.firstName + ' ' + user.lastName;
       }
       return '';
@@ -459,8 +397,6 @@ export class AppComponent implements OnInit, OnDestroy {
       return 'not found';
     }
   }
-
-
 
   /**
    * Gets user obj if it is present in list
@@ -475,8 +411,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
   editMyAccount() {
-    this.donkey.setData(this.user);//this.getUserObject(this.user.id));
-    this.donkey.setInfo("self");   
+    this.donkey.setData(this.user);
+    this.donkey.setInfo("self");
     this.router.navigate(['home/list-user/edit-user']);
   }
 

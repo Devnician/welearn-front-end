@@ -1,22 +1,11 @@
- 
-
-export class Menu {
-    //for menuToRoles
-    id: number;
-    roleId: number;
-    role: string;
-
-    menuId: number;
-    menu: string;
-
-    preview: number;
-    edit: number;
-    remove: number;
-    
-    
+/**
+ * Model for MENU with properties for decoration and user rights
+ */
+export class MenuOptions {
+    key: number
+    value: string;
     route: string;
-    icon: string;
-    //for Menu obj
-    name: string;
+    matIcon: string;
 
+    edit: boolean;
 }

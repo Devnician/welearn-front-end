@@ -1,4 +1,5 @@
 import { Discipline } from "../model/discipline.model";
+import { MenuOptions } from "../model/menu.model";
 import { Role } from "../model/role.model";
 import { StudentsGroup } from "../model/students-group.model";
 import { User } from "../model/user.model";
@@ -7,44 +8,40 @@ export class CollectionsUtil {
 
 
   public getAdminMenus(): any {
-    let receivedMenus = [];
-    //  receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
-    receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
-    receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
-    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
-    receivedMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups' });
-    receivedMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book' });
-    receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
-
-
-    return receivedMenus;
+    let roleMenus = [];
+    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: true });
+    roleMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin', edit: true });
+    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: true });
+    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: true });
+    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', edit: true });
+    return roleMenus;
   }
   public getTeacherMenus(): any {
-    let receivedMenus = [];
-    //  receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
-    receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
-    //  receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
-    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
-    receivedMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups' });
-    receivedMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book' });
-    receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
-    receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
-
-
-    return receivedMenus;
+    let roleMenus = [];
+    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: false });
+    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: true });
+    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: false });
+    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', edit: true });
+    roleMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note', edit: true });
+    return roleMenus;
   }
   public getTrainedMenus(): any {
-    let receivedMenus = [];
-    //  receivedMenus.push({ key: 0, value: 'wl.home', route: '/home', matIcon: 'home' });
-    receivedMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle' });
-    //  receivedMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin' });
-    // receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
-    receivedMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups' });
-    receivedMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book' });
-    // receivedMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events' });
-    receivedMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note' });
+    let roleMenus = [];
+    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: false });
+    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: false });
+    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: false });
+    roleMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note', edit: false });
+    return roleMenus;
+  }
 
-    return receivedMenus;
+  public getAllMenus(): MenuOptions[] {
+    let roleMenus = [];
+    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: true });
+    roleMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin', edit: true });
+    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: true });
+    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: true });
+    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', edit: true });
+    return roleMenus;
   }
 
   public getUsers(): User[] {

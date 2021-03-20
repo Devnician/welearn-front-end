@@ -2,35 +2,95 @@
     <mat-card-title> Добавяне на роля </mat-card-title>
     <mat-card-content>
         <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
-
-            <mat-form-field>
-                <input matInput placeholder="role" type="role" formControlName="role" id="role" autocomplete="off">
-            </mat-form-field>
-
-            <mat-form-field>
-                <input matInput placeholder="description" type="description" class="form-control"
-                    formControlName="description" id="description" autocomplete="off">
-            </mat-form-field>
-
-            <mat-form-field>
-                <input matInput placeholder="роля" type="text" class="form-control" formControlName="roleBg" id="roleBg"
-                    autocomplete="off" required>
-            </mat-form-field>
-
-            <mat-form-field>
-                <input matInput placeholder="описание" type="text" class="form-control" formControlName="descriptionBg"
-                    id="descriptionBg" autocomplete="off" required>
-            </mat-form-field>
-            <!--       
-            <mat-form-field>
-              <input matInput placeholder="firstName" type="text" class="form-control" formControlName="firstName"
-                id="firstName" autocomplete="off">
-            </mat-form-field> -->
+            <div class="f-row">
 
 
-            <div class="button">
+                <mat-form-field class="two-on-row">
+                    <input matInput placeholder="role" type="role" formControlName="role" id="role" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="two-on-row">
+                    <input matInput placeholder="description" type="description" class="form-control"
+                        formControlName="description" id="description" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="two-on-row">
+                    <input matInput placeholder="роля" type="text" class="form-control" formControlName="roleBg"
+                        id="roleBg" autocomplete="off" required>
+                </mat-form-field>
+                <mat-form-field class="two-on-row">
+                    <input matInput placeholder="описание" type="text" class="form-control"
+                        formControlName="descriptionBg" id="descriptionBg" autocomplete="off" required>
+                </mat-form-field>
+            </div>
 
-                <button mat-raised-button>Добави</button>
+            <div class="table-holder mat-elevation-z8">
+                <!-- selected menus (left table)-->
+                <table mat-table #table class="left_table" [dataSource]='menus.controls' formArrayName="menus">
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </tr>
+                    <ng-container matColumnDef="menu">
+                        <th mat-header-cell *matHeaderCellDef> {{'wl.role_menu' | translate}}</th>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
+                            {{menu.value.value | translate}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef> {{'wl.role_edit_check' | translate}} </th>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
+                            <mat-checkbox checked="{{menu.value.edit}}" formControlName="edit"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="remove">
+                        <th mat-header-cell *matHeaderCellDef>{{'wl.role_remove_check' | translate}} </th>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
+                            <mat-checkbox checked="{{menu.value.remove}}" formControlName="remove"></mat-checkbox>
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="delete">
+                        <th mat-header-cell *matHeaderCellDef>{{'wl.role_hide_menu' | translate}}</th>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
+                            <button type="button" class="pepe-table-button" mat-raised-button
+                                (click)="removeMenu(menu.value)">
+                                <mat-icon class="list-mat-icon">arrow_forward</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                </table>
+
+                <!-- available menus -->
+                <table mat-table #table class="right_table" [dataSource]="availableMenus.controls"
+                    formArrayName="available">
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsAv"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsAv;"></tr>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> {{'wl.role_menu' | translate}} </th>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
+                            {{menu.value.value | translate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="add">
+                        <th mat-header-cell *matHeaderCellDef>{{'wl.role_show_menu' | translate}}</th>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
+                            <button type="button" class="pepe-table-button" mat-raised-button
+                                (click)="addMenu(menu.value)">
+                                <mat-icon class="list-mat-icon">arrow_back</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                </table>
+
+
+                <div class="button-bar">
+                    <button mat-raised-button type="button" color="primary" style="margin-right: 10px;"
+                        (click)="goBack()">
+                        {{'wl.cancel' | translate}}
+                    </button>
+                    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">{{'wl.save' |
+                        translate}}</button>
+                </div>
+
 
             </div>
         </form>

@@ -85,20 +85,7 @@
                             </td>
                         </ng-container>
 
-                        <!-- <ng-container matColumnDef="statuses">
-                            <th mat-header-cell *matHeaderCellDef>{{'wl.statuses' | translate}} </th>
-                            <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
-                                <mat-select *ngIf="menu.value.ticketStatuses" #matmat placeholder="statuses"
-                                    [(value)]="canUseStatuses" (selectionChange)="onChange($event)" multiple>
-                                    <div (mouseleave)="matmat.close()">
-                                        <mat-option *ngFor="let status of menu.value.ticketStatuses" [value]="status">
-                                            {{status.status_bg}}
-                                        </mat-option>
-                                    </div>
-                                </mat-select>
-                                <span *ngIf="menu.value.ticketStatuses==null"> </span>
-                            </td>
-                        </ng-container> -->
+
 
                         <ng-container matColumnDef="delete">
                             <th mat-header-cell *matHeaderCellDef>{{'wl.role_hide_menu' | translate}}</th>

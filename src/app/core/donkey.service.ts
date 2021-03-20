@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Menu } from '../model/menu.model';
+import { MenuOptions } from '../model/menu.model';
 
 @Injectable()
 export class DonkeyService {
     private data: any;
     private info: string;
     private flag: boolean;
-    private menu: Menu; //parent menu with user rights
+    private menu: MenuOptions; //parent menu with user rights
     private loaded: boolean = false;
 
     constructor() { }
@@ -16,10 +16,10 @@ export class DonkeyService {
     getFlag() {
         return this.flag;
     }
-    setMenu(menu: Menu) {
+    setMenu(menu: MenuOptions) {
         this.menu = menu;
     }
-    getMenu(): Menu {
+    getMenu(): MenuOptions {
         return this.menu;
     }
 

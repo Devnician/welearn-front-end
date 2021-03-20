@@ -3,7 +3,7 @@ import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
-import { Menu } from 'src/app/model/menu.model';
+import { MenuOptions } from 'src/app/model/menu.model';
 import { Role } from 'src/app/model/role.model';
 
 @Component({
@@ -13,10 +13,10 @@ import { Role } from 'src/app/model/role.model';
 })
 export class EditRoleComponent extends BlitcenComponent implements OnInit {
   editForm: FormGroup;
-  displayedColumns = ['menu', 'preview', 'edit', 'remove', 'all_regions', 'all_tickets', 'assign_to_all', 'statuses', 'delete'];
+  displayedColumns = ['menu', 'preview', 'edit', 'remove', 'delete'];
   displayedColumnsAv = ['name', 'add'];
   currentRole: Role; // Edited role  
-  allMenus: Menu[] = []; // all menus
+  allMenus: MenuOptions[] = []; // all menus
   menus: FormArray = this.formBuilder.array([]); // current role menus
   availableMenus: FormArray = this.formBuilder.array([]); // for asign
 
@@ -86,24 +86,24 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   // }
 
   refreshAvailableMenus() {
-    let available: Menu[] = [];
-    for (let index = 0; index < this.allMenus.length; index++) {
-      const element = this.allMenus[index];
-      if (element) {
-        let foundOne = this.currentRole.menus.find(elem => elem.menuId === element.id);
-        if (!foundOne) {
-          available.push(element);
-        }
-      }
-    }
+    // let available: Menu[] = [];
+    // for (let index = 0; index < this.allMenus.length; index++) {
+    //   const element = this.allMenus[index];
+    //   if (element) {
+    //     let foundOne = this.currentRole.menus.find(elem => elem.menuId === element.id);
+    //     if (!foundOne) {
+    //       available.push(element);
+    //     }
+    //   }
+    // }
 
-    this.availableMenus = this.formBuilder.array(available.map(_menu => this.formBuilder.group({
-      name: this.formBuilder.control(_menu.name),//for api
-    })));
+    // this.availableMenus = this.formBuilder.array(available.map(_menu => this.formBuilder.group({
+    //   name: this.formBuilder.control(_menu.name),//for api
+    // })));
 
-    if (this.editForm) {
-      this.editForm.setControl('available', this.availableMenus);
-    }
+    // if (this.editForm) {
+    //   this.editForm.setControl('available', this.availableMenus);
+    // }
 
   }
 
@@ -112,23 +112,21 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
    * fills in the left table with menus for this role. Attaches control(formArray) to form.
    */
   showCurrentRoleMenus() {
-    this.menus.clear();
-    this.menus = this.formBuilder.array(
-      this.currentRole.menus.map(
-        _menu => this.formBuilder.group({
-          id: this.formBuilder.control(_menu.id),
-          roleId: this.formBuilder.control(_menu.roleId),//for api
-          menuId: this.formBuilder.control(_menu.menuId),//for api
-          menu: this.formBuilder.control(_menu.menu),
-          preview: this.formBuilder.control(_menu.preview),
-          edit: this.formBuilder.control(_menu.edit),
-          remove: this.formBuilder.control(_menu.remove),
-
-
-        })
-      )
-    );
-    this.editForm.setControl('menus', this.menus);
+    // this.menus.clear();
+    // this.menus = this.formBuilder.array(
+    //   this.currentRole.menus.map(
+    //     _menu => this.formBuilder.group({
+    //       id: this.formBuilder.control(_menu.id),
+    //       roleId: this.formBuilder.control(_menu.roleId),//for api
+    //       menuId: this.formBuilder.control(_menu.menuId),//for api
+    //       menu: this.formBuilder.control(_menu.menu),
+    //       preview: this.formBuilder.control(_menu.preview),
+    //       edit: this.formBuilder.control(_menu.edit),
+    //       remove: this.formBuilder.control(_menu.remove),
+    //     })
+    //   )
+    // );
+    // this.editForm.setControl('menus', this.menus);
   }
 
   /**
@@ -136,53 +134,53 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
    * @param menu Control
    */
   removeMenu(menu: any) {
-    let menus: Menu[] = this.currentRole.menus;
-    let index = menus.findIndex(me => me.menuId == menu.value.menuId);
-    menus[index] = undefined;
+    // let menus: Menu[] = this.currentRole.menus;
+    // let index = menus.findIndex(me => me.menuId == menu.value.menuId);
+    // menus[index] = undefined;
 
-    let copy: Menu[] = [];
-    for (let i = 0; i < menus.length; i++) {
-      const element = menus[i];
-      if (element) {
-        copy.push(element);
-      }
-    }
-    this.currentRole.menus = copy;
-    this.editForm.get('menus').patchValue(this.currentRole.menus);
+    // let copy: Menu[] = [];
+    // for (let i = 0; i < menus.length; i++) {
+    //   const element = menus[i];
+    //   if (element) {
+    //     copy.push(element);
+    //   }
+    // }
+    // this.currentRole.menus = copy;
+    // this.editForm.get('menus').patchValue(this.currentRole.menus);
 
-    this.showChanges();
+    // this.showChanges();
   }
   /**
    * 
    * @param menu the control of menu
    */
   addMenu(menu: any) {
-    let menuName: string = menu['value']['name'];//get name from control
-    // find by name in all
-    let found: Menu = this.allMenus.find(men => men.name === menuName);
-    if (found) {
-      let m: Menu = new Menu();
-      m.id = 0; // will be set later
-      m.roleId = this.currentRole.id; // current role
-      m.menuId = found.id;// from menu obj
-      m.menu = found.name;
-      m.preview = 1;
-      m.edit = 0;
-      m.remove = 0;
+    // let menuName: string = menu['value']['name'];//get name from control
+    // // find by name in all
+    // let found: Menu = this.allMenus.find(men => men.name === menuName);
+    // if (found) {
+    //   let m: Menu = new Menu();
+    //   m.id = 0; // will be set later
+    //   m.roleId = this.currentRole.id; // current role
+    //   m.menuId = found.id;// from menu obj
+    //   m.menu = found.name;
+    //   m.preview = 1;
+    //   m.edit = 0;
+    //   m.remove = 0;
 
-      m.route = found.route;
-      m.icon = found.icon;
+    //   m.route = found.route;
+    //   m.icon = found.icon;
 
-      let foundOne = this.currentRole.menus.find(elem => elem.menuId === m.menuId);
-      if (!foundOne) { // if was not present - add it
-        this.currentRole.menus.push(m);
-      }
+    //   let foundOne = this.currentRole.menus.find(elem => elem.menuId === m.menuId);
+    //   if (!foundOne) { // if was not present - add it
+    //     this.currentRole.menus.push(m);
+    //   }
 
-      this.showChanges();
+    //   this.showChanges();
 
-    } else {
-      console.log('add menu failed.')
-    }
+    // } else {
+    //   console.log('add menu failed.')
+    // }
   }
   showChanges() {
     this.showCurrentRoleMenus();

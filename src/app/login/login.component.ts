@@ -16,13 +16,13 @@ import { User } from '../model/user.model';
 
 export class LoginComponent implements OnInit {
   protected apiService: ApiService;
-  // user: User;
   loginForm: FormGroup;
   invalidLogin: boolean = false;
   invalidMessage: string;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private app: AppComponent, private valido: Valido) {
   }
+
   ngOnInit() {
     this.app.clearUserData();
     this.loginForm = this.formBuilder.group({
@@ -79,9 +79,10 @@ export class LoginComponent implements OnInit {
     //LOGIN
     //0 - admin 
     //1 - teacher
-    //3-student
-    let result = this.app.users[0];
-    data.result = result;
+    //4 -student
+
+    this.app.loadUsers();
+    data.result = this.app.users[0];
 
     //  this.apiService.login(loginPayload).subscribe(data => {
 
@@ -113,7 +114,6 @@ export class LoginComponent implements OnInit {
         user.lastName = data.result.lastName;
         this.app.isHeaderVisible = true;
         this.app.user = user;
-        console.log(this.app.user);
         this.app.prepareTheCollections();
 
         this.router.navigate(['home']);
@@ -133,9 +133,5 @@ export class LoginComponent implements OnInit {
     // });
   }
 
-
-  ngOnDestroy() {
-
-  }
 
 }

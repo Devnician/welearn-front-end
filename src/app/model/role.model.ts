@@ -1,4 +1,4 @@
-import { Menu } from './menu.model';
+import { MenuOptions } from "./menu.model";
 
 export class Role {
     id: number;
@@ -6,5 +6,6 @@ export class Role {
     description: string;
     roleBg: string;
     descriptionBg: string;
-    menus: Menu[] = [];
+    //this will be loaded after login in AppComponent
+    menus: MenuOptions[] = [];
 }

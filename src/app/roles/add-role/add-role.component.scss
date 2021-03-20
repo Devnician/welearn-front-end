@@ -1,34 +1,60 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
-
 :host {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    margin-right: auto;
-    margin-left: auto;
-    
-  }
-  
-  .mat-form-field {
-    width: 100%;
-    min-width: auto;
-  }
-  
-  mat-card-title,
-  mat-card-content {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .error {
-    
-    width: 100%;
-    min-width: auto;
-    color: white;
-    background-color: red;
-  }
-  
-  .button {
-    display: flex;
-    justify-content: flex-end;
-  }
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+.mat-card-title {
+  text-align: center;
+  border-bottom: solid 1px#8b98a5;
+}
+
+mat-card {
+  width: 100%;
+}
+
+.left_table {
+  height: auto;
+  flex: 0 1 calc(70% - 6px);
+  width: 100%; // calc(100%/4);
+  margin: 3px;
+  padding: 1px;
+  box-sizing: border-box;
+}
+.right_table {
+  height: auto;
+  flex: 0 1 calc(30% - 6px);
+  width: 100%; // calc(100%/4);
+  margin: 3px;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+.table-holder {
+  display: flex;
+  max-width: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.mat-column-add,
+.mat-column-delete {
+  flex: 0 0 8% !important;
+  width: 8% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-edit {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
