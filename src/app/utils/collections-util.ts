@@ -28,9 +28,9 @@ export class CollectionsUtil {
   public getTrainedMenus(): any {
     let roleMenus = [];
     roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: false });
+    roleMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note', edit: false });
     roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: false });
     roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: false });
-    roleMenus.push({ key: 3, value: 'wl.events', route: '/home/list-event', matIcon: 'event_note', edit: false });
     return roleMenus;
   }
 
