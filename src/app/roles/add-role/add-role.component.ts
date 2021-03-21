@@ -12,7 +12,7 @@ import { Role } from 'src/app/model/role.model';
 })
 export class AddRoleComponent extends BlitcenComponent implements OnInit {
   addForm: FormGroup;
-  displayedColumns = ['menu', 'edit', /*'remove',*/ 'delete'];
+  displayedColumns = ['menu', 'edit', 'delete'];
   displayedColumnsAv = ['name', 'add'];
   allMenus: MenuOptions[] = [];
   selectedMenus: MenuOptions[] = [];
@@ -35,7 +35,6 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
     });
 
     this.allMenus = AppComponent.collections.getAllMenus();
-
     this.showAvailableMenus();
   }
 

@@ -14,7 +14,7 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
 
   @ViewChild('table', { static: true }) table: MatTable<any>;
 
-  displayedColumns = ['id', 'role', 'description', 'edit' ];
+  displayedColumns = ['id', 'role', 'description', 'edit'];
   roles: Role[] = [];
   isDone: boolean = false;
 
@@ -52,8 +52,6 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
   deleteRole(role: Role): void {
     alert('not implemented yet..');
     this.router.navigate(['home/list-role']);
-
-
     // if (role.id == 1) {  
     //   alert('can\'t delete this role. THIS IS THE \'SUPER USER\'');
     //   this.router.navigate(['list-role']);

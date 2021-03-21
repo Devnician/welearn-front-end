@@ -211,8 +211,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   /**
    * Before close tab catcher..When tab was closed clear all data here...
    * @param event 
@@ -228,9 +226,8 @@ export class AppComponent implements OnInit, OnDestroy {
   //   if (this.user) {
   //     var x = await this.apiService.syncUserLogout(this.user.id).then(a => a.message);
   //   }
-
-
   // }
+
   /**
    * 
    * @param event On back press
