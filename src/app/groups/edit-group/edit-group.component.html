@@ -7,6 +7,14 @@
                     <span class="mdc-fab__icon material-icons">add</span>
                 </button>
             </div>
+            <div *ngIf="show">
+                <mat-select #dSel placeholder="{{'wl.student' | translate}}"
+                    (selectionChange)="onDisciplineSelected(i,dSel.value)">
+                    <mat-option *ngFor="let user of users" [value]="user">
+                        {{user?.firstName}} {{user?.middleName}} {{user?.lastName}}
+                    </mat-option>
+                </mat-select>
+            </div>
             <table mat-table #table [dataSource]="paginator.slice">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef> {{'wl.number'|translate}} </th>

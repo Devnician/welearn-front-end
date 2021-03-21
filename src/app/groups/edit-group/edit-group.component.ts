@@ -37,7 +37,8 @@ import { User } from 'src/app/model/user.model';
 export class EditGroupComponent extends BaseComponent implements OnInit {
   studentGroup: StudentsGroup;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
-
+  users: User[] = [];
+  public show: boolean = false;
 
   constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
@@ -51,9 +52,11 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
       console.log(this.studentGroup);
       this.loadPaginator(this.studentGroup.students, 'firstName');
     }
+
+    this.users = AppComponent.myapp.users;
   }
   addStudent() {
-    alert('add sudent');
+    this.show = !this.show;
   }
 
   removeStudent(user: User) {
@@ -71,6 +74,12 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
 
   showEvaluationMarks(user: User) {
     alert('show marks..');
+  }
+
+  onDisciplineSelected(index: number, student: User): void {
+    console.log(index, student)
+    this.studentGroup.students.push(student)
+    this.loadPaginator(this.studentGroup.students, 'firstName')
   }
 
 }
