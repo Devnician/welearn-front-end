@@ -8,10 +8,10 @@
                 </button>
             </div>
             <div *ngIf="show">
-                <mat-select #dSel placeholder="{{'wl.student' | translate}}"
-                    (selectionChange)="onDisciplineSelected(i,dSel.value)">
-                    <mat-option *ngFor="let user of users" [value]="user">
-                        {{user?.firstName}} {{user?.middleName}} {{user?.lastName}}
+                <mat-select #sSel placeholder="{{'wl.student' | translate}}"
+                    (selectionChange)="onStudentSelected(i,sSel.value)">
+                    <mat-option *ngFor="let student of availableStudents" [value]="student">
+                        {{student?.firstName}} {{student?.middleName}} {{student?.lastName}}
                     </mat-option>
                 </mat-select>
             </div>

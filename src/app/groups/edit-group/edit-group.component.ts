@@ -37,7 +37,7 @@ import { User } from 'src/app/model/user.model';
 export class EditGroupComponent extends BaseComponent implements OnInit {
   studentGroup: StudentsGroup;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
-  users: User[] = [];
+  availableStudents: User[] = [];
   public show: boolean = false;
 
   constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
@@ -53,14 +53,18 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
       this.loadPaginator(this.studentGroup.students, 'firstName');
     }
 
-    this.users = AppComponent.myapp.users;
+    this.setStudentsSelectionList();
   }
   addStudent() {
     this.show = !this.show;
   }
 
-  removeStudent(user: User) {
-    alert('arer you sure');
+  removeStudent(student: User) {
+    // alert('arer you sure');
+    this.studentGroup.students = this.studentGroup.students.filter(st => st.id != student.id);
+    this.loadPaginator(this.studentGroup.students, 'firstName')
+    this.setStudentsSelectionList();
+    this.show = false;
   }
 
   addDiscipline() {
@@ -76,10 +80,16 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
     alert('show marks..');
   }
 
-  onDisciplineSelected(index: number, student: User): void {
+  onStudentSelected(index: number, student: User): void {
     console.log(index, student)
     this.studentGroup.students.push(student)
     this.loadPaginator(this.studentGroup.students, 'firstName')
+    this.setStudentsSelectionList();
+  }
+
+  setStudentsSelectionList(): void {
+    this.availableStudents = AppComponent.myapp.users
+      .filter(user => this.studentGroup.students.map(st => st.id).every(id => id != user.id));
   }
 
 }
