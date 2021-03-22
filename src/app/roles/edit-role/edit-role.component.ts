@@ -14,7 +14,7 @@ import { Role } from 'src/app/model/role.model';
 })
 export class EditRoleComponent extends BlitcenComponent implements OnInit {
   editForm: FormGroup;
-  displayedColumns = ['menu', 'edit', 'delete'];
+  displayedColumns = ['menu', 'edit', 'delete', 'remove'];
   displayedColumnsAv = ['name', 'add'];
   currentRole: Role; // Edited role  
 
@@ -97,6 +97,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       route: this.formBuilder.control(menu.route),
       icon: this.formBuilder.control(menu.matIcon),
       edit: this.formBuilder.control(menu.edit),
+      delete: this.formBuilder.control(menu.delete),
     })
   }
 

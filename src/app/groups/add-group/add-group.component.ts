@@ -4,7 +4,8 @@ import { MatTable } from '@angular/material';
 import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
-import { Group } from 'src/app/model/group.model';
+import { StudentsGroup } from 'src/app/model/students-group.model';
+
 
 @Component({
   selector: 'app-add-group',
@@ -90,7 +91,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
    *TODO -  Add API call, notify user and go back.
    */
   onSubmit() {
-    let group: Group = this.addForm.getRawValue();
+    let group: StudentsGroup = this.addForm.getRawValue();
     //remove fake row
     group.disciplines = group.disciplines.filter(d => d.id > 0);
     //there may be a conflict with api - dates, or stamps  --check this 

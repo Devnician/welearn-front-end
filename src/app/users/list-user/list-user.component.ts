@@ -34,8 +34,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
     this.groups = AppComponent.collections.getGroups();
     // this.api.getRoles().subscribe(data => {
     //   this.roles = data.result;
-    // });
-    // this.app.unblockEditedUserIfAny();
+    // }); 
     /**
      * Refresh data every 30 sec
      */
@@ -52,9 +51,11 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   loadUsers() {
     if (this.user.roleId === 1) {//admin
       this.users = this.mapRoleAndPositionOfUsers(this.app.users);
-    } else if (this.user.roleId === 2) {//teacher
-      //find my groups      
-      this.groups = this.groups.filter(gr => (gr.lectorId === this.user.id || gr.assitantId === this.user.id));
+    } else if (this.user.roleId === 2) {//teacher    
+      //API CALL - getGroupsByTeacherId
+      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.id) !== -1)
+        || (gr.disciplines.findIndex(d => d.assitantId === this.user.id) !== -1)));
+
       let array = [];
       this.groups.forEach(group => {
         group.students.forEach(st => {
@@ -82,8 +83,6 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
       return;
     }
 
-
-    console.log(this.users);
     this.loadPaginator(this.users, '');
     // this.api.getUsers()
     //   .subscribe(data => {
@@ -134,9 +133,8 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   // };
 
   editUser(user: User): void {
-    console.log(user);
     user.password = '*';
-    this.donkey.setData(user); 
+    this.donkey.setData(user);
     this.router.navigate(['home/list-user/edit-user']);
   };
   /**

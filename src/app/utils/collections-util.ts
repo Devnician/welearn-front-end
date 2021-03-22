@@ -9,11 +9,11 @@ export class CollectionsUtil {
 
   public getAdminMenus(): any {
     let roleMenus = [];
-    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: true });
-    roleMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin', edit: true });
-    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: true });
-    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: true });
-    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', edit: true });
+    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: true, delete: true });
+    roleMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin', edit: true, delete: true });
+    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: true, delete: true });
+    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: true, delete: true });
+    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', edit: true, delete: true });
     return roleMenus;
   }
   public getTeacherMenus(): any {
@@ -36,11 +36,11 @@ export class CollectionsUtil {
 
   public getAllMenus(): MenuOptions[] {
     let roleMenus = [];
-    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', edit: true });
-    roleMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin', edit: true });
-    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', edit: true });
-    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', edit: true });
-    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', edit: true });
+    roleMenus.push({ key: 1, value: 'wl.users', route: '/home/list-user', matIcon: 'supervised_user_circle', });
+    roleMenus.push({ key: 2, value: 'wl.roles', route: '/home/list-role', matIcon: 'person_pin', });
+    roleMenus.push({ key: 4, value: 'wl.groups', route: '/home/list-group', matIcon: 'groups', });
+    roleMenus.push({ key: 5, value: 'wl.disciplines', route: '/home/list-discipline', matIcon: 'book', });
+    roleMenus.push({ key: 6, value: 'wl.schedule', route: '/home/list-schedule', matIcon: 'events', });
     return roleMenus;
   }
 
@@ -234,9 +234,9 @@ export class CollectionsUtil {
     group.open = 1;
     group.students.push(this.getUsers()[3]);
     group.students.push(this.getUsers()[4]);
+
     group.disciplines = this.getDisciplines();
-    group.lectorId = 2;
-    group.assitantId = 0;
+
     list.push(group);
 
     group = new StudentsGroup();
@@ -247,8 +247,7 @@ export class CollectionsUtil {
     group.open = 0;
     // group.students.push(this.getUsers()[2]);
     group.disciplines = this.getDisciplines();
-    group.lectorId = 0;
-    group.assitantId = 0;
+
     list.push(group);
 
 
@@ -257,13 +256,11 @@ export class CollectionsUtil {
 
   getDisciplines(): Discipline[] {
     let lectors = this.getUsers().filter(user => user.roleId === 2);
-    // console.log(lectors);
-
 
     let list: Discipline[] = [];
-    list.push({ id: 1, name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lector: lectors[0] } as Discipline);
-    list.push({ id: 2, name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lector: lectors[1] } as Discipline);
-    list.push({ id: 3, name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt: new Date(), lector: lectors[2] } as Discipline);
+    list.push({ id: 1, name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[0].id, lector: lectors[0] } as Discipline);
+    list.push({ id: 2, name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[1].id, lector: lectors[1] } as Discipline);
+    list.push({ id: 3, name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[2].id, lector: lectors[2] } as Discipline);
     list.push({ id: 4, name: 'ПСС', createdAt: new Date(), updatedAt: new Date() } as Discipline);
     list.push({ id: 5, name: 'КСМ', createdAt: new Date(), updatedAt: new Date() } as Discipline);
     return list;

@@ -76,8 +76,8 @@
             <ng-container *cdkVirtualFor="let discipline of studentGroup.disciplines">
                 <div class="disciplines-row" (click)="editDiscipline(discipline)">
                     <div> {{discipline.name}}</div>
-                    <div> лектор : Иван Иванов</div>
-                    <div> асистент: Иван Иванов</div>
+                    <div> лектор : {{discipline.lector?.firstName}} {{discipline.lector?.lastName}}</div>
+                    <div> асистент: {{discipline.assistant?.firstName}} {{discipline.assistant?.lastName}}</div>
                     <mat-divider></mat-divider>
                 </div>
             </ng-container>

@@ -31,23 +31,12 @@ export class LoginComponent implements OnInit {
     });
 
     if (isDevMode()) {
-      // environment.
-      //1- super, 2 - tech, . 3 -dispRuse, 31 - dispSofia, 4 admin
       let whoIs: number = 1
-
         ;
       switch (whoIs) {
         case 1:
           this.loginForm.get('username').patchValue(environment.user);
           this.loginForm.get('password').patchValue(environment.pass);
-          break;
-        case 2:
-          break;
-        case 3:
-          break;
-        case 31:
-          break;
-        case 4:
           break;
         default:
           break;
@@ -74,13 +63,13 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.controls.password.value
     }
 
-    let data: any = { message: "success" };
+
 
     //LOGIN
     //0 - admin 
     //1 - teacher
     //4 -student
-
+    let data: any = { message: "success" };
     this.app.loadUsers();
     data.result = this.app.users[0];
 

@@ -7,5 +7,6 @@ export class MenuOptions {
     route: string;
     matIcon: string;
 
-    edit: boolean;
+    edit: boolean = false;
+    delete: boolean = false;
 }
