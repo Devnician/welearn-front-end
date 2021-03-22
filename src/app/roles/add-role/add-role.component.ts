@@ -81,7 +81,7 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
       key: this.formBuilder.control(menu.key),
       value: this.formBuilder.control(menu.value),
       route: this.formBuilder.control(menu.route),
-      icon: this.formBuilder.control(menu.matIcon),
+      matIcon: this.formBuilder.control(menu.matIcon),
       edit: this.formBuilder.control(menu.edit),
       delete: this.formBuilder.control(menu.delete),
     })

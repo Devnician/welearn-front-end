@@ -28,7 +28,13 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   constructor(private donkey: DonkeyService, public snackBar: MatSnackBar, app: AppComponent) {
     super();
     this.currentRole = donkey.getData();
-    this.selectedMenus = app.menuOptions;
+
+    if (this.currentRole.id === 2) {
+      this.selectedMenus = AppComponent.collections.getTeacherMenus();
+    } else if (this.currentRole.id === 3) {
+      this.selectedMenus = AppComponent.collections.getTrainedMenus();
+    }
+
   }
 
   ngOnInit() {
@@ -44,9 +50,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       menus: this.menus,
       available: this.availableMenus,
     });
-
     //  this.loadCurrentRoleMenus(this.currentRole.id);//+id); 
-
     // this.allMenus = AppComponent.collections.getAllMenus();
     console.log(this.currentRole);
     this.showSelectedMenus();
@@ -95,7 +99,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       key: this.formBuilder.control(menu.key),
       value: this.formBuilder.control(menu.value),
       route: this.formBuilder.control(menu.route),
-      icon: this.formBuilder.control(menu.matIcon),
+      matIcon: this.formBuilder.control(menu.matIcon),
       edit: this.formBuilder.control(menu.edit),
       delete: this.formBuilder.control(menu.delete),
     })
@@ -105,7 +109,17 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   onSubmit() {
     let role: Role = this.editForm.getRawValue();
     delete role['available'];
-    console.log(role);
+    console.log(role.menus);
+
+    role.menus.forEach(element => {
+      delete element.matIcon;
+      delete element.route;
+      delete element.value;
+
+    });
+
+    console.log(JSON.stringify(role.menus));
+
     this.showSnack("Not implemented yet.", "", 1500);
   }
 

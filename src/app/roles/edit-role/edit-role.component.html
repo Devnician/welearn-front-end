@@ -36,14 +36,14 @@
                     </ng-container>
                     <ng-container matColumnDef="edit">
                         <th mat-header-cell *matHeaderCellDef> {{'wl.role_edit_check' | translate}} </th>
-                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
-                            <mat-checkbox checked="{{menu.value.edit}}" formControlName="edit"></mat-checkbox>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i" style="width: 80px;">
+                            <mat-checkbox formControlName="edit"></mat-checkbox>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="delete">
                         <th mat-header-cell *matHeaderCellDef> {{'wl.role_remove_check' | translate}} </th>
-                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i">
-                            <mat-checkbox checked="{{menu.value.delete}}" formControlName="delete"></mat-checkbox>
+                        <td mat-cell *matCellDef="let menu; let i = index;" [formGroupName]="i" style="width: 80px;">
+                            <mat-checkbox formControlName="delete"></mat-checkbox>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="remove">
@@ -76,8 +76,6 @@
                         </td>
                     </ng-container>
                 </table>
-
-
                 <div class="button-bar">
                     <button mat-raised-button type="button" color="primary" style="margin-right: 10px;"
                         (click)="goBack()">

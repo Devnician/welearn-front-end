@@ -8,4 +8,5 @@ export class Role {
     descriptionBg: string;
     //this will be loaded after login in AppComponent
     menus: MenuOptions[] = [];
+
 }
