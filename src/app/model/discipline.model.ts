@@ -12,4 +12,8 @@ export class Discipline {
     //transient
     lector: User;
     assistant: User;
+
+
+    //transient
+    mark: number;
 }

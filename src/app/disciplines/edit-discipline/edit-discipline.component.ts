@@ -22,7 +22,6 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
     this.discipline = donkey.getData();
     this.discipline.createdAt = TimeUtil.adjustDateStringToDateTime(this.discipline.createdAt);
     this.discipline.updatedAt = TimeUtil.adjustDateStringToDateTime(this.discipline.updatedAt);
-
   }
   /**
    * Initializes the form

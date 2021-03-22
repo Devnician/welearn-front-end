@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
     //4 -student
     let data: any = { message: "success" };
     this.app.loadUsers();
-    data.result = this.app.users[0];
+    data.result = this.app.users[1];
 
     //  this.apiService.login(loginPayload).subscribe(data => {
 

@@ -1,9 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
+import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
 import { Discipline } from 'src/app/model/discipline.model';
 import { StudentsGroup } from 'src/app/model/students-group.model';
 import { User } from 'src/app/model/user.model';
@@ -39,7 +41,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
 
 
-  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
+  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog) {
     super(ar);
     this.studentGroup = donkey.getData();
   }
@@ -70,7 +72,26 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   }
 
   showEvaluationMarks(user: User) {
-    alert('show marks..');
+    let myDisciplines: Discipline[] = this.studentGroup.disciplines.filter(d => (d.lector?.id === this.user.id || d.assistant?.id === this.user.id));
+    this.openDialog(user, myDisciplines);
+  }
+
+  openDialog(user: User, disciplines: Discipline[]): void {
+
+    const dialogRef = this.dialog.open(DialogModalComponent, {
+      width: '40vw',
+      height: 'fit-content',
+
+      panelClass: 'my-full-screen-dialog',
+      data: { obj: user, collection: disciplines, mode: 'edit', classType: 'marks' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('result: ')
+        console.log(result.data);
+      }
+    });
   }
 
 }

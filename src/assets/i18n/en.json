@@ -298,6 +298,8 @@
         "approvement": "approvement",
         "from": "from",
         "to": "to",
-        "my_account": "my account"
+        "my_account": "my account",
+        "marks": "marks",
+        "mark": "mark"
     }
 }

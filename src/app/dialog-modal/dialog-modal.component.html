@@ -1,44 +1,41 @@
 <!-- <div (window:resize)="onResize($event)"></div> -->
 <mat-dialog-content [formGroup]="form">
-    <div *ngIf="classType === 'group'">
-        <h4 *ngIf="mode === 'create'">Добавяне на група</h4>
-        <h4 *ngIf="mode === 'edit'">редактиране на група</h4>
-
-        <div class="f-row">
-            <mat-form-field class="half-field">
-                <input matInput placeholder="name" formControlName="name" type="text" class="form-control"
-                    autocomplete="off">
-            </mat-form-field>
-            <mat-form-field class="five-on-row">
-                <input matInput placeholder="{{'wl.start_date' | translate}}" type="date" class="form-control"
-                    formControlName="startDate" id="startDate" required>
-                <mat-error *ngIf="isFieldValid('startDate')">{{valido.getErrorMessage('startDate') | translate}}
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field class="five-on-row">
-                <input matInput placeholder="{{'wl.end_date' | translate}}" type="date" class="form-control"
-                    formControlName="end_date" id="end_date" required>
-                <mat-error *ngIf="isFieldValid('end_date')">{{valido.getErrorMessage('end_date') | translate}}
-                </mat-error>
-            </mat-form-field>
-
-            <!-- <div class="sp">
-                <input matInput placeholder="{{'wl.open' | translate}}" formControlName="open" type="text"
-                    class="form-control" autocomplete="off">
-                <mat-slide-toggle #slide color="primary" formControlName="open" style="padding-right: 10px;"
-                    (change)="changeSimState($event )">
-                    <span *ngIf="!slide.checked" style="color: crimson;">barred</span>
-                    <span *ngIf="slide.checked">active</span>
-                </mat-slide-toggle>
-            </div> -->
-        </div>
+    <div *ngIf="classType === 'marks'">
+        <label style="font-weight: bolder;">{{studentNames}}</label>
+        <table mat-table class="dialog_table" [dataSource]="disciplines.controls" formArrayName="disciplines">
+            <tr mat-header-row *matHeaderRowDef="displayedSimColumns" style="height: 40px;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedSimColumns;" style="font-weight: bolder;"></tr>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef style="width: 20px;"> # </th>
+                <td mat-cell *matCellDef="let s; let i = index;" [formGroupName]="i">
+                    {{s.value.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> {{'wl.discipline' | translate}} </th>
+                <td mat-cell *matCellDef="let d; let i = index;" [formGroupName]="i">
+                    {{d.value?.name}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="mark">
+                <th mat-header-cell *matHeaderCellDef style="width: 40px;"> {{'wl.mark' | translate}} </th>
+                <td mat-cell *matCellDef="let d; let i = index;" [formGroupName]="i">
+                    <mat-select style="font-weight: bolder;" formControlName="mark">
+                        <mat-option value="0"></mat-option>
+                        <mat-option value="2">2</mat-option>
+                        <mat-option value="3">3</mat-option>
+                        <mat-option value="4">4</mat-option>
+                        <mat-option value="5">5</mat-option>
+                        <mat-option value="6">6</mat-option>
+                    </mat-select>
+                </td>
+            </ng-container>
+        </table>
     </div>
-
     <mat-dialog-actions class="dialog-button-bar" style="margin-bottom: 0 !important;">
         <button mat-raised-button class="pepe-button" color="primary" (click)="close()">{{'wl.cancel' |
             translate}}</button>
         <button mat-raised-button class="pepe-button" color="primary" (click)="save()">{{'wl.save' |
             translate}}</button>
     </mat-dialog-actions>
-    <!-- <pre>{{form.value|json}}</pre> -->
+    <pre>{{form.value|json}}</pre>
 </mat-dialog-content>

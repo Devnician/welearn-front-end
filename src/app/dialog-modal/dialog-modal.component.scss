@@ -91,52 +91,6 @@ textarea {
   background-color: rgb(239, 240, 245);
 }
 
-.sim-change {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  flex: 0 1 calc(50% - 2px);
-  width: 100%;
-  margin: 1px;
-  padding: 5px;
-  box-sizing: border-box;
-  background-color: rgb(249, 250, 255);
-  border: solid 0.5px#8b98a5;
-  border-radius: 1px;
-}
-.sim-prop {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: stretch;
-  flex: 0 1 calc(50%);
-  width: 100%;
-
-  .sp {
-    height: auto;
-    flex: 0 1 calc(50% - 2px);
-    width: 100%;
-    margin: 1px;
-    padding: 5px;
-    box-sizing: border-box;
-    background-color: rgb(249, 250, 255);
-    border: solid 0.5px#8b98a5;
-    border-radius: 1px;
-  }
-  .spc {
-    height: auto;
-    flex: 0 1 calc(20% - 2px);
-    width: 100%;
-    margin: 1px;
-    padding: 5px;
-    box-sizing: border-box;
-    background-color: rgb(249, 250, 255);
-    border: solid 0.5px#8b98a5;
-    border-radius: 1px;
-  }
-}
-
 .half-field {
   height: auto;
   flex: 0 1 calc(50% - 2px);
@@ -162,10 +116,6 @@ textarea {
 }
 
 .image-bar {
-  // width: 100%;
-  // display: flex;
-  // justify-content: flex-start;
-
   display: -webkit-inline-box;
   margin: 0px auto;
   width: 100%;
@@ -192,6 +142,15 @@ textarea {
 .dev-image {
   width: 100%;
   height: auto;
+}
+
+.dialog_table {
+  height: auto;
+  flex: 1 1 calc(90% - 6px);
+  width: 100%;
+  margin: 3px;
+  padding: 1px;
+  box-sizing: border-box;
 }
 
 /* Responsive Styles */

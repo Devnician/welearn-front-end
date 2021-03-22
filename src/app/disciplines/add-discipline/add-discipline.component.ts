@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
+import { User } from 'src/app/model/user.model';
 
 @Component({
   selector: 'app-add-discipline',
@@ -10,12 +12,15 @@ import { Discipline } from 'src/app/model/discipline.model';
 })
 export class AddDisciplineComponent extends BaseformComponent implements OnInit {
   addForm: FormGroup;
-
+  lectors: User[];
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+
+    this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
+
     this.addForm = this.formBuilder.group({
       id: 0,
       name: [],
@@ -28,6 +33,10 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
 
   reset() {
     this.addForm.reset();
+  }
+
+  uploadDoc(doc: any) {
+
   }
 
   onSubmit() {
