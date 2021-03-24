@@ -42,7 +42,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
 
   constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
-    this.studentGroup = donkey.getData();
+    this.studentGroup = donkey.getData() || donkey.getParentData();
   }
 
   ngOnInit(): void {
@@ -72,8 +72,9 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   }
 
   editDiscipline(discipline: Discipline) {
-    console.log(discipline);
-    alert('edit ...');
+    this.donkey.setData(discipline);
+    this.donkey.setParentData(this.studentGroup);
+    this.router.navigate(['home/list-group/edit-discipline']);
   }
 
   showEvaluationMarks(user: User) {
@@ -89,7 +90,11 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
 
   setStudentsSelectionList(): void {
     this.availableStudents = AppComponent.myapp.users
-      .filter(user => this.studentGroup.students.map(st => st.id).every(id => id != user.id));
+      .filter(user => this.studentGroup?.students.map(st => st.id).every(id => id != user.id));
+  }
+
+  removeDiscipline(id): void {
+    this.studentGroup.disciplines = this.studentGroup.disciplines.filter(d => d.id != id);
   }
 
 }

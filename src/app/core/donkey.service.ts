@@ -8,6 +8,7 @@ export class DonkeyService {
     private flag: boolean;
     private menu: Menu; //parent menu with user rights
     private loaded: boolean = false;
+    private parentData: any;
 
     constructor() { }
     setFlag(flag: boolean) {
@@ -28,10 +29,23 @@ export class DonkeyService {
         this.loaded = true;
     }
 
+    setParentData(val: any) {
+        this.parentData = val;
+        this.loaded = true;
+    }
+
     getData(): any {
         let res = this.data;
         delete this.data;
         delete this.info;
+        this.loaded = false;
+        return res;
+    }
+
+    getParentData(): any {
+        let res = this.parentData;
+        delete this.parentData;
+        // delete this.info;
         this.loaded = false;
         return res;
     }

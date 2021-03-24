@@ -130,6 +130,10 @@ const routes: Routes = [
                 path: 'add-group', component: AddGroupComponent,
                 data: { breadcrumb: 'wl.add_breadcrumb' },
               },
+              {
+                path: 'edit-discipline', component: EditDisciplineComponent,
+                data: { breadcrumb: 'wl.edit_breadcrumb' },
+              },
             ]
           },
           {
