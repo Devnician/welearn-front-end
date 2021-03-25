@@ -62,65 +62,59 @@ export class LoginComponent implements OnInit {
       username: this.loginForm.controls.username.value,
       password: this.loginForm.controls.password.value
     }
-
-
-
     //LOGIN
     //0 - admin 
     //1 - teacher
     //4 -student
-    let data: any = { message: "success" };
-    this.app.loadUsers();
-    data.result = this.app.users[1];
+    // let data: any = { message: "success" };
+    // this.app.loadUsers();
+    // data.result = this.app.users[0];
 
-    //  this.apiService.login(loginPayload).subscribe(data => {
+    this.apiService.login(loginPayload).subscribe(
+      data => {
+        console.log(data);
 
-    //   if (data.status === 200) {
-    /**
-     * Switch for login result
-     */
-    switch (data.message) {
-      case 'wrong_user':
-        this.invalidLogin = true;
-        this.invalidMessage = 'грешно потребителско име';
-        return;
-      case 'wrong_pass':
-        this.invalidLogin = true;
-        this.invalidMessage = 'грешна парола';
-        return;
-      case 'logged':
-        this.invalidLogin = true;
-        this.invalidMessage = 'някой е влязъл с този акаунт';
-        return;
+        if (data.status === 200) {
+          /**
+           * Switch for login result
+           */
+          switch (data.message) {
+            case 'wrong_user':
+              this.invalidLogin = true;
+              this.invalidMessage = 'грешно потребителско име';
+              return;
+            case 'wrong_pass':
+              this.invalidLogin = true;
+              this.invalidMessage = 'грешна парола';
+              return;
+            case 'logged':
+              this.invalidLogin = true;
+              this.invalidMessage = 'някой е влязъл с този акаунт';
+              return;
 
-      case 'success':
-        let user: User = new User();
-        user.username = loginPayload.username;
-        user.roleId = data.result.roleId;
-        user.id = data.result.id;
-        localStorage.setItem('user', data.result.token);
-        user.firstName = data.result.firstName;
-        user.lastName = data.result.lastName;
-        this.app.isHeaderVisible = true;
-        this.app.user = user;
-        this.app.prepareTheCollections();
+            case 'success':
+              let user: User = new User();
+              user.username = loginPayload.username;
+              user.roleId = data.result.roleId;
+              user.id = data.result.id;
+              localStorage.setItem('user', data.result.token);
+              user.firstName = data.result.firstName;
+              user.lastName = data.result.lastName;
+              this.app.isHeaderVisible = true;
+              this.app.user = user;
+              this.app.prepareTheCollections();
+              this.router.navigate(['home']);
+              break;
+            case 'deleted':
+              this.invalidLogin = true;
+              this.invalidMessage = 'вашия акаунт е изтрит';
+              break;
+          }
+        }
 
-        this.router.navigate(['home']);
-
-        break;
-      case 'deleted':
-        this.invalidLogin = true;
-        this.invalidMessage = 'вашия акаунт е изтрит';
-        break;
-    }
-
-
-    //   } else {
-    //     this.invalidLogin = true;
-    //     alert(data.message);
-    //   }
-    // });
+        else {
+          alert(data.message);
+        };
+      });
   }
-
-
 }

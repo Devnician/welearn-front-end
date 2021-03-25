@@ -10,7 +10,8 @@ import { User } from '../model/user.model';
 @Injectable()
 
 export class ApiService {
-  host: string = environment.restUrl;
+  host: string = environment.restUrl + 'api/';
+  tokenUrl: string = environment.restUrl;
 
   usersUrl: string = this.host + 'users/';
   errorUrl: string = this.host + 'support/err'
@@ -20,8 +21,8 @@ export class ApiService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
   }
 
-  login(loginPayload: { username: any; password: any; }): Observable<ApiResponse> {
-    return this.doPost(this.host + 'token/generate-token', loginPayload);
+  login(loginPayload: any): Observable<ApiResponse> {
+    return this.doPost(this.tokenUrl + 'token/generate', loginPayload);
   }
 
   logout(id: number): Observable<ApiResponse> {
@@ -39,7 +40,14 @@ export class ApiService {
   getUsers(): Observable<ApiResponse> {
     return this.doGet(this.usersUrl);
   }
-  //////.......
+  ////////////////////////////////////////////////////////////////
+  //
+  // ROLES
+  //
+  ////////////////////////////////////////////////////////////////
+  getRoles(): Observable<ApiResponse> {
+    return this.doGet(this.usersRolesUrl);
+  }
 
   ////////////////////////////////////////////////////////////////
   private doGet(query: string): Observable<ApiResponse> {

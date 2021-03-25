@@ -28,7 +28,16 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
    * Fetch and show role's to the user.
    */
   loadRoles() {
+
+    this.api.getRoles().subscribe(
+      data => {
+        console.log(data);
+      }
+    );
     this.roles = this.app.roles;
+
+
+
     this.isDone = true;
     this.paginator.init(this.roles.filter((role: { id: number; }) => role.id !== 1), '');
     // this.api.getRoles()
