@@ -4,7 +4,7 @@
         <span class="mdc-fab__icon material-icons">add</span>
     </button>
 </div>
-<div *ngIf="isDone" class="mat-elevation-z8">
+<div class="mat-elevation-z8">
     <table mat-table #table [dataSource]="paginator.slice">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> id </th>

@@ -41,11 +41,9 @@ export interface IBreadCrumb {
 export class AppComponent implements OnInit, OnDestroy {
   version: string = '1.0.00';
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
-
   static myapp: AppComponent;
   static lang: string;
   static isMedia: boolean = false;
-
   private interval: any;
   user: User;
   isHeaderVisible: boolean;
@@ -60,8 +58,6 @@ export class AppComponent implements OnInit, OnDestroy {
   static collections: CollectionsUtil = new CollectionsUtil();
   users: User[] = [];
   disciplines: Discipline[] = [];
-
-
 
   serverOnline = true;
   usersMessage: string = '';
@@ -144,11 +140,13 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * callback after succesfull login
    */
-  prepareTheCollections() {
+  prepareTheCollections(user: User) {
+    this.isHeaderVisible = true;
+    this.user = user;
     this.serverOnline = true;
     this.loadUsers();
     this.loadRolesAndDetermineCurrentUserRole();
-    this.buildMenuAccordingRole();
+    this.buildsMenuAccordingRoleOfLoggedUser();
   }
 
   loadUsers() {
@@ -156,77 +154,66 @@ export class AppComponent implements OnInit, OnDestroy {
     this.users = AppComponent.collections.getUsers();
     // this.apiService.getUsers().subscribe(data => {
     //   this.users = data.result;
+    //   console.log(this.users);
     // });
   }
-
+  /**
+   * Fetch all roles for checking for logged user role.
+   */
   loadRolesAndDetermineCurrentUserRole() {
-    this.roles = AppComponent.collections.getRoles();
-    let role = this.roles.find(x => x.id === this.user.roleId);
-    if (role) {
-      this.user.role = role.role;
-      this.user.roleBg = role.roleBg;
-    }
-    // this.apiService.getRoles().subscribe(data => {
-    //   this.roles = data.result;
-    //   let role = this.roles.find(x => x.id === this.user.roleId);
-    //   if (role) {
-    //     this.user.role = role.role;
-    //     this.user.roleBg = role.roleBg;
-    //   }
-    // });
+    this.apiService.getRoles().subscribe(data => {
+      this.roles = data.result;
+      let role = this.roles.find(x => x.id === this.user.roleId);
+      if (role) {
+        this.user.role = role.role;
+        this.user.roleBg = role.roleBg;
+      }
+    });
   }
 
-  private buildMenuAccordingRole() {
-
-    let unordered: MenuOptions[] = [];
+  private buildsMenuAccordingRoleOfLoggedUser() {
+    //TODO make Json String from menus and set it to the `role` object
+    let unorderedMenus: MenuOptions[] = [];
     if (this.user.roleId == 1) {
-      unordered = AppComponent.collections.getAdminMenus();
+      unorderedMenus = AppComponent.collections.getAdminMenus();
     } else if (this.user.roleId == 2) {
-      unordered = AppComponent.collections.getTeacherMenus();
+      unorderedMenus = AppComponent.collections.getTeacherMenus();
     } else {
-      unordered = AppComponent.collections.getTrainedMenus();
+      unorderedMenus = AppComponent.collections.getTrainedMenus();
     }
     //get saved order if any
     let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
     if (order) { // order it 
-
       order.forEach(element => {
         let toBeRemoved: number;
-        for (let index = 0; index < unordered.length; index++) {
-          const foundOne = unordered[index];
+        for (let index = 0; index < unorderedMenus.length; index++) {
+          const foundOne = unorderedMenus[index];
           if (element === foundOne['key']) {
             this.menuOptions.push(foundOne);
             toBeRemoved = element;
             break;
           }
         }
-        unordered = unordered.filter(e => e['key'] !== toBeRemoved);
+        unorderedMenus = unorderedMenus.filter(e => e['key'] !== toBeRemoved);
       });
-      if (unordered.length > 0) { // if menus are more than saved, add it on bottom            
-        unordered.forEach(r => { this.menuOptions.push(r) });
+      if (unorderedMenus.length > 0) { // if menus are more than saved, add it on bottom            
+        unorderedMenus.forEach(r => { this.menuOptions.push(r) });
       }
       this.saveOrderOfMenus();
     } else { //show them as they arrived
-      this.menuOptions = unordered;
+      this.menuOptions = unorderedMenus;
     }
   }
 
   /**
-   * Before close tab catcher..When tab was closed clear all data here...
+   * Before close tab or restart in devMode -  marks user as loged out and clears his local data.
    * @param event 
    * 
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHander(event) {
-    // event.returnValue = 'You sure you want to leave?'
-    // this.method();
+    this.logout();
   }
-
-  // async method() {
-  //   if (this.user) {
-  //     var x = await this.apiService.syncUserLogout(this.user.id).then(a => a.message);
-  //   }
-  // }
 
   /**
    * 
@@ -254,13 +241,12 @@ export class AppComponent implements OnInit, OnDestroy {
     clearInterval(this.interval);
     try {
       if (this.user) {
-        this.apiService.logout(this.user.id)
+        this.apiService.logout(this.user.userId)
           .subscribe(data => {
             let d = data;
             this.clearUserData();
           });
       }
-
     } catch (error) {
       this.clearUserData();
     }
@@ -383,9 +369,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * Gets stamp with first and lst name for user if it is present in list
    * @param userId 
    */
-  getUserStamp(userId: number, atachOfficeName: boolean) {
+  getUserStamp(userId: string, atachOfficeName: boolean) {
     try {
-      let user: User = this.users.find(u => u.id === userId);
+      let user: User = this.users.find(u => u.userId === userId);
       if (user) {
         return user.firstName + ' ' + user.lastName;
       }
@@ -399,10 +385,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * Gets user obj if it is present in list
    * @param userId 
    */
-  getUserObject(userId: number) {
-    console.log(this.users);
+  getUserObject(userId: string) {
     try {
-      return this.users.find(u => u.id === userId);
+      return this.users.find(u => u.userId === userId);
     } catch (error) {
       return undefined;
     }
@@ -415,6 +400,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.interval);
+
+    this.logout();
   }
 }
 

@@ -93,7 +93,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   onSubmit() {
     let group: StudentsGroup = this.addForm.getRawValue();
     //remove fake row
-    group.disciplines = group.disciplines.filter(d => d.id > 0);
+    group.disciplines = group.disciplines.filter(d => d.id.length > 0);
     //there may be a conflict with api - dates, or stamps  --check this 
     console.log(group);
     this.showSnack("Данните са записани успешно.", "", 1300);

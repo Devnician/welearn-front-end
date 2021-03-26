@@ -27,14 +27,22 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
-    this.disciplines = this.app.disciplines;
+    this.api.getDisciplines().subscribe(
+      data => {
+        console.log(data);
+        this.disciplines = data.result;
 
+
+      }
+    );
+    // this.disciplines = this.app.disciplines;
+    // console.log()
     if (this.user.roleId === 2) {
-      this.disciplines = this.app.disciplines.filter(d => (d.lector?.id === this.user.id || d.assistant?.id === this.user.id));
+      this.disciplines = this.app.disciplines.filter(d => (d.lector?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
     } else if (this.user.roleId === 3) {
       this.disableEdit = true;
       this.groups = this.collectionsUtil.getGroups();
-      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.id === this.user.id) !== -1));
+      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
 
       let array = [];
       this.groups.forEach(group => {

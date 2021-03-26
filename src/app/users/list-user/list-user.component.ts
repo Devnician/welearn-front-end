@@ -28,6 +28,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   constructor(public snackBar: MatSnackBar, app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
     this.roles = app.roles;
+    console.log(app.roles);
   }
 
   ngOnInit() {
@@ -53,30 +54,30 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
       this.users = this.mapRoleAndPositionOfUsers(this.app.users);
     } else if (this.user.roleId === 2) {//teacher    
       //API CALL - getGroupsByTeacherId
-      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.id) !== -1)
-        || (gr.disciplines.findIndex(d => d.assitantId === this.user.id) !== -1)));
+      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
+        || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
 
       let array = [];
       this.groups.forEach(group => {
         group.students.forEach(st => {
-          array.push(st.id);
+          array.push(st.userId);
         })
       });
 
-      this.users = this.mapRoleAndPositionOfUsers(this.app.users.filter(x => array.indexOf(x.id) !== -1));
+      this.users = this.mapRoleAndPositionOfUsers(this.app.users.filter(x => array.indexOf(x.userId) !== -1));
 
     } else if (this.user.roleId === 3) { // student
       this.disableEdit = true;
-      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.id === this.user.id) !== -1));
+      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
       let array = [];
       this.groups.forEach(group => {
         group.students.forEach(st => {
-          if (st.id !== this.user.id) {
-            array.push(st.id);
+          if (st.userId !== this.user.userId) {
+            array.push(st.userId);
           }
         })
       });
-      this.users = this.mapRoleAndPositionOfUsers(this.app.users.filter(user => array.indexOf(user.id) !== -1));
+      this.users = this.mapRoleAndPositionOfUsers(this.app.users.filter(user => array.indexOf(user.userId) !== -1));
 
     } else {
       this.disableEdit = true;

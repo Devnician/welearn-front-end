@@ -1,6 +1,5 @@
 import { Discipline } from "../model/discipline.model";
 import { MenuOptions } from "../model/menu.model";
-import { Role } from "../model/role.model";
 import { StudentsGroup } from "../model/students-group.model";
 import { User } from "../model/user.model";
 
@@ -48,7 +47,7 @@ export class CollectionsUtil {
     let users: User[] = [];
 
     let user: User = new User();
-    user.id = 1;
+    user.userId = 'abcd';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.email = 'super@domain.com';
@@ -70,7 +69,7 @@ export class CollectionsUtil {
 
 
     user = new User();
-    user.id = 2;
+    user.userId = 'abcdd';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.phoneNumber = '0899123456';
@@ -90,7 +89,7 @@ export class CollectionsUtil {
     users.push(user);
 
     user = new User();
-    user.id = 8000;
+    user.userId = 'abcdds';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.phoneNumber = '0899123456';
@@ -111,7 +110,7 @@ export class CollectionsUtil {
 
 
     user = new User();
-    user.id = 22;
+    user.userId = 'abcddsd';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.phoneNumber = '0899123456';
@@ -131,7 +130,7 @@ export class CollectionsUtil {
     users.push(user);
 
     user = new User();
-    user.id = 3;
+    user.userId = 'abcddsdf';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.phoneNumber = '0899123456';
@@ -150,7 +149,7 @@ export class CollectionsUtil {
     user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
     users.push(user);
     user = new User();
-    user.id = 4;
+    user.userId = 'abcddsdfd';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.phoneNumber = '0899123456';
@@ -169,7 +168,7 @@ export class CollectionsUtil {
     user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
     users.push(user);
     user = new User();
-    user.id = 5;
+    user.userId = 'abcddsdfdg';
     user.birthDate = new Date();
     user.address = 'Пловдив, ул. 24-ти май № 24';
     user.phoneNumber = '0899123456';
@@ -194,33 +193,33 @@ export class CollectionsUtil {
     return users;
   }
 
-  getRoles(): Role[] {
-    let roles: Role[] = [];
-    let role: Role = new Role();
-    role.id = 1;
-    role.description = 'description';
-    role.descriptionBg = 'description';
-    role.role = 'administrator';
-    role.roleBg = 'администратор';
-    roles.push(role);
+  // getRoles(): Role[] {
+  //   let roles: Role[] = [];
+  //   let role: Role = new Role();
+  //   role.id = 1;
+  //   role.description = 'description';
+  //   role.descriptionBg = 'description';
+  //   role.role = 'administrator';
+  //   role.roleBg = 'администратор';
+  //   roles.push(role);
 
-    role = new Role();
-    role.id = 2;
-    role.description = 'description';
-    role.descriptionBg = 'description';
-    role.role = 'teacher';
-    role.roleBg = 'обучаващ';
-    roles.push(role);
-    role = new Role();
+  //   role = new Role();
+  //   role.id = 2;
+  //   role.description = 'description';
+  //   role.descriptionBg = 'description';
+  //   role.role = 'teacher';
+  //   role.roleBg = 'обучаващ';
+  //   roles.push(role);
+  //   role = new Role();
 
-    role.id = 3;
-    role.description = 'description';
-    role.descriptionBg = 'description';
-    role.role = 'trained';
-    role.roleBg = 'обучаван';
-    roles.push(role);
-    return roles;
-  }
+  //   role.id = 3;
+  //   role.description = 'description';
+  //   role.descriptionBg = 'description';
+  //   role.role = 'trained';
+  //   role.roleBg = 'обучаван';
+  //   roles.push(role);
+  //   return roles;
+  // }
 
 
   getGroups(): StudentsGroup[] {
@@ -258,11 +257,11 @@ export class CollectionsUtil {
     let lectors = this.getUsers().filter(user => user.roleId === 2);
 
     let list: Discipline[] = [];
-    list.push({ id: 1, name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[0].id, lector: lectors[0] } as Discipline);
-    list.push({ id: 2, name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[1].id, lector: lectors[1] } as Discipline);
-    list.push({ id: 3, name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[2].id, lector: lectors[2] } as Discipline);
-    list.push({ id: 4, name: 'ПСС', createdAt: new Date(), updatedAt: new Date() } as Discipline);
-    list.push({ id: 5, name: 'КСМ', createdAt: new Date(), updatedAt: new Date() } as Discipline);
+    list.push({ id: 'asd', name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[0].userId, lector: lectors[0] } as Discipline);
+    list.push({ id: 'asdd', name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[1].userId, lector: lectors[1] } as Discipline);
+    list.push({ id: 'asdf', name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[2].userId, lector: lectors[2] } as Discipline);
+    list.push({ id: 'asds', name: 'ПСС', createdAt: new Date(), updatedAt: new Date() } as Discipline);
+    list.push({ id: 'asdq', name: 'КСМ', createdAt: new Date(), updatedAt: new Date() } as Discipline);
     return list;
   }
 

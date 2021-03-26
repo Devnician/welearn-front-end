@@ -61,7 +61,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   buildMarksForm(user: User, discpilines: Discipline[]) {
     this.studentNames = user.firstName + ' ' + user.middleName + ' ' + user.lastName;
     this.form = this.formBuilder.group({
-      userId: user.id,
+      userId: user.userId,
       disciplines: this.disciplines
     });
     this.disciplines = this.formBuilder.array(

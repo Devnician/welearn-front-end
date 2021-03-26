@@ -6,6 +6,9 @@ export class MenuOptions {
     value: string;
     route: string;
     matIcon: string;
+
     edit: boolean = false;
     delete: boolean = false;
+    add: boolean = false;
+    preview: boolean = true;
 }

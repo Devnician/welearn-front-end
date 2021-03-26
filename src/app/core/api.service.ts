@@ -5,11 +5,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from "rxjs/index";
 import { environment } from '../../environments/environment';
 import { ApiResponse } from "../model/api.response";
+import { Role } from '../model/role.model';
 import { User } from '../model/user.model';
 
 @Injectable()
 
 export class ApiService {
+
   host: string = environment.restUrl + 'api/';
   tokenUrl: string = environment.restUrl;
 
@@ -18,14 +20,20 @@ export class ApiService {
   usersRolesUrl: string = this.host + 'users/roles/';
   usersMenusUrl: string = this.host + 'users/menus/';
 
+  disciplinesUrl: string = this.host + 'discipline/'
+
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
   }
-
+  ////////////////////////////////////////////////////////////////
+  //
+  // USER
+  //
+  ////////////////////////////////////////////////////////////////
   login(loginPayload: any): Observable<ApiResponse> {
     return this.doPost(this.tokenUrl + 'token/generate', loginPayload);
   }
 
-  logout(id: number): Observable<ApiResponse> {
+  logout(id: string): Observable<ApiResponse> {
     return this.doGet(this.usersUrl + 'logout/' + id);
   }
 
@@ -48,7 +56,26 @@ export class ApiService {
   getRoles(): Observable<ApiResponse> {
     return this.doGet(this.usersRolesUrl);
   }
+  createRole(role: Role): Observable<ApiResponse> {
+    return this.doPost(this.usersRolesUrl + 'add/', role);
+  }
+  updateRole(role: Role): Observable<ApiResponse> {
+    return this.doPut(this.usersRolesUrl, role);
+  }
 
+  ////////////////////////////////////////////////////////////////
+  //
+  // DISCIPLINES
+  //
+  ////////////////////////////////////////////////////////////////
+  getDisciplines(): Observable<ApiResponse> {
+    return this.doGet(this.disciplinesUrl);
+  }
+
+  ////////////////////////////////////////////////////////////////
+  //
+  // COMMON METHODS
+  //
   ////////////////////////////////////////////////////////////////
   private doGet(query: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(query);
@@ -140,9 +167,7 @@ export class ApiService {
   // // ROLES & MENUS
   // //
   // //###########################################################
-  // createRole(role: Role): Observable<ApiResponse> {
-  //   return this.http.post<ApiResponse>(this.usersRolesUrl + 'add/', role);
-  // }
+
 
   // getRoleById(id: number): Observable<ApiResponse> {
   //   return this.http.get<ApiResponse>(this.usersRolesUrl + id);
@@ -151,9 +176,7 @@ export class ApiService {
   //   return this.http.get<ApiResponse>(this.usersRolesUrl);
   // }
 
-  // updateRole(role: Role): Observable<ApiResponse> {
-  //   return this.http.put<ApiResponse>(this.usersRolesUrl + 'edit/' + role.id, role);
-  // }
+
 
   // deleteRole(id: number) {
   //   return this.http.delete<ApiResponse>(this.usersRolesUrl + id);

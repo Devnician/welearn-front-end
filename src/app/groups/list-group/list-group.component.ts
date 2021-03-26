@@ -27,11 +27,11 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
 
     if (this.user.roleId == 2) { //teacher
       //API CALL - getGroupsByTeacherId
-      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.id) !== -1)
-        || (gr.disciplines.findIndex(d => d.assitantId === this.user.id) !== -1)));
+      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
+        || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
     } else if (this.user.roleId == 3) {// students 
       this.disableEdit = true;
-      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.id === this.user.id) !== -1));
+      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
     }
     // this.attachLectors();
     this.loadPaginator(this.groups, 'name');

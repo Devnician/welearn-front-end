@@ -118,9 +118,20 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
 
     });
 
+
     console.log(JSON.stringify(role.menus));
 
-    this.showSnack("Not implemented yet.", "", 1500);
+    this.api.updateRole(role).subscribe(
+      data => {
+        if (data.status === 200) {
+          history.back();
+        } else {
+          alert(data.message);
+        }
+      }
+    );
+
+    //this.showSnack("Not implemented yet.", "", 1500);
   }
 
   goBack() {

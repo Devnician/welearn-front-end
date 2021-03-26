@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
   onSubmit() {
     const injector = AppInjector.getInjector();
     this.apiService = injector.get(ApiService);
@@ -73,10 +72,9 @@ export class LoginComponent implements OnInit {
     this.apiService.login(loginPayload).subscribe(
       data => {
         console.log(data);
-
         if (data.status === 200) {
           /**
-           * Switch for login result
+           * Switches according message from result
            */
           switch (data.message) {
             case 'wrong_user':
@@ -91,18 +89,16 @@ export class LoginComponent implements OnInit {
               this.invalidLogin = true;
               this.invalidMessage = 'някой е влязъл с този акаунт';
               return;
-
             case 'success':
               let user: User = new User();
               user.username = loginPayload.username;
               user.roleId = data.result.roleId;
-              user.id = data.result.id;
+              user.userId = data.result.id;
               localStorage.setItem('user', data.result.token);
               user.firstName = data.result.firstName;
               user.lastName = data.result.lastName;
-              this.app.isHeaderVisible = true;
-              this.app.user = user;
-              this.app.prepareTheCollections();
+
+              this.app.prepareTheCollections(user);
               this.router.navigate(['home']);
               break;
             case 'deleted':

@@ -72,7 +72,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   }
 
   showEvaluationMarks(user: User) {
-    let myDisciplines: Discipline[] = this.studentGroup.disciplines.filter(d => (d.lector?.id === this.user.id || d.assistant?.id === this.user.id));
+    let myDisciplines: Discipline[] = this.studentGroup.disciplines.filter(d => (d.lector?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
     this.openDialog(user, myDisciplines);
   }
 

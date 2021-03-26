@@ -43,15 +43,14 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.editUser.id) {
+    if (!this.editUser.userId) {
       history.back();
     }
 
     this.editForm = this.formBuilder.group({
-      id: [],
+      userId: [],
       username: ['', Validators.required],
       password: ['', this.valido.validatePassowrd(6, 30)],
-
       firstName: ['', this.valido.validateName(2, 30)],
       middleName: ['', this.valido.validateName(2, 30)],
       lastName: ['', this.valido.validateName(2, 30)],
@@ -73,6 +72,9 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       this.disableFormFields(this.editForm, ["username", "roleId",
         "birthDate",]);
     }
+    console.log(this.editUser);
+
+    //TODO+--------
 
     this.editForm.patchValue(this.editUser);
 
@@ -150,7 +152,6 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
    * 
    */
   onSubmit() {
-
     this.shouldIValidatePass();
 
     if (!this.editForm.valid) {
@@ -160,13 +161,21 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
 
     let user: User = this.editForm.getRawValue();
 
-    if (user.id !== 1) { // Can't delete root user
+    if (user.roleId !== 1) { // Can't delete root user
       user.deleted = user.deleted ? 1 : 0;
     }
 
-    let images: File[] = [];
-    images[0] = this.IDCard ? this.IDCard.file : undefined;
-    images[1] = this.DrivingLicense ? this.DrivingLicense.file : undefined;
+    delete user.birthDate;
+    console.log(user);
+    return;
+    this.api.updateUser(user).subscribe(
+      data => {
+        console.log(data);
+      }
+    );
+    // let images: File[] = [];
+    // images[0] = this.IDCard ? this.IDCard.file : undefined;
+    // images[1] = this.DrivingLicense ? this.DrivingLicense.file : undefined;
 
     // this.api.uploadImage(images, user).subscribe(
     //   (data: { result: string[]; }) => {

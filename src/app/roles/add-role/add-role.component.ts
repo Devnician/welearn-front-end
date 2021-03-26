@@ -90,12 +90,16 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   onSubmit() {
     let role: Role = this.addForm.getRawValue();
     delete role['available'];
-    console.log(role);
-    this.showSnack("Not implemented yet.", "", 1500);
-    // this.api.createRole(this.addForm.value)
-    //   .subscribe(data => {
-    //     this.router.navigate(['home/list-role']);
-    //   });
+
+    this.api.createRole(this.addForm.value)
+      .subscribe(data => {
+        if (data.status === 200) {
+          this.showSnack('Информацията е добавена успешно', '', 1300);
+        } else {
+          alert(data.message);
+        }
+        this.goBack();
+      });
   }
 
   goBack() {

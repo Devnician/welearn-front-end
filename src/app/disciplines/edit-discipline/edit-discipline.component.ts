@@ -36,8 +36,8 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
       name: this.discipline.name,
       createdAt: { value: this.discipline.createdAt, disabled: true },
       updatedAt: { value: this.discipline.updatedAt, disabled: true },
-      lectorId: this.discipline.lector?.id,
-      assistantId: this.discipline.assistant?.id
+      lectorId: this.discipline.lector?.userId,
+      assistantId: this.discipline.assistant?.userId
     });
   }
 

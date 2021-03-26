@@ -1,19 +1,17 @@
 import { User } from "./user.model";
 
 export class Discipline {
-    id: number;
+    id: string;
     name: string;
     createdAt: any;
     updatedAt: any;
-
-    lectorId: number;
-    assitantId: number;
-
-    //transient
     lector: User;
     assistant: User;
+    resources: any;
 
-
+    //transient
+    lectorId: string;
+    assitantId: string;
     //transient
     mark: number;
 }
