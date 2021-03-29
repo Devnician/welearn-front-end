@@ -6,8 +6,8 @@
 export const environment = {
   production: false,
   restUrl: 'http://localhost:8080/',
-  user: 'Adminov',
-  pass: 'kiroPass',
+  user: 'admin',
+  pass: 'admin',
 
 };
 
