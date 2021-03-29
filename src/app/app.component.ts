@@ -14,6 +14,7 @@ import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
 import { User } from './model/user.model';
 import { CollectionsUtil } from './utils/collections-util';
+import { MenuUtil } from './utils/menu-util';
 
 //registerLocaleData(localeEn);
 registerLocaleData(localeBg);
@@ -115,9 +116,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.serverOnline = arg0;
   }
 
-
-
-
   /**
    * Change language
    * @param language 
@@ -129,13 +127,10 @@ export class AppComponent implements OnInit, OnDestroy {
     AppComponent.lang = language;
   }
 
-
   fetchDisciplines() {
     //TODO - API CALL
     this.disciplines = AppComponent.collections.getDisciplines();
   }
-
-
 
   /**
    * callback after succesfull login
@@ -146,7 +141,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.serverOnline = true;
     this.loadUsers();
     this.loadRolesAndDetermineCurrentUserRole();
-    this.buildsMenuAccordingRoleOfLoggedUser();
+    // this.buildsMenuAccordingRoleOfLoggedUser();
   }
 
   loadUsers() {
@@ -165,22 +160,32 @@ export class AppComponent implements OnInit, OnDestroy {
       this.roles = data.result;
       let role = this.roles.find(x => x.id === this.user.roleId);
       if (role) {
+        console.log(role);
         this.user.role = role.role;
         this.user.roleBg = role.roleBg;
+        this.buildsMenuAccordingRoleOfLoggedUser(role);
       }
     });
   }
 
-  private buildsMenuAccordingRoleOfLoggedUser() {
-    //TODO make Json String from menus and set it to the `role` object
+  private buildsMenuAccordingRoleOfLoggedUser(role: Role) {
     let unorderedMenus: MenuOptions[] = [];
-    if (this.user.roleId == 1) {
-      unorderedMenus = AppComponent.collections.getAdminMenus();
-    } else if (this.user.roleId == 2) {
-      unorderedMenus = AppComponent.collections.getTeacherMenus();
-    } else {
-      unorderedMenus = AppComponent.collections.getTrainedMenus();
-    }
+    let all: MenuOptions[] = MenuUtil.getAllMenus();
+    MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);
+
+
+
+    // if (this.user.roleId == 1) {
+    //   unorderedMenus = AppComponent.collections.getAdminMenus();
+    // } else if (this.user.roleId == 2) {
+    //   unorderedMenus = AppComponent.collections.getTeacherMenus();
+    // } else {
+    //   unorderedMenus = AppComponent.collections.getTrainedMenus();
+    // }
+
+
+
+
     //get saved order if any
     let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
     if (order) { // order it 

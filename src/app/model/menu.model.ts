@@ -7,8 +7,8 @@ export class MenuOptions {
     route: string;
     matIcon: string;
 
+    add: boolean = false;
     edit: boolean = false;
     delete: boolean = false;
-    add: boolean = false;
     preview: boolean = true;
 }

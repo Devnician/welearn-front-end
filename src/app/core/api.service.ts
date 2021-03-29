@@ -17,7 +17,7 @@ export class ApiService {
 
   usersUrl: string = this.host + 'users/';
   errorUrl: string = this.host + 'support/err'
-  usersRolesUrl: string = this.host + 'users/roles/';
+  usersRolesUrl: string = this.host + 'roles/';
   usersMenusUrl: string = this.host + 'users/menus/';
 
   disciplinesUrl: string = this.host + 'discipline/'

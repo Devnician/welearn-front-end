@@ -6,6 +6,7 @@ import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { MenuOptions } from 'src/app/model/menu.model';
 import { Role } from 'src/app/model/role.model';
+import { MenuUtil } from 'src/app/utils/menu-util';
 
 @Component({
   selector: 'app-edit-role',
@@ -14,27 +15,24 @@ import { Role } from 'src/app/model/role.model';
 })
 export class EditRoleComponent extends BlitcenComponent implements OnInit {
   editForm: FormGroup;
-  displayedColumns = ['menu', 'edit', 'delete', 'remove'];
+  displayedColumns = ['menu', 'add', 'edit', 'delete', 'preview', 'remove'];
   displayedColumnsAv = ['name', 'add'];
-  currentRole: Role; // Edited role  
-
+  currentRole: Role;
   allMenus: MenuOptions[] = [];
   selectedMenus: MenuOptions[] = [];
   menus: FormArray = this.formBuilder.array([]); // current role menus
-  availableMenus: FormArray = this.formBuilder.array([]); // for asign
-
-  statusesDirty: boolean = false;
+  availableMenus: FormArray = this.formBuilder.array([]); // for asign 
 
   constructor(private donkey: DonkeyService, public snackBar: MatSnackBar, app: AppComponent) {
     super();
     this.currentRole = donkey.getData();
-
-    if (this.currentRole.id === 2) {
-      this.selectedMenus = AppComponent.collections.getTeacherMenus();
-    } else if (this.currentRole.id === 3) {
-      this.selectedMenus = AppComponent.collections.getTrainedMenus();
+    try {
+      this.allMenus = MenuUtil.getAllMenus();
+      MenuUtil.determineSelectedMenusForThisRole(this.currentRole, this.selectedMenus, this.allMenus);
+    } catch (error) {
+      this.showSnack('Тази роля няма избрани менюта', '', 1300);
+      this.selectedMenus = [];
     }
-
   }
 
   ngOnInit() {
@@ -50,10 +48,8 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       menus: this.menus,
       available: this.availableMenus,
     });
-    //  this.loadCurrentRoleMenus(this.currentRole.id);//+id); 
-    // this.allMenus = AppComponent.collections.getAllMenus();
-    console.log(this.currentRole);
     this.showSelectedMenus();
+    this.showAvailableMenus();
   }
 
 
@@ -100,8 +96,10 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       value: this.formBuilder.control(menu.value),
       route: this.formBuilder.control(menu.route),
       matIcon: this.formBuilder.control(menu.matIcon),
+      add: this.formBuilder.control(menu.add),
       edit: this.formBuilder.control(menu.edit),
       delete: this.formBuilder.control(menu.delete),
+      preview: this.formBuilder.control(menu.preview)
     })
   }
 
@@ -109,29 +107,51 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   onSubmit() {
     let role: Role = this.editForm.getRawValue();
     delete role['available'];
-    console.log(role.menus);
+    let permissions: any[] = [];
 
     role.menus.forEach(element => {
-      delete element.matIcon;
-      delete element.route;
-      delete element.value;
+      let permission: any[] = [];
+      permission[0] = element.key;
+      permission[1] = element.add ? 1 : 0;
+      permission[2] = element.edit ? 1 : 0;
+      permission[3] = element.delete ? 1 : 0;
+      if ((permission[1] + permission[2] + permission[3]) === 0) {
+        permission[4] = 1; //voyeur
+      } else {
+        permission[4] = element.preview ? 1 : 0;
+      }
 
+      permissions.push(permission);
     });
-
-
-    console.log(JSON.stringify(role.menus));
+    role.permissions = JSON.stringify(permissions);
 
     this.api.updateRole(role).subscribe(
       data => {
         if (data.status === 200) {
+          this.showSnack("Данните бяха запазени", "", 1500);
           history.back();
         } else {
           alert(data.message);
         }
       }
     );
+  }
+  /**
+   * Remove all other marks if preview is selected 
+   * @param menu 
+   * @param checked 
+   */
+  previewSelected(menu: FormGroup, checked: boolean) {
+    let opt: MenuOptions = menu.value;
+    opt.add = opt.edit = opt.delete = !checked;
+    opt.preview = checked;
+    menu.patchValue(opt);
+  }
 
-    //this.showSnack("Not implemented yet.", "", 1500);
+  removePreviewCheck(menu: FormGroup) {
+    let opt: MenuOptions = menu.value;
+    opt.preview = false;
+    menu.patchValue(opt);
   }
 
   goBack() {

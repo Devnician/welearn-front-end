@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
-import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
 import { Role } from 'src/app/model/role.model';
+import { MenuUtil } from 'src/app/utils/menu-util';
 
 @Component({
   selector: 'app-add-role',
@@ -34,7 +34,7 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
       available: this.availableMenus,
     });
 
-    this.allMenus = AppComponent.collections.getAllMenus();
+    this.allMenus = MenuUtil.getAllMenus();
     this.showAvailableMenus();
   }
 
