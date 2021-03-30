@@ -27,31 +27,28 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
-    this.api.getDisciplines().subscribe(
+    this.api.findAllDisciplines().subscribe(
       data => {
         console.log(data);
         this.disciplines = data.result;
-
-
       }
     );
-    // this.disciplines = this.app.disciplines;
-    // console.log()
-    if (this.user.roleId === 2) {
-      this.disciplines = this.app.disciplines.filter(d => (d.lector?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
-    } else if (this.user.roleId === 3) {
-      this.disableEdit = true;
-      this.groups = this.collectionsUtil.getGroups();
-      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
 
-      let array = [];
-      this.groups.forEach(group => {
-        group.disciplines.forEach(disc => {
-          array.push(disc.id);
-        })
-      });
-      this.disciplines = this.disciplines.filter(user => array.indexOf(user.id) !== -1);
-    }
+    // if (this.user.roleId === 2) {
+    //   this.disciplines = this.app.disciplines.filter(d => (d.lector?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
+    // } else if (this.user.roleId === 3) {
+    //   this.disableEdit = true;
+    //   this.groups = this.collectionsUtil.getGroups();
+    //   this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
+
+    //   let array = [];
+    //   this.groups.forEach(group => {
+    //     group.disciplines.forEach(disc => {
+    //       array.push(disc.id);
+    //     })
+    //   });
+    //   this.disciplines = this.disciplines.filter(user => array.indexOf(user.id) !== -1);
+    // }
 
     this.loadPaginator(this.disciplines, 'name');
   }

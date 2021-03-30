@@ -27,12 +27,12 @@
         </span>
       </li>
     </ul>
-    <span class="filler">{{usersMessage}}</span>
+    <span class="filler"></span>
     <div>
       <div style="display: flex; align-items: center;  padding-top: 10px;">
         <div style="display: block; align-items: center; ">
           <div style="font-size: 16px; height: 20px; text-align: end;">{{user.firstName}} {{user.lastName}}</div>
-          <div style="font-size: 12px; text-align: end;">{{user.role}}</div>
+          <div style="font-size: 12px; text-align: end;">{{user.role.roleBg}}</div>
         </div>
         <button mat-icon-button class="user-logo" [matMenuTriggerFor]="appMenu">
           <mat-icon matTooltip="menu">account_circle</mat-icon>

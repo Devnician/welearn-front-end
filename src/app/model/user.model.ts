@@ -1,3 +1,5 @@
+import { Role } from "./role.model";
+
 export class User {
   userId: string;
   firstName: string;
@@ -5,16 +7,21 @@ export class User {
   lastName: string;
   username: string;
   password: string;
-  birthDate: Date;
-  roleId: number;
-  role: string;
-  roleBg: string;
-  token: string;
-  deleted: number;
-  loggedIn: number;
   address: string;
+  birthDate: Date;
+  deleted: number;
   email: string;
+  role: Role;
+  loggedIn: number;
   phoneNumber: string;
-  otherContacts: string;
+  groupId: string;
+
+  //TODO--process this arrays
+  assistedDisciplineIds: any[];
+  blackListedEventIds: any[];
+  evaluationMarks: any[];
+  taughtDisciplineIds: any[];
+
+
 
 }

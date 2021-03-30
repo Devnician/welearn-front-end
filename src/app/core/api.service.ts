@@ -33,9 +33,14 @@ export class ApiService {
     return this.doPost(this.tokenUrl + 'token/generate', loginPayload);
   }
 
+  findUserById(id: string): Observable<ApiResponse> {
+    return this.doGet(this.usersUrl + id);
+  }
+
   logout(id: string): Observable<ApiResponse> {
     return this.doGet(this.usersUrl + 'logout/' + id);
   }
+
 
   createUser(user: User): Observable<ApiResponse> {
     return this.doPost(this.usersUrl, user);
@@ -45,7 +50,7 @@ export class ApiService {
     return this.doPut(this.usersUrl, user);
   }
 
-  getUsers(): Observable<ApiResponse> {
+  findAllUsers(): Observable<ApiResponse> {
     return this.doGet(this.usersUrl);
   }
   ////////////////////////////////////////////////////////////////
@@ -68,7 +73,7 @@ export class ApiService {
   // DISCIPLINES
   //
   ////////////////////////////////////////////////////////////////
-  getDisciplines(): Observable<ApiResponse> {
+  findAllDisciplines(): Observable<ApiResponse> {
     return this.doGet(this.disciplinesUrl);
   }
 

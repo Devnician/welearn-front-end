@@ -13,19 +13,10 @@ import { Discipline } from './model/discipline.model';
 import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
 import { User } from './model/user.model';
-import { CollectionsUtil } from './utils/collections-util';
 import { MenuUtil } from './utils/menu-util';
-
 //registerLocaleData(localeEn);
 registerLocaleData(localeBg);
 const jwtHelper = new JwtHelperService();
-
-// export class MenuOptions {
-//   key: number
-//   value: string;
-//   route: string;
-//   matIcon: string;
-// }
 
 export interface IBreadCrumb {
   label: string;
@@ -52,26 +43,19 @@ export class AppComponent implements OnInit, OnDestroy {
   events: string[] = []; // for sidenav
   opened: boolean;
   menuOptions: MenuOptions[] = [];
-  apiAlive: boolean = true;
   subscription: Subscription;
   public breadcrumbs: IBreadCrumb[] = [];
 
-  static collections: CollectionsUtil = new CollectionsUtil();
-  users: User[] = [];
+  //users: User[] = [];
   disciplines: Discipline[] = [];
-
   serverOnline = true;
-  usersMessage: string = '';
+
   constructor(public router: Router, private apiService: ApiService, private translate: TranslateService, public snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private donkey: DonkeyService) {
     AppComponent.myapp = this;
     translate.setDefaultLang('bg');
     AppComponent.lang = 'bg';
 
-    if ("user" in localStorage) {
-      // ('Welcome..');
-    } else {
-      this.clearUserData();
-    }
+    this.clearUserData();
 
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -84,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (browserRefresh) {
           this.clearUserData();
         } else {
-          // ('Just going somewhere. Check user here');
+          // ('Just going somewhere. Check user here..');
         }
       }
     });
@@ -93,24 +77,13 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.determineIsMedia(window.innerWidth);
     this.subsForRouterEvents();
-    this.fetchDisciplines();
+
+    //this.fetchDisciplines();
     this.router.navigate(['']);
     //TODO - save me func place. read saved credentials from storage..
   }
 
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.determineIsMedia(event.target.innerWidth);
-
-  }
-  determineIsMedia(pixelWidth: any) {
-    if (pixelWidth < 451) {
-      AppComponent.isMedia = true;
-    } else {
-      AppComponent.isMedia = false;
-    }
-  }
 
   showApiStatus(arg0: boolean) {
     this.serverOnline = arg0;
@@ -129,62 +102,41 @@ export class AppComponent implements OnInit, OnDestroy {
 
   fetchDisciplines() {
     //TODO - API CALL
-    this.disciplines = AppComponent.collections.getDisciplines();
+    //this.disciplines = AppComponent.collections.getDisciplines();
+    this.apiService.findAllDisciplines().subscribe(data => {
+      this.disciplines = data.result;
+    });
+
   }
 
   /**
    * callback after succesfull login
    */
-  prepareTheCollections(user: User) {
+  setUserAsLogged(user: User) {
     this.isHeaderVisible = true;
     this.user = user;
     this.serverOnline = true;
-    this.loadUsers();
-    this.loadRolesAndDetermineCurrentUserRole();
-    // this.buildsMenuAccordingRoleOfLoggedUser();
+    this.buildMenuForThisRole(this.user.role);
+    this.findAllRoles();
   }
 
-  loadUsers() {
-    //TODO - API CALL
-    this.users = AppComponent.collections.getUsers();
-    // this.apiService.getUsers().subscribe(data => {
-    //   this.users = data.result;
-    //   console.log(this.users);
-    // });
-  }
   /**
    * Fetch all roles for checking for logged user role.
    */
-  loadRolesAndDetermineCurrentUserRole() {
+  findAllRoles() {
     this.apiService.getRoles().subscribe(data => {
       this.roles = data.result;
-      let role = this.roles.find(x => x.id === this.user.roleId);
-      if (role) {
-        console.log(role);
-        this.user.role = role.role;
-        this.user.roleBg = role.roleBg;
-        this.buildsMenuAccordingRoleOfLoggedUser(role);
-      }
+      console.log(this.roles);
     });
   }
-
-  private buildsMenuAccordingRoleOfLoggedUser(role: Role) {
+  /**
+   * Builds menus according Role. If there is a saved order in the local storage - arranges the menus.
+   * @param role 
+   */
+  private buildMenuForThisRole(role: Role) {
     let unorderedMenus: MenuOptions[] = [];
     let all: MenuOptions[] = MenuUtil.getAllMenus();
     MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);
-
-
-
-    // if (this.user.roleId == 1) {
-    //   unorderedMenus = AppComponent.collections.getAdminMenus();
-    // } else if (this.user.roleId == 2) {
-    //   unorderedMenus = AppComponent.collections.getTeacherMenus();
-    // } else {
-    //   unorderedMenus = AppComponent.collections.getTrainedMenus();
-    // }
-
-
-
 
     //get saved order if any
     let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
@@ -236,6 +188,19 @@ export class AppComponent implements OnInit, OnDestroy {
         break;
       default:
         break;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.determineIsMedia(event.target.innerWidth);
+  }
+
+  determineIsMedia(pixelWidth: any) {
+    if (pixelWidth < 451) {
+      AppComponent.isMedia = true;
+    } else {
+      AppComponent.isMedia = false;
     }
   }
 
@@ -370,33 +335,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  /**
-   * Gets stamp with first and lst name for user if it is present in list
-   * @param userId 
-   */
-  getUserStamp(userId: string, atachOfficeName: boolean) {
-    try {
-      let user: User = this.users.find(u => u.userId === userId);
-      if (user) {
-        return user.firstName + ' ' + user.lastName;
-      }
-      return '';
-    } catch (error) {
-      return 'not found';
-    }
-  }
-
-  /**
-   * Gets user obj if it is present in list
-   * @param userId 
-   */
-  getUserObject(userId: string) {
-    try {
-      return this.users.find(u => u.userId === userId);
-    } catch (error) {
-      return undefined;
-    }
-  }
   editMyAccount() {
     this.donkey.setData(this.user);
     this.donkey.setInfo("self");

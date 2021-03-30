@@ -28,11 +28,11 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   constructor(public snackBar: MatSnackBar, app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
     this.roles = app.roles;
-    console.log(app.roles);
+    // console.log(this.roles);
   }
 
   ngOnInit() {
-    this.groups = AppComponent.collections.getGroups();
+    // this.groups = AppComponent.collections.getGroups();
     // this.api.getRoles().subscribe(data => {
     //   this.roles = data.result;
     // }); 
@@ -47,12 +47,28 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
 
 
   /**
-   * Fetch users
+   * Fetch all users
    */
   loadUsers() {
-    if (this.user.roleId === 1) {//admin
-      this.users = this.mapRoleAndPositionOfUsers(this.app.users);
-    } else if (this.user.roleId === 2) {//teacher    
+    this.api.findAllUsers().subscribe(
+      data => {
+        this.users = data.result;
+
+        this.filterUsers();
+      }
+    );
+  }
+
+
+  filterUsers() {
+    // this.users = this.mapRoleAndPositionOfUsers(this.app.users);
+    let userRoleId = this.user.role.id;
+
+    if (userRoleId === 3) {//admin
+
+      // this.users = this.app.users;
+      // console.log(this.users);
+    } else if (userRoleId === 4) {//teacher    
       //API CALL - getGroupsByTeacherId
       this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
         || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
@@ -64,9 +80,9 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
         })
       });
 
-      this.users = this.mapRoleAndPositionOfUsers(this.app.users.filter(x => array.indexOf(x.userId) !== -1));
+      this.users = this.users.filter(x => array.indexOf(x.userId) !== -1);
 
-    } else if (this.user.roleId === 3) { // student
+    } else if (userRoleId === 5) { // student
       this.disableEdit = true;
       this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
       let array = [];
@@ -77,7 +93,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
           }
         })
       });
-      this.users = this.mapRoleAndPositionOfUsers(this.app.users.filter(user => array.indexOf(user.userId) !== -1));
+      this.users = this.users.filter(user => array.indexOf(user.userId) !== -1);
 
     } else {
       this.disableEdit = true;
@@ -85,30 +101,19 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
     }
 
     this.loadPaginator(this.users, '');
-    // this.api.getUsers()
-    //   .subscribe(data => {
-    //     let users: User[] = data.result;
-    //     if (this.user.roleId !== 1) {
-    //       console.log('here is someone else');
-    //       users = users.filter(u => u.id !== this.user.id);
-    //     }
-    //     else {
-    //       console.log('here is the super');
-    //     }
-    //     users = this.mapRoleAndPositionOfUsers(users);
-    //     this.loadPaginator(users, '');
-    //   });
   }
-  mapRoleAndPositionOfUsers(users: User[]): User[] {
-    for (let index = 0; index < users.length; index++) {
-      const element = users[index];
+  // mapRoleAndPositionOfUsers(users: User[]): User[] {
+  //   for (let index = 0; index < users.length; index++) {
+  //     const element = users[index];
 
-      let role = this.roles.find(r => r.id == element.roleId);
-      // let position = this.positions.find(p => p.id === element.positionId); 
-      element.role = this.langExt == '_bg' ? role.roleBg : role.role;
-    }
-    return users;
-  }
+  //     let role = this.roles.find(r => r.id == element.roleId);
+  //     // let position = this.positions.find(p => p.id === element.positionId); 
+  //     element.role = this.langExt == '_bg' ? role.roleBg : role.role;
+  //     element.role = role.role;
+  //     element.rol
+  //   }
+  //   return users;
+  // }
 
   goBack() {
     history.back();
@@ -134,7 +139,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   // };
 
   editUser(user: User): void {
-    user.password = '*';
+    user.password = 'unknown';
     console.log(user);
     this.donkey.setData(user);
     this.router.navigate(['home/list-user/edit-user']);

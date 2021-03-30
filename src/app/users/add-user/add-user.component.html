@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-title> Добавяне на потребител </mat-card-title>
   <mat-card-content>
-    <form [formGroup]="addForm" (ngSubmit)="onSubmit()" class="addUserForm">
+    <form [formGroup]="addForm" class="addUserForm">
       <div class="f-row">
         <mat-form-field class="five-on-row">
           <input matInput placeholder="{{'wl.first_name' | translate}}" type="text" class="form-control"
@@ -29,7 +29,6 @@
             formControlName="address" id="address" autocomplete="off" required>
           <mat-error *ngIf="isFieldValid('address')">{{valido.getErrorMessage('address') | translate}}</mat-error>
         </mat-form-field>
-
         <mat-form-field class="five-on-row">
           <input matInput placeholder="{{'wl.phone_number_private' | translate}}" type="text" class="form-control"
             formControlName="phoneNumber" id="phoneNumber" autocomplete="off" required>
@@ -46,8 +45,8 @@
           <mat-label> {{'wl.select_role' | translate}}</mat-label>
           <mat-select name="roleId" formControlName="roleId" required>
             <mat-option *ngFor="let role of roles" [value]="role.id" class="form-control"
-              matTooltip="{{role.description}}" matTooltipPosition="right" id="roleId">
-              {{role.role}}
+              matTooltip="{{role.descriptionBg}}" matTooltipPosition="right" id="roleId">
+              {{role.roleBg}}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="isFieldValid('roleId')">{{valido.getErrorMessage('roleId') | translate}}</mat-error>
@@ -67,39 +66,6 @@
           <mat-error *ngIf="isFieldValid('password')">{{valido.getErrorMessage('password') | translate}}</mat-error>
         </mat-form-field>
       </div>
-
-      <!-- <div class="f-row">
-        <div class="image-field">
-          <label>{{'wl.id_card' | translate}}</label>
-          <input #imageInput type="file" style="width:100%;height:auto;" accept="image/*"
-            (change)="addFile(imageInput,'idcard')">
-          <div *ngIf="IDCard" class="img-preview-container">
-            <div class="img-preview{{IDCard.status === 'fail' ? '-error' : ''}}"
-              [ngStyle]="{'background-image': 'url('+ IDCard.src + ')'}">
-            </div>
-            <div *ngIf="IDCard.pending" class="img-loading-overlay">
-              <div class="img-spinning-circle"></div>
-            </div>
-            <div *ngIf="IDCard.status === 'fail'" class="alert alert-danger"> Image Upload Failed!</div>
-            <img style="width:100%;height:auto;" *ngIf="IDCard.src" [src]="IDCard.src" />
-          </div>
-        </div>
-
-        <div class="image-field">
-          <label>{{'wl.driving_license' | translate}}</label>
-          <input #imageInput2 type="file" style="width:100%;height:auto;" accept="image/*"
-            (change)="addFile(imageInput2,'drlicense')">
-          <div *ngIf="DrivingLicense" class="img-preview-container">
-            <div *ngIf="DrivingLicense.pending" class="img-loading-overlay">
-              <div class="img-spinning-circle"></div>
-            </div>
-            <div *ngIf="DrivingLicense.status === 'fail'" class="alert alert-danger"> Image Upload Failed!
-            </div>
-            <img style="width:100%;height:auto;" *ngIf="DrivingLicense.src" [src]="DrivingLicense.src" />
-          </div>
-        </div>
-      </div> -->
-
       <div class="button-bar">
         <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="goBack()">
           {{'wl.cancel' | translate}}

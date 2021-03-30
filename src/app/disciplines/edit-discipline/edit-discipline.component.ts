@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -29,7 +28,7 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
   ngOnInit(): void {
 
     //TODO --- add api call in onInit Method for loading just lectors.
-    this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
+    //  this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
 
     this.editForm = this.formBuilder.group({
       id: this.discipline.id,

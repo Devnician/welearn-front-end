@@ -12,7 +12,7 @@ import { MenuUtil } from 'src/app/utils/menu-util';
 })
 export class AddRoleComponent extends BlitcenComponent implements OnInit {
   addForm: FormGroup;
-  displayedColumns = ['menu', 'edit', 'delete', 'remove'];
+  displayedColumns = ['menu', 'add', 'edit', 'delete', 'preview', 'remove'];
   displayedColumnsAv = ['name', 'add'];
   allMenus: MenuOptions[] = [];
   selectedMenus: MenuOptions[] = [];
@@ -82,14 +82,34 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
       value: this.formBuilder.control(menu.value),
       route: this.formBuilder.control(menu.route),
       matIcon: this.formBuilder.control(menu.matIcon),
+      add: this.formBuilder.control(menu.add),
       edit: this.formBuilder.control(menu.edit),
       delete: this.formBuilder.control(menu.delete),
+      preview: this.formBuilder.control(menu.preview)
     })
   }
 
   onSubmit() {
     let role: Role = this.addForm.getRawValue();
     delete role['available'];
+
+    let permissions: any[] = [];
+
+    role.menus.forEach(element => {
+      let permission: any[] = [];
+      permission[0] = element.key;
+      permission[1] = element.add ? 1 : 0;
+      permission[2] = element.edit ? 1 : 0;
+      permission[3] = element.delete ? 1 : 0;
+      if ((permission[1] + permission[2] + permission[3]) === 0) {
+        permission[4] = 1; //voyeur
+      } else {
+        permission[4] = element.preview ? 1 : 0;
+      }
+
+      permissions.push(permission);
+    });
+    role.permissions = JSON.stringify(permissions);
 
     this.api.createRole(this.addForm.value)
       .subscribe(data => {
@@ -101,7 +121,23 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
         this.goBack();
       });
   }
+  /**
+   * Remove all other marks if preview is selected 
+   * @param menu 
+   * @param checked 
+   */
+  previewSelected(menu: FormGroup, checked: boolean) {
+    let opt: MenuOptions = menu.value;
+    opt.add = opt.edit = opt.delete = !checked;
+    opt.preview = checked;
+    menu.patchValue(opt);
+  }
 
+  removePreviewCheck(menu: FormGroup) {
+    let opt: MenuOptions = menu.value;
+    opt.preview = false;
+    menu.patchValue(opt);
+  }
   goBack() {
     history.back();
   }

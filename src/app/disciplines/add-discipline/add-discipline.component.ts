@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 import { User } from 'src/app/model/user.model';
@@ -18,8 +17,8 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
   }
 
   ngOnInit(): void {
-
-    this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
+    //TODO api call for lectors
+    // this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
 
     this.addForm = this.formBuilder.group({
       id: 0,

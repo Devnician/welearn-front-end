@@ -90,16 +90,14 @@ export class LoginComponent implements OnInit {
               this.invalidMessage = 'някой е влязъл с този акаунт';
               return;
             case 'success':
-              let user: User = new User();
-              user.username = loginPayload.username;
-              user.roleId = data.result.roleId;
-              user.userId = data.result.id;
               localStorage.setItem('user', data.result.token);
-              user.firstName = data.result.firstName;
-              user.lastName = data.result.lastName;
-
-              this.app.prepareTheCollections(user);
-              this.router.navigate(['home']);
+              this.apiService.findUserById(data.result.id).subscribe(
+                data => {
+                  let user: User = data.result;
+                  this.app.setUserAsLogged(user);
+                  this.router.navigate(['home']);
+                }
+              );
               break;
             case 'deleted':
               this.invalidLogin = true;
