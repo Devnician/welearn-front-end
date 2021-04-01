@@ -8,7 +8,7 @@ export class User {
   username: string;
   password: string;
   address: string;
-  birthDate: Date;
+  birthdate: any;
   deleted: number;
   email: string;
   role: Role;

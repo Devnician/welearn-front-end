@@ -23,13 +23,10 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   @ViewChild('table', { static: true }) table: MatTable<any>;
   constructor(ar: ActivatedRoute) {
     super();
-    this.injectPaginator();
+    this.paginator = this.appInjector.get(PPaginator);
     this.activatedRoute = ar;
   }
 
-  injectPaginator() {
-    this.paginator = this.appInjector.get(PPaginator);
-  }
 
   loadStorageVars() {
     this.storage.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -42,6 +39,9 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
    * @param prop initial property for filtering
    */
   loadPaginator(data: any, prop: string) {
+    if (!this.paginator) {
+      this.paginator = this.appInjector.get(PPaginator);
+    }
     this.paginator.init(data, prop);
   }
   /**

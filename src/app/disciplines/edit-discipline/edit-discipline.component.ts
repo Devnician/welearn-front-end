@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -16,27 +17,31 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
   discipline: Discipline;
   lectors: User[];
 
-  constructor(donkey: DonkeyService) {
+  constructor(donkey: DonkeyService, ar: ActivatedRoute,) {
     super();
     this.discipline = donkey.getData();
-    this.discipline.createdAt = TimeUtil.adjustDateStringToDateTime(this.discipline.createdAt);
-    this.discipline.updatedAt = TimeUtil.adjustDateStringToDateTime(this.discipline.updatedAt);
+    this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(this.discipline.creationDate);
+    this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(this.discipline.modifiedDate);
   }
   /**
    * Initializes the form
    */
   ngOnInit(): void {
+    let roleOfTeachersID: number = this.roles.find(r => r.role === 'teacher').id;
 
-    //TODO --- add api call in onInit Method for loading just lectors.
-    //  this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
-
+    this.api.findAllUsersWithRoleId(roleOfTeachersID).subscribe(
+      data => {
+        this.lectors = data.result;
+      }
+    )
+    console.log(this.discipline);
     this.editForm = this.formBuilder.group({
       id: this.discipline.id,
       name: this.discipline.name,
-      createdAt: { value: this.discipline.createdAt, disabled: true },
-      updatedAt: { value: this.discipline.updatedAt, disabled: true },
-      lectorId: this.discipline.lector?.userId,
-      assistantId: this.discipline.assistant?.userId
+      creationDate: { value: this.discipline.creationDate, disabled: true },
+      modifiedDate: { value: this.discipline.modifiedDate, disabled: true },
+      teacher: this.discipline.lector,
+      assistant: this.discipline.assistant
     });
   }
 
@@ -49,12 +54,13 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
       this.valido.validateAllFormFields(this.editForm);
       return;
     }
-
-    alert("api call");
     let discipline: Discipline = this.editForm.getRawValue();
-    console.log(discipline);
-
-    //TODO add post api call for array with documents
+    this.api.updateDiscipline(discipline).subscribe(
+      data => {
+        this.showSnack('данните бяха промемени', '', 1300);
+        this.router.navigate(['home/list-discipline']);
+      }
+    );
   }
 
   uploadDoc(input: any) {

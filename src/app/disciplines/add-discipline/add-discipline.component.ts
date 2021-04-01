@@ -23,6 +23,7 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
     this.addForm = this.formBuilder.group({
       id: 0,
       name: [],
+      description: '',
       createdAt: new Date(),
       updatedAt: new Date(),
       lectorId: 0,
@@ -43,11 +44,16 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
-    alert("api call");
     let discipline: Discipline = this.addForm.getRawValue();
-    console.log(discipline);
-    //TODO add post api call for array with documents
-
+    this.api.createDiscipline(discipline).subscribe(
+      data => {
+        if (data) {
+          this.showSnack('дисциплината беше добавена', '', 1300);
+          this.goBack();
+        } else {
+          alert('disciplines fetch failed');
+        }
+      }
+    );
   }
-
 }

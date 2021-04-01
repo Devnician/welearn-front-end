@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 import { Role } from '../model/role.model';
 
@@ -19,22 +20,11 @@ export class BaseformComponent extends BlitcenComponent implements OnInit {
   roles: Role[] = [];
   constructor() {
     super();
-    if (this.canFetch === true) {
-      this.loadRoles();
-    }
+    this.roles = AppComponent.myapp.roles;
   }
   ngOnInit() {
   }
 
-  /**
-   * Loads roles from DB
-   */
-  loadRoles() {
-    // this.api.getRoles()
-    //   .subscribe((data: { result: Role[]; }) => {
-    //     this.roles = data.result;
-    //   });
-  }
   /**
    * Mighty eye 
    */

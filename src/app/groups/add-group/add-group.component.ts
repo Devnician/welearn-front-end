@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material';
-import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
-import { StudentsGroup } from 'src/app/model/students-group.model';
+import { Group } from 'src/app/model/group.model';
 
 
 @Component({
@@ -17,28 +16,30 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   addForm: FormGroup;
   disciplinesFormArray: FormArray = this.formBuilder.array([new Discipline()]);
   students: FormArray = this.formBuilder.array([]);
-  displayedColumns = ['name', 'lector', 'assistant', 'remove'];
+  displayedColumns = ['name', 'teacher', 'assistant', 'remove'];
   disciplines: Discipline[] = [];
 
   constructor() {
     super();
   }
-  /**
-   * TODO - add api call for disciplines
-   * Initializes the form for adding.
-   */
+
   ngOnInit(): void {
-    //TODO add api call
-    this.disciplines = AppComponent.myapp.disciplines;
+
+    this.api.findAllDisciplines().subscribe(
+      data => {
+        this.disciplines = data.result;
+      }
+    )
 
     this.addForm = this.formBuilder.group({
-      id: 0,
+      groupId: '',
       name: '',
       description: '',
       startDate: '',
       endDate: '',
       createdDate: new Date(),
       modifiedDate: new Date(),
+      maxResourcesMb: 0,
       disciplines: this.disciplinesFormArray
     });
   }
@@ -91,13 +92,19 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
    *TODO -  Add API call, notify user and go back.
    */
   onSubmit() {
-    let group: StudentsGroup = this.addForm.getRawValue();
+    let group: Group = this.addForm.getRawValue();
+
     //remove fake row
-    group.disciplines = group.disciplines.filter(d => d.id.length > 0);
-    //there may be a conflict with api - dates, or stamps  --check this 
+    group.disciplines = group.disciplines.filter(d => d?.id);
+    //TODO - THIS NOT WORKING.. fireign keys issue
     console.log(group);
-    this.showSnack("Данните са записани успешно.", "", 1300);
-    history.back();
+    this.api.createGroup(group).subscribe(
+      data => {
+        this.showSnack("Данните са записани успешно.", "", 1300);
+        history.back();
+      }
+    );
+
   }
 
   reset() {

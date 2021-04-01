@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { AppComponent } from 'src/app/app.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Role } from 'src/app/model/role.model';
+import { TimeUtil } from 'src/app/utils/time-util';
 import { BaseformComponent } from '../../baseform/baseform.component';
 import { User } from "../../model/user.model";
 
@@ -42,7 +43,7 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       firstName: ['', this.valido.validateName(2, 30)],
       middleName: ['', this.valido.validateName(2, 30)],
       lastName: ['', this.valido.validateName(2, 30)],
-      birthDate: ['', Validators.required],
+      birthdate: ['', Validators.required],
       address: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', this.valido.validatePhone(true)],
@@ -50,13 +51,14 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       loggedIn: []
     });
 
+    this.editUser.password = 'unknown';
+    this.editUser.birthdate = TimeUtil.adjustDate(this.editUser.birthdate);
+    this.editForm.patchValue(this.editUser);
     if (this.selfEdit === true) {
       this.disableFormFields(this.editForm, ["username", "roleID",
-        "birthDate",]);
+        "birthdate",]);
     }
-    this.editForm.patchValue(this.editUser);
     this.editForm.setControl('roleID', new FormControl(this.editUser?.role.id));
-    // this.editForm.setControl('birthDate', new FormControl(new Date(this.editUser.birthDate)));
   }
 
   /**
@@ -81,8 +83,11 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
     let roleId = user['roleID'];
     delete user['roleID'];
     user.role = this.roles.find(r => r.id == roleId);
-    console.log(user);
-    // delete user.birthDate;   
+
+    if (user.password === 'unknown') {
+      user.password = null;
+    }
+
     this.api.updateUser(user).subscribe(
       data => {
         console.log(data);
@@ -106,7 +111,6 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
 
 
   public ngOnDestroy(): void {
-    console.log("DESTROY edit user");
     //  this.app.unblockEditedUserIfAny();
     this._destroyed$.next();
     this._destroyed$.complete();

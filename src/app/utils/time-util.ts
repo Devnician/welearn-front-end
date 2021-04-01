@@ -21,7 +21,7 @@ export class TimeUtil {
      * Returns date string only
      * @param dateString 
      */
-    adjustDate(dateString: any): any {
+    public static adjustDate(dateString: any): any {
         // 2019-05-15 
         if (!dateString) {
             return '';

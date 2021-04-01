@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { DonkeyService } from 'src/app/core/donkey.service';
-import { StudentsGroup } from 'src/app/model/students-group.model';
+import { Group } from 'src/app/model/group.model';
 import { AppComponent } from '../../app.component';
 import { BaseComponent } from '../../base/base.component';
 import { Role } from '../../model/role.model';
@@ -19,7 +19,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   displayedColumns = ['online', 'role', 'firstName', 'middleName', 'lastName', 'edit'];
   roles: Role[] = [];
   users: User[] = [];
-  groups: StudentsGroup[];
+  groups: Group[];
   disableEdit: boolean = false;
 
   ngAfterViewInit(): void {
@@ -75,7 +75,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
 
       let array = [];
       this.groups.forEach(group => {
-        group.students.forEach(st => {
+        group.users.forEach(st => {
           array.push(st.userId);
         })
       });
@@ -84,10 +84,10 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
 
     } else if (userRoleId === 5) { // student
       this.disableEdit = true;
-      this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
+      this.groups = this.groups.filter(gr => (gr.users.findIndex(st => st.userId === this.user.userId) !== -1));
       let array = [];
       this.groups.forEach(group => {
-        group.students.forEach(st => {
+        group.users.forEach(st => {
           if (st.userId !== this.user.userId) {
             array.push(st.userId);
           }

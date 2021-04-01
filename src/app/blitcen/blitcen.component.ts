@@ -88,6 +88,7 @@ export class BlitcenComponent {
     this.router.navigate(['']);
   }
 
+
   /**
    * 
    * @param arg0  text

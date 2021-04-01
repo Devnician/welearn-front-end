@@ -126,7 +126,6 @@ export class AppComponent implements OnInit, OnDestroy {
   findAllRoles() {
     this.apiService.getRoles().subscribe(data => {
       this.roles = data.result;
-      console.log(this.roles);
     });
   }
   /**

@@ -24,7 +24,7 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
       firstName: ['', this.valido.validateName(2, 30)],
       middleName: ['', this.valido.validateName(2, 30)],
       lastName: ['', this.valido.validateName(2, 30)],
-      birthDate: ['', Validators.required],
+      birthdate: ['', Validators.required],
       address: ['', Validators.required],
       roleId: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

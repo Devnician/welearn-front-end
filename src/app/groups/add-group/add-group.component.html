@@ -46,10 +46,10 @@
                                 </mat-select>
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="lector">
+                        <ng-container matColumnDef="teacher">
                             <th mat-header-cell *matHeaderCellDef> {{'wl.lector' | translate}}</th>
                             <td mat-cell *matCellDef="let d; let i = index;" [formGroupName]="i">
-                                {{d.value.lector?.firstName}} {{d.value.lector?.lastName}}</td>
+                                {{d.value.teacher?.firstName}} {{d.value.teacher?.lastName}}</td>
                         </ng-container>
                         <ng-container matColumnDef="assistant">
                             <th mat-header-cell *matHeaderCellDef> {{'wl.assistant' | translate}}</th>
@@ -82,5 +82,5 @@
             </div>
         </form>
     </mat-card-content>
-    <!-- <pre>{{addForm.value | json}}</pre> -->
+    <pre>{{addForm.value | json}}</pre>
 </mat-card>

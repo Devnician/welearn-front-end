@@ -7,7 +7,7 @@ import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
 import { Discipline } from 'src/app/model/discipline.model';
-import { StudentsGroup } from 'src/app/model/students-group.model';
+import { Group } from 'src/app/model/group.model';
 import { User } from 'src/app/model/user.model';
 
 @Component({
@@ -37,7 +37,7 @@ import { User } from 'src/app/model/user.model';
   ]
 })
 export class EditGroupComponent extends BaseComponent implements OnInit {
-  studentGroup: StudentsGroup;
+  studentGroup: Group;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
 
 
@@ -51,7 +51,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
       alert('Group is null');
     } else {
       console.log(this.studentGroup);
-      this.loadPaginator(this.studentGroup.students, 'firstName');
+      this.loadPaginator(this.studentGroup.users, 'firstName');
     }
   }
   addStudent() {

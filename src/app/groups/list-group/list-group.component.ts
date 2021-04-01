@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
-import { StudentsGroup } from 'src/app/model/students-group.model';
+import { Group } from 'src/app/model/group.model';
 import { CollectionsUtil } from 'src/app/utils/collections-util';
 
 @Component({
@@ -12,7 +12,7 @@ import { CollectionsUtil } from 'src/app/utils/collections-util';
   styleUrls: ['./list-group.component.scss']
 })
 export class ListGroupComponent extends BaseComponent implements OnInit {
-  groups: StudentsGroup[];
+  groups: Group[];
   collectionsUtil: CollectionsUtil;
   displayedColumns = ['id', 'name', 'startDate', 'endDate', 'open', 'disciplines', 'count', /*'lector', 'assistant',*/ 'edit'];
   disableEdit: boolean = false;
@@ -23,7 +23,14 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.groups = this.collectionsUtil.getGroups(); //admin
+
+
+    this.api.findAllGroups().subscribe(data => {
+      console.log(data.result);
+      this.groups = data.result;
+      this.loadPaginator(this.groups, 'name');
+      this.showSnack(data.message, '', 1300);
+    });
 
     // if (this.user.roleId == 2) { //teacher
     //   //API CALL - getGroupsByTeacherId
@@ -34,10 +41,10 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     //   this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
     // }
     // this.attachLectors();
-    this.loadPaginator(this.groups, 'name');
+    // this.loadPaginator(this.groups, 'name');
   }
 
-  editGroup(group: StudentsGroup) {
+  editGroup(group: Group) {
     this.donkey.setData(group);
     this.router.navigate(['home/list-group/edit-group']);
   }

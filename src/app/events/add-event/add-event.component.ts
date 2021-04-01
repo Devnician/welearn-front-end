@@ -3,7 +3,7 @@ import { FormGroup, Validators } from '@angular/forms';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 import { EventWL } from 'src/app/model/event.model';
-import { StudentsGroup } from 'src/app/model/students-group.model';
+import { Group } from 'src/app/model/group.model';
 import { User } from 'src/app/model/user.model';
 
 @Component({
@@ -15,7 +15,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   addForm: FormGroup;
   minDate: Date = new Date();
   eventTypes: String[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
-  groups: StudentsGroup[] = [];
+  groups: Group[] = [];
   owners: User[] = [];
   disciplines: Discipline[] = [];
 

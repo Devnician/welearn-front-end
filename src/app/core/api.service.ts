@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from "rxjs/index";
 import { environment } from '../../environments/environment';
 import { ApiResponse } from "../model/api.response";
+import { Discipline } from '../model/discipline.model';
+import { Group } from '../model/group.model';
 import { Role } from '../model/role.model';
 import { User } from '../model/user.model';
 
@@ -16,11 +18,13 @@ export class ApiService {
   tokenUrl: string = environment.restUrl;
 
   usersUrl: string = this.host + 'users/';
-  errorUrl: string = this.host + 'support/err'
+  // errorUrl: string = this.host + 'support/err'
   usersRolesUrl: string = this.host + 'roles/';
   usersMenusUrl: string = this.host + 'users/menus/';
 
   disciplinesUrl: string = this.host + 'discipline/'
+
+  groupsUrl: string = this.host + 'group/';
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
   }
@@ -41,7 +45,6 @@ export class ApiService {
     return this.doGet(this.usersUrl + 'logout/' + id);
   }
 
-
   createUser(user: User): Observable<ApiResponse> {
     return this.doPost(this.usersUrl, user);
   }
@@ -52,6 +55,10 @@ export class ApiService {
 
   findAllUsers(): Observable<ApiResponse> {
     return this.doGet(this.usersUrl);
+  }
+
+  findAllUsersWithRoleId(id: number): Observable<ApiResponse> {
+    return this.doGet(this.usersUrl + 'role/' + id);
   }
   ////////////////////////////////////////////////////////////////
   //
@@ -73,8 +80,27 @@ export class ApiService {
   // DISCIPLINES
   //
   ////////////////////////////////////////////////////////////////
+  createDiscipline(discipline: Discipline): Observable<ApiResponse> {
+    return this.doPost(this.disciplinesUrl, discipline);
+  }
   findAllDisciplines(): Observable<ApiResponse> {
     return this.doGet(this.disciplinesUrl);
+  }
+  updateDiscipline(discipline: Discipline): Observable<ApiResponse> {
+    return this.doPost(this.disciplinesUrl + 'update/', discipline);
+  }
+
+
+  ////////////////////////////////////////////////////////////////
+  //
+  // GROUPS
+  //
+  ////////////////////////////////////////////////////////////////
+  findAllGroups(): Observable<ApiResponse> {
+    return this.doGet(this.groupsUrl);
+  }
+  createGroup(group: Group) {
+    return this.doPost(this.groupsUrl, group);
   }
 
   ////////////////////////////////////////////////////////////////
