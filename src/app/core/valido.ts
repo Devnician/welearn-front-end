@@ -4,8 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 interface HashTable<T> {
     [key: string]: string;
 }
-//js for vat check
-declare const checkVATNumber: any;
+
 
 @Injectable()
 export class Valido {
@@ -16,7 +15,7 @@ export class Valido {
     private phonePattern: string = '\\+?\\d{9,15}';
     private carYearPattern: string = '[12]\\d{3}';//dummy car year validator
     private regNumberPattern: string = '[ABEKMHOPCTYX]{1,2}\\ ?[0-9]{4}\\ ?[ABEKMHOPCTYX]{1,2}';
-    private checkVat = checkVATNumber;
+
 
     constructor() {
         try {
@@ -53,9 +52,7 @@ export class Valido {
         return this.errorMessages['required'];
     }
 
-    validateVatNumber(vatnum: string): any {
-        return this.checkVat(vatnum);
-    }
+
     /**
      * Returns array with valido rules.
      * @param required 

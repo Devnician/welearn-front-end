@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AddUserComponent } from './add-user.component';
 
 
@@ -12,9 +11,9 @@ describe('AddUserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [AddUserComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [AppComponent, Router]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents();
   }));

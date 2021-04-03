@@ -2,7 +2,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
@@ -41,7 +40,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
 
 
-  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog) {
+  constructor(ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog) {
     super(ar);
     this.studentGroup = donkey.getData();
   }

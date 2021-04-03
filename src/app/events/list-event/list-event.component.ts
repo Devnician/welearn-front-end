@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { EventWL } from 'src/app/model/event.model';
 
@@ -15,7 +14,7 @@ export class ListEventComponent extends BaseComponent implements OnInit {
   displayedColumns = ['id', 'type', 'subject', 'starDateTime', 'endDateTime', 'edit', 'delete'];
   events: EventWL[] = [];
 
-  constructor(app: AppComponent, ar: ActivatedRoute, public dialog: MatDialog,) {
+  constructor(ar: ActivatedRoute, public dialog: MatDialog,) {
     super(ar);
   }
 

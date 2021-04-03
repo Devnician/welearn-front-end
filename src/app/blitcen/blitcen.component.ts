@@ -36,7 +36,7 @@ export class BlitcenComponent {
   protected snack: MatSnackBar;
   protected formBuilder: FormBuilder;
   protected infoDialog: MatDialog;
-  valido: Valido;
+  protected valido: Valido;
   protected user: User;
   protected appInjector = AppInjector.getInjector();
   protected canFetch: boolean = false;
@@ -54,9 +54,9 @@ export class BlitcenComponent {
     this.checkUser();
   }
   private checkUser() {
-    this.user = this.app.user;
-    this.canFetch = true;
-    let failed: boolean = false;
+    // this.user = this.app.user;
+    // this.canFetch = true;
+    //let failed: boolean = false;
 
 
     // try {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -20,7 +19,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   groups: Group[];
   disableEdit: boolean = false;
 
-  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
+  constructor(ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
   }
 

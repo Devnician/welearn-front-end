@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DonkeyService } from 'src/app/core/donkey.service';
@@ -10,9 +11,11 @@ describe('EditRoleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [MatSnackBar],
       declarations: [EditRoleComponent],
 
-      providers: [DonkeyService, MatSnackBar]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [DonkeyService]
     })
       .compileComponents();
   }));

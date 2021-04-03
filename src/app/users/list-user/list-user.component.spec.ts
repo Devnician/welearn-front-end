@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
 import { ListUserComponent } from './list-user.component';
+
 
 describe('ListUserComponent', () => {
   let component: ListUserComponent;
@@ -8,9 +9,10 @@ describe('ListUserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListUserComponent ]
+      imports: [FormsModule],
+      declarations: [ListUserComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DialogInfoComponent } from './dialog-info.component';
 
 
@@ -10,9 +10,11 @@ describe('DialogInfoComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [MatDialogModule],
       declarations: [DialogInfoComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [MatDialogRef]
+      providers: [MatDialogRef]
+
     })
       .compileComponents();
   }));

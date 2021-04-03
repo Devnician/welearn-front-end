@@ -16,8 +16,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 //datetime picker
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { routing } from "./app.routing";
 import { BaseComponent } from './base/base.component';
 import { BaseformComponent } from './baseform/baseform.component';
 import { BlitcenComponent } from './blitcen/blitcen.component';
@@ -60,35 +60,6 @@ import { LoaderComponent } from './utils/loader.component';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -126,14 +97,12 @@ import { LoaderComponent } from './utils/loader.component';
 
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
-    // AppRoutingModule,
     BrowserAnimationsModule,
-    routing,
+    MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MaterialModule,
-    //   CalendarComponent,
 
     // ngx-translate and the loader module
     TranslateModule.forRoot({
@@ -160,15 +129,10 @@ import { LoaderComponent } from './utils/loader.component';
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
 
   ],
-
-
   entryComponents: [
-
     DialogModalComponent,
     DialogInfoComponent,
   ],
-
-  // exports: [NgxMatDatetimePickerModule, NgxMatNativeDateModule],
 
   providers: [ApiService, DonkeyService, FilterPipe, Valido, {
     provide: HTTP_INTERCEPTORS,
@@ -195,6 +159,7 @@ import { LoaderComponent } from './utils/loader.component';
 
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
   constructor(injector: Injector) {
     AppInjector.setInjector(injector);

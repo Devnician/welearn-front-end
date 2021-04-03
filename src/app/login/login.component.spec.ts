@@ -1,6 +1,6 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { LoginComponent } from './login.component';
 
@@ -13,7 +13,8 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [AppComponent,
+      providers: [AppComponent, Injector, FormBuilder,
+
         {
           provide: FormGroup,
           useValue: undefined
