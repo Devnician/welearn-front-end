@@ -9,7 +9,11 @@ import { MainscreenComponent } from './mainscreen/mainscreen.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
-import { MatToolbarModule, MatSliderModule, MatSlideToggleModule, MAT_DATE_FORMATS, NativeDateAdapter, MatDialogModule, MAT_DATE_LOCALE } from '@angular/material';
+import { MAT_DATE_FORMATS, NativeDateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { ApiService } from "./core/api.service";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -17,24 +21,24 @@ import { routing } from "./app.routing";
 import { TokenInterceptor } from "./core/interceptor";
 import { LayoutModule } from '@angular/cdk/layout';
 
-import { MatMenuModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
 
-import { MatTableModule } from '@angular/material';
-import { MatSortModule } from '@angular/material';
-import { MatTabsModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTabsModule } from '@angular/material/tabs';
 
-import { MatPaginatorModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
-import { MatCardModule } from '@angular/material';
-import { MatSnackBarModule } from '@angular/material';
-import { MatTooltipModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 //import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule, NgxMatDateAdapter } from '@angular-material-components/datetime-picker';
 
 
-import { MatNativeDateModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AlertTagComponent } from './utils/alert-tag.component';
 import { LoaderComponent } from './utils/loader.component';
@@ -45,7 +49,12 @@ import { LoaderComponent } from './utils/loader.component';
  * MAt modules
  */
 
-import { MatInputModule, MatButtonModule, MatSelectModule, MatIconModule, MatCheckboxModule, MatMenuPanel } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuPanel } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule } from '@angular/forms';
@@ -54,7 +63,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
@@ -88,7 +97,8 @@ import { BaseformComponent } from './baseform/baseform.component';
 
 
 
-import { MatFormFieldModule, MatRippleModule } from '@angular/material';
+import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 import { AppInjector } from './core/app-injector.servise';

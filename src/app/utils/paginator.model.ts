@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Sort } from '@angular/material';
+import { Sort } from '@angular/material/sort';
 import { FilterPipe } from '../filter.pipe';
 
 @Injectable({

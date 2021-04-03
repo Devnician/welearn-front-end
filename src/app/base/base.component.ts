@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 import { PPaginator } from '../utils/paginator.model';

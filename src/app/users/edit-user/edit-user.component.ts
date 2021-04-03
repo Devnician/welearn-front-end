@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { DateAdapter } from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs/internal/Subject';
 import { AppComponent } from 'src/app/app.component';

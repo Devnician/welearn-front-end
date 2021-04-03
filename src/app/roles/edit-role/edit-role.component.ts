@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';

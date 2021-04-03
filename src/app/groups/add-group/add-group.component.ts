@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 import { Group } from 'src/app/model/group.model';

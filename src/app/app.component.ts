@@ -2,7 +2,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { registerLocaleData } from '@angular/common';
 import localeBg from '@angular/common/locales/bg'; // to register bg
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav, MatSnackBar } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';

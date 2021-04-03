@@ -1,6 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { isNullOrUndefined, isNumber } from 'util';
 import { AppComponent } from '../app.component';

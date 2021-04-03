@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
