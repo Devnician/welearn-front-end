@@ -1,6 +1,8 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { AppComponent } from 'src/app/app.component';
 import { ListGroupComponent } from './list-group.component';
+
 
 describe('ListGroupComponent', () => {
   let component: ListGroupComponent;
@@ -8,9 +10,12 @@ describe('ListGroupComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListGroupComponent ]
+      declarations: [ListGroupComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [AppComponent,
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

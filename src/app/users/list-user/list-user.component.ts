@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Group } from 'src/app/model/group.model';
@@ -25,7 +24,7 @@ export class ListUserComponent extends BaseComponent implements AfterViewInit, O
   ngAfterViewInit(): void {
   }
 
-  constructor(public snackBar: MatSnackBar, app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
+  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
     super(ar);
     this.roles = app.roles;
     // console.log(this.roles);

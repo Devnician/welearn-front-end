@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DonkeyService } from 'src/app/core/donkey.service';
 import { EditRoleComponent } from './edit-role.component';
+
 
 describe('EditRoleComponent', () => {
   let component: EditRoleComponent;
@@ -8,9 +10,11 @@ describe('EditRoleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditRoleComponent ]
+      declarations: [EditRoleComponent],
+
+      providers: [DonkeyService, MatSnackBar]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

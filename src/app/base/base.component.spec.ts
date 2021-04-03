@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from './base.component';
+
 
 describe('BaseComponent', () => {
   let component: BaseComponent;
@@ -8,9 +9,10 @@ describe('BaseComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseComponent ]
+      declarations: [BaseComponent],
+      providers: [ActivatedRoute]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

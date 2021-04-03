@@ -1,6 +1,7 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { MainscreenComponent } from './mainscreen.component';
+
 
 describe('MainscreenComponent', () => {
   let component: MainscreenComponent;
@@ -8,9 +9,10 @@ describe('MainscreenComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainscreenComponent ]
+      declarations: [MainscreenComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

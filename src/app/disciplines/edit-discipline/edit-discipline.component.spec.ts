@@ -1,6 +1,9 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
+import { DonkeyService } from 'src/app/core/donkey.service';
 import { EditDisciplineComponent } from './edit-discipline.component';
+
 
 describe('EditDisciplineComponent', () => {
   let component: EditDisciplineComponent;
@@ -8,9 +11,11 @@ describe('EditDisciplineComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditDisciplineComponent ]
+      declarations: [EditDisciplineComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [ActivatedRoute, DonkeyService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
