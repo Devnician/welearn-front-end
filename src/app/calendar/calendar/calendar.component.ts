@@ -1,36 +1,30 @@
-import { Component, OnInit, ViewChild, TemplateRef, Input, Output, EventEmitter } from '@angular/core';
-// import { CalendarEvent } from 'calendar-utils';
-// import { CalendarView, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-//import { colors } from '../utils/colors';
-
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { CalendarModule, DateAdapter, DAYS_OF_WEEK, CalendarDateFormatter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-
-import { CustomDateFormatter } from './custom-date-formatter.provider';
-
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
-import { Subject } from 'rxjs';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  CalendarEvent,
+  CalendarDateFormatter, CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
-  CalendarView
+  CalendarView, DAYS_OF_WEEK
 } from 'angular-calendar';
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
+import {
+  addDays,
+
+
+
+  addHours, endOfDay,
+
+
+  endOfMonth,
+  isSameDay,
+  isSameMonth, startOfDay,
+
+  subDays
+} from 'date-fns';
+import { Subject } from 'rxjs';
+import { CustomDateFormatter } from './custom-date-formatter.provider';
+
+
+
 
 const colors: any = {
   red: {
@@ -198,7 +192,7 @@ export class CalendarComponent {
 
   handleEvent(action: string, event: CalendarEvent): void {
 
-   
+
 
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });

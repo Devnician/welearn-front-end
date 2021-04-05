@@ -1,8 +1,11 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ApiService } from '../core/api.service';
+import { Valido } from '../core/valido';
+import { MaterialModule } from '../material.module';
 import { BaseComponent } from './base.component';
 
 
@@ -12,10 +15,16 @@ describe('BaseComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormsModule],
+
       declarations: [BaseComponent],
+      imports: [
+        RouterTestingModule,
+        FormsModule,
+        HttpClientTestingModule,
+        MaterialModule,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ActivatedRoute]
+      providers: [ApiService, Valido, FormBuilder]
     })
       .compileComponents();
   }));

@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { environment } from 'src/environments/environment';
 import { AppComponent } from '../app.component';
 import { ApiService } from "../core/api.service";
-import { AppInjector } from '../core/app-injector.servise';
 import { Valido } from '../core/valido';
 import { User } from '../model/user.model';
 
@@ -15,16 +14,16 @@ import { User } from '../model/user.model';
 })
 
 export class LoginComponent implements OnInit {
-  protected apiService: ApiService;
+  //protected apiService: ApiService;
   loginForm: FormGroup;
   invalidLogin: boolean = false;
   invalidMessage: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private app: AppComponent, private valido: Valido) {
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private router: Router, private valido: Valido) {
   }
 
   ngOnInit() {
-    this.app.clearUserData();
+    AppComponent.myapp?.clearUserData();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.compose([Validators.required])],
       password: ['', Validators.required]
@@ -45,8 +44,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    const injector = AppInjector.getInjector();
-    this.apiService = injector.get(ApiService);
+    // const injector = AppInjector.getInjector();
+    // this.apiService = injector.get(ApiService);
     if (this.valido.isThereForbiddenWords(this.loginForm.get('username').value) ||
       this.valido.isThereForbiddenWords(this.loginForm.get('password').value)) {
       this.invalidLogin = true;
@@ -94,7 +93,7 @@ export class LoginComponent implements OnInit {
               this.apiService.findUserById(data.result.id).subscribe(
                 data => {
                   let user: User = data.result;
-                  this.app.setUserAsLogged(user);
+                  AppComponent.myapp.setUserAsLogged(user);
                   this.router.navigate(['home']);
                 }
               );

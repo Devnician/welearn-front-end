@@ -2,7 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, Injector, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,7 +24,6 @@ import { BlitcenComponent } from './blitcen/blitcen.component';
 //import { adapterFactory } from 'angular-calendar/date-adapters/moment/index/CALENDAR_DATE_TIME_LOCALE';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { ApiService } from "./core/api.service";
-import { AppInjector } from './core/app-injector.servise';
 import { DonkeyService } from './core/donkey.service';
 import { GlobalErrorHandler } from './core/global-error-handler';
 import { TokenInterceptor } from "./core/interceptor";
@@ -161,9 +160,9 @@ import { LoaderComponent } from './utils/loader.component';
 })
 
 export class AppModule {
-  constructor(injector: Injector) {
-    AppInjector.setInjector(injector);
-  }
+  // constructor(injector: Injector) {
+  //   AppInjector.setInjector(injector);
+  // }
 }
 
 

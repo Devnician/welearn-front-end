@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MenuOptions } from '../model/menu.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DonkeyService {
     private data: any;
     private info: string;

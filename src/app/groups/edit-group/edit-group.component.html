@@ -73,7 +73,7 @@
         </div>
         <mat-divider></mat-divider>
         <cdk-virtual-scroll-viewport class="disciplines-list" itemSize="5">
-            <ng-container *cdkVirtualFor="let discipline of studentGroup.disciplines">
+            <ng-container *cdkVirtualFor="let discipline of studentGroup?.disciplines">
                 <div class="disciplines-row" (click)="editDiscipline(discipline)">
                     <div> {{discipline.name}}</div>
                     <div> лектор : {{discipline.lector?.firstName}} {{discipline.lector?.lastName}}</div>

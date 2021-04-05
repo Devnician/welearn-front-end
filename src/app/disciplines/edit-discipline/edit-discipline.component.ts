@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
@@ -17,32 +17,37 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
   discipline: Discipline;
   lectors: User[];
 
-  constructor(donkey: DonkeyService, ar: ActivatedRoute,) {
-    super();
+  constructor(donkey: DonkeyService, ar: ActivatedRoute, injector: Injector) {
+    super(injector);
     this.discipline = donkey.getData();
-    this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(this.discipline.creationDate);
-    this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(this.discipline.modifiedDate);
+    if (this.discipline) {
+      this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(this.discipline.creationDate);
+      this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(this.discipline.modifiedDate);
+    }
+
   }
   /**
    * Initializes the form
    */
   ngOnInit(): void {
-    let roleOfTeachersID: number = this.roles.find(r => r.role === 'teacher').id;
+    let roleOfTeachersID: number = this.roles?.find(r => r.role === 'teacher')?.id;
+    if (roleOfTeachersID) {
+      this.api.findAllUsersWithRoleId(roleOfTeachersID).subscribe(
+        data => {
+          this.lectors = data.result;
+        }
+      )
+      console.log(this.discipline);
+      this.editForm = this.formBuilder.group({
+        id: this.discipline.id,
+        name: this.discipline.name,
+        creationDate: { value: this.discipline.creationDate, disabled: true },
+        modifiedDate: { value: this.discipline.modifiedDate, disabled: true },
+        teacher: this.discipline.lector,
+        assistant: this.discipline.assistant
+      });
+    }
 
-    this.api.findAllUsersWithRoleId(roleOfTeachersID).subscribe(
-      data => {
-        this.lectors = data.result;
-      }
-    )
-    console.log(this.discipline);
-    this.editForm = this.formBuilder.group({
-      id: this.discipline.id,
-      name: this.discipline.name,
-      creationDate: { value: this.discipline.creationDate, disabled: true },
-      modifiedDate: { value: this.discipline.modifiedDate, disabled: true },
-      teacher: this.discipline.lector,
-      assistant: this.discipline.assistant
-    });
   }
 
   reset() {

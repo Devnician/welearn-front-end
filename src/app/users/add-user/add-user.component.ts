@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup, Validators } from "@angular/forms";
-import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from '../../baseform/baseform.component';
 import { User } from '../../model/user.model';
 
@@ -12,11 +11,11 @@ import { User } from '../../model/user.model';
 export class AddUserComponent extends BaseformComponent implements OnInit {
   addForm: FormGroup;
 
-  constructor(app: AppComponent) {
-    super();
+  constructor(/*app: AppComponent*/injector: Injector) {
+    super(injector);
   }
   ngOnInit() {
-    this.roles = this.app.roles;
+    //this.roles = this.app.roles; 
     this.addForm = this.formBuilder.group({
       id: [],
       username: ['', Validators.required],

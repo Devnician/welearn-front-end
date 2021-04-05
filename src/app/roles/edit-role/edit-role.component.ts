@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { MenuOptions } from 'src/app/model/menu.model';
@@ -23,8 +22,8 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   menus: FormArray = this.formBuilder.array([]); // current role menus
   availableMenus: FormArray = this.formBuilder.array([]); // for asign 
 
-  constructor(private donkey: DonkeyService, public snackBar: MatSnackBar, app: AppComponent) {
-    super();
+  constructor(private donkey: DonkeyService, public snackBar: MatSnackBar, injector: Injector) {
+    super(injector);
     this.currentRole = donkey.getData();
     try {
       this.allMenus = MenuUtil.getAllMenus();
@@ -39,17 +38,30 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
     /**
      * Build form with base fields
      */
-    this.editForm = this.formBuilder.group({
-      id: [this.currentRole.id, ''],
-      role: [this.currentRole.role, Validators.required],
-      description: [this.currentRole.description, Validators.required],
-      roleBg: [this.currentRole.roleBg, Validators.required],
-      descriptionBg: [this.currentRole.descriptionBg, Validators.required],
-      menus: this.menus,
-      available: this.availableMenus,
-    });
-    this.showSelectedMenus();
-    this.showAvailableMenus();
+    if (this.currentRole) {
+      this.editForm = this.formBuilder.group({
+        id: [this.currentRole.id, ''],
+        role: [this.currentRole.role, Validators.required],
+        description: [this.currentRole.description, Validators.required],
+        roleBg: [this.currentRole.roleBg, Validators.required],
+        descriptionBg: [this.currentRole.descriptionBg, Validators.required],
+        menus: this.menus,
+        available: this.availableMenus,
+      });
+      this.showSelectedMenus();
+      this.showAvailableMenus();
+    } else {
+      this.editForm = this.formBuilder.group({
+        id: '',
+        role: '',
+        description: '',
+        roleBg: '',
+        descriptionBg: '',
+        menus: [],
+        available: [],
+      });
+    }
+
   }
 
 

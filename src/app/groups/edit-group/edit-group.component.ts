@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -40,8 +40,8 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
 
 
-  constructor(ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog) {
-    super(ar);
+  constructor(ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog, injector: Injector) {
+    super(ar, injector);
     this.studentGroup = donkey.getData();
   }
 

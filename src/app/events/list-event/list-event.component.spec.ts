@@ -1,7 +1,12 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { Valido } from 'src/app/core/valido';
+import { MaterialModule } from 'src/app/material.module';
 import { ListEventComponent } from './list-event.component';
 
 
@@ -14,10 +19,22 @@ describe('ListEventComponent', () => {
   };
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatDialogModule],
+      imports: [
+        RouterTestingModule,
+        MatDialogModule,
+        HttpClientTestingModule,
+        MaterialModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateFakeLoader
+          }
+        })
+      ],
       declarations: [ListEventComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        Valido, FormBuilder,
         {
           provide: MatDialogRef,
           useValue: mockDialogRef

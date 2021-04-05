@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 import { Role } from '../model/role.model';
@@ -18,9 +18,9 @@ export class ImageSnippet {
 export class BaseformComponent extends BlitcenComponent implements OnInit {
   passFieldType: string = 'password';
   roles: Role[] = [];
-  constructor() {
-    super();
-    this.roles = AppComponent.myapp.roles;
+  constructor(injector: Injector) {
+    super(injector);
+    this.roles = AppComponent?.myapp?.roles;
   }
   ngOnInit() {
   }

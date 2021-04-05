@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -15,8 +15,8 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
   displayedColumns = ['id', 'role', 'description', 'edit'];
   roles: Role[] = [];
 
-  constructor(private donkey: DonkeyService, ar: ActivatedRoute) {
-    super(ar);
+  constructor(private donkey: DonkeyService, ar: ActivatedRoute, injector: Injector) {
+    super(ar, injector);
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
@@ -19,13 +19,13 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   groups: Group[];
   disableEdit: boolean = false;
 
-  constructor(ar: ActivatedRoute, private donkey: DonkeyService) {
-    super(ar);
+  constructor(ar: ActivatedRoute, private donkey: DonkeyService, injector: Injector) {
+    super(ar, injector);
   }
 
   ngOnInit(): void {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
-    this.api.findAllDisciplines().subscribe(
+    this.api?.findAllDisciplines().subscribe(
       data => {
         this.disciplines = data.result;
         this.loadPaginator(this.disciplines, 'name');

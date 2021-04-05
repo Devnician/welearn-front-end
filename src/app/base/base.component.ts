@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
@@ -18,19 +18,13 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   officeId: number = 0;
   paginator: PPaginator;
   protected activatedRoute: ActivatedRoute;
-  storage: any = {};
 
   @ViewChild('table', { static: true }) table: MatTable<any>;
-  constructor(ar: ActivatedRoute) {
-    super();
-    this.paginator = this.appInjector.get(PPaginator);
+
+  constructor(ar: ActivatedRoute, injector: Injector) {
+    super(injector);
+    this.paginator = injector.get(PPaginator);
     this.activatedRoute = ar;
-  }
-
-
-  loadStorageVars() {
-    this.storage.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.storage.type = this.activatedRoute.snapshot.paramMap.get('type');
   }
 
   /**
@@ -39,9 +33,6 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
    * @param prop initial property for filtering
    */
   loadPaginator(data: any, prop: string) {
-    if (!this.paginator) {
-      this.paginator = this.appInjector.get(PPaginator);
-    }
     this.paginator.init(data, prop);
   }
   /**
@@ -65,5 +56,4 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   ngOnDestroy(): void {
     delete this.paginator;
   }
-
 }

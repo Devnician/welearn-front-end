@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 
 @Component({
@@ -8,8 +8,8 @@ import { BlitcenComponent } from '../blitcen/blitcen.component';
 })
 export class DocumentsComponent extends BlitcenComponent implements OnInit {
 
-  constructor() {
-    super();
+  constructor(injector: Injector) {
+    super(injector);
   }
 
   parents: any[] = [];

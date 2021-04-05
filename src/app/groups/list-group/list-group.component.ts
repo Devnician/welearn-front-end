@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Group } from 'src/app/model/group.model';
-import { CollectionsUtil } from 'src/app/utils/collections-util';
 
 @Component({
   selector: 'app-list-group',
@@ -13,35 +11,30 @@ import { CollectionsUtil } from 'src/app/utils/collections-util';
 })
 export class ListGroupComponent extends BaseComponent implements OnInit {
   groups: Group[];
-  collectionsUtil: CollectionsUtil;
-  displayedColumns = ['id', 'name', 'startDate', 'endDate', 'open', 'disciplines', 'count', /*'lector', 'assistant',*/ 'edit'];
+  displayedColumns = ['id', 'name', 'startDate', 'endDate', 'disciplines', 'count', 'edit'];
   disableEdit: boolean = false;
 
-  constructor(app: AppComponent, ar: ActivatedRoute, private donkey: DonkeyService) {
-    super(ar);
-    this.collectionsUtil = new CollectionsUtil();
+  constructor(ar: ActivatedRoute, private donkey: DonkeyService, injector: Injector) {
+    super(ar, injector);
   }
 
   ngOnInit(): void {
-
-
     this.api.findAllGroups().subscribe(data => {
-      console.log(data.result);
       this.groups = data.result;
+
+      //TODO - fliter according role
+      // if (this.user.roleId == 2) { //teacher
+      //   //API CALL - getGroupsByTeacherId
+      //   this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
+      //     || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
+      // } else if (this.user.roleId == 3) {// students 
+      //   this.disableEdit = true;
+      //   this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
+      // }
+
       this.loadPaginator(this.groups, 'name');
       this.showSnack(data.message, '', 1300);
     });
-
-    // if (this.user.roleId == 2) { //teacher
-    //   //API CALL - getGroupsByTeacherId
-    //   this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
-    //     || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
-    // } else if (this.user.roleId == 3) {// students 
-    //   this.disableEdit = true;
-    //   this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
-    // }
-    // this.attachLectors();
-    // this.loadPaginator(this.groups, 'name');
   }
 
   editGroup(group: Group) {
@@ -49,11 +42,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     this.router.navigate(['home/list-group/edit-group']);
   }
 
-  changeGroupState(event: any) {
-    console.log(event.value);
-  }
   addGroup() {
     this.router.navigate(['home/list-group/add-group']);
   }
-
 }

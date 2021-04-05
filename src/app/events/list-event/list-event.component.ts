@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -14,8 +14,8 @@ export class ListEventComponent extends BaseComponent implements OnInit {
   displayedColumns = ['id', 'type', 'subject', 'starDateTime', 'endDateTime', 'edit', 'delete'];
   events: EventWL[] = [];
 
-  constructor(ar: ActivatedRoute, public dialog: MatDialog,) {
-    super(ar);
+  constructor(ar: ActivatedRoute, public dialog: MatDialog, injector: Injector) {
+    super(ar, injector);
   }
 
   ngOnInit(): void {

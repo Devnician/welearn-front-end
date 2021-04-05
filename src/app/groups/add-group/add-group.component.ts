@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
@@ -19,8 +19,8 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   displayedColumns = ['name', 'teacher', 'assistant', 'remove'];
   disciplines: Discipline[] = [];
 
-  constructor() {
-    super();
+  constructor(injector: Injector) {
+    super(injector);
   }
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
@@ -19,8 +19,8 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   menus: FormArray = this.formBuilder.array([]);
   availableMenus: FormArray = this.formBuilder.array([]);
 
-  constructor() {
-    super();
+  constructor(injector: Injector) {
+    super(injector);
   }
 
   ngOnInit() {

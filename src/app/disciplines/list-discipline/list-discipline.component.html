@@ -7,7 +7,7 @@
     </button>
 </div>
 <div class="mat-elevation-z8">
-    <table mat-table #table [dataSource]="paginator.slice">
+    <table mat-table #table [dataSource]="paginator?.slice">
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> {{'wl.group_name' |translate}} </th>
             <td mat-cell *matCellDef="let discipline"> {{discipline.name}} </td>

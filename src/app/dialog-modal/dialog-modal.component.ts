@@ -39,12 +39,12 @@ export class DialogModalComponent implements OnInit, OnDestroy {
 
   constructor(public dialogRef: MatDialogRef<DialogModalComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private api: ApiService, public snackBar: MatSnackBar, private sanitizer: DomSanitizer) {
-    this.objectFromPage = data.obj;
-    this.collection = data.collection;
-    this.mode = data.mode;
-    this.classType = data.classType;
+    this.objectFromPage = data?.obj;
+    this.collection = data?.collection;
+    this.mode = data?.mode;
+    this.classType = data?.classType;
     this.valido = new Valido();
-    this.user = AppComponent.myapp.user;
+    this.user = AppComponent.myapp?.user;
   }
 
   ngOnInit(): void {
@@ -90,7 +90,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     // if (!fieldName) {
     //   return false;
     // }
-    let val: string = this.form.get(fieldName).value;
+    let val: string = this.form.get(fieldName)?.value;
     if (isNumber(val)) {
       return true;
     }
@@ -103,7 +103,6 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     }
     return !this.form.get(fieldName).valid && this.form.get(fieldName).touched;
   }
-
 
   ngOnDestroy(): void {
   }

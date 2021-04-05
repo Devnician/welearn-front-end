@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs/internal/Subject';
@@ -23,15 +23,19 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
   selfEdit: boolean = false;
   roles: Role[] = [];
 
-  constructor(/*private dateAdapter: DateAdapter<Date>,*/ private sanitizer: DomSanitizer, private donkey: DonkeyService) {
-    super();
-    const currentMenu = this.app.getCurrentMenuObject('/' + this.parentDir);
+  constructor(
+    private sanitizer: DomSanitizer, private donkey: DonkeyService, injector: Injector) {
+    super(injector);
+    //const currentMenu = this.app.getCurrentMenuObject('/' + this.parentDir);
     this.selfEdit = donkey.getInfo() == 'self';
     this.editUser = donkey.getData();
-    this.roles = AppComponent.myapp.roles;
+    this.roles = AppComponent.myapp?.roles;
   }
 
   ngOnInit() {
+    if (!this.editUser) {
+      return;
+    }
     if (!this.editUser.userId) {
       history.back();
     }
@@ -67,7 +71,7 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
  */
   isFieldValid(field: string) {
     //return true;
-    return !this.editForm.get(field).valid && this.editForm.get(field).touched;
+    return !this.editForm?.get(field).valid && this.editForm?.get(field).touched;
   }
   /**
    * 
@@ -101,7 +105,7 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
    */
   shouldIValidatePass() {
     const control = this.editForm.get('password');
-    let pass: string = control.value;
+    let pass: string = control?.value;
     if (pass == 'unknown' || pass == '') {
       control.clearValidators();
       control.updateValueAndValidity();
@@ -110,7 +114,6 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
 
 
   public ngOnDestroy(): void {
-    //  this.app.unblockEditedUserIfAny();
     this._destroyed$.next();
     this._destroyed$.complete();
   }

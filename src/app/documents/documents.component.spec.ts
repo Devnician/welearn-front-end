@@ -1,6 +1,12 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { FormBuilder } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Valido } from '../core/valido';
+import { MaterialModule } from '../material.module';
 import { DocumentsComponent } from './documents.component';
+
 
 describe('DocumentsComponent', () => {
   let component: DocumentsComponent;
@@ -8,9 +14,13 @@ describe('DocumentsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DocumentsComponent ]
+      declarations: [DocumentsComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule, MaterialModule
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [Valido, FormBuilder]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

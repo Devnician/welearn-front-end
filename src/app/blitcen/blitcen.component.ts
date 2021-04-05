@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppComponent } from '../app.component';
 import { ApiService } from '../core/api.service';
-import { AppInjector } from '../core/app-injector.servise';
 import { DonkeyService } from '../core/donkey.service';
 import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
@@ -38,17 +37,17 @@ export class BlitcenComponent {
   protected infoDialog: MatDialog;
   protected valido: Valido;
   protected user: User;
-  protected appInjector = AppInjector.getInjector();
   protected canFetch: boolean = false;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
-  constructor() {
-    this.api = this.appInjector.get(ApiService);
-    this.valido = this.appInjector.get(Valido);
-    this.router = this.appInjector.get(Router);
-    this.snack = this.appInjector.get(MatSnackBar);
-    this.formBuilder = this.appInjector.get(FormBuilder);
-    this.infoDialog = this.appInjector.get(MatDialog);
+  constructor(injector: Injector) {
+    this.api = injector.get(ApiService);
+    this.valido = injector.get(Valido);
+    this.router = injector.get(Router);
+    this.snack = injector.get(MatSnackBar);
+    this.formBuilder = injector.get(FormBuilder);
+    this.infoDialog = injector.get(MatDialog);
+
     this.lang = AppComponent.lang;
     this.langExt = (this.lang != undefined && this.lang === 'bg') ? "_" + this.lang : '';
     this.checkUser();
@@ -118,7 +117,6 @@ export class BlitcenComponent {
    * @param messages 
    */
   showConfirmDialog(label: string, singleMessage: string, messages: string[]): MatDialogRef<DialogInfoComponent> {
-
     let dialogData: any = { 'label': label, 'singleMessage': singleMessage, 'messages': messages, 'confirmation': true };
     const dialogRef = this.infoDialog.open(DialogInfoComponent, {
       width: 'auto',

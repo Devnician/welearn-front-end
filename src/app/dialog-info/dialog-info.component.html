@@ -1,18 +1,18 @@
-<h1 mat-dialog-title>{{data.dialogData.label}}</h1>
+<h1 mat-dialog-title>{{data?.dialogData?.label}}</h1>
 <div mat-dialog-content>
-    <p>{{data.dialogData.singleMessage}}</p>
+    <p>{{data?.dialogData.singleMessage}}</p>
 
-    <div *ngFor="let message of data.dialogData.messages, let i = index" [attr.data-index]="i">
+    <div *ngFor="let message of data?.dialogData?.messages, let i = index" [attr.data-index]="i">
         <p>{{i+1}}: {{message}}</p>
     </div>
 </div>
 <div mat-dialog-actions style="margin-bottom: 0 !important;">
-    <div *ngIf="!data.dialogData.confirmation">
+    <div *ngIf="!data?.dialogData?.confirmation">
         <button mat-button (click)="onNoClick()" cdkFocusInitial>ok</button>
     </div>
-    <div *ngIf="data.dialogData.confirmation === true">
+    <div *ngIf="data?.dialogData?.confirmation === true">
         <button mat-button (click)="onNoClick()" cdkFocusInitial>cancel</button>
-        <button *ngIf="data.dialogData.confirmation === true" mat-button (click)="onYesClick()"
+        <button *ngIf="data?.dialogData?.confirmation === true" mat-button (click)="onYesClick()"
             cdkFocusInitial>ok</button>
 
     </div>

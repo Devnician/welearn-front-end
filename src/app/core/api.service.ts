@@ -10,7 +10,9 @@ import { Group } from '../model/group.model';
 import { Role } from '../model/role.model';
 import { User } from '../model/user.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 
 export class ApiService {
 
