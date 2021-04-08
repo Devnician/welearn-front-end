@@ -12,11 +12,11 @@
 
 
 export interface RoleDto { 
-    description?: string;
+    description: string;
     descriptionBg?: string;
     id?: number;
     permissions?: string;
-    role?: string;
+    role: string;
     roleBg?: string;
     userId?: Array<string>;
 }

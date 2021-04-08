@@ -19,13 +19,13 @@ import { UserDto } from './userDto';
 export interface GroupDto { 
     description?: string;
     disciplines?: Array<DisciplineDto>;
-    endDate?: Date;
+    endDate: Date;
     events?: Array<EventDto>;
     groupId?: string;
-    maxResourcesMb?: number;
-    name?: string;
+    maxResourcesMb: number;
+    name: string;
     resources?: Array<ResourceDto>;
     schedules?: Array<ScheduleDto>;
-    startDate?: Date;
+    startDate: Date;
     users?: Array<UserDto>;
 }

@@ -12,10 +12,10 @@
 
 
 export interface ScheduleDto { 
-    disciplineId?: string;
-    endTime?: Date;
-    groupId?: string;
+    disciplineId: string;
+    endTime: Date;
+    groupId: string;
     id?: string;
     resourceIds?: Array<string>;
-    startTime?: Date;
+    startTime: Date;
 }

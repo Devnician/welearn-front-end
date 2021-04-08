@@ -12,9 +12,9 @@
 
 
 export interface EvaluationMarkDto { 
-    disciplineId?: string;
+    disciplineId: string;
     groupId?: string;
     id?: string;
-    markValue?: number;
-    userId?: string;
+    markValue: number;
+    userId: string;
 }

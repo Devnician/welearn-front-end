@@ -15,7 +15,7 @@ import { UserDto } from './userDto';
 export interface DisciplineDto { 
     assistant?: UserDto;
     id?: string;
-    name?: string;
+    name: string;
     resourceIds?: Array<string>;
     teacher?: UserDto;
 }

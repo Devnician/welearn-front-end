@@ -12,12 +12,12 @@
 
 
 export interface ResourceDto { 
-    accessibleAll?: boolean;
-    dirPath?: string;
+    accessibleAll: boolean;
+    dirPath: string;
     disciplineId?: string;
     groupId?: string;
-    name?: string;
+    name: string;
     resourceId?: string;
     scheduleId?: string;
-    type?: string;
+    type: string;
 }

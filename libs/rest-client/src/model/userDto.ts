@@ -16,20 +16,20 @@ import { RoleDto } from './roleDto';
 export interface UserDto { 
     address?: string;
     assistedDisciplineIds?: Array<string>;
-    birthdate?: Date;
+    birthdate: Date;
     blackListedEventIds?: Array<string>;
     deleted?: number;
-    email?: string;
+    email: string;
     evaluationMarks?: Array<EvaluationMarkDto>;
-    firstName?: string;
+    firstName: string;
     groupId?: string;
-    lastName?: string;
+    lastName: string;
     loggedIn?: number;
     middleName?: string;
     password?: string;
     phoneNumber?: string;
-    role?: RoleDto;
+    role: RoleDto;
     taughtDisciplineIds?: Array<string>;
     userId?: string;
-    username?: string;
+    username: string;
 }

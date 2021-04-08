@@ -14,10 +14,10 @@ import { UserDto } from './userDto';
 
 export interface EventDto { 
     blacklist?: Array<UserDto>;
-    endDate?: Date;
+    endDate: Date;
     eventId?: string;
     groupId?: string;
-    name?: string;
-    startDate?: Date;
-    type?: string;
+    name: string;
+    startDate: Date;
+    type: string;
 }

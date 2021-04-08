@@ -15,6 +15,7 @@ export interface AuthToken {
     firstName?: string;
     id?: string;
     lastName?: string;
+    message?: string;
     roleId?: number;
     token?: string;
     username?: string;
