@@ -11,17 +11,19 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
-import { Observable }                                        from 'rxjs/Observable';
-
+import {
+    HttpClient,
+    HttpEvent, HttpHeaders,
+    HttpResponse
+} from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Configuration } from '../configuration';
 import { DisciplineDto } from '../model/disciplineDto';
+import { BASE_PATH } from '../variables';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+
+
 
 
 @Injectable()
@@ -31,7 +33,7 @@ export class DisciplineControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
         if (configuration) {
             this.configuration = configuration;
@@ -67,7 +69,7 @@ export class DisciplineControllerService {
     public createDisciplineUsingPOST(disciplineDto: DisciplineDto, observe?: 'body', reportProgress?: boolean): Observable<DisciplineDto>;
     public createDisciplineUsingPOST(disciplineDto: DisciplineDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DisciplineDto>>;
     public createDisciplineUsingPOST(disciplineDto: DisciplineDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DisciplineDto>>;
-    public createDisciplineUsingPOST(disciplineDto: DisciplineDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createDisciplineUsingPOST(disciplineDto: DisciplineDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (disciplineDto === null || disciplineDto === undefined) {
             throw new Error('Required parameter disciplineDto was null or undefined when calling createDisciplineUsingPOST.');
         }
@@ -118,7 +120,7 @@ export class DisciplineControllerService {
     public editDisciplineUsingPUT(disciplineDto: DisciplineDto, observe?: 'body', reportProgress?: boolean): Observable<DisciplineDto>;
     public editDisciplineUsingPUT(disciplineDto: DisciplineDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DisciplineDto>>;
     public editDisciplineUsingPUT(disciplineDto: DisciplineDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DisciplineDto>>;
-    public editDisciplineUsingPUT(disciplineDto: DisciplineDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public editDisciplineUsingPUT(disciplineDto: DisciplineDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (disciplineDto === null || disciplineDto === undefined) {
             throw new Error('Required parameter disciplineDto was null or undefined when calling editDisciplineUsingPUT.');
         }
@@ -169,7 +171,7 @@ export class DisciplineControllerService {
     public getDisciplineUsingGET(disciplineId: string, observe?: 'body', reportProgress?: boolean): Observable<DisciplineDto>;
     public getDisciplineUsingGET(disciplineId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DisciplineDto>>;
     public getDisciplineUsingGET(disciplineId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DisciplineDto>>;
-    public getDisciplineUsingGET(disciplineId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getDisciplineUsingGET(disciplineId: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (disciplineId === null || disciplineId === undefined) {
             throw new Error('Required parameter disciplineId was null or undefined when calling getDisciplineUsingGET.');
         }
@@ -213,7 +215,7 @@ export class DisciplineControllerService {
     public getDisciplinesUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<DisciplineDto>>;
     public getDisciplinesUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<DisciplineDto>>>;
     public getDisciplinesUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<DisciplineDto>>>;
-    public getDisciplinesUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getDisciplinesUsingGET(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -255,7 +257,7 @@ export class DisciplineControllerService {
     public removeDisciplineUsingDELETE(disciplineId: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
     public removeDisciplineUsingDELETE(disciplineId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
     public removeDisciplineUsingDELETE(disciplineId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public removeDisciplineUsingDELETE(disciplineId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public removeDisciplineUsingDELETE(disciplineId: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (disciplineId === null || disciplineId === undefined) {
             throw new Error('Required parameter disciplineId was null or undefined when calling removeDisciplineUsingDELETE.');
         }

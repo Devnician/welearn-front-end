@@ -11,17 +11,19 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
-import { Observable }                                        from 'rxjs/Observable';
-
+import {
+    HttpClient,
+    HttpEvent, HttpHeaders,
+    HttpResponse
+} from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Configuration } from '../configuration';
 import { RoleDto } from '../model/roleDto';
+import { BASE_PATH } from '../variables';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+
+
 
 
 @Injectable()
@@ -31,7 +33,7 @@ export class RoleControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
         if (configuration) {
             this.configuration = configuration;
@@ -67,7 +69,7 @@ export class RoleControllerService {
     public deleteRoleUsingDELETE(id: number, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
     public deleteRoleUsingDELETE(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
     public deleteRoleUsingDELETE(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public deleteRoleUsingDELETE(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteRoleUsingDELETE(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling deleteRoleUsingDELETE.');
         }
@@ -112,7 +114,7 @@ export class RoleControllerService {
     public getRoleByIdUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<RoleDto>;
     public getRoleByIdUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleDto>>;
     public getRoleByIdUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleDto>>;
-    public getRoleByIdUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getRoleByIdUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling getRoleByIdUsingGET.');
         }
@@ -156,7 +158,7 @@ export class RoleControllerService {
     public listRolesUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<RoleDto>>;
     public listRolesUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<RoleDto>>>;
     public listRolesUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<RoleDto>>>;
-    public listRolesUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public listRolesUsingGET(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -198,7 +200,7 @@ export class RoleControllerService {
     public saveRoleUsingPOST(roleDto: RoleDto, observe?: 'body', reportProgress?: boolean): Observable<RoleDto>;
     public saveRoleUsingPOST(roleDto: RoleDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleDto>>;
     public saveRoleUsingPOST(roleDto: RoleDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleDto>>;
-    public saveRoleUsingPOST(roleDto: RoleDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public saveRoleUsingPOST(roleDto: RoleDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (roleDto === null || roleDto === undefined) {
             throw new Error('Required parameter roleDto was null or undefined when calling saveRoleUsingPOST.');
         }
@@ -249,7 +251,7 @@ export class RoleControllerService {
     public updateRoleUsingPUT(roleDto: RoleDto, observe?: 'body', reportProgress?: boolean): Observable<RoleDto>;
     public updateRoleUsingPUT(roleDto: RoleDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleDto>>;
     public updateRoleUsingPUT(roleDto: RoleDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleDto>>;
-    public updateRoleUsingPUT(roleDto: RoleDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateRoleUsingPUT(roleDto: RoleDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (roleDto === null || roleDto === undefined) {
             throw new Error('Required parameter roleDto was null or undefined when calling updateRoleUsingPUT.');
         }

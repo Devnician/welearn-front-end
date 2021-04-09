@@ -4,12 +4,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserDto } from 'libs/rest-client/src';
 import { AppComponent } from '../app.component';
 import { ApiService } from '../core/api.service';
 import { DonkeyService } from '../core/donkey.service';
 import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
-import { User } from '../model/user.model';
 import { TimeUtil } from '../utils/time-util';
 
 const jwtHelper = new JwtHelperService();
@@ -36,7 +36,7 @@ export class BlitcenComponent {
   protected formBuilder: FormBuilder;
   protected infoDialog: MatDialog;
   protected valido: Valido;
-  protected user: User;
+  protected user: UserDto;
   protected canFetch: boolean = false;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 

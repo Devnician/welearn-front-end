@@ -27,7 +27,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
     this.api?.findAllDisciplines().subscribe(
       data => {
-        this.disciplines = data.result;
+        this.disciplines = data ;
         this.loadPaginator(this.disciplines, 'name');
         //TODO
         // FILTER DISCIPLINES ACCORDING USER ID

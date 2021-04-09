@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from "rxjs/index";
+import { UserDto } from '../../../libs/rest-client/src/model/userDto';
 import { environment } from '../../environments/environment';
-import { ApiResponse } from "../model/api.response";
 import { Discipline } from '../model/discipline.model';
 import { Group } from '../model/group.model';
 import { Role } from '../model/role.model';
-import { User } from '../model/user.model';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -35,31 +36,31 @@ export class ApiService {
   // USER
   //
   ////////////////////////////////////////////////////////////////
-  login(loginPayload: any): Observable<ApiResponse> {
+  login(loginPayload: any): Observable<any> {
     return this.doPost(this.tokenUrl + 'token/generate', loginPayload);
   }
 
-  findUserById(id: string): Observable<ApiResponse> {
+  findUserById(id: string): Observable<any> {
     return this.doGet(this.usersUrl + id);
   }
 
-  logout(id: string): Observable<ApiResponse> {
+  logout(id: string): Observable<any> {
     return this.doGet(this.usersUrl + 'logout/' + id);
   }
 
-  createUser(user: User): Observable<ApiResponse> {
+  createUser(user: UserDto): Observable<any> {
     return this.doPost(this.usersUrl, user);
   }
 
-  updateUser(user: User): Observable<ApiResponse> {
+  updateUser(user: UserDto): Observable<any> {
     return this.doPut(this.usersUrl, user);
   }
 
-  findAllUsers(): Observable<ApiResponse> {
+  findAllUsers(): Observable<any> {
     return this.doGet(this.usersUrl);
   }
 
-  findAllUsersWithRoleId(id: number): Observable<ApiResponse> {
+  findAllUsersWithRoleId(id: number): Observable<any> {
     return this.doGet(this.usersUrl + 'role/' + id);
   }
   ////////////////////////////////////////////////////////////////
@@ -67,13 +68,13 @@ export class ApiService {
   // ROLES
   //
   ////////////////////////////////////////////////////////////////
-  getRoles(): Observable<ApiResponse> {
+  getRoles(): Observable<any> {
     return this.doGet(this.usersRolesUrl);
   }
-  createRole(role: Role): Observable<ApiResponse> {
+  createRole(role: Role): Observable<any> {
     return this.doPost(this.usersRolesUrl + 'add/', role);
   }
-  updateRole(role: Role): Observable<ApiResponse> {
+  updateRole(role: Role): Observable<any> {
     return this.doPut(this.usersRolesUrl, role);
   }
 
@@ -82,13 +83,13 @@ export class ApiService {
   // DISCIPLINES
   //
   ////////////////////////////////////////////////////////////////
-  createDiscipline(discipline: Discipline): Observable<ApiResponse> {
+  createDiscipline(discipline: Discipline): Observable<any> {
     return this.doPost(this.disciplinesUrl, discipline);
   }
-  findAllDisciplines(): Observable<ApiResponse> {
+  findAllDisciplines(): Observable<any> {
     return this.doGet(this.disciplinesUrl);
   }
-  updateDiscipline(discipline: Discipline): Observable<ApiResponse> {
+  updateDiscipline(discipline: Discipline): Observable<any> {
     return this.doPost(this.disciplinesUrl + 'update/', discipline);
   }
 
@@ -98,7 +99,7 @@ export class ApiService {
   // GROUPS
   //
   ////////////////////////////////////////////////////////////////
-  findAllGroups(): Observable<ApiResponse> {
+  findAllGroups(): Observable<any> {
     return this.doGet(this.groupsUrl);
   }
   createGroup(group: Group) {
@@ -110,17 +111,17 @@ export class ApiService {
   // COMMON METHODS
   //
   ////////////////////////////////////////////////////////////////
-  private doGet(query: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(query);
+  private doGet(query: string): Observable<any> {
+    return this.http.get<any>(query);
   }
-  private doPost(url: string, object: any): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(url, object);
+  private doPost(url: string, object: any): Observable<any> {
+    return this.http.post<any>(url, object);
   }
-  private doPut(url: string, object: any): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(url, object);
+  private doPut(url: string, object: any): Observable<any> {
+    return this.http.put<any>(url, object);
   }
-  private doDelete(url: string): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(url);
+  private doDelete(url: string): Observable<any> {
+    return this.http.delete<any>(url);
   }
 
   // deleteUser(id: number): Observable<ApiResponse> {

@@ -1,10 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
+import { UserDto } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 import { EventWL } from 'src/app/model/event.model';
 import { Group } from 'src/app/model/group.model';
-import { User } from 'src/app/model/user.model';
 
 @Component({
   selector: 'app-add-event',
@@ -16,7 +16,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   minDate: Date = new Date();
   eventTypes: String[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
   groups: Group[] = [];
-  owners: User[] = [];
+  owners: UserDto[] = [];
   disciplines: Discipline[] = [];
 
   constructor(injector: Injector) {

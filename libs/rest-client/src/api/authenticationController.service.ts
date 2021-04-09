@@ -11,18 +11,21 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
-import { Observable }                                        from 'rxjs/Observable';
-
+import {
+    HttpClient,
+    HttpEvent, HttpHeaders,
+    HttpResponse
+} from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Configuration } from '../configuration';
 import { AuthToken } from '../model/authToken';
 import { LoginUser } from '../model/loginUser';
+import { BASE_PATH } from '../variables';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+
+
+
 
 
 @Injectable()
@@ -32,7 +35,7 @@ export class AuthenticationControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
         if (configuration) {
             this.configuration = configuration;
@@ -68,7 +71,7 @@ export class AuthenticationControllerService {
     public registerUsingPOST(loginUser: LoginUser, observe?: 'body', reportProgress?: boolean): Observable<AuthToken>;
     public registerUsingPOST(loginUser: LoginUser, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthToken>>;
     public registerUsingPOST(loginUser: LoginUser, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthToken>>;
-    public registerUsingPOST(loginUser: LoginUser, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public registerUsingPOST(loginUser: LoginUser, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (loginUser === null || loginUser === undefined) {
             throw new Error('Required parameter loginUser was null or undefined when calling registerUsingPOST.');
         }

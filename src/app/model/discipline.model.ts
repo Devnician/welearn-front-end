@@ -1,4 +1,5 @@
-import { User } from "./user.model";
+
+import { UserDto } from 'libs/rest-client/src';
 
 export class Discipline {
     id: string;
@@ -6,8 +7,8 @@ export class Discipline {
     creationDate: any;
     modifiedDate: any;
 
-    lector: User;
-    assistant: User;
+    lector: UserDto;
+    assistant: UserDto;
 
     // resources: any;
 

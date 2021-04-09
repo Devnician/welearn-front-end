@@ -6,9 +6,10 @@ export class Role {
     description: string;
     roleBg: string;
     descriptionBg: string;
-
     permissions: string;
     //this will be loaded after login in AppComponent
     menus: MenuOptions[] = [];
+
+
 
 }

@@ -27,7 +27,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
 
     this.api.findAllDisciplines().subscribe(
       data => {
-        this.disciplines = data.result;
+        this.disciplines = data ;
       }
     )
 

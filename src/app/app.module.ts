@@ -111,9 +111,6 @@ import { LoaderComponent } from './utils/loader.component';
         deps: [HttpClient]
       }
     }),
-
-
-    // NavComponent,
     FormsModule,
     LayoutModule,
 

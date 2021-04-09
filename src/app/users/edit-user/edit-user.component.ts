@@ -6,8 +6,8 @@ import { AppComponent } from 'src/app/app.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Role } from 'src/app/model/role.model';
 import { TimeUtil } from 'src/app/utils/time-util';
+import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 import { BaseformComponent } from '../../baseform/baseform.component';
-import { User } from "../../model/user.model";
 
 @Component({
   selector: 'app-edit-user',
@@ -17,7 +17,7 @@ import { User } from "../../model/user.model";
 export class EditUserComponent extends BaseformComponent implements OnInit {
 
   private _destroyed$ = new Subject();
-  editUser: User;
+  editUser: UserDto;
   editForm: FormGroup;
   parentDir: string = 'home/list-user';
   selfEdit: boolean = false;
@@ -82,7 +82,7 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       this.valido.validateAllFormFields(this.editForm);
       return;
     }
-    let user: User = this.editForm.getRawValue();
+    let user: UserDto = this.editForm.getRawValue();
     let roleId = user['roleID'];
     delete user['roleID'];
     user.role = this.roles.find(r => r.id == roleId);

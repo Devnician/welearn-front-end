@@ -1,9 +1,9 @@
+import { RoleDto } from "libs/rest-client/src";
 import { MenuOptions } from "../model/menu.model";
-import { Role } from "../model/role.model";
 
 export class MenuUtil {
 
-    static determineSelectedMenusForThisRole(role: Role, selectedMenus: MenuOptions[], allMenus: MenuOptions[]) {
+    static determineSelectedMenusForThisRole(role: RoleDto, selectedMenus: MenuOptions[], allMenus: MenuOptions[]) {
         let permissions: any[] = JSON.parse(role.permissions);
         permissions.forEach(perm => {
             let roleId = perm[0];

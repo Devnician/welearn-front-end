@@ -20,7 +20,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.findAllGroups().subscribe(data => {
-      this.groups = data.result;
+      this.groups = data ;
 
       //TODO - fliter according role
       // if (this.user.roleId == 2) { //teacher

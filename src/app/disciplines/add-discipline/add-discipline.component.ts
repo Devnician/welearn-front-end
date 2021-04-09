@@ -1,8 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { UserDto } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
-import { User } from 'src/app/model/user.model';
 
 @Component({
   selector: 'app-add-discipline',
@@ -11,7 +11,7 @@ import { User } from 'src/app/model/user.model';
 })
 export class AddDisciplineComponent extends BaseformComponent implements OnInit {
   addForm: FormGroup;
-  lectors: User[];
+  lectors: UserDto[];
   constructor(injector: Injector) {
     super(injector);
   }

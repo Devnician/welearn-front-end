@@ -1,6 +1,6 @@
+import { UserDto } from '../../../libs/rest-client/src/model/userDto';
 import { Discipline } from "./discipline.model";
 import { EventWL } from "./event.model";
-import { User } from "./user.model";
 
 export class Group {
     groupId: number;
@@ -10,7 +10,7 @@ export class Group {
     description: string;
     maxResourcesMb: number;
     // open: number;
-    users: User[] = [];
+    users: UserDto[] = [];
     disciplines: Discipline[] = [];
     events: EventWL[] = [];
 

@@ -7,13 +7,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
+import { RoleDto, UserDto } from 'libs/rest-client/src';
 import { Subscription } from 'rxjs';
 import { ApiService } from './core/api.service';
 import { DonkeyService } from './core/donkey.service';
 import { Discipline } from './model/discipline.model';
 import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
-import { User } from './model/user.model';
 import { MenuUtil } from './utils/menu-util';
 //registerLocaleData(localeEn);
 registerLocaleData(localeBg);
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   static lang: string;
   static isMedia: boolean = false;
   private interval: any;
-  user: User;
+  user: UserDto;
   isHeaderVisible: boolean;
   roles: Role[] = [];
   events: string[] = []; // for sidenav
@@ -105,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //TODO - API CALL
     //this.disciplines = AppComponent.collections.getDisciplines();
     this.apiService.findAllDisciplines().subscribe(data => {
-      this.disciplines = data.result;
+      this.disciplines = data;
     });
 
   }
@@ -113,7 +113,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * callback after succesfull login
    */
-  setUserAsLogged(user: User) {
+  setUserAsLogged(user: UserDto) {
     this.isHeaderVisible = true;
     this.user = user;
     this.serverOnline = true;
@@ -126,14 +126,14 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   findAllRoles() {
     this.apiService.getRoles().subscribe(data => {
-      this.roles = data.result;
+      this.roles = data;
     });
   }
   /**
    * Builds menus according Role. If there is a saved order in the local storage - arranges the menus.
    * @param role 
    */
-  private buildMenuForThisRole(role: Role) {
+  private buildMenuForThisRole(role: RoleDto) {
     let unorderedMenus: MenuOptions[] = [];
     let all: MenuOptions[] = MenuUtil.getAllMenus();
     MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);

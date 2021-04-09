@@ -11,17 +11,19 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
-import { Observable }                                        from 'rxjs/Observable';
-
+import {
+    HttpClient,
+    HttpEvent, HttpHeaders,
+    HttpResponse
+} from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Configuration } from '../configuration';
 import { EvaluationMarkDto } from '../model/evaluationMarkDto';
+import { BASE_PATH } from '../variables';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+
+
 
 
 @Injectable()
@@ -31,7 +33,7 @@ export class EvaluationMarkControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
         if (configuration) {
             this.configuration = configuration;
@@ -67,7 +69,7 @@ export class EvaluationMarkControllerService {
     public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
     public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
     public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (evaluationMarkDto === null || evaluationMarkDto === undefined) {
             throw new Error('Required parameter evaluationMarkDto was null or undefined when calling createMarkUsingPOST.');
         }
@@ -118,7 +120,7 @@ export class EvaluationMarkControllerService {
     public deleteMarkUsingDELETE(id: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
     public deleteMarkUsingDELETE(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
     public deleteMarkUsingDELETE(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public deleteMarkUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteMarkUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling deleteMarkUsingDELETE.');
         }
@@ -163,7 +165,7 @@ export class EvaluationMarkControllerService {
     public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
     public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
     public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (evaluationMarkDto === null || evaluationMarkDto === undefined) {
             throw new Error('Required parameter evaluationMarkDto was null or undefined when calling editEvaluationMarkUsingPUT.');
         }
@@ -213,7 +215,7 @@ export class EvaluationMarkControllerService {
     public findAllUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<EvaluationMarkDto>>;
     public findAllUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<EvaluationMarkDto>>>;
     public findAllUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<EvaluationMarkDto>>>;
-    public findAllUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllUsingGET(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -255,7 +257,7 @@ export class EvaluationMarkControllerService {
     public getByIdUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
     public getByIdUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
     public getByIdUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public getByIdUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getByIdUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling getByIdUsingGET.');
         }

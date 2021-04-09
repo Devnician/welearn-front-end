@@ -2,10 +2,10 @@ import { Component, isDevMode, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { environment } from 'src/environments/environment';
+import { UserDto } from '../../../libs/rest-client/src/model/userDto';
 import { AppComponent } from '../app.component';
 import { ApiService } from "../core/api.service";
 import { Valido } from '../core/valido';
-import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,6 @@ import { User } from '../model/user.model';
 })
 
 export class LoginComponent implements OnInit {
-  //protected apiService: ApiService;
   loginForm: FormGroup;
   invalidLogin: boolean = false;
   invalidMessage: string;
@@ -44,8 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    // const injector = AppInjector.getInjector();
-    // this.apiService = injector.get(ApiService);
+
     if (this.valido.isThereForbiddenWords(this.loginForm.get('username').value) ||
       this.valido.isThereForbiddenWords(this.loginForm.get('password').value)) {
       this.invalidLogin = true;
@@ -55,6 +53,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+
 
     const loginPayload = {
       username: this.loginForm.controls.username.value,
@@ -70,8 +69,9 @@ export class LoginComponent implements OnInit {
 
     this.apiService.login(loginPayload).subscribe(
       data => {
+
         console.log(data);
-        if (data.status === 200) {
+        if (data) {
           /**
            * Switches according message from result
            */
@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
               this.invalidLogin = true;
               this.invalidMessage = 'грешно потребителско име';
               return;
-            case 'wrong_pass':
+            case 'Wrong pass':
               this.invalidLogin = true;
               this.invalidMessage = 'грешна парола';
               return;
@@ -88,11 +88,11 @@ export class LoginComponent implements OnInit {
               this.invalidLogin = true;
               this.invalidMessage = 'някой е влязъл с този акаунт';
               return;
-            case 'success':
-              localStorage.setItem('user', data.result.token);
-              this.apiService.findUserById(data.result.id).subscribe(
+            case null:
+              localStorage.setItem('user', data['token']);
+              this.apiService.findUserById(data['id']).subscribe(
                 data => {
-                  let user: User = data.result;
+                  let user: UserDto = data;
                   AppComponent.myapp.setUserAsLogged(user);
                   this.router.navigate(['home']);
                 }

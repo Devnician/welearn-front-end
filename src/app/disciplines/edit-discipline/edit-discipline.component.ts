@@ -1,10 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { UserDto } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
-import { User } from 'src/app/model/user.model';
 import { TimeUtil } from 'src/app/utils/time-util';
 
 @Component({
@@ -15,7 +15,7 @@ import { TimeUtil } from 'src/app/utils/time-util';
 export class EditDisciplineComponent extends BaseformComponent implements OnInit {
   editForm: FormGroup;
   discipline: Discipline;
-  lectors: User[];
+  lectors: UserDto[];
 
   constructor(donkey: DonkeyService, ar: ActivatedRoute, injector: Injector) {
     super(injector);
@@ -34,7 +34,7 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
     if (roleOfTeachersID) {
       this.api.findAllUsersWithRoleId(roleOfTeachersID).subscribe(
         data => {
-          this.lectors = data.result;
+          this.lectors = data;
         }
       )
       console.log(this.discipline);

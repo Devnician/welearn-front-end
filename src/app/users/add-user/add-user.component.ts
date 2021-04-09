@@ -1,8 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup, Validators } from "@angular/forms";
+import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 import { BaseformComponent } from '../../baseform/baseform.component';
-import { User } from '../../model/user.model';
-
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -59,7 +58,7 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
       return;
     }
 
-    let newUser: User = this.addForm.value;
+    let newUser: UserDto = this.addForm.value;
     let roleId = newUser['roleId'];
     delete newUser['roleId'];
     newUser.role = this.roles.find(r => r.id == roleId);

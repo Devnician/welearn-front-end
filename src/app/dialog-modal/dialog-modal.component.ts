@@ -3,13 +3,13 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UserDto } from 'libs/rest-client/src';
 import { isNullOrUndefined, isNumber } from 'util';
 import { AppComponent } from '../app.component';
 import { ImageSnippet } from '../baseform/baseform.component';
 import { ApiService } from '../core/api.service';
 import { Valido } from '../core/valido';
 import { Discipline } from '../model/discipline.model';
-import { User } from '../model/user.model';
 import { TimeUtil } from '../utils/time-util';
 
 export class ImageCouple {
@@ -24,7 +24,7 @@ export class ImageCouple {
 })
 
 export class DialogModalComponent implements OnInit, OnDestroy {
-  private user: User;
+  private user: UserDto;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
   objectFromPage: any;
   collection: any;
@@ -59,7 +59,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  buildMarksForm(user: User, discpilines: Discipline[]) {
+  buildMarksForm(user: UserDto, discpilines: Discipline[]) {
     this.studentNames = user.firstName + ' ' + user.middleName + ' ' + user.lastName;
     this.form = this.formBuilder.group({
       userId: user.userId,

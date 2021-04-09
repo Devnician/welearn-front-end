@@ -2,10 +2,10 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Group } from 'src/app/model/group.model';
+import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 import { AppComponent } from '../../app.component';
 import { BaseComponent } from '../../base/base.component';
 import { Role } from '../../model/role.model';
-import { User } from "../../model/user.model";
 
 @Component({
   selector: 'app-list-user',
@@ -16,9 +16,9 @@ import { User } from "../../model/user.model";
 export class ListUserComponent extends BaseComponent implements OnInit {
   interval: any;
   displayedColumns = ['online', 'role', 'firstName', 'middleName', 'lastName', 'edit'];
-  user: User = AppComponent.myapp?.user;
+  user: UserDto = AppComponent.myapp?.user;
   roles: Role[] = [];
-  users: User[] = [];
+  users: UserDto[] = [];
   groups: Group[];
   disableEdit: boolean = false;
 
@@ -31,7 +31,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   fetchRoles() {
     this.api.getRoles().subscribe(
       data => {
-        this.roles = data.result;
+        this.roles = data;
       }
     );
   }
@@ -50,7 +50,8 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   loadUsers() {
     this.api.findAllUsers().subscribe(
       data => {
-        this.users = data.result;
+        this.users = data
+          ;
         this.filterUsers();
       }
     );
@@ -99,7 +100,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
     history.back();
   }
 
-  editUser(user: User): void {
+  editUser(user: UserDto): void {
     user.password = 'unknown';
     this.donkey.setData(user);
     this.router.navigate(['home/list-user/edit-user']);

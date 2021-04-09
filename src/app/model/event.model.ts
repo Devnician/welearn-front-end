@@ -1,5 +1,5 @@
+import { UserDto } from '../../../libs/rest-client/src/model/userDto';
 import { Group } from "./group.model";
-import { User } from "./user.model";
 
 export class EventWL {
     id: number;
@@ -16,5 +16,5 @@ export class EventWL {
 
     //transient
     group: Group;
-    owner: User;
+    owner: UserDto;
 }
