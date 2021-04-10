@@ -7,13 +7,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
-import { RoleDto, UserDto } from 'libs/rest-client/src';
+import { DisciplineControllerService, RoleControllerService, RoleDto, UserControllerService } from 'libs/rest-client/src';
 import { Subscription } from 'rxjs';
-import { ApiService } from './core/api.service';
 import { DonkeyService } from './core/donkey.service';
 import { Discipline } from './model/discipline.model';
 import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
+import { User } from './model/user.model';
 import { MenuUtil } from './utils/menu-util';
 //registerLocaleData(localeEn);
 registerLocaleData(localeBg);
@@ -32,13 +32,15 @@ export interface IBreadCrumb {
 })
 
 export class AppComponent implements OnInit, OnDestroy {
+
+
   version: string = '1.0.00';
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
   static myapp: AppComponent;
   static lang: string;
   static isMedia: boolean = false;
   private interval: any;
-  user: UserDto;
+  user: User;
   isHeaderVisible: boolean;
   roles: Role[] = [];
   events: string[] = []; // for sidenav
@@ -51,7 +53,12 @@ export class AppComponent implements OnInit, OnDestroy {
   disciplines: Discipline[] = [];
   serverOnline = true;
 
-  constructor(public router: Router, private apiService: ApiService, private translate: TranslateService, public snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private donkey: DonkeyService) {
+  constructor(
+    private apiDisciplines: DisciplineControllerService,
+    private apiRoles: RoleControllerService,
+    private apiUsers: UserControllerService,
+
+    public router: Router, private translate: TranslateService, public snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private donkey: DonkeyService) {
     AppComponent.myapp = this;
     translate.setDefaultLang('bg');
     AppComponent.lang = 'bg';
@@ -78,13 +85,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.determineIsMedia(window.innerWidth);
     this.subsForRouterEvents();
-
-    //this.fetchDisciplines();
     this.router.navigate(['']);
-    //TODO - save me func place. read saved credentials from storage..
   }
-
-
 
   showApiStatus(arg0: boolean) {
     this.serverOnline = arg0;
@@ -102,18 +104,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   fetchDisciplines() {
-    //TODO - API CALL
-    //this.disciplines = AppComponent.collections.getDisciplines();
-    this.apiService.findAllDisciplines().subscribe(data => {
-      this.disciplines = data;
-    });
-
+    this.isUserAuthToFetch(this.apiDisciplines);
+    this.apiDisciplines.getDisciplinesUsingGET()
+      .subscribe(data => {
+        this.disciplines = data as Discipline[];
+      });
   }
 
   /**
    * callback after succesfull login
    */
-  setUserAsLogged(user: UserDto) {
+  setUserAsLogged(user: User) {
     this.isHeaderVisible = true;
     this.user = user;
     this.serverOnline = true;
@@ -125,9 +126,12 @@ export class AppComponent implements OnInit, OnDestroy {
    * Fetch all roles for checking for logged user role.
    */
   findAllRoles() {
-    this.apiService.getRoles().subscribe(data => {
-      this.roles = data;
-    });
+    console.log(this.user);
+    this.isUserAuthToFetch(this.apiRoles);
+    this.apiRoles.listRolesUsingGET()
+      .subscribe(data => {
+        this.roles = data as Role[];
+      });
   }
   /**
    * Builds menus according Role. If there is a saved order in the local storage - arranges the menus.
@@ -211,7 +215,8 @@ export class AppComponent implements OnInit, OnDestroy {
     clearInterval(this.interval);
     try {
       if (this.user) {
-        this.apiService.logout(this.user.userId)
+        this.isUserAuthToFetch(this.apiUsers);
+        this.apiUsers.logoutUsingGET(this.user.userId)
           .subscribe(data => {
             let d = data;
             this.clearUserData();
@@ -232,7 +237,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.menuOptions = [];
     this.opened = false;
     this.isHeaderVisible = false;
-    localStorage.removeItem('user');
     delete this.user;
   }
 
@@ -346,5 +350,32 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.logout();
   }
+
+  isUserAuthToFetch(service: any) {
+    let map: { [key: string]: string } = {};
+    if (this.user) {
+      map["Authorization"] = "Bearer " + this.user?.token;
+    }
+    service.configuration.apiKeys = map;
+  }
+
+  // validateUser(): any {
+
+  //   // let configParams: ConfigurationParameters = {};
+  //   let map: { [key: string]: string } = {};
+  //   if (this.user) {
+  //     map["Authorization"] = "Bearer " + this.user?.token;
+  //   } else {
+  //     map["Bearer"] = this.user?.token;
+  //   }
+
+  //   return map;
+  //   // configParams.apiKeys = map;// {"Bearer":token};
+  //   // let configuration: Configuration = new Configuration(configParams);
+  //   // configuration.basePath = environment.restUrl.slice(0, -1);
+  //   // configuration.apiKeys["Authorization"] = token;
+  //   // this.roleApi.configuration = configuration;
+  //   // this.roleApi.configuration.apiKeys = map;
+  // }
 }
 

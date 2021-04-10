@@ -4,9 +4,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserDto } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService, UserDto } from 'libs/rest-client/src';
 import { AppComponent } from '../app.component';
-import { ApiService } from '../core/api.service';
 import { DonkeyService } from '../core/donkey.service';
 import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
@@ -30,7 +29,12 @@ export class BlitcenComponent {
   app: AppComponent = AppComponent.myapp;
   lang: string;
   langExt: string;
-  protected api: ApiService;
+  //protected api: ApiService;
+  protected apiUsers: UserControllerService;
+  protected apiRoles: RoleControllerService;
+  protected apiGroups: GroupControllerService;
+  protected apiDisciplines: DisciplineControllerService;
+
   protected router: Router;
   protected snack: MatSnackBar;
   protected formBuilder: FormBuilder;
@@ -41,7 +45,11 @@ export class BlitcenComponent {
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
   constructor(injector: Injector) {
-    this.api = injector.get(ApiService);
+    this.apiUsers = injector.get(UserControllerService);
+    this.apiRoles = injector.get(RoleControllerService);
+    this.apiGroups = injector.get(GroupControllerService);
+    this.apiDisciplines = injector.get(DisciplineControllerService);
+
     this.valido = injector.get(Valido);
     this.router = injector.get(Router);
     this.snack = injector.get(MatSnackBar);

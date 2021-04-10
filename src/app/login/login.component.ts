@@ -1,11 +1,11 @@
 import { Component, isDevMode, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { AuthenticationControllerService, UserControllerService } from 'libs/rest-client/src';
 import { environment } from 'src/environments/environment';
-import { UserDto } from '../../../libs/rest-client/src/model/userDto';
 import { AppComponent } from '../app.component';
-import { ApiService } from "../core/api.service";
 import { Valido } from '../core/valido';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean = false;
   invalidMessage: string;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private router: Router, private valido: Valido) {
+  constructor(private authService: AuthenticationControllerService, private apiUser: UserControllerService, private formBuilder: FormBuilder, private router: Router, private valido: Valido,) {
   }
 
   ngOnInit() {
@@ -67,7 +67,14 @@ export class LoginComponent implements OnInit {
     // this.app.loadUsers();
     // data.result = this.app.users[0];
 
-    this.apiService.login(loginPayload).subscribe(
+
+    // let keys = AppComponent.myapp.validateUser();
+
+    // AppComponent.myapp.isUserAuthToFetch(this.authService);
+    // this.authService.configuration.apiKeys = keys;
+
+    AppComponent.myapp.isUserAuthToFetch(this.authService);
+    this.authService.registerUsingPOST(loginPayload).subscribe(
       data => {
 
         console.log(data);
@@ -89,10 +96,36 @@ export class LoginComponent implements OnInit {
               this.invalidMessage = 'някой е влязъл с този акаунт';
               return;
             case null:
-              localStorage.setItem('user', data['token']);
-              this.apiService.findUserById(data['id']).subscribe(
-                data => {
-                  let user: UserDto = data;
+
+              let map: { [key: string]: string } = {};
+              map["Authorization"] = "Bearer " + data['token'];
+
+              this.apiUser.configuration.apiKeys = map;
+
+
+
+
+              //               let configParams: ConfigurationParameters = {};
+              // let map: { [key: string]: string } = {};
+              // //  let token = localStorage.getItem('user');
+              // map["Bearer"] = data['token'];
+
+              //  configParams.apiKeys = map;// {"Bearer":token};
+              //  let configuration: Configuration = new Configuration(configParams);
+              // // configuration.basePath = environment.restUrl.slice(0, -1);
+              //  configuration.apiKeys["Authorization"] = token;
+              // // this.roleApi.configuration = configuration;
+              // // this.roleApi.configuration.apiKeys = map;
+
+
+              console.log(data['id']);
+
+              this.apiUser.getUserUsingGET(data['id']).subscribe(
+                result => {
+                  // console.log(result)
+                  let user: User = result as User;
+                  user.token = data['token'];
+                  //  console.log(user);
                   AppComponent.myapp.setUserAsLogged(user);
                   this.router.navigate(['home']);
                 }

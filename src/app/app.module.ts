@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { AuthenticationControllerService, DisciplineControllerService, EvaluationMarkControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 //datetime picker
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,7 +24,6 @@ import { BaseformComponent } from './baseform/baseform.component';
 import { BlitcenComponent } from './blitcen/blitcen.component';
 //import { adapterFactory } from 'angular-calendar/date-adapters/moment/index/CALENDAR_DATE_TIME_LOCALE';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
-import { ApiService } from "./core/api.service";
 import { DonkeyService } from './core/donkey.service';
 import { GlobalErrorHandler } from './core/global-error-handler';
 import { TokenInterceptor } from "./core/interceptor";
@@ -130,11 +130,20 @@ import { LoaderComponent } from './utils/loader.component';
     DialogInfoComponent,
   ],
 
-  providers: [ApiService, DonkeyService, FilterPipe, Valido, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  },
+  providers: [
+    AuthenticationControllerService,
+    RoleControllerService,
+    UserControllerService,
+    DisciplineControllerService,
+    EvaluationMarkControllerService,
+    GroupControllerService,
+    DonkeyService,
+    FilterPipe,
+    Valido, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler

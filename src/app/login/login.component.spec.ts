@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ApiService } from '../core/api.service';
+import { AuthenticationControllerService, UserControllerService } from 'libs/rest-client/src';
 import { Valido } from '../core/valido';
 import { LoginComponent } from './login.component';
 
@@ -29,7 +29,7 @@ describe('LoginComponent', () => {
             }
           })],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ApiService, Injector, FormBuilder, Valido,
+      providers: [AuthenticationControllerService, UserControllerService, Injector, FormBuilder, Valido,
         {
           provide: FormGroup,
           useValue: undefined

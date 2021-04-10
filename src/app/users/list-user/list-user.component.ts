@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GroupDto } from 'libs/rest-client/src';
 import { DonkeyService } from 'src/app/core/donkey.service';
-import { Group } from 'src/app/model/group.model';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 import { AppComponent } from '../../app.component';
 import { BaseComponent } from '../../base/base.component';
@@ -19,7 +19,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   user: UserDto = AppComponent.myapp?.user;
   roles: Role[] = [];
   users: UserDto[] = [];
-  groups: Group[];
+  groups: GroupDto[];
   disableEdit: boolean = false;
 
   constructor(ar: ActivatedRoute, private donkey: DonkeyService, injector: Injector) {
@@ -29,9 +29,10 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   }
 
   fetchRoles() {
-    this.api.getRoles().subscribe(
+    AppComponent.myapp.isUserAuthToFetch(this.apiRoles);
+    this.apiRoles.listRolesUsingGET().subscribe(
       data => {
-        this.roles = data;
+        this.roles = data as Role[];
       }
     );
   }
@@ -48,10 +49,10 @@ export class ListUserComponent extends BaseComponent implements OnInit {
    * Fetch all users
    */
   loadUsers() {
-    this.api.findAllUsers().subscribe(
+    AppComponent.myapp.isUserAuthToFetch(this.apiUsers);
+    this.apiUsers.listUserUsingGET().subscribe(
       data => {
-        this.users = data
-          ;
+        this.users = data;
         this.filterUsers();
       }
     );
@@ -65,8 +66,8 @@ export class ListUserComponent extends BaseComponent implements OnInit {
       // go go
     } else if (currentUserRoleAsString.includes('teacher')) {
       //API CALL - getGroupsByTeacherId
-      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
-        || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
+      this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.teacher?.userId === this.user.userId) !== -1)
+        || (gr.disciplines.findIndex(d => d.assistant.userId === this.user.userId) !== -1)));
 
       let array = [];
       this.groups.forEach(group => {

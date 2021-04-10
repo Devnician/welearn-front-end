@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ApiService } from '../core/api.service';
+import { UserControllerService } from 'libs/rest-client/src';
 import { Valido } from '../core/valido';
 import { MaterialModule } from '../material.module';
 import { BaseComponent } from './base.component';
@@ -24,7 +24,7 @@ describe('BaseComponent', () => {
         MaterialModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ApiService, Valido, FormBuilder]
+      providers: [UserControllerService, Valido, FormBuilder]
     })
       .compileComponents();
   }));

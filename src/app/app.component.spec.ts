@@ -6,8 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { AppComponent } from './app.component';
-import { ApiService } from './core/api.service';
 import { DonkeyService } from './core/donkey.service';
 
 describe('AppComponent', () => {
@@ -28,7 +28,14 @@ describe('AppComponent', () => {
         AppComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ApiService, DonkeyService, HttpClient, HttpHandler, MatSnackBar, Overlay
+      providers: [
+        UserControllerService,
+        RoleControllerService,
+        DisciplineControllerService,
+        GroupControllerService,
+
+        DonkeyService,
+        HttpClient, HttpHandler, MatSnackBar, Overlay
       ],
     }).compileComponents();
   }));

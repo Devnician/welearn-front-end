@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UserControllerService } from 'libs/rest-client/src';
 import { Valido } from '../core/valido';
 import { MaterialModule } from '../material.module';
 import { DocumentsComponent } from './documents.component';
@@ -18,7 +19,8 @@ describe('DocumentsComponent', () => {
       imports: [HttpClientTestingModule, RouterTestingModule, MaterialModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [Valido, FormBuilder]
+      providers: [UserControllerService,
+        Valido, FormBuilder]
     })
       .compileComponents();
   }));

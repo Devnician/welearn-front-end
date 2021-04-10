@@ -1,20 +1,21 @@
 
-import { UserDto } from 'libs/rest-client/src';
+import { DisciplineDto, UserDto } from 'libs/rest-client/src';
 
-export class Discipline {
+export class Discipline implements DisciplineDto {
     id: string;
     name: string;
     creationDate: any;
     modifiedDate: any;
-
-    lector: UserDto;
+    teacher: UserDto;
     assistant: UserDto;
-
-    // resources: any;
 
     //transient
     lectorId: string = '';
     assitantId: string = '';
     //transient
     mark: number;
+
+
+    // resourceIds?: Array<string>;
+    // teacher?: UserDto;
 }

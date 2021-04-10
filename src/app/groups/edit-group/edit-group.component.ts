@@ -2,12 +2,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { UserDto } from 'libs/rest-client/src';
+import { DisciplineDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
 import { Discipline } from 'src/app/model/discipline.model';
-import { Group } from 'src/app/model/group.model';
 @Component({
   selector: 'app-edit-group',
   templateUrl: './edit-group.component.html',
@@ -35,7 +34,7 @@ import { Group } from 'src/app/model/group.model';
   ]
 })
 export class EditGroupComponent extends BaseComponent implements OnInit {
-  studentGroup: Group;
+  studentGroup: GroupDto;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
 
 
@@ -70,11 +69,11 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   }
 
   showEvaluationMarks(user: UserDto) {
-    let myDisciplines: Discipline[] = this.studentGroup.disciplines.filter(d => (d.lector?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
+    let myDisciplines: DisciplineDto[] = this.studentGroup.disciplines.filter(d => (d.teacher?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
     this.openDialog(user, myDisciplines);
   }
 
-  openDialog(user: UserDto, disciplines: Discipline[]): void {
+  openDialog(user: UserDto, disciplines: DisciplineDto[]): void {
 
     const dialogRef = this.dialog.open(DialogModalComponent, {
       width: '40vw',

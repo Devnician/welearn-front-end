@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UserDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 
@@ -45,15 +46,18 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
       return;
     }
     let discipline: Discipline = this.addForm.getRawValue();
-    this.api.createDiscipline(discipline).subscribe(
-      data => {
-        if (data) {
-          this.showSnack('дисциплината беше добавена', '', 1300);
-          this.goBack();
-        } else {
-          alert('disciplines fetch failed');
+
+    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    this.apiDisciplines.createDisciplineUsingPOST(discipline)
+      .subscribe(
+        data => {
+          if (data) {
+            this.showSnack('дисциплината беше добавена', '', 1300);
+            this.goBack();
+          } else {
+            alert('disciplines fetch failed');
+          }
         }
-      }
-    );
+      );
   }
 }

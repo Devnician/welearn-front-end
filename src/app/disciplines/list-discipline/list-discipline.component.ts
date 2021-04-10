@@ -1,9 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GroupDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
-import { Group } from 'src/app/model/group.model';
 import { CollectionsUtil } from 'src/app/utils/collections-util';
 
 
@@ -16,7 +17,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   displayedColumns = ['name',/* 'creationDate', 'modifiedDate',*/ 'lector', 'assistant', 'edit'];
   disciplines: Discipline[] = [];
   collectionsUtil: CollectionsUtil;
-  groups: Group[];
+  groups: GroupDto[];
   disableEdit: boolean = false;
 
   constructor(ar: ActivatedRoute, private donkey: DonkeyService, injector: Injector) {
@@ -25,15 +26,17 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
-    this.api?.findAllDisciplines().subscribe(
-      data => {
-        this.disciplines = data ;
-        this.loadPaginator(this.disciplines, 'name');
-        //TODO
-        // FILTER DISCIPLINES ACCORDING USER ID
-        // show only the disciplines in which this user is involved
-      }
-    );
+    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    this.apiDisciplines.getDisciplinesUsingGET().
+      subscribe(
+        data => {
+          this.disciplines = data as Discipline[];
+          this.loadPaginator(this.disciplines, 'name');
+          //TODO
+          // FILTER DISCIPLINES ACCORDING USER ID
+          // show only the disciplines in which this user is involved
+        }
+      );
 
     // if (this.user.roleId === 2) {
     //   this.disciplines = this.app.disciplines.filter(d => (d.lector?.userId === this.user.userId || d.assistant?.userId === this.user.userId));

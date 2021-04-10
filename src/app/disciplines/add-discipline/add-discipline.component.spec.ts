@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/api.service';
+import { DisciplineControllerService } from 'libs/rest-client/src';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
 import { AddDisciplineComponent } from './add-discipline.component';
@@ -29,7 +29,7 @@ describe('AddDisciplineComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddDisciplineComponent],
-      providers: [ApiService, FormBuilder, Valido]
+      providers: [DisciplineControllerService, FormBuilder, Valido]
 
 
     })

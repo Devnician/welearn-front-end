@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/api.service';
+import { GroupControllerService, UserControllerService } from 'libs/rest-client/src';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
@@ -30,7 +30,9 @@ describe('EditGroupComponent', () => {
         })],
 
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ApiService, DonkeyService, FormBuilder, Valido]
+      providers: [
+        UserControllerService,
+        GroupControllerService, DonkeyService, FormBuilder, Valido]
 
 
     })

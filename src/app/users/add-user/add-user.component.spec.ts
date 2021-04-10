@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/api.service';
+import { UserControllerService } from 'libs/rest-client/src';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
 import { AddUserComponent } from './add-user.component';
@@ -30,7 +30,7 @@ describe('AddUserComponent', () => {
         })],
       declarations: [AddUserComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ApiService, FormBuilder, Valido]
+      providers: [UserControllerService, FormBuilder, Valido]
     })
       .compileComponents();
   }));

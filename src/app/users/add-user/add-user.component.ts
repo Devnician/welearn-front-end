@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup, Validators } from "@angular/forms";
+import { AppComponent } from 'src/app/app.component';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 import { BaseformComponent } from '../../baseform/baseform.component';
 @Component({
@@ -62,7 +63,9 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
     let roleId = newUser['roleId'];
     delete newUser['roleId'];
     newUser.role = this.roles.find(r => r.id == roleId);
-    this.api.createUser(newUser).subscribe(
+
+    AppComponent.myapp.isUserAuthToFetch(this.apiUsers);
+    this.apiUsers.updateUserUsingPUT(newUser).subscribe(
       data => {
         let message = 'данните бяха записани';
         if (!data) {

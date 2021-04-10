@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { UserControllerService } from 'libs/rest-client/src';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
 import { ListEventComponent } from './list-event.component';
@@ -34,7 +35,7 @@ describe('ListEventComponent', () => {
       declarations: [ListEventComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        Valido, FormBuilder,
+        Valido, FormBuilder, UserControllerService,
         {
           provide: MatDialogRef,
           useValue: mockDialogRef

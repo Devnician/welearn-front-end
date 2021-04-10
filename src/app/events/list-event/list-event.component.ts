@@ -1,8 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { EventDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
-import { EventWL } from 'src/app/model/event.model';
 
 @Component({
   selector: 'app-list-event',
@@ -12,7 +12,7 @@ import { EventWL } from 'src/app/model/event.model';
 export class ListEventComponent extends BaseComponent implements OnInit {
   disableEdit: boolean = false;
   displayedColumns = ['id', 'type', 'subject', 'starDateTime', 'endDateTime', 'edit', 'delete'];
-  events: EventWL[] = [];
+  events: EventDto[] = [];
 
   constructor(ar: ActivatedRoute, public dialog: MatDialog, injector: Injector) {
     super(ar, injector);
@@ -25,11 +25,11 @@ export class ListEventComponent extends BaseComponent implements OnInit {
     this.router.navigate(['home/list-event/add-event']);
   }
 
-  editEvent(event: EventWL) {
+  editEvent(event: EventDto) {
     alert('open dialog for edit  - Not implemented yet')
   }
 
-  deleteEvent(event: EventWL) {
+  deleteEvent(event: EventDto) {
     alert('logic for delete')
   }
 

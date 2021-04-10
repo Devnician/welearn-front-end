@@ -1,9 +1,10 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
+import { GroupDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
-import { Group } from 'src/app/model/group.model';
 
 
 @Component({
@@ -24,12 +25,13 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.api.findAllDisciplines().subscribe(
-      data => {
-        this.disciplines = data ;
-      }
-    )
+    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    this.apiDisciplines.getDisciplinesUsingGET()
+      .subscribe(
+        data => {
+          this.disciplines = data as Discipline[];
+        }
+      )
 
     this.addForm = this.formBuilder.group({
       groupId: '',
@@ -68,7 +70,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
     let discGroup = this.formBuilder.group({
       id: this.formBuilder.control(d.id),
       name: this.formBuilder.control(d.name),
-      lector: this.formBuilder.control(d.lector),
+      teacher: this.formBuilder.control(d.teacher),
       assistant: this.formBuilder.control(d.assistant)
     });
     this.disciplinesFormArray.push(discGroup)
@@ -92,19 +94,17 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
    *TODO -  Add API call, notify user and go back.
    */
   onSubmit() {
-    let group: Group = this.addForm.getRawValue();
-
+    let group: GroupDto = this.addForm.getRawValue();
     //remove fake row
     group.disciplines = group.disciplines.filter(d => d?.id);
-    //TODO - THIS NOT WORKING.. fireign keys issue
-    console.log(group);
-    this.api.createGroup(group).subscribe(
-      data => {
-        this.showSnack("Данните са записани успешно.", "", 1300);
-        history.back();
-      }
-    );
-
+    AppComponent.myapp.isUserAuthToFetch(this.apiGroups);
+    this.apiGroups.saveGroupUsingPOST(group)
+      .subscribe(
+        data => {
+          this.showSnack("Данните са записани успешно.", "", 1300);
+          history.back();
+        }
+      );
   }
 
   reset() {

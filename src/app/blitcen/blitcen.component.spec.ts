@@ -1,8 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DisciplineControllerService, GroupControllerService, UserControllerService } from 'libs/rest-client/src';
 import { AppComponent } from '../app.component';
 import { AppModule } from '../app.module';
-import { ApiService } from '../core/api.service';
 import { Valido } from '../core/valido';
 import { BlitcenComponent } from './blitcen.component';
 
@@ -16,7 +16,7 @@ describe('BlitcenComponent', () => {
       imports: [AppModule],
       declarations: [BlitcenComponent, AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ApiService, Valido
+      providers: [UserControllerService, GroupControllerService, UserControllerService, DisciplineControllerService, Valido
 
       ]
     })

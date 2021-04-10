@@ -90,13 +90,14 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
     if (user.password === 'unknown') {
       user.password = null;
     }
-
-    this.api.updateUser(user).subscribe(
-      data => {
-        console.log(data);
-        history.back();
-      }
-    );
+    AppComponent.myapp.isUserAuthToFetch(this.apiUsers);
+    this.apiUsers.updateUserUsingPUT(user)
+      .subscribe(
+        data => {
+          console.log(data);
+          history.back();
+        }
+      );
   }
 
   /**

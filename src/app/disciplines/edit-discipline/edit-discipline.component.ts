@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -24,7 +25,6 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
       this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(this.discipline.creationDate);
       this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(this.discipline.modifiedDate);
     }
-
   }
   /**
    * Initializes the form
@@ -32,18 +32,20 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
   ngOnInit(): void {
     let roleOfTeachersID: number = this.roles?.find(r => r.role === 'teacher')?.id;
     if (roleOfTeachersID) {
-      this.api.findAllUsersWithRoleId(roleOfTeachersID).subscribe(
-        data => {
-          this.lectors = data;
-        }
-      )
+      AppComponent.myapp.isUserAuthToFetch(this.apiUsers);
+      this.apiUsers.listUserUsingGET1(roleOfTeachersID)
+        .subscribe(
+          data => {
+            this.lectors = data;
+          }
+        )
       console.log(this.discipline);
       this.editForm = this.formBuilder.group({
         id: this.discipline.id,
         name: this.discipline.name,
         creationDate: { value: this.discipline.creationDate, disabled: true },
         modifiedDate: { value: this.discipline.modifiedDate, disabled: true },
-        teacher: this.discipline.lector,
+        teacher: this.discipline.teacher,
         assistant: this.discipline.assistant
       });
     }
@@ -60,12 +62,15 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
       return;
     }
     let discipline: Discipline = this.editForm.getRawValue();
-    this.api.updateDiscipline(discipline).subscribe(
-      data => {
-        this.showSnack('данните бяха промемени', '', 1300);
-        this.router.navigate(['home/list-discipline']);
-      }
-    );
+
+    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    this.apiDisciplines.editDisciplineUsingPUT(discipline)
+      .subscribe(
+        data => {
+          this.showSnack('данните бяха промемени', '', 1300);
+          this.router.navigate(['home/list-discipline']);
+        }
+      );
   }
 
   uploadDoc(input: any) {

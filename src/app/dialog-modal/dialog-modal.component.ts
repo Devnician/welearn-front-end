@@ -7,7 +7,6 @@ import { UserDto } from 'libs/rest-client/src';
 import { isNullOrUndefined, isNumber } from 'util';
 import { AppComponent } from '../app.component';
 import { ImageSnippet } from '../baseform/baseform.component';
-import { ApiService } from '../core/api.service';
 import { Valido } from '../core/valido';
 import { Discipline } from '../model/discipline.model';
 import { TimeUtil } from '../utils/time-util';
@@ -38,7 +37,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   displayedSimColumns: string[] = ['id', 'name', 'mark'];
 
   constructor(public dialogRef: MatDialogRef<DialogModalComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private api: ApiService, public snackBar: MatSnackBar, private sanitizer: DomSanitizer) {
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, public snackBar: MatSnackBar, private sanitizer: DomSanitizer) {
     this.objectFromPage = data?.obj;
     this.collection = data?.collection;
     this.mode = data?.mode;
