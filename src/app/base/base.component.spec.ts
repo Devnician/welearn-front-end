@@ -3,8 +3,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UserControllerService } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { Valido } from '../core/valido';
+import { AddDisciplineComponent } from '../disciplines/add-discipline/add-discipline.component';
 import { MaterialModule } from '../material.module';
 import { BaseComponent } from './base.component';
 
@@ -24,7 +25,13 @@ describe('BaseComponent', () => {
         MaterialModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [UserControllerService, Valido, FormBuilder]
+      providers: [
+        UserControllerService,
+        RoleControllerService,
+        GroupControllerService,
+        AddDisciplineComponent,
+        DisciplineControllerService,
+        Valido, FormBuilder]
     })
       .compileComponents();
   }));

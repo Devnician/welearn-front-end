@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { GroupControllerService } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
@@ -30,7 +30,12 @@ describe('AddGroupComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddGroupComponent, BaseformComponent],
-      providers: [GroupControllerService, FormBuilder, Valido]
+      providers: [
+        UserControllerService,
+        RoleControllerService,
+        GroupControllerService,
+        DisciplineControllerService,
+        FormBuilder, Valido]
 
 
 

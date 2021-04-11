@@ -21,7 +21,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
 
-    AppComponent.myapp.isUserAuthToFetch(this.apiGroups);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiGroups);
     this.apiGroups.findAllUsingGET1()
       .subscribe(data => {
         this.groups = data as GroupDto[];

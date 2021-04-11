@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoleControllerService, UserControllerService } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { Valido } from '../core/valido';
 import { MaterialModule } from '../material.module';
 import { BaseformComponent } from './baseform.component';
@@ -22,7 +22,12 @@ describe('BaseformComponent', () => {
         MaterialModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [UserControllerService, RoleControllerService, Valido, FormBuilder]
+      providers: [
+        UserControllerService,
+        RoleControllerService,
+        GroupControllerService,
+        DisciplineControllerService,
+        Valido, FormBuilder]
     })
       .compileComponents();
   }));

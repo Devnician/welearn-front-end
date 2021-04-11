@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
 import { ListUserComponent } from './list-user.component';
@@ -32,7 +32,9 @@ describe('ListUserComponent', () => {
         })
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [UserControllerService, GroupControllerService, RoleControllerService, FormBuilder, Valido]
+      providers: [UserControllerService,
+        DisciplineControllerService,
+        GroupControllerService, RoleControllerService, FormBuilder, Valido]
 
 
     })

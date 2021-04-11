@@ -6,7 +6,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { RoleControllerService, UserControllerService } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
@@ -36,7 +36,11 @@ describe('AddRoleComponent', () => {
       ],
       providers: [
         UserControllerService,
-        RoleControllerService, FormBuilder, Valido],
+        GroupControllerService,
+        RoleControllerService,
+        DisciplineControllerService,
+        FormBuilder,
+        Valido],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
     })

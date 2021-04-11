@@ -29,7 +29,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   }
 
   fetchRoles() {
-    AppComponent.myapp.isUserAuthToFetch(this.apiRoles);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiRoles);
     this.apiRoles.listRolesUsingGET().subscribe(
       data => {
         this.roles = data as Role[];
@@ -49,7 +49,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
    * Fetch all users
    */
   loadUsers() {
-    AppComponent.myapp.isUserAuthToFetch(this.apiUsers);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiUsers);
     this.apiUsers.listUserUsingGET().subscribe(
       data => {
         this.users = data;

@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
@@ -25,7 +26,12 @@ describe('EditDisciplineComponent', () => {
         }),],
       declarations: [EditDisciplineComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [DonkeyService, Valido, FormBuilder]
+      providers: [
+        UserControllerService,
+        RoleControllerService,
+        GroupControllerService,
+        DisciplineControllerService,
+        DonkeyService, Valido, FormBuilder]
     })
       .compileComponents();
   }));

@@ -25,7 +25,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiDisciplines);
     this.apiDisciplines.getDisciplinesUsingGET()
       .subscribe(
         data => {
@@ -97,7 +97,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
     let group: GroupDto = this.addForm.getRawValue();
     //remove fake row
     group.disciplines = group.disciplines.filter(d => d?.id);
-    AppComponent.myapp.isUserAuthToFetch(this.apiGroups);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiGroups);
     this.apiGroups.saveGroupUsingPOST(group)
       .subscribe(
         data => {
