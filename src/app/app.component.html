@@ -58,7 +58,6 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
     (closed)="events.push('close!')">
-    <!-- (mouseleave)="sidenav.close()" -->
     <mat-nav-list>
       <div class="example-list" cdkDropList (cdkDropListDropped)="drop($event)">
         <div *ngFor="let option of menuOptions" cdkDrag>
@@ -84,4 +83,3 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<!-- <pre>{{router | json}}</pre> -->
