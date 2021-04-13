@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Injector, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarDateFormatter, CalendarEvent,
@@ -8,23 +8,16 @@ import {
 } from 'angular-calendar';
 import {
   addDays,
-
-
-
-  addHours, endOfDay,
-
-
-  endOfMonth,
+  addHours,
+  endOfDay,
   isSameDay,
-  isSameMonth, startOfDay,
-
+  isSameMonth,
+  startOfDay,
   subDays
 } from 'date-fns';
 import { Subject } from 'rxjs';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
-
-
-
 
 const colors: any = {
   red: {
@@ -54,33 +47,22 @@ const colors: any = {
       useClass: CustomDateFormatter
     }
   ]
-
 })
 
-
-export class CalendarComponent {
-
+export class CalendarComponent extends BlitcenComponent {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
 
-
   // view: string = 'month';
-
   // viewDate: Date = new Date();
-
   // events: CalendarEvent[] = [];
 
   locale: string = 'bg';
-
   weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
-
-  weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
+  weekendDays: number[] = [DAYS_OF_WEEK.MONDAY, DAYS_OF_WEEK.SUNDAY];
 
   modalData: {
     action: string;
@@ -111,7 +93,7 @@ export class CalendarComponent {
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      title: 'Add course',// A 3 day event',
+      title: 'Добавяне на събитие',// A 3 day event',
       color: colors.red,
       actions: this.actions,
       allDay: true,
@@ -121,23 +103,34 @@ export class CalendarComponent {
       },
       draggable: true
     },
+    // {
+    //   start: startOfDay(new Date()),
+    //   title: 'An event with no end date',
+    //   color: colors.yellow,
+    //   actions: this.actions
+    // },
+    // {
+    //   start: subDays(endOfMonth(new Date()), 3),
+    //   end: addDays(endOfMonth(new Date()), 3),
+    //   title: 'A long event that spans 2 months',
+    //   color: colors.blue,
+    //   allDay: true
+    // },
     {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
+      start: addHours(startOfDay(new Date()), 8),
+      end: addHours(startOfDay(new Date()), 9),
+      title: 'A draggable and resizable event 1 ',
       color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
+      actions: this.actions,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      },
+      draggable: true
+    }, {
+      start: addHours(startOfDay(new Date()), 10),
+      end: addHours(startOfDay(new Date()), 11),
+      title: 'A draggable and resizable event 2 ',
       color: colors.yellow,
       actions: this.actions,
       resizable: {
@@ -150,14 +143,22 @@ export class CalendarComponent {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {
-
-
-
+  constructor(private modal: NgbModal, private injector: Injector) {
+    super(injector);
   }
 
+
+  /**
+   * 
+   * @param param0 
+   */
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log('DAY CLICKED: ' + date);
+    //console.log('DAY CLICKED: ' + date);
+
+    //  this.showSnack('DAY CLICKED: ' + date + ' , events: ' + events.length, "", 1500);
+    if (events.length === 0) {
+      this.showConfirmDialog("Добавяне на събитие ", "- в отделен компонент", []);
+    }
 
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -165,10 +166,12 @@ export class CalendarComponent {
         events.length === 0
       ) {
         this.activeDayIsOpen = false;
+
       } else {
         this.activeDayIsOpen = true;
       }
       this.viewDate = date;
+
     }
   }
 
@@ -177,6 +180,8 @@ export class CalendarComponent {
     newStart,
     newEnd
   }: CalendarEventTimesChangedEvent): void {
+
+    console.log(event);
     this.events = this.events.map(iEvent => {
       if (iEvent === event) {
         return {
@@ -187,27 +192,19 @@ export class CalendarComponent {
       }
       return iEvent;
     });
-    this.handleEvent('Dropped or resized', event);
+    this.handleEvent('Часовете на събитието са променени.Dropped or resized', event);
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-
-
-
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
-
   }
 
   addEvent(): void {
-
     console.log('ADD EVENT');
 
-
-
-
-
     console.log(this.events);
+
     this.events = [
       ...this.events,
       {
@@ -222,7 +219,6 @@ export class CalendarComponent {
         }
       }
     ];
-
 
     console.log(this.events);
   }
