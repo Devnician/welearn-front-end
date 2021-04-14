@@ -1,4 +1,5 @@
 import { Component, Injector, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarDateFormatter, CalendarEvent,
@@ -17,6 +18,7 @@ import {
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { AddEditEventComponent } from '../add-edit-event/add-edit-event.component';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 
 const colors: any = {
@@ -143,7 +145,7 @@ export class CalendarComponent extends BlitcenComponent {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private injector: Injector) {
+  constructor(private modal: NgbModal, private injector: Injector, private dialog: MatDialog) {
     super(injector);
   }
 
@@ -157,7 +159,15 @@ export class CalendarComponent extends BlitcenComponent {
 
     //  this.showSnack('DAY CLICKED: ' + date + ' , events: ' + events.length, "", 1500);
     if (events.length === 0) {
-      this.showConfirmDialog("Добавяне на събитие ", "- в отделен компонент", []);
+      const dialogRef = this.dialog.open(AddEditEventComponent, {
+        width: '250px',
+        data: { name: 'add', event: null }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log(result); //TODO ADD result in list
+      });
     }
 
     if (isSameMonth(date, this.viewDate)) {
@@ -196,13 +206,26 @@ export class CalendarComponent extends BlitcenComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+
+
+    const dialogRef = this.dialog.open(AddEditEventComponent, {
+      width: '250px',
+      data: { name: 'add', event: event }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result); //TODO ADD result in list
+    });
+
+    //TODO USE THIS
+    // this.modalData = { event, action };
+    // this.modal.open(this.modalContent, { size: 'lg' });
+
   }
 
   addEvent(): void {
     console.log('ADD EVENT');
-
     console.log(this.events);
 
     this.events = [

@@ -43,40 +43,25 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
     if (this.valido.isThereForbiddenWords(this.loginForm.get('username').value) ||
       this.valido.isThereForbiddenWords(this.loginForm.get('password').value)) {
       this.invalidLogin = true;
       this.invalidMessage = 'Използвате забранени думи.';
       return;
     }
+
     if (this.loginForm.invalid) {
       return;
     }
-
 
     const loginPayload = {
       username: this.loginForm.controls.username.value,
       password: this.loginForm.controls.password.value
     }
-    //LOGIN
-    //0 - admin 
-    //1 - teacher
-    //4 -student
-    // let data: any = { message: "success" };
-    // this.app.loadUsers();
-    // data.result = this.app.users[0];
-
-
-    // let keys = AppComponent.myapp.validateUser();
-
-    // AppComponent.myapp.isUserAuthToFetch(this.authService);
-    // this.authService.configuration.apiKeys = keys;
 
     AppComponent.myapp.isUserAuthToFetch(this.authService);
     this.authService.registerUsingPOST(loginPayload).subscribe(
       data => {
-
         console.log(data);
         if (data) {
           /**
@@ -99,10 +84,7 @@ export class LoginComponent implements OnInit {
 
               let map: { [key: string]: string } = {};
               map["Authorization"] = "Bearer " + data['token'];
-
               this.apiUser.configuration.apiKeys = map;
-
-
 
 
               //               let configParams: ConfigurationParameters = {};
@@ -115,17 +97,12 @@ export class LoginComponent implements OnInit {
               // // configuration.basePath = environment.restUrl.slice(0, -1);
               //  configuration.apiKeys["Authorization"] = token;
               // // this.roleApi.configuration = configuration;
-              // // this.roleApi.configuration.apiKeys = map;
-
-
-              console.log(data['id']);
+              // // this.roleApi.configuration.apiKeys = map; 
 
               this.apiUser.getUserUsingGET(data['id']).subscribe(
                 result => {
-                  // console.log(result)
                   let user: User = result as User;
                   user.token = data['token'];
-                  //  console.log(user);
                   AppComponent.myapp.setUserAsLogged(user);
                   this.router.navigate(['home']);
                 }
@@ -137,7 +114,6 @@ export class LoginComponent implements OnInit {
               break;
           }
         }
-
         else {
           alert(data.message);
         };
