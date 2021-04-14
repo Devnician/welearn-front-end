@@ -3,6 +3,7 @@
     <div *ngIf="classType === 'marks'">
         <label style="font-weight: bolder;">{{studentNames}}</label>
         <table mat-table class="dialog_table" [dataSource]="disciplines.controls" formArrayName="disciplines">
+            <caption>table for disciplines</caption>
             <tr mat-header-row *matHeaderRowDef="displayedSimColumns" style="height: 40px;"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedSimColumns;" style="font-weight: bolder;"></tr>
             <ng-container matColumnDef="id">
