@@ -1,4 +1,5 @@
 import { EventInput } from '@fullcalendar/angular';
+import * as moment from 'moment';
 
 let eventGuid = 0;
 const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
@@ -6,12 +7,17 @@ const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of
 export const INITIAL_EVENTS: EventInput[] = [
     {
         id: createEventId(),
-        title: 'All-day event',
-        start: TODAY_STR
+        title: 'Бази данни, тип: Лекция ',
+        start: moment().add(-3, 'days').startOf('day').add(9, 'hour').toISOString()
     },
     {
         id: createEventId(),
-        title: 'Timed event',
+        title: 'ООП, тип: Лекция ',
+        start: TODAY_STR + 'T08:00:00'
+    },
+    {
+        id: createEventId(),
+        title: 'ООП, тип: Изпит',
         start: TODAY_STR + 'T12:00:00'
     }
 ];
@@ -19,3 +25,4 @@ export const INITIAL_EVENTS: EventInput[] = [
 export function createEventId() {
     return String(eventGuid++);
 }
+

@@ -360,6 +360,8 @@ export class AppComponent implements OnInit, OnDestroy {
     let map: { [key: string]: string } = {};
     if (this.user) {
       map["Authorization"] = "Bearer " + this.user?.token;
+    } else {
+      map["Authorization"] = "";
     }
     service.configuration.apiKeys = map;
   }

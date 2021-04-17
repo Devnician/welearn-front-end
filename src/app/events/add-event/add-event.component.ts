@@ -1,5 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -17,7 +18,11 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: EventDto,
+
+    private dialogRef: MatDialogRef<AddEventComponent>,
+  ) {
     super(injector);
   }
 

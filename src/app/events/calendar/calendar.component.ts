@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import bgLocale from '@fullcalendar/core/locales/bg';
+import { EventDto } from 'libs/rest-client/src';
+import { AddEventComponent } from '../add-event/add-event.component';
+import { EditEventComponent } from '../edit-event/edit-event.component';
 import { INITIAL_EVENTS } from './event-util';
-
-
 
 @Component({
   selector: 'app-calendar',
@@ -11,16 +13,13 @@ import { INITIAL_EVENTS } from './event-util';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-  locales = [bgLocale/*, enLocale*/];
-  // @ViewChild('calendar') calendarComponent: FullCalendarComponent;
-  //calendar: Calendar;
-  ngOnInit(): void {
-    // this.calendar = new Calendar();
-    // let calendar = new Calendar(calendarEl, {
-    //   locales: [ esLocale, frLocale ],
-    //   locale: 'fr' // the initial locale. of not specified, uses the first one
-    // });
-  }
+  // https://fullcalendar.io/docs/angular 
+  // npm i --save @fullcalendar/core
+  // npm install --save @fullcalendar/angular @fullcalendar/daygrid
+  // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid 
+
+
+  locales = [bgLocale/*, enLocale*/]; //bind to app locale
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
@@ -40,10 +39,9 @@ export class CalendarComponent implements OnInit {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    // events: [
-    //   { title: 'Изпит по ООП', date: '2021-04-19' },
-    //   { title: 'Лекция по Бази данни', date: '2021-04-17' }
-    // ]
+    eventDragStart: this.startDrag.bind(this),
+    eventDragStop: this.storpDrag.bind(this)
+
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -51,6 +49,22 @@ export class CalendarComponent implements OnInit {
     */
   };
   currentEvents: EventApi[] = [];
+
+  constructor(private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+  }
+
+
+  startDrag(event: any) {
+    console.log('DRAG START')
+    console.log(event)
+  }
+
+  storpDrag(event: any) {
+    console.log('DRAG STOP')
+    console.log(event)
+  }
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
@@ -60,34 +74,55 @@ export class CalendarComponent implements OnInit {
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
   }
-
+  /**
+   * The date was clisked - add new event=
+   * @param selectInfo 
+   */
   handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt("Please enter a new title for your event");
+    // const title = prompt("Please enter a new title for your event");
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect(); // clear date selection 
 
-    if (title) {
-      calendarApi.addEvent({
-        id: '111111',
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      });
+    let newEvent: EventDto = {
+      type: 'type',
+      endDate: null,
+      startDate: null,
+      name: '',
+      eventId: null,
+      groupId: null,
+
     }
-  }
+    this.openAddDialog(newEvent);
 
-  handleEventClick(clickInfo: EventClickArg) {
-    console.log(clickInfo);
-    alert(clickInfo);
-    // if (
-    //   confirm(
-    //     `Are you sure you want to delete the event '${clickInfo.event.title}'`
-    //   )
-    // ) {
-    //   clickInfo.event.remove();
+    // if (title) {
+    //   calendarApi.addEvent({
+    //     id: '111111',
+    //     title,
+    //     start: selectInfo.startStr,
+    //     end: selectInfo.endStr,
+    //     allDay: selectInfo.allDay
+    //   });
     // }
+  }
+  /**
+   * The event was clicked - edit mode.
+   * @param clickInfo 
+   */
+  handleEventClick(clickInfo: EventClickArg) {
+    const ev: EventApi = clickInfo.event;
+    console.log(clickInfo.event);
+
+    let newEvent: EventDto = {
+      type: 'type',
+      endDate: null,
+      startDate: null,
+      name: ev._def.title,
+      eventId: null,
+      groupId: null,
+
+    }
+    this.openEditDialog(newEvent);
   }
 
   handleEvents(events: EventApi[]) {
@@ -95,90 +130,19 @@ export class CalendarComponent implements OnInit {
   }
 
 
+  private openAddDialog(data: EventDto): void {
+    const config = new MatDialogConfig();
+    config.closeOnNavigation = true;
+    config.data = data;
+    const dialogRef = this.dialog.open(AddEventComponent, config);
+    dialogRef.afterClosed().subscribe();
+  }
 
-
-  // calendarOptions: CalendarOptions = {
-  //   initialView: 'dayGridMonth',
-  //   weekends: true,
-  //   dateClick: this.handleDateClick.bind(this), // bind is important!
-  //   select: this.handleDateSelect.bind(this),
-  //   eventClick: this.handleEventClick.bind(this),
-  //   eventsSet: this.handleEvents.bind(this),
-  //   events: [
-  //     { title: 'Изпит по ООП', date: '2021-04-19' },
-  //     { title: 'Лекция по Бази данни', date: '2021-04-17' }
-  //   ]
-  // };
-
-
-  // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-  //   weekends: true,
-  //   editable: true,
-  //   selectable: true,
-  //   selectMirror: true,
-  //   dayMaxEvents: true,
-  //   select: this.handleDateSelect.bind(this),
-  //   eventClick: this.handleEventClick.bind(this),
-  //   eventsSet: this.handleEvents.bind(this)
-
-  // constructor(private dialog: MatDialog) { }
-
-  // ngOnInit(): void {
-  // }
-
-
-
-  // handleDateClick(arg) {
-
-  //   console.log(arg)
-  //   alert('date click! ' + arg.dateStr)
-  // }
-
-  // currentEvents: EventApi[] = [];
-
-  // handleEvents(events: EventApi[]) {
-  //   this.currentEvents = events;
-  // }
-
-  // handleDateSelect(selectInfo: DateSelectArg) {
-  //   const title = prompt("Please enter a new title for your event");
-  //   const calendarApi = selectInfo.view.calendar;
-
-  //   calendarApi.unselect(); // clear date selection
-
-  //   if (title) {
-  //     calendarApi.addEvent({
-  //       id: '11111',
-  //       title,
-  //       start: selectInfo.startStr,
-  //       end: selectInfo.endStr,
-  //       allDay: selectInfo.allDay
-  //     });
-  //   }
-  // }
-  // handleEventClick(clickInfo: EventClickArg) {
-  //   console.log(clickInfo);
-
-  //   this.openDialog();
-
-  // }
-
-  // toggleWeekends() {
-  //   this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
-  // }
-
-  // openDialog() {
-  //   const dialogRef = this.dialog.open(DialogEventsComponent, {
-  //     width: 'auto', //90vw
-  //     height: 'auto',
-  //     panelClass: 'my-full-screen-dialog',
-  //     data: { name: 'add', event: event }
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     console.log(result); //TODO ADD result in list 
-  //   });
-  // }
-
+  private openEditDialog(data: EventDto): void {
+    const config = new MatDialogConfig();
+    config.closeOnNavigation = true;
+    config.data = data;
+    const dialogRef = this.dialog.open(EditEventComponent, config);
+    dialogRef.afterClosed().subscribe();
+  }
 }

@@ -27,7 +27,7 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
    * Fetch and show role's in table
    */
   loadRoles() {
-    AppComponent.myapp.isUserAuthToFetch(this.apiRoles);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiRoles);
     this.apiRoles.listRolesUsingGET()
       .subscribe(
         data => {

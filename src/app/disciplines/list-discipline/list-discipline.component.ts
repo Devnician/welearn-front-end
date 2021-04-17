@@ -26,7 +26,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     //this.app.users.filter(x => array.indexOf(x.id) !== -1)
-    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    AppComponent.myapp?.isUserAuthToFetch(this.apiDisciplines);
     this.apiDisciplines.getDisciplinesUsingGET().
       subscribe(
         data => {
