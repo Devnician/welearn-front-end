@@ -7,13 +7,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+//Calendar module
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listPlugin from '@fullcalendar/list';
+import timeGridPlugin from '@fullcalendar/timegrid';
 // import ngx-translate and the http loader
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FlatpickrModule } from 'angularx-flatpickr';
 import { AuthenticationControllerService, DisciplineControllerService, EvaluationMarkControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 //datetime picker
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
@@ -22,8 +24,6 @@ import { AppComponent } from './app.component';
 import { BaseComponent } from './base/base.component';
 import { BaseformComponent } from './baseform/baseform.component';
 import { BlitcenComponent } from './blitcen/blitcen.component';
-//import { adapterFactory } from 'angular-calendar/date-adapters/moment/index/CALENDAR_DATE_TIME_LOCALE';
-import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { DonkeyService } from './core/donkey.service';
 import { GlobalErrorHandler } from './core/global-error-handler';
 import { TokenInterceptor } from "./core/interceptor";
@@ -36,6 +36,7 @@ import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-disc
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
+import { CalendarComponent } from './events/calendar/calendar.component';
 import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { ListEventComponent } from './events/list-event/list-event.component';
 import { FilterPipe } from './filter.pipe';
@@ -57,7 +58,12 @@ import { ListUserComponent } from './users/list-user/list-user.component';
 import { AlertTagComponent } from './utils/alert-tag.component';
 import { LoaderComponent } from './utils/loader.component';
 
-
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+  listPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -92,17 +98,15 @@ import { LoaderComponent } from './utils/loader.component';
     AddGroupComponent,
     AddDisciplineComponent,
     EditDisciplineComponent,
-    //  CalendarComponent,
-
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
+    FullCalendarModule, // register FullCalendar with you app
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-
     // ngx-translate and the loader module
     TranslateModule.forRoot({
       loader: {
@@ -113,17 +117,10 @@ import { LoaderComponent } from './utils/loader.component';
     }),
     FormsModule,
     LayoutModule,
-
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DragDropModule,
     ScrollingModule,
-
-    NgbModalModule,
-
-    FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-
   ],
   entryComponents: [
     DialogModalComponent,
@@ -161,7 +158,6 @@ import { LoaderComponent } from './utils/loader.component';
     //NgxMatNativeDateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-
   bootstrap: [AppComponent]
 })
 
@@ -177,6 +173,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+//https://fullcalendar.io/docs/angular
 //  ng build --prod --base-href /we-learn/
 /// --outputHashing=all
 //// USe this for refresh client after deploy

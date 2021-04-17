@@ -1,0 +1,13 @@
+<mat-dialog-content [formGroup]="eventForm">
+    <label style="font-weight: bolder;">Събитие</label>
+    <form [formGroup]="eventForm" class="eventForm">
+        <mat-form-field class="half-field">
+            <input matInput placeholder="{{'wl.name'  }}" type="text" class="form-control" formControlName="name"
+                autocomplete="off">
+        </mat-form-field>
+    </form>
+    <mat-dialog-actions class="dialog-button-bar" style="margin-bottom: 0 !important;">
+        <button mat-raised-button class="pepe-button" color="primary" (click)="close()">{{'wl.cancel' }}</button>
+        <button mat-raised-button class="pepe-button" color="primary" (click)="save()">{{'wl.save' }}</button>
+    </mat-dialog-actions>
+</mat-dialog-content>

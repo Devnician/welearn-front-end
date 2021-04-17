@@ -6,6 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CalendarOptions } from '@fullcalendar/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DisciplineControllerService, RoleControllerService, RoleDto, UserControllerService } from 'libs/rest-client/src';
 import { Subscription } from 'rxjs';
@@ -52,6 +53,10 @@ export class AppComponent implements OnInit, OnDestroy {
   //users: User[] = [];
   disciplines: Discipline[] = [];
   serverOnline = true;
+
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth'
+  };
 
   constructor(
     private apiDisciplines: DisciplineControllerService,
