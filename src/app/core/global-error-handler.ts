@@ -34,7 +34,7 @@ export class GlobalErrorHandler implements ErrorHandler {
                         this.snackBar.open("Backend is offline.", "", {
                             duration: 3000,
                         });
-                        AppComponent.myapp.showApiStatus(this.online);
+                        AppComponent.myapp.serverOnline = this.online;
                         break;
                     case 401:
                         let snackBarRef = this.snackBar.open("Unauthorized access.", "", {
@@ -63,7 +63,7 @@ export class GlobalErrorHandler implements ErrorHandler {
                 e.message = err.message;
 
                 if (e.message.startsWith('Http failure')) {
-                    AppComponent.myapp.showApiStatus(false);
+                    AppComponent.myapp.serverOnline = false;
                 } else {
                     if (this.online === true) {
                         e.trace = err.stack;

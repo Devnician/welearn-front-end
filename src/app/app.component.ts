@@ -6,7 +6,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CalendarOptions } from '@fullcalendar/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DisciplineControllerService, RoleControllerService, RoleDto, UserControllerService } from 'libs/rest-client/src';
 import { Subscription } from 'rxjs';
@@ -33,14 +32,13 @@ export interface IBreadCrumb {
 })
 
 export class AppComponent implements OnInit, OnDestroy {
-
-
   version: string = '1.0.00';
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
   static myapp: AppComponent;
   static lang: string;
   static isMedia: boolean = false;
   private interval: any;
+  public breadcrumbs: IBreadCrumb[] = [];
   user: User;
   isHeaderVisible: boolean;
   roles: Role[] = [];
@@ -48,15 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
   opened: boolean;
   menuOptions: MenuOptions[] = [];
   subscription: Subscription;
-  public breadcrumbs: IBreadCrumb[] = [];
 
-  //users: User[] = [];
   disciplines: Discipline[] = [];
   serverOnline = true;
-
-  calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth'
-  };
 
   constructor(
     private apiDisciplines: DisciplineControllerService,
@@ -93,9 +85,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['']);
   }
 
-  showApiStatus(arg0: boolean) {
-    this.serverOnline = arg0;
-  }
+  // showApiStatus(arg0: boolean) {
+  //   this.serverOnline$.next(arg0);
+
+  // }
 
   /**
    * Change language
@@ -359,30 +352,12 @@ export class AppComponent implements OnInit, OnDestroy {
   isUserAuthToFetch(service: any) {
     let map: { [key: string]: string } = {};
     if (this.user) {
-      map["Authorization"] = "Bearer " + this.user?.token;
+      map["Authorization"] = "Bearer " + this.user.token;
     } else {
       map["Authorization"] = "";
     }
     service.configuration.apiKeys = map;
   }
 
-  // validateUser(): any {
-
-  //   // let configParams: ConfigurationParameters = {};
-  //   let map: { [key: string]: string } = {};
-  //   if (this.user) {
-  //     map["Authorization"] = "Bearer " + this.user?.token;
-  //   } else {
-  //     map["Bearer"] = this.user?.token;
-  //   }
-
-  //   return map;
-  //   // configParams.apiKeys = map;// {"Bearer":token};
-  //   // let configuration: Configuration = new Configuration(configParams);
-  //   // configuration.basePath = environment.restUrl.slice(0, -1);
-  //   // configuration.apiKeys["Authorization"] = token;
-  //   // this.roleApi.configuration = configuration;
-  //   // this.roleApi.configuration.apiKeys = map;
-  // }
 }
 

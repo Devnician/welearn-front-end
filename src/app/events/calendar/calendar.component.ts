@@ -4,7 +4,6 @@ import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullca
 import bgLocale from '@fullcalendar/core/locales/bg';
 import { EventDto } from 'libs/rest-client/src';
 import { AddEventComponent } from '../add-event/add-event.component';
-import { EditEventComponent } from '../edit-event/edit-event.component';
 import { INITIAL_EVENTS } from './event-util';
 
 @Component({
@@ -93,7 +92,7 @@ export class CalendarComponent implements OnInit {
       groupId: null,
 
     }
-    this.openAddDialog(newEvent);
+    this.openDialog(newEvent);
 
     // if (title) {
     //   calendarApi.addEvent({
@@ -122,7 +121,7 @@ export class CalendarComponent implements OnInit {
       groupId: null,
 
     }
-    this.openEditDialog(newEvent);
+    this.openDialog(newEvent);
   }
 
   handleEvents(events: EventApi[]) {
@@ -130,7 +129,7 @@ export class CalendarComponent implements OnInit {
   }
 
 
-  private openAddDialog(data: EventDto): void {
+  private openDialog(data: EventDto): void {
     const config = new MatDialogConfig();
     config.closeOnNavigation = true;
     config.data = data;
@@ -138,11 +137,11 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  private openEditDialog(data: EventDto): void {
-    const config = new MatDialogConfig();
-    config.closeOnNavigation = true;
-    config.data = data;
-    const dialogRef = this.dialog.open(EditEventComponent, config);
-    dialogRef.afterClosed().subscribe();
-  }
+  // private openEditDialog(data: EventDto): void {
+  //   const config = new MatDialogConfig();
+  //   config.closeOnNavigation = true;
+  //   config.data = data;
+  //   const dialogRef = this.dialog.open(EditEventComponent, config);
+  //   dialogRef.afterClosed().subscribe();
+  // }
 }

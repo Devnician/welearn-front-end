@@ -1,7 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UserDto } from 'libs/rest-client/src';
-import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 
@@ -21,14 +20,21 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
     //TODO api call for lectors
     // this.lectors = AppComponent.myapp.users.filter(u => u.roleId === 2);
 
+    this.apiUsers.listUserUsingGET1(2).subscribe(
+      data => {
+        this.lectors = data
+        console.log(this.lectors);
+      }
+    )
+
     this.addForm = this.formBuilder.group({
       id: 0,
       name: [],
       description: '',
       createdAt: new Date(),
       updatedAt: new Date(),
-      lectorId: 0,
-      assistantId: 0
+      lector: {},
+      assistant: {}
     });
   }
 
@@ -47,7 +53,8 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
     }
     let discipline: Discipline = this.addForm.getRawValue();
 
-    AppComponent.myapp.isUserAuthToFetch(this.apiDisciplines);
+    console.log(discipline);
+
     this.apiDisciplines.createDisciplineUsingPOST(discipline)
       .subscribe(
         data => {
@@ -59,5 +66,9 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
           }
         }
       );
+  }
+
+  displayLector(userId: number): string {
+    return ' BRADA';
   }
 }

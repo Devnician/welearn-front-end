@@ -37,7 +37,6 @@ import { ListDisciplineComponent } from './disciplines/list-discipline/list-disc
 import { DocumentsComponent } from './documents/documents.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
-import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { ListEventComponent } from './events/list-event/list-event.component';
 import { FilterPipe } from './filter.pipe';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
@@ -88,7 +87,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     LoaderComponent,
     ListEventComponent,
     AddEventComponent,
-    EditEventComponent,
     ListGroupComponent,
     EditGroupComponent,
     ListDisciplineComponent,

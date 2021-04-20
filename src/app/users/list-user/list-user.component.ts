@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'libs/rest-client/src';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
-import { AppComponent } from '../../app.component';
 import { BaseComponent } from '../../base/base.component';
 import { Role } from '../../model/role.model';
 
@@ -16,7 +15,6 @@ import { Role } from '../../model/role.model';
 export class ListUserComponent extends BaseComponent implements OnInit {
   interval: any;
   displayedColumns = ['online', 'role', 'firstName', 'middleName', 'lastName', 'edit'];
-  user: UserDto = AppComponent.myapp?.user;
   roles: Role[] = [];
   users: UserDto[] = [];
   groups: GroupDto[];
@@ -29,7 +27,6 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   }
 
   fetchRoles() {
-    AppComponent.myapp?.isUserAuthToFetch(this.apiRoles);
     this.apiRoles.listRolesUsingGET().subscribe(
       data => {
         this.roles = data as Role[];
@@ -49,7 +46,6 @@ export class ListUserComponent extends BaseComponent implements OnInit {
    * Fetch all users
    */
   loadUsers() {
-    AppComponent.myapp?.isUserAuthToFetch(this.apiUsers);
     this.apiUsers.listUserUsingGET().subscribe(
       data => {
         this.users = data;

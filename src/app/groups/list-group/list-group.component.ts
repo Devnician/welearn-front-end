@@ -1,7 +1,7 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, ContentChild, Injector, OnInit } from '@angular/core';
+import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'libs/rest-client/src';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 
@@ -11,17 +11,16 @@ import { DonkeyService } from 'src/app/core/donkey.service';
   styleUrls: ['./list-group.component.scss']
 })
 export class ListGroupComponent extends BaseComponent implements OnInit {
+  @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
   groups: GroupDto[];
-  displayedColumns = ['id', 'name', 'startDate', 'endDate', 'disciplines', 'count', 'edit'];
-  disableEdit: boolean = false;
+  displayedColumns = ['id', 'name', 'startDate', 'endDate', 'disciplines', 'count', 'actions'];
+  disableEdit = false;
 
   constructor(ar: ActivatedRoute, private donkey: DonkeyService, injector: Injector) {
     super(ar, injector);
   }
 
   ngOnInit(): void {
-
-    AppComponent.myapp?.isUserAuthToFetch(this.apiGroups);
     this.apiGroups.findAllUsingGET1()
       .subscribe(data => {
         this.groups = data as GroupDto[];

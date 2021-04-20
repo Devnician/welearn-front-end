@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, ContentChild, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { DisciplineDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -19,12 +20,6 @@ import { Discipline } from 'src/app/model/discipline.model';
       transition('show => hide', animate('200ms ease-out')),
       transition('hide => show', animate('300ms ease-in'))
     ]),
-    trigger('divStateDistrict', [
-      state('show', style({ height: 'auto', width: 'auto' })),
-      state('hide', style({ height: '0vh', display: 'none' })),
-      transition('show => hide', animate('200ms ease-out')),
-      transition('hide => show', animate('300ms ease-in'))
-    ]),
     trigger('divCourseStatuses', [
       state('show', style({ height: 'auto', width: 'auto' })),
       state('hide', style({ height: '0vh', display: 'none' })),
@@ -34,25 +29,34 @@ import { Discipline } from 'src/app/model/discipline.model';
   ]
 })
 export class EditGroupComponent extends BaseComponent implements OnInit {
-  studentGroup: GroupDto;
-  displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'mark', 'remove'];
+  @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
 
+  studentGroup: GroupDto;
+  displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'actions'];
 
   constructor(ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog, injector: Injector) {
     super(ar, injector);
     this.studentGroup = donkey.getData();
+
+    console.log(this.studentGroup);
   }
 
   ngOnInit(): void {
     if (!this.studentGroup) {
       alert('Group is null');
     } else {
-      console.log(this.studentGroup);
+
       this.loadPaginator(this.studentGroup.users, 'firstName');
+
     }
   }
   addStudent() {
     alert('add sudent');
+    // TODO - filter users and  open dialog with multi select
+
+    // this.apiUsers.listUserUsingGET1(3).subscribe(data => { 
+    //   this.studentGroup.users = data; 
+    // });
   }
 
   removeStudent(user: UserDto) {
@@ -60,6 +64,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   }
 
   addDiscipline() {
+    // TODO open dialog with multiselect 
     alert('not implemented yet');
   }
 
@@ -69,7 +74,8 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   }
 
   showEvaluationMarks(user: UserDto) {
-    let myDisciplines: DisciplineDto[] = this.studentGroup.disciplines.filter(d => (d.teacher?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
+    const myDisciplines: DisciplineDto[] =
+      this.studentGroup.disciplines.filter(d => (d.teacher?.userId === this.user.userId || d.assistant?.userId === this.user.userId));
     this.openDialog(user, myDisciplines);
   }
 

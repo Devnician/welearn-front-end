@@ -1,12 +1,11 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, ContentChild, Injector, OnInit } from '@angular/core';
+import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'libs/rest-client/src';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
 import { CollectionsUtil } from 'src/app/utils/collections-util';
-
 
 @Component({
   selector: 'app-list-discipline',
@@ -14,7 +13,8 @@ import { CollectionsUtil } from 'src/app/utils/collections-util';
   styleUrls: ['./list-discipline.component.scss']
 })
 export class ListDisciplineComponent extends BaseComponent implements OnInit {
-  displayedColumns = ['name',/* 'creationDate', 'modifiedDate',*/ 'lector', 'assistant', 'edit'];
+  @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
+  displayedColumns = ['name', 'lector', 'assistant', 'actions'];
   disciplines: Discipline[] = [];
   collectionsUtil: CollectionsUtil;
   groups: GroupDto[];
@@ -25,8 +25,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.app.users.filter(x => array.indexOf(x.id) !== -1)
-    AppComponent.myapp?.isUserAuthToFetch(this.apiDisciplines);
+    //this.app.users.filter(x => array.indexOf(x.id) !== -1) 
     this.apiDisciplines.getDisciplinesUsingGET().
       subscribe(
         data => {
@@ -61,5 +60,8 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   editDiscipline(discipline: Discipline) {
     this.donkey.setData(discipline);
     this.router.navigate(['home/list-discipline/edit-discipline']);
+  }
+  deleteDiscipline(discipline: Discipline) {
+    alert('Not implemented yet')
   }
 }

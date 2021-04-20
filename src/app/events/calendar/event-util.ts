@@ -13,12 +13,18 @@ export const INITIAL_EVENTS: EventInput[] = [
     {
         id: createEventId(),
         title: 'ООП, тип: Лекция ',
-        start: TODAY_STR + 'T08:00:00'
+        start: moment().add(-2, 'days').startOf('day').add(9, 'hour').toISOString()// TODAY_STR + 'T08:00:00'
+    },
+    {
+        id: createEventId(),
+        title: 'ООП, тип: Лекция ',
+        start: moment().add(-2, 'days').startOf('day').add(9, 'hour').toISOString(), // TODAY_STR + 'T08:00:00',
+        color: "red"
     },
     {
         id: createEventId(),
         title: 'ООП, тип: Изпит',
-        start: TODAY_STR + 'T12:00:00'
+        start: moment().add(-2, 'days').startOf('day').add(12, 'hour').toISOString()// TODAY_STR + 'T12:00:00'
     }
 ];
 

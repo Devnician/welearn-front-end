@@ -4,9 +4,7 @@ import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipl
 import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { DocumentsComponent } from './documents/documents.component';
-import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
-import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
 import { EditGroupComponent } from './groups/edit-group/edit-group.component';
 import { ListGroupComponent } from './groups/list-group/list-group.component';
@@ -96,15 +94,6 @@ const routes: Routes = [
               {
                 path: '', component: CalendarComponent,
               },
-              {
-                path: 'add-event', component: AddEventComponent,
-                data: { breadcrumb: 'wl.add' },
-              },
-              {
-                path: 'edit-event', component: EditEventComponent,
-                data: { breadcrumb: 'wl.edit_breadcrumb' },
-              },
-
               {
                 path: 'room', component: RoomComponent,
                 data: { breadcrumb: 'wl.room' },

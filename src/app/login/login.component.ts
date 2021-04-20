@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   invalidMessage: string;
 
   constructor(private authService: AuthenticationControllerService, private apiUser: UserControllerService, private formBuilder: FormBuilder, private router: Router, private valido: Valido,) {
+
+
   }
 
   ngOnInit() {
@@ -60,6 +62,7 @@ export class LoginComponent implements OnInit {
     }
 
     AppComponent.myapp.isUserAuthToFetch(this.authService);
+
     this.authService.registerUsingPOST(loginPayload).subscribe(
       data => {
         console.log(data);

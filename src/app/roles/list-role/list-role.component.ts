@@ -1,7 +1,6 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Role } from 'src/app/model/role.model';
@@ -27,7 +26,7 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
    * Fetch and show role's in table
    */
   loadRoles() {
-    AppComponent.myapp?.isUserAuthToFetch(this.apiRoles);
+
     this.apiRoles.listRolesUsingGET()
       .subscribe(
         data => {
