@@ -2,7 +2,6 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { GroupDto } from 'libs/rest-client/src';
-import { AppComponent } from 'src/app/app.component';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 
@@ -25,7 +24,6 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    AppComponent.myapp?.isUserAuthToFetch(this.apiDisciplines);
     this.apiDisciplines.getDisciplinesUsingGET()
       .subscribe(
         data => {
@@ -97,7 +95,6 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
     let group: GroupDto = this.addForm.getRawValue();
     //remove fake row
     group.disciplines = group.disciplines.filter(d => d?.id);
-    AppComponent.myapp?.isUserAuthToFetch(this.apiGroups);
     this.apiGroups.saveGroupUsingPOST(group)
       .subscribe(
         data => {

@@ -1,5 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -10,6 +11,7 @@ import { Discipline } from 'src/app/model/discipline.model';
   styleUrls: ['./add-event.component.scss']
 })
 export class AddEventComponent extends BaseformComponent implements OnInit {
+  createMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
   eventTypes: String[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
@@ -17,11 +19,17 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: EventDto,
+    private dialogRef: MatDialogRef<AddEventComponent>,
+  ) {
     super(injector);
   }
 
   ngOnInit(): void {
+
+    this.createMode = this.data.eventId?.length > 0;
+    console.log(this.createMode);
     this.addForm = this.formBuilder.group({
       id: [],
       type: ['', Validators.required],
@@ -34,11 +42,6 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
       group: ['', ''],
       owner: ['', ''],
     });
-
-
-    // this.groups = AppComponent.collections.getGroups();
-    // this.owners = AppComponent.collections.getUsers().filter(user=>user.roleId == 2) ;
-    console.log(this.owners);
   }
 
 

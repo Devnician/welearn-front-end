@@ -1,0 +1,43 @@
+<!-- <div class="calendar-wrapper">
+    
+    <full-calendar [options]="calendarOptions"></full-calendar>
+</div> -->
+
+<div class='demo-app'>
+
+    <div class='demo-app-sidebar'>
+        <div class='demo-app-sidebar-section'>
+            <ul>
+                <li>За добавяне на събитие, кликнете върху избраната дата</li>
+                <li>За редакция на събитие, кликнете върху събитие</li>
+                <li>Плъзнете, пуснете и преоразмерете събития</li>
+            </ul>
+        </div>
+        <!-- <div class='demo-app-sidebar-section'>
+            <label>
+                <input type='checkbox' [checked]='calendarVisible' (change)='handleCalendarToggle()' />
+                toggle whole calendar
+            </label>
+        </div> -->
+        <div class='demo-app-sidebar-section'>
+            <label>
+                <input type='checkbox' [checked]='calendarOptions.weekends' (change)='handleWeekendsToggle()' />
+                покажи/скрий почивни дни
+            </label>
+        </div>
+        <div class='demo-app-sidebar-section'>
+            <h2>Всички събития ({{currentEvents.length}})</h2>
+            <ul>
+                <li *ngFor='let event of currentEvents'>
+                    <b>{{event.startStr}}</b>
+                    <i>{{event.title}}</i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class='demo-app-main'>
+        <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
+    </div>
+
+</div>

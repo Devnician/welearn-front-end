@@ -1,6 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
-import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
 import { Role } from 'src/app/model/role.model';
@@ -112,7 +111,6 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
     });
     role.permissions = JSON.stringify(permissions);
 
-    AppComponent.myapp.isUserAuthToFetch(this.apiRoles);
     this.apiRoles.saveRoleUsingPOST(this.addForm.value)
 
       .subscribe(data => {

@@ -28,18 +28,26 @@ export class GlobalErrorHandler implements ErrorHandler {
             } else {
 
                 // Handle Http Error (error.status === 403, 404...)
-                console.log("HTTP ERROR");
+                console.log("HTTP ERROR", error.status);
+                switch (error.status) {
+                    case 0:
+                        this.snackBar.open("Backend is offline.", "", {
+                            duration: 3000,
+                        });
+                        AppComponent.myapp.serverOnline = this.online;
+                        break;
+                    case 401:
+                        let snackBarRef = this.snackBar.open("Unauthorized access.", "", {
+                            duration: 3000,
+                        });
+                        break;
 
-                if (error.status === 401) {
-                    //"Unauthorized"
-                    //  localStorage.removeItem('user');//delete token 
-                    let snackBarRef = this.snackBar.open("Unauthorized access.", "", {
-                        duration: 3000,
-                    });
+                    default:
+                        break;
                 }
                 console.log(error);
             }
-            AppComponent.myapp.showApiStatus(this.online);
+
         } else {
             console.log('Angular Error, ReferenceError...');
             console.log(error);
@@ -55,7 +63,7 @@ export class GlobalErrorHandler implements ErrorHandler {
                 e.message = err.message;
 
                 if (e.message.startsWith('Http failure')) {
-                    AppComponent.myapp.showApiStatus(false);
+                    AppComponent.myapp.serverOnline = false;
                 } else {
                     if (this.online === true) {
                         e.trace = err.stack;

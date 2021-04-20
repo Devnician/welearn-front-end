@@ -1,7 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { MenuOptions } from 'src/app/model/menu.model';
@@ -62,7 +61,6 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
         available: [],
       });
     }
-
   }
 
 
@@ -98,6 +96,14 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
 
   private showAvailableMenus() {
     if (this.editForm) {
+      //Bugfix : MSE20-53 
+      let tempMenus: MenuOptions[] = [];
+      this.allMenus.forEach(menu => {
+        if (!this.selectedMenus.find(m => m.key === menu.key)) {
+          tempMenus.push(menu);
+        }
+      });
+      this.allMenus = tempMenus;
       this.availableMenus = this.formBuilder.array(this.allMenus.map(m => this.groupThis(m)));
       this.editForm.setControl('available', this.availableMenus);
     }
@@ -138,7 +144,6 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
     });
     role.permissions = JSON.stringify(permissions);
 
-    AppComponent.myapp.isUserAuthToFetch(this.apiRoles);
     this.apiRoles.updateRoleUsingPUT(role).subscribe(
       data => {
         if (data) {

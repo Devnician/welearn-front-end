@@ -4,11 +4,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService, UserDto } from 'libs/rest-client/src';
+import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
 import { AppComponent } from '../app.component';
 import { DonkeyService } from '../core/donkey.service';
 import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
+import { User } from '../model/user.model';
 import { TimeUtil } from '../utils/time-util';
 
 const jwtHelper = new JwtHelperService();
@@ -29,7 +30,8 @@ export class BlitcenComponent {
   app: AppComponent = AppComponent.myapp;
   lang: string;
   langExt: string;
-  //protected api: ApiService;
+  user: User;
+
   protected apiUsers: UserControllerService;
   protected apiRoles: RoleControllerService;
   protected apiGroups: GroupControllerService;
@@ -40,15 +42,18 @@ export class BlitcenComponent {
   protected formBuilder: FormBuilder;
   protected infoDialog: MatDialog;
   protected valido: Valido;
-  protected user: UserDto;
+  // protected user: UserDto;
   protected canFetch: boolean = false;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
   constructor(injector: Injector) {
-    this.apiUsers = injector.get(UserControllerService);
-    this.apiRoles = injector.get(RoleControllerService);
-    this.apiGroups = injector.get(GroupControllerService);
-    this.apiDisciplines = injector.get(DisciplineControllerService);
+    this.user = this.app.user;
+
+    this.apiUsers = this.addAuthorizationToService(injector.get(UserControllerService)) as UserControllerService;
+    this.apiRoles = this.addAuthorizationToService(injector.get(RoleControllerService)) as RoleControllerService;
+    this.apiGroups = this.addAuthorizationToService(injector.get(GroupControllerService)) as GroupControllerService;
+    this.apiDisciplines = this.addAuthorizationToService(injector.get(DisciplineControllerService)) as DisciplineControllerService;
+
 
     this.valido = injector.get(Valido);
     this.router = injector.get(Router);
@@ -60,6 +65,18 @@ export class BlitcenComponent {
     this.langExt = (this.lang != undefined && this.lang === 'bg') ? "_" + this.lang : '';
     this.checkUser();
   }
+
+  addAuthorizationToService(service: any): any {
+    let map: { [key: string]: string } = {};
+    if (this.user) {
+      map["Authorization"] = "Bearer " + this.user?.token;
+    } else {
+      map["Authorization"] = "";
+    }
+    service.configuration.apiKeys = map;
+    return service;
+  }
+
   private checkUser() {
     // this.user = this.app.user;
     // this.canFetch = true;

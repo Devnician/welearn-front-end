@@ -1,0 +1,13 @@
+table {
+    width: 100%;
+    border-spacing: 0 1px 0 1px !important;
+}
+
+tr.mat-header-row {
+    font-weight: bold;
+}
+
+.mat-cell,
+.mat-header-cell {
+    text-align: center !important;
+}

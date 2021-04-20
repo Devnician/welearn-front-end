@@ -1,5 +1,5 @@
 <mat-card>
-    <mat-card-title> Добавяне на събитие </mat-card-title>
+    <mat-card-title> {{createMode === 'true' ? 'Създаване' : 'Редактиране' }} на събитие </mat-card-title>
     <mat-card-content>
         <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
             <div class="f-row">
@@ -12,11 +12,11 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="isFieldValid('type')">{{valido.getErrorMessage('type') | translate}}</mat-error>
-                </mat-form-field> 
+                </mat-form-field>
                 <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
                     <input class="form-control" matInput [owlDateTime]="dt1"
-                        placeholder="{{'wl.startDateTime' | translate}}" [min]="minDate"
-                        formControlName="startDateTime" id="starDateTime" readonly>
+                        placeholder="{{'wl.startDateTime' | translate}}" [min]="minDate" formControlName="startDateTime"
+                        id="starDateTime" readonly>
                     <owl-date-time #dt1></owl-date-time>
                 </mat-form-field>
                 <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
@@ -38,8 +38,8 @@
                 <mat-form-field class="four-on-row">
                     <mat-label> {{'wl.discipline' | translate}}</mat-label>
                     <mat-select name="discipline" formControlName="discipline" required>
-                        <mat-option *ngFor="let discipline of groupSelector.value?.disciplines" [value]="discipline" class="form-control"
-                            matTooltipPosition="right">
+                        <mat-option *ngFor="let discipline of groupSelector.value?.disciplines" [value]="discipline"
+                            class="form-control" matTooltipPosition="right">
                             {{discipline.name}}
                         </mat-option>
                     </mat-select>
@@ -60,10 +60,10 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="isFieldValid('type')">{{valido.getErrorMessage('type') | translate}}</mat-error>
-                </mat-form-field> 
+                </mat-form-field>
                 <mat-form-field class="one-on-row">
-                    <textarea matInput placeholder="{{'wl.description' | translate}}" type="text"
-                        class="form-control" formControlName="description" id="description" rows="5"></textarea>
+                    <textarea matInput placeholder="{{'wl.description' | translate}}" type="text" class="form-control"
+                        formControlName="description" id="description" rows="5"></textarea>
                 </mat-form-field>
             </div>
             <div class="button-bar">
