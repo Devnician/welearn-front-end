@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common
 import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //Calendar module
@@ -17,8 +18,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthenticationControllerService, DisciplineControllerService, EvaluationMarkControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
+import { MatTimepickerModule } from 'mat-timepicker';
 //datetime picker
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BaseComponent } from './base/base.component';
@@ -113,8 +115,13 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     }),
     FormsModule,
     LayoutModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+
+    MatDatepickerModule,
+    MatTimepickerModule,
+
+
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule,
     DragDropModule,
     ScrollingModule,
   ],

@@ -18,17 +18,17 @@ export class CalendarComponent implements OnInit {
   // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid 
 
 
-  locales = [bgLocale/*, enLocale*/]; //bind to app locale
+  locales = [bgLocale/*, enLocale*/]; // bind to app locale
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     locale: bgLocale,
     headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
-    initialView: "dayGridMonth",
+    initialView: 'dayGridMonth',
     initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
@@ -56,13 +56,13 @@ export class CalendarComponent implements OnInit {
 
 
   startDrag(event: any) {
-    console.log('DRAG START')
-    console.log(event)
+    console.log('DRAG START');
+    console.log(event);
   }
 
   storpDrag(event: any) {
-    console.log('DRAG STOP')
-    console.log(event)
+    console.log('DRAG STOP');
+    console.log(event);
   }
 
   handleCalendarToggle() {
@@ -75,7 +75,7 @@ export class CalendarComponent implements OnInit {
   }
   /**
    * The date was clisked - add new event=
-   * @param selectInfo 
+   * @param selectInfo arg
    */
   handleDateSelect(selectInfo: DateSelectArg) {
     // const title = prompt("Please enter a new title for your event");

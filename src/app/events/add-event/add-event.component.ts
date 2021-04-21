@@ -14,7 +14,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   createMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
-  eventTypes: String[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
+  eventTypes: string[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
@@ -28,6 +28,8 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // const eventDto: EventDto;
+
     this.createMode = this.data.eventId?.length > 0;
     console.log(this.createMode);
     this.addForm = this.formBuilder.group({
@@ -38,7 +40,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
       endDateTime: ['', Validators.required],
       description: ['', Validators.required],
       discipline: ['', Validators.required],
-      //transient
+
       group: ['', ''],
       owner: ['', ''],
     });
@@ -66,7 +68,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
    */
   onSubmit() {
     if (!this.addForm.valid) {
-      //Check before..
+      // Check before..
       this.valido.validateAllFormFields(this.addForm);
       return;
     }

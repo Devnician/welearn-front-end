@@ -27,11 +27,8 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [             
+            "styles": [
               "src/styles.scss"
-            ],
-            "scripts": [
-              "src/assets/js/jsvat.js"
             ]
           },
           "configurations": {
@@ -93,7 +90,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [             
+            "styles": [
               "src/styles.scss"
             ],
             "scripts": []

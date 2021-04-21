@@ -9,12 +9,12 @@ interface HashTable<T> {
 @Injectable()
 export class Valido {
     private errorMessages: HashTable<string> = {};
-    private forbiddenWords = ["select", "insert", "update", "delete", "drop", "fuck"];
+    private forbiddenWords = ['select', 'insert', 'update', 'delete', 'drop', 'fuck'];
     //Patterns
-    private domain: string = '(([www.]*([a-z]*\\-)?([a-z]{1,}\\.)){1,2}[a-z]+)|(?:\\d{1,3}\.){3}\\d{1,3}';
-    private phonePattern: string = '\\+?\\d{9,15}';
-    private carYearPattern: string = '[12]\\d{3}';//dummy car year validator
-    private regNumberPattern: string = '[ABEKMHOPCTYX]{1,2}\\ ?[0-9]{4}\\ ?[ABEKMHOPCTYX]{1,2}';
+    private domain = '(([www.]*([a-z]*\\-)?([a-z]{1,}\\.)){1,2}[a-z]+)|(?:\\d{1,3}\.){3}\\d{1,3}';
+    private phonePattern = '\\+?\\d{9,15}';
+    private carYearPattern = '[12]\\d{3}';//dummy car year validator
+    private regNumberPattern = '[ABEKMHOPCTYX]{1,2}\\ ?[0-9]{4}\\ ?[ABEKMHOPCTYX]{1,2}';
 
 
     constructor() {
@@ -24,7 +24,7 @@ export class Valido {
         }
     }
     loadErrorMessages() {
-        this.errorMessages['required'] = 'wl.required_field';
+        this.errorMessages.required = 'wl.required_field';
         this.errorMessages['password'] = 'wl.error_password';
         this.errorMessages['username'] = 'wl.error_username';
         this.errorMessages['name'] = 'wl.invalid_device_pattern';
@@ -45,11 +45,11 @@ export class Valido {
     }
 
     getErrorMessage(field: string): string {
-        let displayError: string = this.errorMessages[field];
+        const displayError: string = this.errorMessages[field];
         if (displayError) {
             return displayError;
         }
-        return this.errorMessages['required'];
+        return this.errorMessages.required;
     }
 
 
