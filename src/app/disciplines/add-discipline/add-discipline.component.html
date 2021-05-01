@@ -11,7 +11,7 @@
                 </div>
                 <mat-form-field class="two-on-row">
                     <mat-label>{{'wl.lector' | translate}}</mat-label>
-                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="lectorId">
+                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="teacher">
                         <mat-option *ngFor="let lector of lectors" [value]="lector" class="form-control">
                             {{lector?.firstName}} {{lector?.middleName}} {{lector?.lastName}}
                         </mat-option>
@@ -19,7 +19,7 @@
                 </mat-form-field>
                 <mat-form-field class="two-on-row">
                     <mat-label>{{'wl.assistant' | translate}}</mat-label>
-                    <mat-select #aSel placeholder="{{'wl.assistant' | translate}}" formControlName="assistantId">
+                    <mat-select #aSel placeholder="{{'wl.assistant' | translate}}" formControlName="assistant">
                         <mat-option *ngFor="let lector of lectors" [value]="lector" class="form-control">
                             {{lector?.firstName}} {{lector?.middleName}} {{lector?.lastName}}
                         </mat-option>
