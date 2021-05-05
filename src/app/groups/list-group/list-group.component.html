@@ -44,7 +44,7 @@
             <mat-icon>edit</mat-icon>
             <span>Редактирай</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="deleteGroup(group.groupId)">
             <mat-icon>delete</mat-icon>
             <span>Изтрий</span>
           </button>
