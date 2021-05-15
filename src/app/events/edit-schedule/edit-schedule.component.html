@@ -1,0 +1,174 @@
+<mat-card>
+  <mat-card-title> {{ title }} </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+      <div class="f-row">
+        <mat-form-field class="two-on-row">
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="startDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="two-on-row">
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerEnd"
+            formControlName="endDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerEnd"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerEnd></mat-datepicker>
+        </mat-form-field>
+
+        <!-- <mat-form-field class="three-on-row">
+          <mat-checkbox color="accent" formControlName="monday">
+            понеделник
+          </mat-checkbox>
+        </mat-form-field> -->
+        <!-- <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
+                    <input class="form-control" matInput [owlDateTime]="dt1"
+                        placeholder="{{'wl.startDateTime' | translate}}" [min]="minDate" formControlName="startDateTime"
+                        id="starDateTime" readonly>
+                    <owl-date-time #dt1></owl-date-time>
+                </mat-form-field>
+                <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
+                    <input class="form-control" matInput [owlDateTime]="dt2"
+                        placeholder="{{'wl.endDateTime' | translate}}" [min]="minDate" formControlName="endDateTime"
+                        id="endDateTime" readonly>
+                    <owl-date-time #dt2></owl-date-time>
+                </mat-form-field>
+                <mat-form-field class="four-on-row">
+                    <mat-label> {{'wl.select_group' | translate}}</mat-label>
+                    <mat-select #groupSelector name="group" formControlName="group" required>
+                        <mat-option *ngFor="let group of groups" [value]="group" class="form-control"
+                            matTooltipPosition="right">
+                            {{group.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isFieldValid('group')">{{valido.getErrorMessage('group') | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="four-on-row">
+                    <mat-label> {{'wl.discipline' | translate}}</mat-label>
+                    <mat-select name="discipline" formControlName="discipline" required>
+                        <mat-option *ngFor="let discipline of groupSelector.value?.disciplines" [value]="discipline"
+                            class="form-control" matTooltipPosition="right">
+                            {{discipline.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isFieldValid('group')">{{valido.getErrorMessage('group') | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="four-on-row">
+                    <input matInput placeholder="{{'wl.subject' | translate}}" type="text" class="form-control"
+                        formControlName="subject" id="subject" autocomplete="off" required>
+                    <mat-error *ngIf="isFieldValid('subject')">{{valido.getErrorMessage('subject') | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="four-on-row">
+                    <mat-label> {{'wl.select_owner' | translate}}</mat-label>
+                    <mat-select name="owner" formControlName="owner" required>
+                        <mat-option *ngFor="let owner of owners" [value]="owner" class="form-control"
+                            matTooltipPosition="right">
+                            {{owner.firstName}} {{owner.lastName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isFieldValid('type')">{{valido.getErrorMessage('type') | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="one-on-row">
+                    <textarea matInput placeholder="{{'wl.description' | translate}}" type="text" class="form-control"
+                        formControlName="description" id="description" rows="5"></textarea>
+                </mat-form-field> -->
+      </div>
+
+      <div class="row">
+        <mat-slide-toggle [fomrControl]="monday">понеделник</mat-slide-toggle>
+
+        <mat-form-field [fomrControl]="monStart">
+          <mat-label>начало</mat-label>
+          <!-- The timepicker input -->
+          <input
+            matTimepicker
+            #t="matTimepicker"
+            #time="ngModel"
+            [minDate]="monStart"
+            [maxDate]="maxValue"
+            [strict]="false"
+            id="monStart"
+            mode="12h"
+            [ngModel]="monStart"
+            placeholder="Please select time..."
+            name="time"
+            [errorStateMatcher]="customErrorStateMatcher"
+            required
+            (timeChange)="timeChangeHandler($event)"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <!-- An icon for the timepicker input that will open the timepicker dialog when clicked -->
+          <mat-icon matSuffix (click)="t.showDialog()">access_time</mat-icon>
+
+          <!-- Error that will be shown when the input date is invalid -->
+          <mat-error *ngIf="time.touched && time.invalid"
+            >Invalid Date</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-slide-toggle formControlName="tuesday">вторник</mat-slide-toggle>
+      </div>
+      <div class="row">
+        <mat-slide-toggle formControlName="wednesday">сряда</mat-slide-toggle>
+      </div>
+      <div class="row">
+        <mat-slide-toggle formControlName="thursday"
+          >четвъртък</mat-slide-toggle
+        >
+      </div>
+      <div class="row">
+        <mat-slide-toggle formControlName="friday">петък</mat-slide-toggle>
+      </div>
+      <div class="row"></div>
+      <div class="row"></div>
+
+      <div class="button-bar">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          style="margin-right: 10px"
+          (click)="close()"
+        >
+          <mat-icon>close</mat-icon>{{ "wl.cancel" | translate }}
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          style="margin-right: 10px"
+          (click)="reset()"
+        >
+          <mat-icon>clear_all</mat-icon>{{ "wl.reset" | translate }}
+        </button>
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          (click)="onSubmit()"
+        >
+          {{ "wl.submit" | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+  <pre>{{ addForm.value | json }}</pre>
+</mat-card>

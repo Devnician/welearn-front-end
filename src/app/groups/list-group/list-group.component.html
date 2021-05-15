@@ -1,10 +1,8 @@
 <loader [show]=show></loader>
 <div class="b-bar">
-  <button class="mdc-fab" aria-label="Favorite" (click)="addGroup()" matTooltip="добавяне на група"
-    [disabled]="disableEdit === true">
-    <div class="mdc-fab__exited"></div>
-    <span class="mdc-fab__icon material-icons">add</span>
-  </button>
+  <button mat-mini-fab aria-label="Favorite" (click)="addGroup()" matTooltip="добавяне на група">
+    <mat-icon>add</mat-icon> 
+  </button> 
 </div>
 <div class="mat-elevation-z8">
   <table mat-table #table [dataSource]="paginator.slice">

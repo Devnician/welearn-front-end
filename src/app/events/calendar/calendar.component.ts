@@ -1,36 +1,51 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
-import bgLocale from '@fullcalendar/core/locales/bg';
-import { EventDto } from 'libs/rest-client/src';
-import { AddEventComponent } from '../add-event/add-event.component';
-import { INITIAL_EVENTS } from './event-util';
+import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import {
+  CalendarOptions,
+  DateSelectArg,
+  EventApi,
+  EventClickArg,
+  EventInput,
+} from "@fullcalendar/angular";
+import bgLocale from "@fullcalendar/core/locales/bg";
+import { EventDto, ScheduleDto } from "libs/rest-client/src";
+import * as moment from "moment";
+import { AddEventComponent } from "../add-event/add-event.component";
+import { EditScheduleComponent } from "../edit-schedule/edit-schedule.component";
+import { INITIAL_EVENTS } from "./event-util";
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  selector: "app-calendar",
+  templateUrl: "./calendar.component.html",
+  styleUrls: ["./calendar.component.scss"],
 })
-export class CalendarComponent implements OnInit , AfterViewInit{
+export class CalendarComponent implements OnInit, AfterViewInit {
+  autoSchedule: ScheduleDto[] = [
+    {
+      groupId: "adsasd",
+      disciplineId: "asdasd",
+      startTime: moment().toDate(),
+      endTime: moment().toDate(),
+    },
+  ];
 
   // https://fullcalendar.io/docs/angular
   // npm i --save @fullcalendar/core
   // npm install --save @fullcalendar/angular @fullcalendar/daygrid
   // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid
 
-
-  locales = [bgLocale/*, enLocale*/]; // bind to app locale
+  locales = [bgLocale /*, enLocale*/]; // bind to app locale
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     locale: bgLocale,
     headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
     },
-    initialView: 'dayGridMonth',
-    initialEvents:  this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
+    initialView: "dayGridMonth",
+    initialEvents: this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -40,7 +55,7 @@ export class CalendarComponent implements OnInit , AfterViewInit{
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     eventDragStart: this.startDrag.bind(this),
-    eventDragStop: this.storpDrag.bind(this)
+    eventDragStop: this.storpDrag.bind(this),
 
     /* you can update a remote database when these fire:
     eventAdd:
@@ -48,34 +63,44 @@ export class CalendarComponent implements OnInit , AfterViewInit{
     eventRemove:
     */
   };
-  currentEvents: EventApi[] = []; 
+  currentEvents: EventApi[] = [];
 
-  constructor(private dialog: MatDialog) { }
- 
-
-  loadEvents(): EventInput[] {
-
-    // map EventDto to EventInput[]
-    return INITIAL_EVENTS;
-
-
-  }
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-   
+    this.loadMyAutoSchedule();
+  }
+
+  loadMyAutoSchedule() {
+    const sch: ScheduleDto = {
+      groupId: "adsasd",
+      disciplineId: "asdasd",
+      startTime: moment().toDate(),
+      endTime: moment().toDate(),
+    };
+
+    this.autoSchedule.push(sch);
+    this.autoSchedule.push(sch);
+    this.autoSchedule.push(sch);
+    this.autoSchedule.push(sch);
+    console.log(this.autoSchedule);
   }
   ngAfterViewInit(): void {
-   // this.allEvents.next(this.currentEvents.length);
+    // this.allEvents.next(this.currentEvents.length);
   }
 
+  loadEvents(): EventInput[] {
+    // map EventDto to EventInput[]
+    return INITIAL_EVENTS;
+  }
 
   startDrag(event: any) {
-    console.log('DRAG START');
+    console.log("DRAG START");
     console.log(event);
   }
 
   storpDrag(event: any) {
-    console.log('DRAG STOP');
+    console.log("DRAG STOP");
     console.log(event);
   }
 
@@ -95,52 +120,49 @@ export class CalendarComponent implements OnInit , AfterViewInit{
     // const title = prompt("Please enter a new title for your event");
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection 
+    calendarApi.unselect(); // clear date selection
 
     let newEvent: EventDto = {
-      type: 'type',
+      type: "type",
       endDate: null,
       startDate: null,
-      name: '',
+      name: "",
       eventId: null,
       groupId: null,
-
-    }
-    this.openDialog(newEvent);
- 
+    };
+    this.openEventDialog(newEvent);
   }
   /**
    * The event was clicked - edit mode.
-   * @param clickInfo 
+   * @param clickInfo
    */
   handleEventClick(clickInfo: EventClickArg) {
     const ev: EventApi = clickInfo.event;
     console.log(clickInfo.event);
 
     const newEvent: EventDto = {
-      type: 'type',
+      type: "type",
       endDate: null,
       startDate: null,
       name: ev._def.title,
       eventId: null,
       groupId: null,
-
-    }
-    this.openDialog(newEvent);
+    };
+    this.openEventDialog(newEvent);
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
-   
   }
 
-
-  private openDialog(data: EventDto): void {
+  private openEventDialog(data: EventDto): void {
     const config = new MatDialogConfig();
     config.closeOnNavigation = true;
     config.data = data;
     const dialogRef = this.dialog.open(AddEventComponent, config);
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("do something");
+    });
   }
 
   // private openEditDialog(data: EventDto): void {
@@ -150,4 +172,14 @@ export class CalendarComponent implements OnInit , AfterViewInit{
   //   const dialogRef = this.dialog.open(EditEventComponent, config);
   //   dialogRef.afterClosed().subscribe();
   // }
+
+  openScheduleDialog(data: ScheduleDto): void {
+    const config = new MatDialogConfig();
+    config.closeOnNavigation = true;
+    config.data = data;
+    const dialogRef = this.dialog.open(EditScheduleComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("do something");
+    });
+  }
 }
