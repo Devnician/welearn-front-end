@@ -69,6 +69,10 @@
 
 
             <div class="button-bar">
+
+                <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="close()" >
+                    <mat-icon>close</mat-icon>{{'wl.cancel' | translate}}
+                </button>
                 <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="reset()">
                     <mat-icon>clear_all</mat-icon>{{'wl.reset' | translate}}
                 </button>

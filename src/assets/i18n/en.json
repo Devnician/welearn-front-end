@@ -133,7 +133,7 @@
         "active": "active",
         "created": "created",
         "createdBy": "created by",
-        "closedAt": "closed at",
+        "closedAt": "closed at", 
         "deletedAt": "deleted at",
         "updated": "updated",
         "lastEditedBy": "last edited by",

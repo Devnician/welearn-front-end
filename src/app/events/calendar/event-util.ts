@@ -8,6 +8,7 @@ export const INITIAL_EVENTS: EventInput[] = [
     {
         id: createEventId(),
         title: 'Бази данни, тип: Лекция ',
+        
         start: moment().add(-3, 'days').startOf('day').add(9, 'hour').toISOString()
     },
     {

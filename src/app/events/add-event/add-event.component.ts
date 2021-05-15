@@ -19,7 +19,9 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
 
-  constructor(injector: Injector, private fb: FormBuilder,
+  constructor(
+    injector: Injector,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: EventDto,
     private dialogRef: MatDialogRef<AddEventComponent>,
   ) {
@@ -27,13 +29,14 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    console.log(this.data);
     // const eventDto: EventDto;
 
     this.createMode = this.data.eventId?.length > 0;
     console.log(this.createMode);
     this.addForm = this.formBuilder.group({
       id: [],
+      
       type: ['', Validators.required],
       subject: ['', Validators.required],
       startDateTime: ['', Validators.required],
@@ -61,6 +64,10 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
    */
   reset() {
     this.addForm.reset();
+  }
+
+  close(){
+    this.dialogRef.close();
   }
 
   /**

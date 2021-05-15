@@ -84,18 +84,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subsForRouterEvents();
     this.router.navigate(['']);
   }
-
-  // showApiStatus(arg0: boolean) {
-  //   this.serverOnline$.next(arg0);
-
-  // }
-
+ 
   /**
    * Change language
    * @param language 
    */
-  useLanguage(language: string) {
-    console.log(language)
+  useLanguage(language: string) { 
     this.opened = false;
     this.translate.use(language);
     AppComponent.lang = language;
@@ -123,8 +117,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Fetch all roles for checking for logged user role.
    */
-  findAllRoles() {
-    console.log(this.user);
+  findAllRoles() { 
     this.isUserAuthToFetch(this.apiRoles);
     this.apiRoles.listRolesUsingGET()
       .subscribe(data => {
@@ -138,10 +131,11 @@ export class AppComponent implements OnInit, OnDestroy {
   private buildMenuForThisRole(role: RoleDto) {
     let unorderedMenus: MenuOptions[] = [];
     let all: MenuOptions[] = MenuUtil.getAllMenus();
-    MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);
-
+    MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);  
+    this.menuOptions = []; 
     //get saved order if any
     let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
+    
     if (order) { // order it 
       order.forEach(element => {
         let toBeRemoved: number;
@@ -155,9 +149,11 @@ export class AppComponent implements OnInit, OnDestroy {
         }
         unorderedMenus = unorderedMenus.filter(e => e['key'] !== toBeRemoved);
       });
+
       if (unorderedMenus.length > 0) { // if menus are more than saved, add it on bottom            
         unorderedMenus.forEach(r => { this.menuOptions.push(r) });
       }
+
       this.saveOrderOfMenus();
     } else { //show them as they arrived
       this.menuOptions = unorderedMenus;
