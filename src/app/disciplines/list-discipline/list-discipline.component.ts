@@ -62,6 +62,22 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
     this.router.navigate(['home/list-discipline/edit-discipline']);
   }
   deleteDiscipline(discipline: Discipline) {
-    alert('Not implemented yet')
+    this.apiDisciplines.removeDisciplineUsingDELETE(discipline.id).
+      subscribe(
+        data => {
+          if (data) {
+            this.apiDisciplines.getDisciplinesUsingGET().
+              subscribe(
+                data => {
+                  this.disciplines = data as Discipline[];
+                  this.loadPaginator(this.disciplines, 'name');
+                  //TODO
+                  // FILTER DISCIPLINES ACCORDING USER ID
+                  // show only the disciplines in which this user is involved
+                }
+              );
+          }
+        }
+      );
   }
 }

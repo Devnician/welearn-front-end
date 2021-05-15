@@ -10,8 +10,8 @@
                     </mat-form-field>
                 </div>
                 <mat-form-field class="two-on-row">
-                    <mat-label>{{'wl.lector' | translate}}</mat-label>
-                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="lector">
+                    <mat-label>{{'wl.lector' | translate}}</mat-label> 
+                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="teacher"> 
                         <mat-option *ngFor="let lector of lectors" [value]="lector" class="form-control">
                             {{lector?.firstName}} {{lector?.middleName}} {{lector?.lastName}}
                         </mat-option>

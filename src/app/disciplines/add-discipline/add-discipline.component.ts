@@ -32,9 +32,8 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
       name: [],
       description: '',
       createdAt: new Date(),
-      updatedAt: new Date(),
-      test: '',
-      lector: {},
+      updatedAt: new Date(), 
+      teacher: {}, 
       assistant: {}
     });
   }
