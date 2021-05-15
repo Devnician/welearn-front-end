@@ -37,17 +37,16 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
             this.lectors = data;
           }
         )
-      console.log(this.discipline);
+
       this.editForm = this.formBuilder.group({
         id: this.discipline.id,
         name: this.discipline.name,
         creationDate: { value: this.discipline.creationDate, disabled: true },
         modifiedDate: { value: this.discipline.modifiedDate, disabled: true },
-        teacher: this.discipline.teacher,
-        assistant: this.discipline.assistant
+        teacherId: this.discipline.teacher.userId,
+        assistantId: this.discipline.assistant.userId
       });
     }
-
   }
 
   reset() {

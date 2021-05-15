@@ -48,4 +48,19 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
   addGroup() {
     this.router.navigate(['home/list-group/add-group']);
   }
+
+  deleteGroup(id: string) {
+    this.apiGroups.deleteGroupUsingDELETE(id)
+      .subscribe(data => {
+        if (data) {
+          this.apiGroups.findAllUsingGET1()
+            .subscribe(data => {
+              this.groups = data as GroupDto[];
+              this.loadPaginator(this.groups, 'name');
+            });
+
+        }
+      });
+
+  }
 }
