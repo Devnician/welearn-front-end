@@ -29,7 +29,8 @@ import {
   RoleControllerService,
   UserControllerService,
 } from "libs/rest-client/src";
-import { MatTimepickerModule } from "mat-timepicker";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+//import { MatTimepickerModule } from "mat-timepicker";
 // import { MatTimepickerModule } from "mat-timepicker";
 // //datetime picker
 // import {
@@ -74,7 +75,6 @@ import { EditUserComponent } from "./users/edit-user/edit-user.component";
 import { ListUserComponent } from "./users/list-user/list-user.component";
 import { AlertTagComponent } from "./utils/alert-tag.component";
 import { LoaderComponent } from "./utils/loader.component";
-
 FullCalendarModule.registerPlugins([
   // register FullCalendar plugins
   dayGridPlugin,
@@ -135,9 +135,8 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     LayoutModule,
     MatDatepickerModule,
-    MatTimepickerModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     DragDropModule,
     ScrollingModule,
   ],

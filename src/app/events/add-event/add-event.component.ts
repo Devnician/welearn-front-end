@@ -1,20 +1,20 @@
-import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EventDto, GroupDto, UserDto } from 'libs/rest-client/src';
-import { BaseformComponent } from 'src/app/baseform/baseform.component';
-import { Discipline } from 'src/app/model/discipline.model';
+import { Component, Inject, Injector, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { EventDto, GroupDto, UserDto } from "libs/rest-client/src";
+import { BaseformComponent } from "src/app/baseform/baseform.component";
+import { Discipline } from "src/app/model/discipline.model";
 
 @Component({
-  selector: 'app-add-event',
-  templateUrl: './add-event.component.html',
-  styleUrls: ['./add-event.component.scss']
+  selector: "app-add-event",
+  templateUrl: "./add-event.component.html",
+  styleUrls: ["./add-event.component.scss"],
 })
 export class AddEventComponent extends BaseformComponent implements OnInit {
   createMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
-  eventTypes: string[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
+  eventTypes: string[] = ["обучение", "упражнение", "консултация", "изпит"];
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
@@ -23,7 +23,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
     injector: Injector,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: EventDto,
-    private dialogRef: MatDialogRef<AddEventComponent>,
+    private dialogRef: MatDialogRef<AddEventComponent>
   ) {
     super(injector);
   }
@@ -36,25 +36,24 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
     console.log(this.createMode);
     this.addForm = this.formBuilder.group({
       id: [],
-      
-      type: ['', Validators.required],
-      subject: ['', Validators.required],
-      startDateTime: ['', Validators.required],
-      endDateTime: ['', Validators.required],
-      description: ['', Validators.required],
-      discipline: ['', Validators.required],
 
-      group: ['', ''],
-      owner: ['', ''],
+      type: ["", Validators.required],
+      subject: ["", Validators.required],
+      startDateTime: ["", Validators.required],
+      endDateTime: ["", Validators.required],
+      description: ["", Validators.required],
+      discipline: ["", Validators.required],
+
+      group: ["", ""],
+      owner: ["", ""],
     });
   }
 
-
   /**
- * Checks field
- * @param field the field
- * return True if it is valed false otherwise
- */
+   * Checks field
+   * @param field the field
+   * return True if it is valed false otherwise
+   */
   isFieldValid(field: string) {
     return !this.addForm.get(field).valid && this.addForm.get(field).touched;
   }
@@ -66,7 +65,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
     this.addForm.reset();
   }
 
-  close(){
+  close() {
     this.dialogRef.close();
   }
 
@@ -80,7 +79,7 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
       return;
     }
     let newEvent: EventDto = this.addForm.value;
+
     console.log(newEvent);
   }
-
 }

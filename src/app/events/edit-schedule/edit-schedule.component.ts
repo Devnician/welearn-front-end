@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ScheduleDto } from "libs/rest-client/src";
+import * as moment from "moment";
 
 @Component({
   selector: "app-edit-schedule",
@@ -32,8 +33,8 @@ export class EditScheduleComponent implements OnInit {
       startDate: ["", Validators.required],
       endDate: ["", Validators.required],
       monday: [false],
-      monStart: [""],
-      // monEnd: [],
+      monStart: [],
+      monEnd: [],
       tuesday: [false],
       wednesday: [true],
       thursday: [false],
@@ -47,10 +48,27 @@ export class EditScheduleComponent implements OnInit {
   reset() {
     alert("clear form");
   }
-  submit() {
+  onSubmit() {
+    let result = this.addForm.getRawValue();
+    console.log(result);
+    let monStartInMinutes = this.getMinutesFromMidnightToThisMoment(
+      moment(result.monStart)
+    );
+
+    let monEndInMinutes = this.getMinutesFromMidnightToThisMoment(
+      moment(result.monEnd)
+    );
+    console.log(monStartInMinutes, monEndInMinutes);
+
     console.log("submit");
   }
   timeChangeHandler(e: any) {
     console.log(e);
+  }
+
+  getMinutesFromMidnightToThisMoment(m: moment.Moment): number {
+    var mmtMidnight = m.clone().startOf("day");
+    var diffMinutes = m.diff(mmtMidnight, "minutes");
+    return diffMinutes;
   }
 }
