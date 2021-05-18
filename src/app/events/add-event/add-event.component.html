@@ -1,86 +1,162 @@
 <mat-card>
-    <mat-card-title> {{createMode === 'true' ? 'Създаване' : 'Редактиране' }} на събитие </mat-card-title>
-    <mat-card-content>
-        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
-            <div class="f-row">
-                <mat-form-field class="three-on-row">
-                    <mat-label> {{'wl.select_event_type' | translate}}</mat-label>
-                    <mat-select name="type" formControlName="type" required>
-                        <mat-option *ngFor="let type of eventTypes" [value]="type" class="form-control"
-                            matTooltipPosition="right">
-                            {{type}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="isFieldValid('type')">{{valido.getErrorMessage('type') | translate}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
-                    <input class="form-control" matInput [owlDateTime]="dt1"
-                        placeholder="{{'wl.startDateTime' | translate}}" [min]="minDate" formControlName="startDateTime"
-                        id="starDateTime" readonly>
-                    <owl-date-time #dt1></owl-date-time>
-                </mat-form-field>
-                <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
-                    <input class="form-control" matInput [owlDateTime]="dt2"
-                        placeholder="{{'wl.endDateTime' | translate}}" [min]="minDate" formControlName="endDateTime"
-                        id="endDateTime" readonly>
-                    <owl-date-time #dt2></owl-date-time>
-                </mat-form-field>
-                <mat-form-field class="four-on-row">
-                    <mat-label> {{'wl.select_group' | translate}}</mat-label>
-                    <mat-select #groupSelector name="group" formControlName="group" required>
-                        <mat-option *ngFor="let group of groups" [value]="group" class="form-control"
-                            matTooltipPosition="right">
-                            {{group.name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="isFieldValid('group')">{{valido.getErrorMessage('group') | translate}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="four-on-row">
-                    <mat-label> {{'wl.discipline' | translate}}</mat-label>
-                    <mat-select name="discipline" formControlName="discipline" required>
-                        <mat-option *ngFor="let discipline of groupSelector.value?.disciplines" [value]="discipline"
-                            class="form-control" matTooltipPosition="right">
-                            {{discipline.name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="isFieldValid('group')">{{valido.getErrorMessage('group') | translate}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="four-on-row">
-                    <input matInput placeholder="{{'wl.subject' | translate}}" type="text" class="form-control"
-                        formControlName="subject" id="subject" autocomplete="off" required>
-                    <mat-error *ngIf="isFieldValid('subject')">{{valido.getErrorMessage('subject') | translate}}
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field class="four-on-row">
-                    <mat-label> {{'wl.select_owner' | translate}}</mat-label>
-                    <mat-select name="owner" formControlName="owner" required>
-                        <mat-option *ngFor="let owner of owners" [value]="owner" class="form-control"
-                            matTooltipPosition="right">
-                            {{owner.firstName}} {{owner.lastName}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="isFieldValid('type')">{{valido.getErrorMessage('type') | translate}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="one-on-row">
-                    <textarea matInput placeholder="{{'wl.description' | translate}}" type="text" class="form-control"
-                        formControlName="description" id="description" rows="5"></textarea>
-                </mat-form-field>
-            </div>
+  <mat-card-title>
+    {{ createMode === 'true' ? 'Създаване' : 'Редактиране' }} на събитие
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="addForm">
+      <div class="f-row">
+        <mat-form-field class="three-on-row">
+          <mat-label> {{ 'wl.select_event_type' | translate }}</mat-label>
+          <mat-select name="type" formControlName="type">
+            <mat-option
+              *ngFor="let type of eventTypes | keyvalue"
+              [value]="type.key"
+              class="form-control"
+              matTooltipPosition="right"
+            >
+              {{ type.value }}
+            </mat-option>
+          </mat-select>
+          <!-- <mat-error *ngIf="isFieldValid('type')">{{
+            valido.getErrorMessage("type") | translate
+          }}</mat-error> -->
+        </mat-form-field>
+        <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
+          <input
+            class="form-control"
+            matInput
+            [owlDateTime]="dt1"
+            placeholder="{{ 'wl.startDateTime' | translate }}"
+            [min]="minDate"
+            formControlName="startDate"
+            id="starDateTime"
+            readonly
+          />
+          <owl-date-time #dt1></owl-date-time>
+        </mat-form-field>
+        <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
+          <input
+            class="form-control"
+            matInput
+            [owlDateTime]="dt2"
+            placeholder="{{ 'wl.endDateTime' | translate }}"
+            [min]="minDate"
+            formControlName="endDate"
+            id="endDateTime"
+            readonly
+          />
+          <owl-date-time #dt2></owl-date-time>
+        </mat-form-field>
+        <mat-form-field class="four-on-row">
+          <mat-label> {{ 'wl.select_group' | translate }}</mat-label>
+          <mat-select
+            #groupSelector
+            name="group"
+            formControlName="group"
+            required
+          >
+            <mat-option
+              *ngFor="let group of groups"
+              [value]="group"
+              class="form-control"
+              matTooltipPosition="right"
+            >
+              {{ group.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="isFieldValid('group')">{{
+            valido.getErrorMessage('group') | translate
+          }}</mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field class="four-on-row">
+          <mat-label> {{ 'wl.discipline' | translate }}</mat-label>
+          <mat-select name="discipline" formControlName="discipline" required>
+            <mat-option
+              *ngFor="let discipline of groupSelector?.value?.disciplines"
+              [value]="discipline"
+              class="form-control"
+              matTooltipPosition="right"
+            >
+              {{ discipline.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="isFieldValid('discipline')">{{
+            valido.getErrorMessage('discipline') | translate
+          }}</mat-error>
+        </mat-form-field> -->
+        <mat-form-field class="four-on-row">
+          <input
+            matInput
+            placeholder="{{ 'wl.subject' | translate }}"
+            type="text"
+            class="form-control"
+            formControlName="name"
+            id="name"
+            autocomplete="off"
+            required
+          />
+          <mat-error *ngIf="isFieldValid('name')"
+            >{{ valido.getErrorMessage('name') | translate }}
+          </mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field class="four-on-row">
+          <mat-label> {{ "wl.select_owner" | translate }}</mat-label>
+          <mat-select name="owner" formControlName="owner" required>
+            <mat-option
+              *ngFor="let owner of owners"
+              [value]="owner"
+              class="form-control"
+              matTooltipPosition="right"
+            >
+              {{ owner.firstName }} {{ owner.lastName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="isFieldValid('type')">{{
+            valido.getErrorMessage("type") | translate
+          }}</mat-error>
+        </mat-form-field> -->
+        <mat-form-field class="one-on-row">
+          <textarea
+            matInput
+            placeholder="{{ 'wl.description' | translate }}"
+            type="text"
+            class="form-control"
+            formControlName="description"
+            id="description"
+            rows="5"
+          ></textarea>
+        </mat-form-field>
+      </div>
 
-
-            <div class="button-bar">
-
-                <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="close()" >
-                    <mat-icon>close</mat-icon>{{'wl.cancel' | translate}}
-                </button>
-                <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="reset()">
-                    <mat-icon>clear_all</mat-icon>{{'wl.reset' | translate}}
-                </button>
-                <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">{{'wl.submit' |
-                    translate}}</button>
-            </div>
-        </form>
-
-
-    </mat-card-content>
+      <div class="button-bar">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          style="margin-right: 10px"
+          (click)="close()"
+        >
+          <mat-icon>close</mat-icon>{{ 'wl.cancel' | translate }}
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          style="margin-right: 10px"
+          (click)="reset()"
+        >
+          <mat-icon>clear_all</mat-icon>{{ 'wl.reset' | translate }}
+        </button>
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          (click)="onSubmit()"
+        >
+          {{ 'wl.submit' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+  <pre>{{ addForm.value | json }}</pre>
 </mat-card>

@@ -11,16 +11,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import {
-    HttpClient,
-    HttpEvent, HttpHeaders,
-    HttpResponse
-} from '@angular/common/http';
-import { Inject, Injectable, Optional } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Configuration } from '../configuration';
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+
+import { Observable }                                        from 'rxjs/Observable';
+
 import { UserDto } from '../model/userDto';
-import { BASE_PATH } from '../variables';
+
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
+import { Configuration }                                     from '../configuration';
+
 
 @Injectable()
 export class UserControllerService {
@@ -29,7 +31,7 @@ export class UserControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
         if (configuration) {
             this.configuration = configuration;
@@ -65,7 +67,7 @@ export class UserControllerService {
     public deleteUserUsingDELETE(customerId: string, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
     public deleteUserUsingDELETE(customerId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
     public deleteUserUsingDELETE(customerId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
-    public deleteUserUsingDELETE(customerId: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public deleteUserUsingDELETE(customerId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (customerId === null || customerId === undefined) {
             throw new Error('Required parameter customerId was null or undefined when calling deleteUserUsingDELETE.');
         }
@@ -110,7 +112,7 @@ export class UserControllerService {
     public getUserUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
     public getUserUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
     public getUserUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
-    public getUserUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public getUserUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling getUserUsingGET.');
         }
@@ -154,7 +156,7 @@ export class UserControllerService {
     public listUserUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<UserDto>>;
     public listUserUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserDto>>>;
     public listUserUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserDto>>>;
-    public listUserUsingGET(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public listUserUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -196,7 +198,7 @@ export class UserControllerService {
     public listUserUsingGET1(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<UserDto>>;
     public listUserUsingGET1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserDto>>>;
     public listUserUsingGET1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserDto>>>;
-    public listUserUsingGET1(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public listUserUsingGET1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling listUserUsingGET1.');
         }
@@ -241,7 +243,7 @@ export class UserControllerService {
     public logoutUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
     public logoutUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
     public logoutUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
-    public logoutUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public logoutUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling logoutUsingGET.');
         }
@@ -286,7 +288,7 @@ export class UserControllerService {
     public saveUserUsingPOST(userDto: UserDto, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
     public saveUserUsingPOST(userDto: UserDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
     public saveUserUsingPOST(userDto: UserDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
-    public saveUserUsingPOST(userDto: UserDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public saveUserUsingPOST(userDto: UserDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (userDto === null || userDto === undefined) {
             throw new Error('Required parameter userDto was null or undefined when calling saveUserUsingPOST.');
         }
@@ -337,7 +339,7 @@ export class UserControllerService {
     public updateUserUsingPUT(userDto: UserDto, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
     public updateUserUsingPUT(userDto: UserDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
     public updateUserUsingPUT(userDto: UserDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
-    public updateUserUsingPUT(userDto: UserDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public updateUserUsingPUT(userDto: UserDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (userDto === null || userDto === undefined) {
             throw new Error('Required parameter userDto was null or undefined when calling updateUserUsingPUT.');
         }

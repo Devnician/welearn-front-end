@@ -1,23 +1,22 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormGroup, Validators } from "@angular/forms";
+import { FormGroup, Validators } from '@angular/forms';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 import { BaseformComponent } from '../../baseform/baseform.component';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss']
+  styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent extends BaseformComponent implements OnInit {
   addForm: FormGroup;
 
-  constructor(/*app: AppComponent*/injector: Injector) {
+  constructor(injector: Injector) {
     super(injector);
   }
   ngOnInit() {
-    //this.roles = this.app.roles; 
     this.addForm = this.formBuilder.group({
       id: [],
-      username: ['', Validators.required],
+      username: ['', this.valido.validateUsername(true)],
       password: ['', this.valido.validatePassowrd(6, 30)],
       firstName: ['', this.valido.validateName(2, 30)],
       middleName: ['', this.valido.validateName(2, 30)],
@@ -29,7 +28,7 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
       phoneNumber: ['', this.valido.validatePhone(true)],
       otherContacts: [''],
       deleted: ['', ''],
-      loggedIn: []
+      loggedIn: [],
     });
   }
 
@@ -57,21 +56,14 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
-
     let newUser: UserDto = this.addForm.value;
-    let roleId = newUser['roleId'];
-    delete newUser['roleId'];
-    newUser.role = this.roles.find(r => r.id == roleId);
-
-    this.apiUsers.updateUserUsingPUT(newUser).subscribe(
-      data => {
-        let message = 'данните бяха записани';
-        if (!data) {
-          message = 'нещо се обърка..'
-        }
-        this.showSnack(message, '', 1500);
-        history.back();
+    this.apiUsers.saveUserUsingPOST(newUser).subscribe((data) => {
+      let message = 'данните бяха записани';
+      if (!data) {
+        message = 'нещо се обърка..';
       }
-    );
+      this.showSnack(message, '', 1500);
+      history.back();
+    });
   }
 }

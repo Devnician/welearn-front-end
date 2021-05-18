@@ -1,29 +1,33 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   CalendarOptions,
   DateSelectArg,
   EventApi,
   EventClickArg,
   EventInput,
-} from "@fullcalendar/angular";
-import bgLocale from "@fullcalendar/core/locales/bg";
-import { EventDto, ScheduleDto } from "libs/rest-client/src";
-import * as moment from "moment";
-import { AddEventComponent } from "../add-event/add-event.component";
-import { EditScheduleComponent } from "../edit-schedule/edit-schedule.component";
-import { INITIAL_EVENTS } from "./event-util";
+} from '@fullcalendar/angular';
+import bgLocale from '@fullcalendar/core/locales/bg';
+import { EventDto, ScheduleDto } from 'libs/rest-client/src';
+import * as moment from 'moment';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { AddEventComponent } from '../add-event/add-event.component';
+import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
+import { INITIAL_EVENTS } from './event-util';
 
 @Component({
-  selector: "app-calendar",
-  templateUrl: "./calendar.component.html",
-  styleUrls: ["./calendar.component.scss"],
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit, AfterViewInit {
+export class CalendarComponent
+  extends BlitcenComponent
+  implements OnInit, AfterViewInit
+{
   autoSchedule: ScheduleDto[] = [
     {
-      groupId: "adsasd",
-      disciplineId: "asdasd",
+      groupId: 'adsasd',
+      disciplineId: 'asdasd',
       startTime: moment().toDate(),
       endTime: moment().toDate(),
     },
@@ -36,16 +40,16 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   locales = [bgLocale /*, enLocale*/]; // bind to app locale
 
-  calendarVisible = true;
+  //calendarVisible = true;
   calendarOptions: CalendarOptions = {
     locale: bgLocale,
     headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
-    initialView: "dayGridMonth",
-    initialEvents: this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
+    initialView: 'dayGridMonth',
+    initialEvents: INITIAL_EVENTS, //this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -65,16 +69,22 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   };
   currentEvents: EventApi[] = [];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, injector: Injector) {
+    super(injector);
+  }
 
   ngOnInit(): void {
     this.loadMyAutoSchedule();
+
+    this.apiEvents.findAllUsingGET1().subscribe((data) => {
+      console.log(data);
+    });
   }
 
   loadMyAutoSchedule() {
     const sch: ScheduleDto = {
-      groupId: "adsasd",
-      disciplineId: "asdasd",
+      groupId: 'adsasd',
+      disciplineId: 'asdasd',
       startTime: moment().toDate(),
       endTime: moment().toDate(),
     };
@@ -83,7 +93,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.autoSchedule.push(sch);
     this.autoSchedule.push(sch);
     this.autoSchedule.push(sch);
-    console.log(this.autoSchedule);
+    // console.log(this.autoSchedule);
   }
   ngAfterViewInit(): void {
     // this.allEvents.next(this.currentEvents.length);
@@ -95,17 +105,13 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   startDrag(event: any) {
-    console.log("DRAG START");
+    console.log('DRAG START');
     console.log(event);
   }
 
   storpDrag(event: any) {
-    console.log("DRAG STOP");
+    console.log('DRAG STOP');
     console.log(event);
-  }
-
-  handleCalendarToggle() {
-    this.calendarVisible = !this.calendarVisible;
   }
 
   handleWeekendsToggle() {
@@ -123,10 +129,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     calendarApi.unselect(); // clear date selection
 
     let newEvent: EventDto = {
-      type: "type",
+      type: 'type',
       endDate: null,
       startDate: null,
-      name: "",
+      name: '',
       eventId: null,
       groupId: null,
     };
@@ -141,7 +147,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     console.log(clickInfo.event);
 
     const newEvent: EventDto = {
-      type: "type",
+      type: 'type',
       endDate: null,
       startDate: null,
       name: ev._def.title,
@@ -161,7 +167,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     config.data = data;
     const dialogRef = this.dialog.open(AddEventComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("do something");
+      console.log('do something');
     });
   }
 
@@ -179,7 +185,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     config.data = data;
     const dialogRef = this.dialog.open(EditScheduleComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("do something");
+      console.log('do something');
     });
   }
 }
