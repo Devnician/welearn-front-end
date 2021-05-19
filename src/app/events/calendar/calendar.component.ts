@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
 import bgLocale from '@fullcalendar/core/locales/bg';
 import { EventDto } from 'libs/rest-client/src';
 import { AddEventComponent } from '../add-event/add-event.component';
@@ -11,25 +11,26 @@ import { INITIAL_EVENTS } from './event-util';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit {
-  // https://fullcalendar.io/docs/angular 
+export class CalendarComponent implements OnInit , AfterViewInit{
+
+  // https://fullcalendar.io/docs/angular
   // npm i --save @fullcalendar/core
   // npm install --save @fullcalendar/angular @fullcalendar/daygrid
-  // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid 
+  // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid
 
 
-  locales = [bgLocale/*, enLocale*/]; //bind to app locale
+  locales = [bgLocale/*, enLocale*/]; // bind to app locale
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     locale: bgLocale,
     headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
-    initialView: "dayGridMonth",
-    initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+    initialView: 'dayGridMonth',
+    initialEvents:  this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -47,22 +48,35 @@ export class CalendarComponent implements OnInit {
     eventRemove:
     */
   };
-  currentEvents: EventApi[] = [];
+  currentEvents: EventApi[] = []; 
 
   constructor(private dialog: MatDialog) { }
+ 
+
+  loadEvents(): EventInput[] {
+
+    // map EventDto to EventInput[]
+    return INITIAL_EVENTS;
+
+
+  }
 
   ngOnInit(): void {
+   
+  }
+  ngAfterViewInit(): void {
+   // this.allEvents.next(this.currentEvents.length);
   }
 
 
   startDrag(event: any) {
-    console.log('DRAG START')
-    console.log(event)
+    console.log('DRAG START');
+    console.log(event);
   }
 
   storpDrag(event: any) {
-    console.log('DRAG STOP')
-    console.log(event)
+    console.log('DRAG STOP');
+    console.log(event);
   }
 
   handleCalendarToggle() {
@@ -75,7 +89,7 @@ export class CalendarComponent implements OnInit {
   }
   /**
    * The date was clisked - add new event=
-   * @param selectInfo 
+   * @param selectInfo arg
    */
   handleDateSelect(selectInfo: DateSelectArg) {
     // const title = prompt("Please enter a new title for your event");
@@ -93,16 +107,7 @@ export class CalendarComponent implements OnInit {
 
     }
     this.openDialog(newEvent);
-
-    // if (title) {
-    //   calendarApi.addEvent({
-    //     id: '111111',
-    //     title,
-    //     start: selectInfo.startStr,
-    //     end: selectInfo.endStr,
-    //     allDay: selectInfo.allDay
-    //   });
-    // }
+ 
   }
   /**
    * The event was clicked - edit mode.
@@ -112,7 +117,7 @@ export class CalendarComponent implements OnInit {
     const ev: EventApi = clickInfo.event;
     console.log(clickInfo.event);
 
-    let newEvent: EventDto = {
+    const newEvent: EventDto = {
       type: 'type',
       endDate: null,
       startDate: null,
@@ -126,6 +131,7 @@ export class CalendarComponent implements OnInit {
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
+   
   }
 
 

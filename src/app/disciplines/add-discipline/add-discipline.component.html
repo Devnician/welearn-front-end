@@ -10,8 +10,8 @@
                     </mat-form-field>
                 </div>
                 <mat-form-field class="two-on-row">
-                    <mat-label>{{'wl.lector' | translate}}</mat-label>
-                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="teacher">
+                    <mat-label>{{'wl.lector' | translate}}</mat-label> 
+                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="teacher"> 
                         <mat-option *ngFor="let lector of lectors" [value]="lector" class="form-control">
                             {{lector?.firstName}} {{lector?.middleName}} {{lector?.lastName}}
                         </mat-option>
@@ -49,6 +49,41 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="f-row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div style="display: flex;">
+                <mat-slide-toggle>понеделник</mat-slide-toggle>
+                <mat-slide-toggle>вторник</mat-slide-toggle>
+                <mat-slide-toggle>сряда</mat-slide-toggle>
+                <mat-slide-toggle>четвъртък</mat-slide-toggle>
+                <mat-slide-toggle>петък</mat-slide-toggle>
+            </div>
+
+
+            <!-- //https://www.npmjs.com/package/mat-timepicker -->
+            <mat-form-field appearance="fill">
+                <mat-label>начало</mat-label>
+                <!-- The timepicker input -->
+                <input matTimepicker #t="matTimepicker" #time="ngModel" [minDate]="minValue" [maxDate]="maxValue"
+                    [strict]="false" id="timepicker-example" mode="24h" [ngModel]="defaultValue"
+                    placeholder="Please select time..." name="time" [errorStateMatcher]="customErrorStateMatcher"
+                    required (timeChange)="timeChangeHandler($event)" (invalidInput)="invalidInputHandler()">
+                <!-- An icon for the timepicker input that will open the timepicker dialog when clicked -->
+                <mat-icon matSuffix (click)="t.showDialog()">access_time</mat-icon>
+
+                <!-- Error that will be shown when the input date is invalid -->
+                <mat-error *ngIf="time.touched && time.invalid">Invalid Date</mat-error>
+            </mat-form-field>
+
             <div class="button-bar">
                 <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="goBack()">
                     {{'wl.cancel' | translate}}

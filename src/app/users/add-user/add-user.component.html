@@ -43,13 +43,13 @@
         </mat-form-field>
         <mat-form-field class="five-on-row">
           <mat-label> {{'wl.select_role' | translate}}</mat-label>
-          <mat-select name="roleId" formControlName="roleId" required>
-            <mat-option *ngFor="let role of roles" [value]="role.id" class="form-control"
-              matTooltip="{{role.descriptionBg}}" matTooltipPosition="right" id="roleId">
+          <mat-select name="role" formControlName="role" required>
+            <mat-option *ngFor="let role of roles" [value]="role" class="form-control"
+              matTooltip="{{role.descriptionBg}}" matTooltipPosition="right" id="role">
               {{role.roleBg}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="isFieldValid('roleId')">{{valido.getErrorMessage('roleId') | translate}}</mat-error>
+          <mat-error *ngIf="isFieldValid('role')">{{valido.getErrorMessage('role') | translate}}</mat-error>
         </mat-form-field>
         <mat-form-field class="five-on-row">
           <input matInput placeholder="{{'wl.username' | translate}}" type="text" formControlName="username"
@@ -77,4 +77,5 @@
       </div>
     </form>
   </mat-card-content>
+  <pre>{{addForm.value | json}}</pre>
 </mat-card>

@@ -14,12 +14,14 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   createMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
-  eventTypes: String[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
+  eventTypes: string[] = ['обучение', 'упражнение', 'консултация', 'изпит'];
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
 
-  constructor(injector: Injector, private fb: FormBuilder,
+  constructor(
+    injector: Injector,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: EventDto,
     private dialogRef: MatDialogRef<AddEventComponent>,
   ) {
@@ -27,18 +29,21 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
+    // const eventDto: EventDto;
 
     this.createMode = this.data.eventId?.length > 0;
     console.log(this.createMode);
     this.addForm = this.formBuilder.group({
       id: [],
+      
       type: ['', Validators.required],
       subject: ['', Validators.required],
       startDateTime: ['', Validators.required],
       endDateTime: ['', Validators.required],
       description: ['', Validators.required],
       discipline: ['', Validators.required],
-      //transient
+
       group: ['', ''],
       owner: ['', ''],
     });
@@ -61,12 +66,16 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
     this.addForm.reset();
   }
 
+  close(){
+    this.dialogRef.close();
+  }
+
   /**
    * Submit form if is valid
    */
   onSubmit() {
     if (!this.addForm.valid) {
-      //Check before..
+      // Check before..
       this.valido.validateAllFormFields(this.addForm);
       return;
     }

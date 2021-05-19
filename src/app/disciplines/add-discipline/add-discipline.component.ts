@@ -32,8 +32,8 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
       name: [],
       description: '',
       createdAt: new Date(),
-      updatedAt: new Date(),
-      teacher: {},
+      updatedAt: new Date(), 
+      teacher: {}, 
       assistant: {}
     });
   }
@@ -70,5 +70,9 @@ export class AddDisciplineComponent extends BaseformComponent implements OnInit 
 
   displayLector(userId: number): string {
     return ' BRADA';
+  }
+
+  timeChangeHandler(event) {
+    console.log(event)
   }
 }
