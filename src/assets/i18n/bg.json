@@ -156,6 +156,7 @@
         "select_internal": "задача",
         "select_office": "офис",
         "select_sim_card": "изберете сим карта",
+        "select_day":"ден от седмицата",
         "requestDate": "дата на заявката",
         "request_qty": "заявено количество",
         "simNumber": "сим номер",

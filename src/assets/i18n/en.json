@@ -157,6 +157,7 @@
         "select_internal": "task",
         "select_office": "office",
         "select_sim_card": "select sim card",
+        "select_day":"day of week",
         "requestDate": "request date",
         "request_qty": "request quantity",
         "simNumber": "sim number",

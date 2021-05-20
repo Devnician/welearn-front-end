@@ -1,12 +1,15 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //Calendar module
@@ -18,10 +21,28 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 // import ngx-translate and the http loader
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AuthenticationControllerService, DisciplineControllerService, EvaluationMarkControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
-import { MatTimepickerModule } from 'mat-timepicker';
-//datetime picker
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import {
+  AuthenticationControllerService,
+  DisciplineControllerService,
+  EvaluationMarkControllerService,
+  EventControllerService,
+  GroupControllerService,
+  RoleControllerService,
+  UserControllerService,
+} from 'libs/rest-client/src';
+import {
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+  OWL_DATE_TIME_LOCALE,
+} from 'ng-pick-datetime';
+//import { MatTimepickerModule } from "mat-timepicker";
+// import { MatTimepickerModule } from "mat-timepicker";
+// //datetime picker
+// import {
+//   OwlDateTimeModule,
+//   OwlNativeDateTimeModule,
+//   OWL_DATE_TIME_LOCALE,
+// } from "ng-pick-datetime";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BaseComponent } from './base/base.component';
@@ -29,7 +50,7 @@ import { BaseformComponent } from './baseform/baseform.component';
 import { BlitcenComponent } from './blitcen/blitcen.component';
 import { DonkeyService } from './core/donkey.service';
 import { GlobalErrorHandler } from './core/global-error-handler';
-import { TokenInterceptor } from "./core/interceptor";
+import { TokenInterceptor } from './core/interceptor';
 import { Valido } from './core/valido';
 import { DialogInfoComponent } from './dialog-info/dialog-info.component';
 //import { DATE_TIME_LOCALE } from 'angular-calendar';
@@ -40,6 +61,7 @@ import { ListDisciplineComponent } from './disciplines/list-discipline/list-disc
 import { DocumentsComponent } from './documents/documents.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
+import { EditScheduleComponent } from './events/edit-schedule/edit-schedule.component';
 import { ListEventComponent } from './events/list-event/list-event.component';
 import { FilterPipe } from './filter.pipe';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
@@ -58,13 +80,23 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 import { AlertTagComponent } from './utils/alert-tag.component';
 import { LoaderComponent } from './utils/loader.component';
-
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+FullCalendarModule.registerPlugins([
+  // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
   timeGridPlugin,
-  listPlugin
+  listPlugin,
 ]);
+
+// export const MY_CUSTOM_FORMATS = {
+//   parseInput: 'LL LT',
+//   fullPickerInput: 'LL LT',
+//   datePickerInput: 'LL',
+//   timePickerInput: 'H:MM',
+//   monthYearLabel: 'MMM YYYY',
+//   dateA11yLabel: 'LL',
+//   monthYearA11yLabel: 'MMMM YYYY',
+// };
 
 @NgModule({
   declarations: [
@@ -97,6 +129,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AddGroupComponent,
     AddDisciplineComponent,
     EditDisciplineComponent,
+    EditScheduleComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -111,26 +144,18 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     FormsModule,
     LayoutModule,
-
     MatDatepickerModule,
-    MatTimepickerModule,
-    MatIconModule,
-
-
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DragDropModule,
     ScrollingModule,
   ],
-  entryComponents: [
-    DialogModalComponent,
-    DialogInfoComponent,
-  ],
+  entryComponents: [DialogModalComponent, DialogInfoComponent],
 
   providers: [
     AuthenticationControllerService,
@@ -138,23 +163,29 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     UserControllerService,
     DisciplineControllerService,
     EvaluationMarkControllerService,
+    EventControllerService,
     GroupControllerService,
     DonkeyService,
     FilterPipe,
-    Valido, {
+    Valido,
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: ErrorHandler,
-      useClass: GlobalErrorHandler
+      useClass: GlobalErrorHandler,
     },
 
     { provide: MAT_DATE_LOCALE, useValue: 'bg' },
     //for dateTime picker
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'bg' },
-    // { provide: CALENDAR_DATE_TIME_LOCALE: 'bg'},
+
+    //  {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
+
+    // { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+
     // { provide: OwlDateTimeIntl, useClass: DefaultIntl },
     //,
     // { provide: DateAdapter, useClass: MyDateAdapter },
@@ -163,15 +194,13 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     //NgxMatNativeDateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-
 export class AppModule {
   // constructor(injector: Injector) {
   //   AppInjector.setInjector(injector);
   // }
 }
-
 
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {

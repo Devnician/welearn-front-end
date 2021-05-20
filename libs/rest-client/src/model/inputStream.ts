@@ -9,15 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserDto } from './userDto';
 
 
-export interface DisciplineDto { 
-    assistant?: UserDto;
-    assistantId?: string;
-    id?: string;
-    name: string;
-    resourceIds?: Array<string>;
-    teacher?: UserDto;
-    teacherId?: string;
+export interface InputStream { 
 }

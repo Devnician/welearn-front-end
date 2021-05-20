@@ -18,14 +18,15 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import { GroupDto } from '../model/groupDto';
+import { Resource } from '../model/resource';
+import { ResourceDto } from '../model/resourceDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class GroupControllerService {
+export class ResourceControllerService {
 
     protected basePath = 'http://localhost:8080';
     public defaultHeaders = new HttpHeaders();
@@ -58,18 +59,18 @@ export class GroupControllerService {
 
 
     /**
-     * deleteGroup
+     * delete
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteGroupUsingDELETE(id: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public deleteGroupUsingDELETE(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public deleteGroupUsingDELETE(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public deleteGroupUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteUsingDELETE(id: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public deleteUsingDELETE(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public deleteUsingDELETE(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public deleteUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling deleteGroupUsingDELETE.');
+            throw new Error('Required parameter id was null or undefined when calling deleteUsingDELETE.');
         }
 
         let headers = this.defaultHeaders;
@@ -92,7 +93,7 @@ export class GroupControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<boolean>(`${this.configuration.basePath}/api/group/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<boolean>(`${this.configuration.basePath}/api/resource/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -103,18 +104,18 @@ export class GroupControllerService {
     }
 
     /**
-     * editGroup
+     * downloadResource
      * 
-     * @param groupDto groupDto
+     * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public editGroupUsingPUT(groupDto: GroupDto, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>;
-    public editGroupUsingPUT(groupDto: GroupDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupDto>>;
-    public editGroupUsingPUT(groupDto: GroupDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupDto>>;
-    public editGroupUsingPUT(groupDto: GroupDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (groupDto === null || groupDto === undefined) {
-            throw new Error('Required parameter groupDto was null or undefined when calling editGroupUsingPUT.');
+    public downloadResourceUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<Resource>;
+    public downloadResourceUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Resource>>;
+    public downloadResourceUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Resource>>;
+    public downloadResourceUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling downloadResourceUsingGET.');
         }
 
         let headers = this.defaultHeaders;
@@ -135,16 +136,75 @@ export class GroupControllerService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        return this.httpClient.get<Resource>(`${this.configuration.basePath}/api/resource/download/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * edit
+     * 
+     * @param resourceId resourceId
+     * @param accessibleAll accessibleAll
+     * @param disciplineId disciplineId
+     * @param scheduleId scheduleId
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (resourceId === null || resourceId === undefined) {
+            throw new Error('Required parameter resourceId was null or undefined when calling editUsingPUT.');
         }
 
-        return this.httpClient.put<GroupDto>(`${this.configuration.basePath}/api/group`,
-            groupDto,
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (accessibleAll !== undefined && accessibleAll !== null) {
+            queryParameters = queryParameters.set('accessibleAll', <any>accessibleAll);
+        }
+        if (disciplineId !== undefined && disciplineId !== null) {
+            queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
+        }
+        if (resourceId !== undefined && resourceId !== null) {
+            queryParameters = queryParameters.set('resourceId', <any>resourceId);
+        }
+        if (scheduleId !== undefined && scheduleId !== null) {
+            queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (JWT) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        return this.httpClient.put<ResourceDto>(`${this.configuration.basePath}/api/resource/upload`,
+            null,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -159,10 +219,10 @@ export class GroupControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllUsingGET2(observe?: 'body', reportProgress?: boolean): Observable<Array<GroupDto>>;
-    public findAllUsingGET2(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<GroupDto>>>;
-    public findAllUsingGET2(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<GroupDto>>>;
-    public findAllUsingGET2(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllUsingGET3(observe?: 'body', reportProgress?: boolean): Observable<Array<ResourceDto>>;
+    public findAllUsingGET3(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ResourceDto>>>;
+    public findAllUsingGET3(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ResourceDto>>>;
+    public findAllUsingGET3(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -184,7 +244,7 @@ export class GroupControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<GroupDto>>(`${this.configuration.basePath}/api/group`,
+        return this.httpClient.get<Array<ResourceDto>>(`${this.configuration.basePath}/api/resource`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -195,18 +255,18 @@ export class GroupControllerService {
     }
 
     /**
-     * findById
+     * getById
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findByIdUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>;
-    public findByIdUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupDto>>;
-    public findByIdUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupDto>>;
-    public findByIdUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getByIdUsingGET2(id: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+    public getByIdUsingGET2(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+    public getByIdUsingGET2(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+    public getByIdUsingGET2(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling findByIdUsingGET.');
+            throw new Error('Required parameter id was null or undefined when calling getByIdUsingGET2.');
         }
 
         let headers = this.defaultHeaders;
@@ -229,7 +289,7 @@ export class GroupControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<GroupDto>(`${this.configuration.basePath}/api/group/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<ResourceDto>(`${this.configuration.basePath}/api/resource/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -240,18 +300,28 @@ export class GroupControllerService {
     }
 
     /**
-     * saveGroup
+     * save
      * 
-     * @param groupDto groupDto
+     * @param accessibleAll accessibleAll
+     * @param disciplineId disciplineId
+     * @param scheduleId scheduleId
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public saveGroupUsingPOST(groupDto: GroupDto, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>;
-    public saveGroupUsingPOST(groupDto: GroupDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupDto>>;
-    public saveGroupUsingPOST(groupDto: GroupDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupDto>>;
-    public saveGroupUsingPOST(groupDto: GroupDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (groupDto === null || groupDto === undefined) {
-            throw new Error('Required parameter groupDto was null or undefined when calling saveGroupUsingPOST.');
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (accessibleAll !== undefined && accessibleAll !== null) {
+            queryParameters = queryParameters.set('accessibleAll', <any>accessibleAll);
+        }
+        if (disciplineId !== undefined && disciplineId !== null) {
+            queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
+        }
+        if (scheduleId !== undefined && scheduleId !== null) {
+            queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
         }
 
         let headers = this.defaultHeaders;
@@ -272,16 +342,13 @@ export class GroupControllerService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
+            'multipart/form-data'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
 
-        return this.httpClient.post<GroupDto>(`${this.configuration.basePath}/api/group`,
-            groupDto,
+        return this.httpClient.post<ResourceDto>(`${this.configuration.basePath}/api/resource/upload`,
+            null,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
