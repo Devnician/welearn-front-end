@@ -3,6 +3,34 @@
   <mat-card-content>
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <div class="f-row">
+        <mat-form-field class="two-on-row">
+          <mat-select
+            #gSel
+            placeholder="{{ 'wl.select_group' | translate }}"
+            formControlName="group"
+          >
+            <mat-option *ngFor="let group of groups" [value]="group">
+              {{ group?.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="two-on-row">
+          <mat-select
+            #dSel
+            placeholder="{{ 'wl.discipline' | translate }}"
+            formControlName="discipline"
+          >
+            <mat-option
+              *ngFor="let discipline of gSel?.value?.disciplines"
+              [value]="discipline"
+            >
+              {{ discipline?.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="f-row">
         <mat-form-field class="two-on-row" [owlDateTimeTrigger]="dtStart">
           <input
             class="form-control"
@@ -17,25 +45,33 @@
           <owl-date-time #dtStart [pickerType]="'calendar'"></owl-date-time>
         </mat-form-field>
 
-        <mat-form-field class="two-on-row" [owlDateTimeTrigger]="endDate">
+        <mat-form-field class="two-on-row" [owlDateTimeTrigger]="dtEnd">
           <input
             class="form-control"
             matInput
-            [owlDateTime]="endDate"
+            [owlDateTime]="dtEnd"
             placeholder="{{ 'wl.startDateTime' | translate }}"
             [min]="minDate"
             formControlName="endDate"
             id="endDate"
             readonly
           />
-          <owl-date-time #endDate [pickerType]="'calendar'"></owl-date-time>
+          <owl-date-time #dtEnd [pickerType]="'calendar'"></owl-date-time>
         </mat-form-field>
       </div>
 
       <div class="f-row">
-        <mat-slide-toggle #mT class="three-on-row" [fomrControl]="monday"
-          >понеделник</mat-slide-toggle
-        >
+        <mat-form-field class="five-on-row">
+          <mat-select
+            value="days[0].key"
+            placeholder="{{ 'wl.select_day' | translate }}"
+            formControlName="dayOfWeek"
+          >
+            <mat-option *ngFor="let day of days" [value]="day.key">
+              {{ day.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
         <mat-form-field class="five-on-row" [owlDateTimeTrigger]="dt1">
           <input
@@ -44,14 +80,14 @@
             [owlDateTime]="dt1"
             placeholder="{{ 'wl.startDateTime' | translate }}"
             [min]="minDate"
-            formControlName="monStart"
-            id="monStart"
+            formControlName="startHour"
+            id="startHour"
             readonly
           />
           <owl-date-time
-            [disabled]="!mT.checked"
             #dt1
             [pickerType]="'timer'"
+            hour12Timer="false"
           ></owl-date-time>
         </mat-form-field>
 
@@ -62,35 +98,17 @@
             [owlDateTime]="dt2"
             placeholder="{{ 'wl.startDateTime' | translate }}"
             [min]="minDate"
-            formControlName="monEnd"
-            id="monEnd"
-            [pickerType]="'timer'"
+            formControlName="endHour"
+            id="endHour"
             readonly
           />
           <owl-date-time
-            [disabled]="!mT.checked"
             #dt2
             [pickerType]="'timer'"
+            hour12Timer="false"
           ></owl-date-time>
         </mat-form-field>
       </div>
-
-      <div class="row">
-        <mat-slide-toggle formControlName="tuesday">вторник</mat-slide-toggle>
-      </div>
-      <div class="row">
-        <mat-slide-toggle formControlName="wednesday">сряда</mat-slide-toggle>
-      </div>
-      <div class="row">
-        <mat-slide-toggle formControlName="thursday"
-          >четвъртък</mat-slide-toggle
-        >
-      </div>
-      <div class="row">
-        <mat-slide-toggle formControlName="friday">петък</mat-slide-toggle>
-      </div>
-      <div class="row"></div>
-      <div class="row"></div>
 
       <div class="button-bar">
         <button
@@ -100,7 +118,7 @@
           style="margin-right: 10px"
           (click)="close()"
         >
-          <mat-icon>close</mat-icon>{{ "wl.cancel" | translate }}
+          <mat-icon>close</mat-icon>{{ 'wl.cancel' | translate }}
         </button>
         <button
           mat-raised-button
@@ -109,13 +127,13 @@
           style="margin-right: 10px"
           (click)="reset()"
         >
-          <mat-icon>clear_all</mat-icon>{{ "wl.reset" | translate }}
+          <mat-icon>clear_all</mat-icon>{{ 'wl.reset' | translate }}
         </button>
         <button mat-raised-button type="submit" color="primary">
-          {{ "wl.submit" | translate }}
+          {{ 'wl.submit' | translate }}
         </button>
       </div>
     </form>
   </mat-card-content>
-  <pre>{{ addForm.value | json }}</pre>
+  <!-- <pre>{{ addForm.value | json }}</pre> -->
 </mat-card>

@@ -38,8 +38,6 @@ export class Valido {
     this.errorMessages['ip'] = 'wl.invalid_ip_pattern';
     //baseform component
     this.errorMessages['email'] = 'wl.error_email';
-    this.errorMessages['password'] = 'wl.error_password';
-    this.errorMessages['username'] = 'wl.error_username';
     this.errorMessages['firstName'] = 'wl.error_firstName';
     this.errorMessages['middleName'] = 'wl.error_middleName';
     this.errorMessages['lastName'] = 'wl.error_lastName';
@@ -180,19 +178,15 @@ export class Valido {
   }
 
   validateAllFormFields(formGroup: FormGroup) {
-    //{1}
     Object.keys(formGroup.controls).forEach((field) => {
-      //{2}
-      const control = formGroup.get(field); //{3}
+      const control = formGroup.get(field);
       if (control instanceof FormControl) {
         if (!control.valid) {
-          console.log('brada');
-          console.log(field);
-        } //{4}
+          console.log('invalid field: ' + field);
+        }
         control.markAsTouched({ onlySelf: true });
       } else if (control instanceof FormGroup) {
-        //{5}
-        this.validateAllFormFields(control); //{6}
+        this.validateAllFormFields(control);
       }
     });
   }

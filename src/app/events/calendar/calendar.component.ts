@@ -183,6 +183,8 @@ export class CalendarComponent
     const config = new MatDialogConfig();
     config.closeOnNavigation = true;
     config.data = data;
+    // config.width = '40vw';
+    // config.height = 'fit-content';
     const dialogRef = this.dialog.open(EditScheduleComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
       console.log('do something');

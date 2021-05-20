@@ -1,33 +1,33 @@
-import { Component, Injector } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { Component, Injector } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarRef,
   SimpleSnackBar,
-} from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
-import { JwtHelperService } from "@auth0/angular-jwt";
+} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import {
   DisciplineControllerService,
   EventControllerService,
   GroupControllerService,
   RoleControllerService,
   UserControllerService,
-} from "libs/rest-client/src";
-import { AppComponent } from "../app.component";
-import { DonkeyService } from "../core/donkey.service";
-import { Valido } from "../core/valido";
-import { DialogInfoComponent } from "../dialog-info/dialog-info.component";
-import { User } from "../model/user.model";
-import { TimeUtil } from "../utils/time-util";
+} from 'libs/rest-client/src';
+import { AppComponent } from '../app.component';
+import { DonkeyService } from '../core/donkey.service';
+import { Valido } from '../core/valido';
+import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
+import { User } from '../model/user.model';
+import { TimeUtil } from '../utils/time-util';
 
 const jwtHelper = new JwtHelperService();
 
 @Component({
-  selector: "app-blitcen",
+  selector: 'app-blitcen',
   template: ` <p>beard</p> `,
-  styleUrls: ["./blitcen.component.scss"],
+  styleUrls: ['./blitcen.component.scss'],
 })
 /**
  * Master component.All components must be descendants of this !!!!!!!!
@@ -51,7 +51,7 @@ export class BlitcenComponent {
   protected valido: Valido;
   // protected user: UserDto;
   protected canFetch: boolean = false;
-  protected timeUtil: TimeUtil = new TimeUtil("bg-BG");
+  protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
   constructor(injector: Injector) {
     this.user = this.app.user;
@@ -80,16 +80,16 @@ export class BlitcenComponent {
 
     this.lang = AppComponent.lang;
     this.langExt =
-      this.lang != undefined && this.lang === "bg" ? "_" + this.lang : "";
+      this.lang != undefined && this.lang === 'bg' ? '_' + this.lang : '';
     this.checkUser();
   }
 
   addAuthorizationToService(service: any): any {
     let map: { [key: string]: string } = {};
     if (this.user) {
-      map["Authorization"] = "Bearer " + this.user?.token;
+      map['Authorization'] = 'Bearer ' + this.user?.token;
     } else {
-      map["Authorization"] = "";
+      map['Authorization'] = '';
     }
     service.configuration.apiKeys = map;
     return service;
@@ -126,7 +126,7 @@ export class BlitcenComponent {
   }
 
   goToLoginPage() {
-    this.router.navigate([""]);
+    this.router.navigate(['']);
   }
 
   /**
@@ -158,7 +158,7 @@ export class BlitcenComponent {
       messages: messages,
     };
     this.infoDialog.open(DialogInfoComponent, {
-      width: "auto",
+      width: 'auto',
       data: { dialogData },
     });
   }
@@ -180,7 +180,7 @@ export class BlitcenComponent {
       confirmation: true,
     };
     const dialogRef = this.infoDialog.open(DialogInfoComponent, {
-      width: "auto",
+      width: 'auto',
       data: { dialogData },
     });
     return dialogRef;
@@ -197,7 +197,7 @@ export class BlitcenComponent {
     //You can convert this array of byte values into a real typed byte array by passing it to the Uint8Array constructor.
     const byteArray = new Uint8Array(byteNumbers);
     //This in turn can be converted to a BLOB by wrapping it in an array and passing it to the Blob constructor.
-    let blob = new Blob([byteArray], { type: "application/ms-word" });
+    let blob = new Blob([byteArray], { type: 'application/ms-word' });
     return blob;
   }
   /**
@@ -206,10 +206,10 @@ export class BlitcenComponent {
    * @param url the blob url
    */
   fetchFile(name: string, url: string) {
-    var anchor = document.createElement("a");
+    var anchor = document.createElement('a');
     anchor.download = name;
     anchor.href = url;
-    anchor.target = "_blank";
+    anchor.target = '_blank';
     anchor.click();
   }
 

@@ -19,18 +19,18 @@
             style="margin: 5px"
             aria-label="add something"
             (click)="openScheduleDialog(null)"
-            matTooltip="генериране на събития"
+            matTooltip="Генерирай събития"
           >
             <mat-icon>add</mat-icon>
           </button>
-          <h4 style="width: 100%; text-align: center">Планиране</h4>
+          <h4 style="width: 100%; text-align: center">Предстоящи събития</h4>
         </div>
 
         <mat-divider></mat-divider>
 
         <cdk-virtual-scroll-viewport
           class="schedule-list"
-          itemSize="5"
+          itemSize="10"
           orientation="vertical"
         >
           <ng-container *cdkVirtualFor="let schedule of autoSchedule">
@@ -46,14 +46,14 @@
       </div>
     </div>
 
-    <div class="demo-app-sidebar-section">
+    <!-- <div class="demo-app-sidebar-section">
       <ul>
         <li *ngFor="let event of currentEvents">
           <b>{{ event.startStr }}</b>
           <i>{{ event.title }}</i>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 
   <div class="demo-app-main">
