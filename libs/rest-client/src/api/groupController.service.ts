@@ -292,4 +292,17 @@ export class GroupControllerService {
         );
     }
 
+    public saveStudentToGroupPUT(groupId: string, studentId: string, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>{
+
+        let headers = this.defaultHeaders;
+        return this.httpClient.put<GroupDto>(`${this.configuration.basePath}/api/group/addstudent`,
+            {groupId, studentId},
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
 }

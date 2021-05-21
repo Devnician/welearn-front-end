@@ -82,6 +82,18 @@
                 </tr>
 
             </table>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a student</mat-label>
+              <mat-select #sSel placeholder="{{'wl.student' | translate}}"
+              (selectionChange)="onStudentSelect(sSel.value)">
+                <mat-option *ngFor="let student of studentsList" [value]="student.userId">
+                    {{student?.email}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
             <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize
                 [pageSizeOptions]="paginator.pageOptions" showFirstLastButtons (page)="handlePage($event)">
             </mat-paginator>

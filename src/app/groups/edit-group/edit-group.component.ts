@@ -8,6 +8,7 @@ import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
 import { Discipline } from 'src/app/model/discipline.model';
+
 @Component({
   selector: 'app-edit-group',
   templateUrl: './edit-group.component.html',
@@ -33,6 +34,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
 
   studentGroup: GroupDto;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'actions'];
+  studentsList: Array<UserDto>;
 
   constructor(ar: ActivatedRoute, private donkey: DonkeyService, public dialog: MatDialog, injector: Injector) {
     super(ar, injector);
@@ -47,6 +49,13 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
     } else {
 
       this.loadPaginator(this.studentGroup.users, 'firstName');
+      console.log(this.paginator)
+      this.apiUsers.listUserUsingGET().subscribe(
+        data => {
+          const students = data.filter(s => s.role.id === 3); //Take students only
+          this.studentsList = students;
+        }
+      )
 
     }
   }
@@ -95,6 +104,17 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
         console.log(result.data);
       }
     });
+  }
+
+  onStudentSelect(userId: string) {
+    console.log(this.studentGroup)
+    this.apiGroups.saveStudentToGroupPUT(this.studentGroup.groupId, userId).subscribe(
+      data => {
+        this.studentGroup = data
+        this.loadPaginator(this.studentGroup.users, 'firstName');
+
+      }
+    )
   }
 
 }
