@@ -46,12 +46,7 @@
     <ng-container matColumnDef="middleName"
       >>
       <th scope="col" mat-header-cell *matHeaderCellDef>
-        {{ 'wl.middle_name' | translate }}
-        <!-- <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value, 'firstName')"
-            placeholder="{{'wl.first_name'|translate}}">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field> -->
+        {{ 'wl.middle_name' | translate }} 
       </th>
       <td mat-cell *matCellDef="let user">{{ user.middleName }}</td>
     </ng-container>

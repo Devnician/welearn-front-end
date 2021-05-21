@@ -20,6 +20,8 @@
         "subject": "тема",
         "startDateTime": "начало",
         "endDateTime": "край",
+        "startDateTimeIncl": "начална дата - включително",
+        "endDateTimeIncl": "крайна дата - включително",
         "select_group": "изберете група",
         "select_owner": "изберете собственик",
         "room": "стая",
@@ -303,6 +305,7 @@
         "to": "до",
         "my_account": "моят профил",
         "marks": "оценки",
-        "mark": "оценка"
+        "mark": "оценка",
+        "invalid_schedule_date":"Изберете дата в интервала на курса"
     }
 }

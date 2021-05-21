@@ -163,7 +163,7 @@ export class CalendarComponent
 
   private openEventDialog(data: EventDto): void {
     const config = new MatDialogConfig();
-    config.closeOnNavigation = true;
+    config.closeOnNavigation = false;
     config.data = data;
     const dialogRef = this.dialog.open(AddEventComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
@@ -181,9 +181,9 @@ export class CalendarComponent
 
   openScheduleDialog(data: ScheduleDto): void {
     const config = new MatDialogConfig();
-    config.closeOnNavigation = true;
+    config.closeOnNavigation = false;
     config.data = data;
-    // config.width = '40vw';
+    config.width = '80vw';
     // config.height = 'fit-content';
     const dialogRef = this.dialog.open(EditScheduleComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
