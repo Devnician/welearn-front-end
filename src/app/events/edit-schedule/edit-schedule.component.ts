@@ -49,6 +49,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       });
     } else {
       //TODO - find groups for this user(only teacher can see this!)
+      alert('Ont omplemented for this role');
     }
 
     this.buildFrorm();
@@ -93,13 +94,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     this.dialogRef.close();
   }
   reset() {
-    alert('clear form');
-  }
-  onSubmit() {
-    let result = this.addForm.getRawValue();
-    result.startHour = moment(result.startHour).format('HH:MM').toString();
-    result.endHour = moment(result.endHour).format('HH:MM').toString();
-    console.log(result);
+    this.addForm.reset();
   }
 
   groupSelected(group: GroupDto) {
@@ -151,5 +146,30 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       this.addForm.controls.endDate.updateValueAndValidity();
     }
     return isValid;
+  }
+
+  onSubmit() {
+    if (!this.addForm.valid) {
+      this.valido.validateAllFormFields(this.addForm);
+      return;
+    }
+    let result = this.addForm.getRawValue();
+    result.startHour = moment(result.startHour).format('HH:MM').toString();
+    result.endHour = moment(result.endHour).format('HH:MM').toString();
+    result.groupId = result.group.groupId;
+    delete result.group;
+    result.disciplineId = result.discipline.id;
+    delete result.discipline;
+
+    // disciplineId: string;
+    // endTime: Date;
+    // groupId: string;
+    // id?: string;
+    // resourceIds?: Array<string>;
+    // startTime: Date;
+    // add id only for groups and disciplines
+    console.log(result);
+
+    // TODO create request -->
   }
 }
