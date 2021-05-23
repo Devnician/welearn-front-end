@@ -12,8 +12,7 @@ import { Discipline } from '../model/discipline.model';
 import { TimeUtil } from '../utils/time-util';
 
 export class ImageCouple {
-  constructor(public sanitized: string, public snippet: ImageSnippet) {
-  }
+  constructor(public sanitized: string, public snippet: ImageSnippet) {}
 }
 
 @Component({
@@ -21,7 +20,6 @@ export class ImageCouple {
   templateUrl: './dialog-modal.component.html',
   styleUrls: ['./dialog-modal.component.scss'],
 })
-
 export class DialogModalComponent implements OnInit, OnDestroy {
   private user: UserDto;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
@@ -36,8 +34,13 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   disciplines: FormArray = this.formBuilder.array([]);
   displayedSimColumns: string[] = ['id', 'name', 'mark'];
 
-  constructor(public dialogRef: MatDialogRef<DialogModalComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, public snackBar: MatSnackBar, private sanitizer: DomSanitizer) {
+  constructor(
+    public dialogRef: MatDialogRef<DialogModalComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+    public snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer
+  ) {
     this.objectFromPage = data?.obj;
     this.collection = data?.collection;
     this.mode = data?.mode;
@@ -59,17 +62,21 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   }
 
   buildMarksForm(user: UserDto, discpilines: Discipline[]) {
-    this.studentNames = user.firstName + ' ' + user.middleName + ' ' + user.lastName;
+    this.studentNames =
+      user.firstName + ' ' + user.middleName + ' ' + user.lastName;
     this.form = this.formBuilder.group({
       userId: user.userId,
-      disciplines: this.disciplines
+      disciplines: this.disciplines,
     });
     this.disciplines = this.formBuilder.array(
-      discpilines.map(d => this.formBuilder.group({
-        id: this.formBuilder.control(d.id),
-        name: this.formBuilder.control(d.name),
-        mark: this.formBuilder.control(d.mark),
-      })));
+      discpilines.map((d) =>
+        this.formBuilder.group({
+          id: this.formBuilder.control(d.id),
+          name: this.formBuilder.control(d.name),
+          mark: this.formBuilder.control(d.mark),
+        })
+      )
+    );
     this.form.setControl('disciplines', this.disciplines);
   }
 
@@ -82,8 +89,8 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * 
-   * @param fieldName 
+   *
+   * @param fieldName
    */
   isFieldValid(fieldName: string) {
     // if (!fieldName) {
@@ -103,6 +110,5 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     return !this.form.get(fieldName).valid && this.form.get(fieldName).touched;
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

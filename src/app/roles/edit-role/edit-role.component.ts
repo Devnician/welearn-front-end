@@ -10,7 +10,7 @@ import { MenuUtil } from 'src/app/utils/menu-util';
 @Component({
   selector: 'app-edit-role',
   templateUrl: './edit-role.component.html',
-  styleUrls: ['./edit-role.component.scss']
+  styleUrls: ['./edit-role.component.scss'],
 })
 export class EditRoleComponent extends BlitcenComponent implements OnInit {
   editForm: FormGroup;
@@ -20,14 +20,22 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   allMenus: MenuOptions[] = [];
   selectedMenus: MenuOptions[] = [];
   menus: FormArray = this.formBuilder.array([]); // current role menus
-  availableMenus: FormArray = this.formBuilder.array([]); // for asign 
+  availableMenus: FormArray = this.formBuilder.array([]); // for asign
 
-  constructor(private donkey: DonkeyService, public snackBar: MatSnackBar, injector: Injector) {
+  constructor(
+    private donkey: DonkeyService,
+    public snackBar: MatSnackBar,
+    injector: Injector
+  ) {
     super(injector);
     this.currentRole = donkey.getData();
     try {
       this.allMenus = MenuUtil.getAllMenus();
-      MenuUtil.determineSelectedMenusForThisRole(this.currentRole, this.selectedMenus, this.allMenus);
+      MenuUtil.determineSelectedMenusForThisRole(
+        this.currentRole,
+        this.selectedMenus,
+        this.allMenus
+      );
     } catch (error) {
       this.showSnack('Тази роля няма избрани менюта', '', 1300);
       this.selectedMenus = [];
@@ -63,25 +71,24 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
     }
   }
 
-
   /**
    * Adds menu in selected
-   * @param menu 
    */
   addMenu(menu: MenuOptions) {
-    let foundOne = this.selectedMenus.find(elem => elem.key === menu.key);
-    if (!foundOne) { // if is not present - add it
+    const foundOne = this.selectedMenus.find((elem) => elem.key === menu.key);
+    if (!foundOne) {
+      // if is not present - add it
       this.selectedMenus.push(menu);
-      this.allMenus = this.allMenus.filter(e => e.key !== menu.key);
+      this.allMenus = this.allMenus.filter((e) => e.key !== menu.key);
       this.showAvailableMenus();
       this.showSelectedMenus();
     } else {
-      this.showSnack("менюто вече е избрано", "", 1300);
+      this.showSnack('менюто вече е избрано', '', 1300);
     }
   }
 
   removeMenu(menu: MenuOptions) {
-    this.selectedMenus = this.selectedMenus.filter(e => e.key != menu.key);
+    this.selectedMenus = this.selectedMenus.filter((e) => e.key !== menu.key);
     this.allMenus.push(menu);
     this.showAvailableMenus();
     this.showSelectedMenus();
@@ -89,22 +96,26 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
 
   private showSelectedMenus() {
     if (this.editForm) {
-      this.menus = this.formBuilder.array(this.selectedMenus.map(m => this.groupThis(m)));
+      this.menus = this.formBuilder.array(
+        this.selectedMenus.map((m) => this.groupThis(m))
+      );
       this.editForm.setControl('menus', this.menus);
     }
   }
 
   private showAvailableMenus() {
     if (this.editForm) {
-      //Bugfix : MSE20-53 
+      //Bugfix : MSE20-53
       let tempMenus: MenuOptions[] = [];
-      this.allMenus.forEach(menu => {
-        if (!this.selectedMenus.find(m => m.key === menu.key)) {
+      this.allMenus.forEach((menu) => {
+        if (!this.selectedMenus.find((m) => m.key === menu.key)) {
           tempMenus.push(menu);
         }
       });
       this.allMenus = tempMenus;
-      this.availableMenus = this.formBuilder.array(this.allMenus.map(m => this.groupThis(m)));
+      this.availableMenus = this.formBuilder.array(
+        this.allMenus.map((m) => this.groupThis(m))
+      );
       this.editForm.setControl('available', this.availableMenus);
     }
   }
@@ -118,23 +129,22 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       add: this.formBuilder.control(menu.add),
       edit: this.formBuilder.control(menu.edit),
       delete: this.formBuilder.control(menu.delete),
-      preview: this.formBuilder.control(menu.preview)
-    })
+      preview: this.formBuilder.control(menu.preview),
+    });
   }
-
 
   onSubmit() {
     let role: Role = this.editForm.getRawValue();
     delete role['available'];
     let permissions: any[] = [];
 
-    role.menus.forEach(element => {
+    role.menus.forEach((element) => {
       let permission: any[] = [];
       permission[0] = element.key;
       permission[1] = element.add ? 1 : 0;
       permission[2] = element.edit ? 1 : 0;
       permission[3] = element.delete ? 1 : 0;
-      if ((permission[1] + permission[2] + permission[3]) === 0) {
+      if (permission[1] + permission[2] + permission[3] === 0) {
         permission[4] = 1; //voyeur
       } else {
         permission[4] = element.preview ? 1 : 0;
@@ -144,21 +154,19 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
     });
     role.permissions = JSON.stringify(permissions);
 
-    this.apiRoles.updateRoleUsingPUT(role).subscribe(
-      data => {
-        if (data) {
-          this.showSnack("Данните бяха запазени", "", 1500);
-          history.back();
-        } else {
-          alert("Missing data");
-        }
+    this.apiRoles.updateRoleUsingPUT(role).subscribe((data) => {
+      if (data) {
+        this.showSnack('Данните бяха запазени', '', 1500);
+        history.back();
+      } else {
+        alert('Missing data');
       }
-    );
+    });
   }
   /**
-   * Remove all other marks if preview is selected 
-   * @param menu 
-   * @param checked 
+   * Remove all other marks if preview is selected
+   * @param menu
+   * @param checked
    */
   previewSelected(menu: FormGroup, checked: boolean) {
     let opt: MenuOptions = menu.value;

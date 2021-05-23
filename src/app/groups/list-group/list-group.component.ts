@@ -1,26 +1,26 @@
-import { Component, ContentChild, Injector, OnInit } from "@angular/core";
-import { MatNoDataRow } from "@angular/material/table";
-import { ActivatedRoute } from "@angular/router";
-import { GroupDto } from "libs/rest-client/src";
-import { BaseComponent } from "src/app/base/base.component";
-import { DonkeyService } from "src/app/core/donkey.service";
+import { Component, ContentChild, Injector, OnInit } from '@angular/core';
+import { MatNoDataRow } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
+import { GroupDto } from 'libs/rest-client/src';
+import { BaseComponent } from 'src/app/base/base.component';
+import { DonkeyService } from 'src/app/core/donkey.service';
 
 @Component({
-  selector: "app-list-group",
-  templateUrl: "./list-group.component.html",
-  styleUrls: ["./list-group.component.scss"],
+  selector: 'app-list-group',
+  templateUrl: './list-group.component.html',
+  styleUrls: ['./list-group.component.scss'],
 })
 export class ListGroupComponent extends BaseComponent implements OnInit {
   @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
   groups: GroupDto[];
   displayedColumns = [
-    "id",
-    "name",
-    "startDate",
-    "endDate",
-    "disciplines",
-    "count",
-    "actions",
+    'id',
+    'name',
+    'startDate',
+    'endDate',
+    'disciplines',
+    'count',
+    'actions',
   ];
   disableEdit = false;
 
@@ -46,18 +46,18 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
       //   this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
       // }
 
-      this.loadPaginator(this.groups, "name");
+      this.loadPaginator(this.groups, 'name');
       // this.showSnack(data.message, '', 1300);
     });
   }
 
   editGroup(group: GroupDto) {
     this.donkey.setData(group);
-    this.router.navigate(["home/list-group/edit-group"]);
+    this.router.navigate(['home/list-group/edit-group']);
   }
 
   addGroup() {
-    this.router.navigate(["home/list-group/add-group"]);
+    this.router.navigate(['home/list-group/add-group']);
   }
 
   deleteGroup(id: string) {
@@ -65,7 +65,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
       if (data) {
         this.apiGroups.findAllUsingGET2().subscribe((data) => {
           this.groups = data as GroupDto[];
-          this.loadPaginator(this.groups, "name");
+          this.loadPaginator(this.groups, 'name');
         });
       }
     });

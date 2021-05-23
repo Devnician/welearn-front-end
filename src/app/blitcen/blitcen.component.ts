@@ -54,6 +54,9 @@ export class BlitcenComponent {
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
   constructor(injector: Injector) {
+    if (!this.app?.user) {
+      return;
+    }
     this.user = this.app.user;
 
     this.apiUsers = this.addAuthorizationToService(

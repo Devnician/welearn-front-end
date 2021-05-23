@@ -5,11 +5,10 @@ import { GroupDto } from 'libs/rest-client/src';
 import { BaseformComponent } from 'src/app/baseform/baseform.component';
 import { Discipline } from 'src/app/model/discipline.model';
 
-
 @Component({
   selector: 'app-add-group',
   templateUrl: './add-group.component.html',
-  styleUrls: ['./add-group.component.scss']
+  styleUrls: ['./add-group.component.scss'],
 })
 export class AddGroupComponent extends BaseformComponent implements OnInit {
   @ViewChild(MatTable, { static: false }) table: MatTable<any>;
@@ -24,12 +23,9 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.apiDisciplines.getDisciplinesUsingGET()
-      .subscribe(
-        data => {
-          this.disciplines = data as Discipline[];
-        }
-      )
+    this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
+      this.disciplines = data as Discipline[];
+    });
 
     this.addForm = this.formBuilder.group({
       groupId: '',
@@ -40,7 +36,7 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
       createdDate: new Date(),
       modifiedDate: new Date(),
       maxResourcesMb: 0,
-      disciplines: this.disciplinesFormArray
+      disciplines: this.disciplinesFormArray,
     });
   }
 
@@ -50,14 +46,19 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
    * @param discipline selected element for this.disciplines
    */
   onDisciplineSelected(index: number, discipline: Discipline) {
-    if (this.disciplinesFormArray.controls.findIndex(c => c.value['id'] === discipline.id) < 0) {
+    if (
+      this.disciplinesFormArray.controls.findIndex(
+        (c) => c.value['id'] === discipline.id
+      ) < 0
+    ) {
       this.disciplinesFormArray.controls[index].reset();
       this.disciplinesFormArray.controls[index].patchValue(discipline);
     } else {
-      this.showSnack("Този дисциплина вече е избрана", "", 3000);
-      this.disciplinesFormArray.controls = this.disciplinesFormArray.controls.slice(0, index);
+      this.showSnack('Този дисциплина вече е избрана', '', 3000);
+      this.disciplinesFormArray.controls =
+        this.disciplinesFormArray.controls.slice(0, index);
     }
-    this.addEmptyRow()
+    this.addEmptyRow();
     this.table.renderRows();
   }
   /**
@@ -69,21 +70,24 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
       id: this.formBuilder.control(d.id),
       name: this.formBuilder.control(d.name),
       teacher: this.formBuilder.control(d.teacher),
-      assistant: this.formBuilder.control(d.assistant)
+      assistant: this.formBuilder.control(d.assistant),
     });
-    this.disciplinesFormArray.push(discGroup)
+    this.disciplinesFormArray.push(discGroup);
   }
   /**
    * Delete element from FormArray controls by discipline id
-   * @param id 
+   * @param id
    */
   delete(id: any) {
-    this.disciplinesFormArray.controls = this.disciplinesFormArray.controls.filter(contr => contr.value['id'] != id);
+    this.disciplinesFormArray.controls =
+      this.disciplinesFormArray.controls.filter(
+        (contr) => contr.value['id'] != id
+      );
   }
   /**
    * Checks given field in form
-   * @param field 
-   * @returns 
+   * @param field
+   * @returns
    */
   isFieldValid(field: string) {
     return !this.addForm.get(field).valid && this.addForm.get(field).touched;
@@ -94,14 +98,11 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   onSubmit() {
     let group: GroupDto = this.addForm.getRawValue();
     //remove fake row
-    group.disciplines = group.disciplines.filter(d => d?.id);
-    this.apiGroups.saveGroupUsingPOST(group)
-      .subscribe(
-        data => {
-          this.showSnack("Данните са записани успешно.", "", 1300);
-          history.back();
-        }
-      );
+    group.disciplines = group.disciplines.filter((d) => d?.id);
+    this.apiGroups.saveGroupUsingPOST(group).subscribe((data) => {
+      this.showSnack('Данните са записани успешно.', '', 1300);
+      history.back();
+    });
   }
 
   reset() {

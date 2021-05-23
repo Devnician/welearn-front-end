@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-title> {{ title }} </mat-card-title>
+  <mat-card-title> {{ title }} {{ groupHeader$ | async }}</mat-card-title>
   <mat-card-content>
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <div class="f-row">
@@ -8,7 +8,9 @@
             #gSel
             placeholder="{{ 'wl.select_group' | translate }}"
             formControlName="group"
+            (selectionChange)="groupSelected($event.value)"
           >
+            <mat-option [value]="undefined">Изберете група</mat-option>
             <mat-option *ngFor="let group of groups" [value]="group">
               {{ group?.name }}
             </mat-option>
@@ -36,13 +38,17 @@
             class="form-control"
             matInput
             [owlDateTime]="dtStart"
-            placeholder="{{ 'wl.startDateTime' | translate }}"
+            placeholder="{{ 'wl.startDateTimeIncl' | translate }}"
             [min]="minDate"
+            [max]="maxDate"
             formControlName="startDate"
             id="startDate"
             readonly
           />
           <owl-date-time #dtStart [pickerType]="'calendar'"></owl-date-time>
+          <mat-error *ngIf="isDateCorrect(true) === false">
+            {{ 'wl.invalid_schedule_date' | translate }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="two-on-row" [owlDateTimeTrigger]="dtEnd">
@@ -50,13 +56,17 @@
             class="form-control"
             matInput
             [owlDateTime]="dtEnd"
-            placeholder="{{ 'wl.startDateTime' | translate }}"
+            placeholder="{{ 'wl.endDateTimeIncl' | translate }}"
             [min]="minDate"
+            [max]="maxDate"
             formControlName="endDate"
             id="endDate"
             readonly
           />
           <owl-date-time #dtEnd [pickerType]="'calendar'"></owl-date-time>
+          <mat-error *ngIf="isDateCorrect(false) === false"
+            >{{ 'wl.invalid_schedule_date' | translate }}
+          </mat-error>
         </mat-form-field>
       </div>
 

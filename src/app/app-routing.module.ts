@@ -11,32 +11,32 @@ import { ListGroupComponent } from './groups/list-group/list-group.component';
 /**
  *
  */
-import { HelpPageComponent } from "./help-page/help-page.component";
-import { LoginComponent } from "./login/login.component";
-import { MainscreenComponent } from "./mainscreen/mainscreen.component";
+import { HelpPageComponent } from './help-page/help-page.component';
+import { LoginComponent } from './login/login.component';
+import { MainscreenComponent } from './mainscreen/mainscreen.component';
 /**
  * Roles
  */
-import { AddRoleComponent } from "./roles/add-role/add-role.component";
-import { EditRoleComponent } from "./roles/edit-role/edit-role.component";
-import { ListRoleComponent } from "./roles/list-role/list-role.component";
+import { AddRoleComponent } from './roles/add-role/add-role.component';
+import { EditRoleComponent } from './roles/edit-role/edit-role.component';
+import { ListRoleComponent } from './roles/list-role/list-role.component';
 import { RoomComponent } from './rooms/room/room.component';
 /**
  * User
  */
-import { AddUserComponent } from "./users/add-user/add-user.component";
-import { EditUserComponent } from "./users/edit-user/edit-user.component";
-import { ListUserComponent } from "./users/list-user/list-user.component";
+import { AddUserComponent } from './users/add-user/add-user.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
+import { ListUserComponent } from './users/list-user/list-user.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
-
       { path: '', component: LoginComponent },
 
       {
-        path: 'login', component: LoginComponent,
+        path: 'login',
+        component: LoginComponent,
         //  data: { breadcrumb: 'login' },
       },
 
@@ -56,17 +56,20 @@ const routes: Routes = [
             data: { breadcrumb: 'wl.menu_list_users' },
             children: [
               {
-                path: '', component: ListUserComponent,
+                path: '',
+                component: ListUserComponent,
               },
               {
-                path: 'add-user', component: AddUserComponent,
+                path: 'add-user',
+                component: AddUserComponent,
                 data: { breadcrumb: 'wl.add' },
               },
               {
-                path: 'edit-user', component: EditUserComponent,
+                path: 'edit-user',
+                component: EditUserComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
               },
-            ]
+            ],
           },
 
           //ROLES
@@ -75,77 +78,90 @@ const routes: Routes = [
             data: { breadcrumb: 'wl.roles' },
             children: [
               {
-                path: '', component: ListRoleComponent,
+                path: '',
+                component: ListRoleComponent,
               },
               {
-                path: 'add-role', component: AddRoleComponent,
+                path: 'add-role',
+                component: AddRoleComponent,
                 data: { breadcrumb: 'wl.add' },
               },
               {
-                path: 'edit-role', component: EditRoleComponent,
+                path: 'edit-role',
+                component: EditRoleComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
               },
-            ]
+            ],
           },
           {
             path: 'list-event',
             data: { breadcrumb: 'wl.events' },
             children: [
               {
-                path: '', component: CalendarComponent,
+                path: '',
+                component: CalendarComponent,
               },
               {
-                path: 'room', component: RoomComponent,
+                path: 'room',
+                component: RoomComponent,
                 data: { breadcrumb: 'wl.room' },
               },
-            ]
+            ],
           },
           {
             path: 'list-group',
             data: { breadcrumb: 'wl.groups' },
             children: [
               {
-                path: '', component: ListGroupComponent,
+                path: '',
+                component: ListGroupComponent,
               },
               {
-                path: 'edit-group', component: EditGroupComponent,
+                path: 'edit-group',
+                component: EditGroupComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
               },
               {
-                path: 'add-group', component: AddGroupComponent,
+                path: 'add-group',
+                component: AddGroupComponent,
                 data: { breadcrumb: 'wl.add_breadcrumb' },
               },
-            ]
+            ],
           },
           {
             path: 'list-schedule',
             data: { breadcrumb: 'wl.schedule' },
             children: [
               {
-                path: '', component: CalendarComponent// ListScheduleComponent,
-              }
-            ]
+                path: '',
+                component: CalendarComponent, // ListScheduleComponent,
+              },
+            ],
           },
           {
             path: 'list-discipline',
             data: { breadcrumb: 'wl.disciplines' },
             children: [
               {
-                path: '', component: ListDisciplineComponent,
+                path: '',
+                component: ListDisciplineComponent,
               },
               {
-                path: 'edit-discipline', component: EditDisciplineComponent,
+                path: 'edit-discipline',
+                component: EditDisciplineComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
               },
               {
-                path: 'add-discipline', component: AddDisciplineComponent,
+                path: 'add-discipline',
+                component: AddDisciplineComponent,
                 data: { breadcrumb: 'wl.add_breadcrumb' },
               },
-            ]
+            ],
           },
           //Singe pages
           {
-            path: 'help-page', component: HelpPageComponent,
+            path: 'help-page',
+            component: HelpPageComponent,
             data: { breadcrumb: 'wl.help' },
           },
           // {
@@ -154,20 +170,19 @@ const routes: Routes = [
           // },
 
           {
-            path: 'documents', component: DocumentsComponent,
+            path: 'documents',
+            component: DocumentsComponent,
             data: { breadcrumb: 'wl.menu_documents' },
           },
-        ]
+        ],
       },
-
-    ]
-  }
+    ],
+  },
 ];
-
 
 @NgModule({
   // imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

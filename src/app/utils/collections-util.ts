@@ -1,9 +1,6 @@
-
 export class CollectionsUtil {
-
   // public getUsers(): User[] {
   //   let users: User[] = [];
-
   //   let user: User = new User();
   //   user.userId = 'abcd';
   //   user.birthDate = new Date();
@@ -17,15 +14,13 @@ export class CollectionsUtil {
   //   user.role = '';
   //   user.roleBg = '';
   //   user.roleId = 1;
-
   //   user.username = 'Adm9iertuNhkasdfg';
   //   user.password = '*****';
   //   user.loggedIn = 1;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
+  // gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
-
-
   //   user = new User();
   //   user.userId = 'abcdd';
   //   user.birthDate = new Date();
@@ -43,9 +38,9 @@ export class CollectionsUtil {
   //   user.password = '*****';
   //   user.loggedIn = 1;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG
+  // 4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
-
   //   user = new User();
   //   user.userId = 'abcdds';
   //   user.birthDate = new Date();
@@ -63,10 +58,9 @@ export class CollectionsUtil {
   //   user.password = '*****';
   //   user.loggedIn = 1;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG
+  // 4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
-
-
   //   user = new User();
   //   user.userId = 'abcddsd';
   //   user.birthDate = new Date();
@@ -84,9 +78,9 @@ export class CollectionsUtil {
   //   user.password = '*****';
   //   user.loggedIn = 1;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG
+  // 9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
-
   //   user = new User();
   //   user.userId = 'abcddsdf';
   //   user.birthDate = new Date();
@@ -104,7 +98,8 @@ export class CollectionsUtil {
   //   user.password = '*****';
   //   user.loggedIn = 0;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I
+  // kpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
   //   user = new User();
   //   user.userId = 'abcddsdfd';
@@ -123,7 +118,8 @@ export class CollectionsUtil {
   //   user.password = '*****';
   //   user.loggedIn = 0;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6
+  // IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
   //   user = new User();
   //   user.userId = 'abcddsdfdg';
@@ -142,15 +138,11 @@ export class CollectionsUtil {
   //   user.password = '*****';
   //   user.loggedIn = 0;
   //   user.deleted = 0;
-  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  //   user.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
+  // gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   //   users.push(user);
-
-
-
-
   //   return users;
   // }
-
   // getRoles(): Role[] {
   //   let roles: Role[] = [];
   //   let role: Role = new Role();
@@ -160,7 +152,6 @@ export class CollectionsUtil {
   //   role.role = 'administrator';
   //   role.roleBg = 'администратор';
   //   roles.push(role);
-
   //   role = new Role();
   //   role.id = 2;
   //   role.description = 'description';
@@ -169,7 +160,6 @@ export class CollectionsUtil {
   //   role.roleBg = 'обучаващ';
   //   roles.push(role);
   //   role = new Role();
-
   //   role.id = 3;
   //   role.description = 'description';
   //   role.descriptionBg = 'description';
@@ -178,11 +168,8 @@ export class CollectionsUtil {
   //   roles.push(role);
   //   return roles;
   // }
-
-
   // getGroups(): StudentsGroup[] {
   //   let list: StudentsGroup[] = [];
-
   //   let group: StudentsGroup = new StudentsGroup();
   //   group.id = 1;
   //   group.name = 'MSE2020';
@@ -191,11 +178,8 @@ export class CollectionsUtil {
   //   group.open = 1;
   //   group.students.push(this.getUsers()[3]);
   //   group.students.push(this.getUsers()[4]);
-
   //   group.disciplines = this.getDisciplines();
-
   //   list.push(group);
-
   //   group = new StudentsGroup();
   //   group.id = 2;
   //   group.name = 'MSE2021';
@@ -204,16 +188,11 @@ export class CollectionsUtil {
   //   group.open = 0;
   //   // group.students.push(this.getUsers()[2]);
   //   group.disciplines = this.getDisciplines();
-
   //   list.push(group);
-
-
   //   return list;
   // }
-
   // getDisciplines(): Discipline[] {
   //   let lectors = this.getUsers().filter(user => user.roleId === 2);
-
   //   let list: Discipline[] = [];
   //   list.push({ id: 'asd', name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[0].userId, lector: lectors[0] } as Discipline);
   //   list.push({ id: 'asdd', name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[1].userId, lector: lectors[1] } as Discipline);
@@ -222,5 +201,4 @@ export class CollectionsUtil {
   //   list.push({ id: 'asdq', name: 'КСМ', createdAt: new Date(), updatedAt: new Date() } as Discipline);
   //   return list;
   // }
-
 }

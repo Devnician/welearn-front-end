@@ -1,4 +1,4 @@
-<!-- <div (window:resize)="onResize($event)"></div> -->
+ 
 <mat-dialog-content [formGroup]="form">
     <div *ngIf="classType === 'marks'">
         <label style="font-weight: bolder;">{{studentNames}}</label>
@@ -38,5 +38,5 @@
         <button mat-raised-button class="pepe-button" color="primary" (click)="save()">{{'wl.save' |
             translate}}</button>
     </mat-dialog-actions>
-    <!-- <pre>{{form.value|json}}</pre> -->
+    
 </mat-dialog-content>

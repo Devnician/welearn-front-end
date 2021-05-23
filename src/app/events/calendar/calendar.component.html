@@ -20,6 +20,7 @@
             aria-label="add something"
             (click)="openScheduleDialog(null)"
             matTooltip="Генерирай събития"
+            [disabled]="user.role.role !== 'teacher'"
           >
             <mat-icon>add</mat-icon>
           </button>
