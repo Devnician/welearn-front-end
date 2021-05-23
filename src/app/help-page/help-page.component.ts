@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-help-page',
   templateUrl: './help-page.component.html',
-  styleUrls: ['./help-page.component.scss']
+  styleUrls: ['./help-page.component.scss'],
 })
 export class HelpPageComponent implements OnInit {
   title = 'NG7 CheckList With Parents and Child Structure';
@@ -16,73 +16,117 @@ export class HelpPageComponent implements OnInit {
     //List object having hierarchy of parents and its children
     this.data.ParentChildchecklist = [
       {
-        id: 1, value: 'автомобили', isSelected: false, isClosed: false,
+        id: 1,
+        value: 'автомобили',
+        isSelected: false,
+        isClosed: false,
         childList: [
           {
-            id: 1, parent_id: 1, value: 'списък с автомобили', text: '', isSelected: false
+            id: 1,
+            parent_id: 1,
+            value: 'списък с автомобили',
+            text: '',
+            isSelected: false,
           },
           {
-            id: 2, parent_id: 1, value: 'добавяне', text: '', isSelected: false
+            id: 2,
+            parent_id: 1,
+            value: 'добавяне',
+            text: '',
+            isSelected: false,
           },
           {
-            id: 3, parent_id: 1, value: 'редактиранe',
-            text: ' Достъпно от всеки ред в списъка с автомобили чрез бутона "редактирай"', isSelected: false
-          }
-        ]
+            id: 3,
+            parent_id: 1,
+            value: 'редактиранe',
+            text: ' Достъпно от всеки ред в списъка с автомобили чрез бутона "редактирай"',
+            isSelected: false,
+          },
+        ],
       },
       {
-        id: 2, value: 'билети', isSelected: false, isClosed: false, childList: [
+        id: 2,
+        value: 'билети',
+        isSelected: false,
+        isClosed: false,
+        childList: [
           {
-            id: 1, parent_id: 1, value: 'child 1', text: '', isSelected: false
+            id: 1,
+            parent_id: 1,
+            value: 'child 1',
+            text: '',
+            isSelected: false,
           },
           {
-            id: 2, parent_id: 1, value: 'child 2', text: '', isSelected: false
-          }
-        ]
+            id: 2,
+            parent_id: 1,
+            value: 'child 2',
+            text: '',
+            isSelected: false,
+          },
+        ],
       },
       {
-        id: 3, value: 'календар', isSelected: false, isClosed: false,
+        id: 3,
+        value: 'календар',
+        isSelected: false,
+        isClosed: false,
         childList: [
           {
-            id: 1, parent_id: 1, value: 'child 1', text: '', isSelected: false
+            id: 1,
+            parent_id: 1,
+            value: 'child 1',
+            text: '',
+            isSelected: false,
           },
           {
-            id: 2, parent_id: 1, value: 'child 2', text: '', isSelected: false
-          }
-        ]
-      }
-      ,
+            id: 2,
+            parent_id: 1,
+            value: 'child 2',
+            text: '',
+            isSelected: false,
+          },
+        ],
+      },
       {
-        id: 3, value: 'устройства', isSelected: false, isClosed: false,
+        id: 3,
+        value: 'устройства',
+        isSelected: false,
+        isClosed: false,
         childList: [
           {
-            id: 1, parent_id: 1, value: 'добавяне', text: ' Добавяне на устройство е достъпно чрез бутон "+"в горния десен ъгъл на модул "Устройства" ', isSelected: false
+            id: 1,
+            parent_id: 1,
+            value: 'добавяне',
+            text: ' Добавяне на устройство е достъпно чрез бутон "+"в горния десен ъгъл на модул "Устройства" ',
+            isSelected: false,
           },
           {
-            id: 2, parent_id: 1, value: 'редактиране', text: ' Достъпно от всеки ред в списъка с устройства чрез бутона "редактирай"', isSelected: false
-          }
-        ]
-      }
+            id: 2,
+            parent_id: 1,
+            value: 'редактиране',
+            text: ' Достъпно от всеки ред в списъка с устройства чрез бутона "редактирай"',
+            isSelected: false,
+          },
+        ],
+      },
     ];
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-
-
-  //Click event on parent checkbox  
+  //Click event on parent checkbox
   parentCheck(parentObj) {
     for (var i = 0; i < parentObj.childList.length; i++) {
       parentObj.childList[i].isSelected = parentObj.isSelected;
     }
   }
 
-  //Click event on child checkbox  
+  //Click event on child checkbox
   childCheck(parentObj, childObj) {
     parentObj.isSelected = childObj.every(function (itemChild: any) {
       return itemChild.isSelected == true;
-    })
+    });
   }
 
   //Click event on master select
@@ -113,5 +157,4 @@ export class HelpPageComponent implements OnInit {
   stringify(obj) {
     return JSON.stringify(obj);
   }
-
 }

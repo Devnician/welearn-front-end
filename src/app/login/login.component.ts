@@ -17,7 +17,7 @@ import { User } from '../model/user.model';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  invalidLogin: boolean = false;
+  invalidLogin = false;
   invalidMessage: string;
 
   constructor(
@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
     AppComponent.myapp.isUserAuthToFetch(this.authService);
 
     this.authService.registerUsingPOST(loginPayload).subscribe((data) => {
-      console.log(data);
       if (data) {
         /**
          * Switches according message from result
@@ -90,7 +89,7 @@ export class LoginComponent implements OnInit {
             return;
           case null:
             let map: { [key: string]: string } = {};
-            map['Authorization'] = 'Bearer ' + data['token'];
+            map.Authorization = 'Bearer ' + data.token;
             this.apiUser.configuration.apiKeys = map;
 
             //               let configParams: ConfigurationParameters = {};
@@ -109,7 +108,6 @@ export class LoginComponent implements OnInit {
               let user: User = result as User;
               user.token = data['token'];
               AppComponent.myapp.setUserAsLogged(user);
-              console.log(user);
               this.router.navigate(['home']);
             });
             break;

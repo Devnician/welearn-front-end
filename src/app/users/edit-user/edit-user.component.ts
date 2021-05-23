@@ -28,8 +28,8 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
     injector: Injector
   ) {
     super(injector);
-    //const currentMenu = this.app.getCurrentMenuObject('/' + this.parentDir);
-    this.selfEdit = donkey.getInfo() == 'self';
+    // const currentMenu = this.app.getCurrentMenuObject('/' + this.parentDir);
+    this.selfEdit = donkey.getInfo() === 'self';
     this.editUser = donkey.getData();
     this.roles = AppComponent.myapp?.roles;
   }
