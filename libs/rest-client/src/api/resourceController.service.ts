@@ -15,16 +15,19 @@ import {
   HttpClient,
   HttpEvent,
   HttpHeaders,
+  HttpParams,
   HttpResponse,
 } from '@angular/common/http';
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../configuration';
-import { RoleDto } from '../model/roleDto';
+import { CustomHttpUrlEncodingCodec } from '../encoder';
+import { Resource } from '../model/resource';
+import { ResourceDto } from '../model/resourceDto';
 import { BASE_PATH } from '../variables';
 
 @Injectable()
-export class RoleControllerService {
+export class ResourceControllerService {
   protected basePath = 'http://localhost:8080';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
@@ -58,35 +61,35 @@ export class RoleControllerService {
   }
 
   /**
-   * deleteRole
+   * delete
    *
    * @param id id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public deleteRoleUsingDELETE(
-    id: number,
+  public deleteUsingDELETE(
+    id: string,
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<boolean>;
-  public deleteRoleUsingDELETE(
-    id: number,
+  public deleteUsingDELETE(
+    id: string,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<boolean>>;
-  public deleteRoleUsingDELETE(
-    id: number,
+  public deleteUsingDELETE(
+    id: string,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<boolean>>;
-  public deleteRoleUsingDELETE(
-    id: number,
+  public deleteUsingDELETE(
+    id: string,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling deleteRoleUsingDELETE.'
+        'Required parameter id was null or undefined when calling deleteUsingDELETE.'
       );
     }
 
@@ -112,7 +115,7 @@ export class RoleControllerService {
     const consumes: string[] = [];
 
     return this.httpClient.delete<boolean>(
-      `${this.configuration.basePath}/api/roles/${encodeURIComponent(
+      `${this.configuration.basePath}/api/resource/${encodeURIComponent(
         String(id)
       )}`,
       {
@@ -125,35 +128,35 @@ export class RoleControllerService {
   }
 
   /**
-   * getRoleById
+   * downloadResource
    *
    * @param id id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getRoleByIdUsingGET(
-    id: number,
+  public downloadResourceUsingGET(
+    id: string,
     observe?: 'body',
     reportProgress?: boolean
-  ): Observable<RoleDto>;
-  public getRoleByIdUsingGET(
-    id: number,
+  ): Observable<Resource>;
+  public downloadResourceUsingGET(
+    id: string,
     observe?: 'response',
     reportProgress?: boolean
-  ): Observable<HttpResponse<RoleDto>>;
-  public getRoleByIdUsingGET(
-    id: number,
+  ): Observable<HttpResponse<Resource>>;
+  public downloadResourceUsingGET(
+    id: string,
     observe?: 'events',
     reportProgress?: boolean
-  ): Observable<HttpEvent<RoleDto>>;
-  public getRoleByIdUsingGET(
-    id: number,
+  ): Observable<HttpEvent<Resource>>;
+  public downloadResourceUsingGET(
+    id: string,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling getRoleByIdUsingGET.'
+        'Required parameter id was null or undefined when calling downloadResourceUsingGET.'
       );
     }
 
@@ -178,8 +181,230 @@ export class RoleControllerService {
     // to determine the Content-Type header
     const consumes: string[] = [];
 
-    return this.httpClient.get<RoleDto>(
-      `${this.configuration.basePath}/api/roles/${encodeURIComponent(
+    return this.httpClient.get<Resource>(
+      `${
+        this.configuration.basePath
+      }/api/resource/download/${encodeURIComponent(String(id))}`,
+      {
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * edit
+   *
+   * @param resourceId resourceId
+   * @param accessibleAll accessibleAll
+   * @param disciplineId disciplineId
+   * @param scheduleId scheduleId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public editUsingPUT(
+    resourceId: string,
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<ResourceDto>;
+  public editUsingPUT(
+    resourceId: string,
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<ResourceDto>>;
+  public editUsingPUT(
+    resourceId: string,
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<ResourceDto>>;
+  public editUsingPUT(
+    resourceId: string,
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (resourceId === null || resourceId === undefined) {
+      throw new Error(
+        'Required parameter resourceId was null or undefined when calling editUsingPUT.'
+      );
+    }
+
+    let queryParameters = new HttpParams({
+      encoder: new CustomHttpUrlEncodingCodec(),
+    });
+    if (accessibleAll !== undefined && accessibleAll !== null) {
+      queryParameters = queryParameters.set(
+        'accessibleAll',
+        <any>accessibleAll
+      );
+    }
+    if (disciplineId !== undefined && disciplineId !== null) {
+      queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
+    }
+    if (resourceId !== undefined && resourceId !== null) {
+      queryParameters = queryParameters.set('resourceId', <any>resourceId);
+    }
+    if (scheduleId !== undefined && scheduleId !== null) {
+      queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
+    }
+
+    let headers = this.defaultHeaders;
+
+    // authentication (JWT) required
+    if (this.configuration.apiKeys['Authorization']) {
+      headers = headers.set(
+        'Authorization',
+        this.configuration.apiKeys['Authorization']
+      );
+    }
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = ['*/*'];
+    const httpHeaderAcceptSelected: string | undefined =
+      this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['multipart/form-data'];
+
+    return this.httpClient.put<ResourceDto>(
+      `${this.configuration.basePath}/api/resource/upload`,
+      null,
+      {
+        params: queryParameters,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * findAll
+   *
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findAllUsingGET3(
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<Array<ResourceDto>>;
+  public findAllUsingGET3(
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<Array<ResourceDto>>>;
+  public findAllUsingGET3(
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<Array<ResourceDto>>>;
+  public findAllUsingGET3(
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    let headers = this.defaultHeaders;
+
+    // authentication (JWT) required
+    if (this.configuration.apiKeys['Authorization']) {
+      headers = headers.set(
+        'Authorization',
+        this.configuration.apiKeys['Authorization']
+      );
+    }
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = ['*/*'];
+    const httpHeaderAcceptSelected: string | undefined =
+      this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = [];
+
+    return this.httpClient.get<Array<ResourceDto>>(
+      `${this.configuration.basePath}/api/resource`,
+      {
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * getById
+   *
+   * @param id id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getByIdUsingGET2(
+    id: string,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<ResourceDto>;
+  public getByIdUsingGET2(
+    id: string,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<ResourceDto>>;
+  public getByIdUsingGET2(
+    id: string,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<ResourceDto>>;
+  public getByIdUsingGET2(
+    id: string,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling getByIdUsingGET2.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    // authentication (JWT) required
+    if (this.configuration.apiKeys['Authorization']) {
+      headers = headers.set(
+        'Authorization',
+        this.configuration.apiKeys['Authorization']
+      );
+    }
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = ['*/*'];
+    const httpHeaderAcceptSelected: string | undefined =
+      this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = [];
+
+    return this.httpClient.get<ResourceDto>(
+      `${this.configuration.basePath}/api/resource/${encodeURIComponent(
         String(id)
       )}`,
       {
@@ -192,90 +417,56 @@ export class RoleControllerService {
   }
 
   /**
-   * listRoles
+   * save
    *
+   * @param accessibleAll accessibleAll
+   * @param disciplineId disciplineId
+   * @param scheduleId scheduleId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public listRolesUsingGET(
+  public saveUsingPOST(
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
     observe?: 'body',
     reportProgress?: boolean
-  ): Observable<Array<RoleDto>>;
-  public listRolesUsingGET(
+  ): Observable<ResourceDto>;
+  public saveUsingPOST(
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
     observe?: 'response',
     reportProgress?: boolean
-  ): Observable<HttpResponse<Array<RoleDto>>>;
-  public listRolesUsingGET(
+  ): Observable<HttpResponse<ResourceDto>>;
+  public saveUsingPOST(
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
     observe?: 'events',
     reportProgress?: boolean
-  ): Observable<HttpEvent<Array<RoleDto>>>;
-  public listRolesUsingGET(
+  ): Observable<HttpEvent<ResourceDto>>;
+  public saveUsingPOST(
+    accessibleAll?: boolean,
+    disciplineId?: string,
+    scheduleId?: string,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
-    let headers = this.defaultHeaders;
-
-    // authentication (JWT) required
-    if (this.configuration.apiKeys['Authorization']) {
-      headers = headers.set(
-        'Authorization',
-        this.configuration.apiKeys['Authorization']
+    let queryParameters = new HttpParams({
+      encoder: new CustomHttpUrlEncodingCodec(),
+    });
+    if (accessibleAll !== undefined && accessibleAll !== null) {
+      queryParameters = queryParameters.set(
+        'accessibleAll',
+        <any>accessibleAll
       );
     }
-
-    // to determine the Accept header
-    let httpHeaderAccepts: string[] = ['*/*'];
-    const httpHeaderAcceptSelected: string | undefined =
-      this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    if (disciplineId !== undefined && disciplineId !== null) {
+      queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
     }
-
-    // to determine the Content-Type header
-    const consumes: string[] = [];
-
-    return this.httpClient.get<Array<RoleDto>>(
-      `${this.configuration.basePath}/api/roles`,
-      {
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * saveRole
-   *
-   * @param roleDto role
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public saveRoleUsingPOST(
-    roleDto: RoleDto,
-    observe?: 'body',
-    reportProgress?: boolean
-  ): Observable<RoleDto>;
-  public saveRoleUsingPOST(
-    roleDto: RoleDto,
-    observe?: 'response',
-    reportProgress?: boolean
-  ): Observable<HttpResponse<RoleDto>>;
-  public saveRoleUsingPOST(
-    roleDto: RoleDto,
-    observe?: 'events',
-    reportProgress?: boolean
-  ): Observable<HttpEvent<RoleDto>>;
-  public saveRoleUsingPOST(
-    roleDto: RoleDto,
-    observe: any = 'body',
-    reportProgress: boolean = false
-  ): Observable<any> {
-    if (roleDto === null || roleDto === undefined) {
-      throw new Error(
-        'Required parameter roleDto was null or undefined when calling saveRoleUsingPOST.'
-      );
+    if (scheduleId !== undefined && scheduleId !== null) {
+      queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
     }
 
     let headers = this.defaultHeaders;
@@ -297,88 +488,13 @@ export class RoleControllerService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      headers = headers.set('Content-Type', httpContentTypeSelected);
-    }
+    const consumes: string[] = ['multipart/form-data'];
 
-    return this.httpClient.post<RoleDto>(
-      `${this.configuration.basePath}/api/roles/add`,
-      roleDto,
+    return this.httpClient.post<ResourceDto>(
+      `${this.configuration.basePath}/api/resource/upload`,
+      null,
       {
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * updateRole
-   *
-   * @param roleDto roleDto
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public updateRoleUsingPUT(
-    roleDto: RoleDto,
-    observe?: 'body',
-    reportProgress?: boolean
-  ): Observable<RoleDto>;
-  public updateRoleUsingPUT(
-    roleDto: RoleDto,
-    observe?: 'response',
-    reportProgress?: boolean
-  ): Observable<HttpResponse<RoleDto>>;
-  public updateRoleUsingPUT(
-    roleDto: RoleDto,
-    observe?: 'events',
-    reportProgress?: boolean
-  ): Observable<HttpEvent<RoleDto>>;
-  public updateRoleUsingPUT(
-    roleDto: RoleDto,
-    observe: any = 'body',
-    reportProgress: boolean = false
-  ): Observable<any> {
-    if (roleDto === null || roleDto === undefined) {
-      throw new Error(
-        'Required parameter roleDto was null or undefined when calling updateRoleUsingPUT.'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    // authentication (JWT) required
-    if (this.configuration.apiKeys['Authorization']) {
-      headers = headers.set(
-        'Authorization',
-        this.configuration.apiKeys['Authorization']
-      );
-    }
-
-    // to determine the Accept header
-    let httpHeaderAccepts: string[] = ['*/*'];
-    const httpHeaderAcceptSelected: string | undefined =
-      this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      headers = headers.set('Content-Type', httpContentTypeSelected);
-    }
-
-    return this.httpClient.put<RoleDto>(
-      `${this.configuration.basePath}/api/roles`,
-      roleDto,
-      {
+        params: queryParameters,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,

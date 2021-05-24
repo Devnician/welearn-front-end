@@ -20,6 +20,8 @@
         "subject": "тема",
         "startDateTime": "начало",
         "endDateTime": "край",
+        "startDateTimeIncl": "начална дата - включително",
+        "endDateTimeIncl": "крайна дата - включително",
         "select_group": "изберете група",
         "select_owner": "изберете собственик",
         "room": "стая",
@@ -156,6 +158,7 @@
         "select_internal": "задача",
         "select_office": "офис",
         "select_sim_card": "изберете сим карта",
+        "select_day":"ден от седмицата",
         "requestDate": "дата на заявката",
         "request_qty": "заявено количество",
         "simNumber": "сим номер",
@@ -302,6 +305,7 @@
         "to": "до",
         "my_account": "моят профил",
         "marks": "оценки",
-        "mark": "оценка"
+        "mark": "оценка",
+        "invalid_schedule_date":"Изберете дата в интервала на курса"
     }
 }

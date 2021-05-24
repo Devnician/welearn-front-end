@@ -200,7 +200,16 @@ $warn: mat-color($wl-warn);
   top: 0px;
   right: 0px;
   z-index: 5000;
-  padding: 10px;
+  padding: 5px;
+}
+.b-l-bar {
+  width: auto;
+  display: flex;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 5000;
+  padding: 5px;
 }
 .d-bar {
   width: 100%;

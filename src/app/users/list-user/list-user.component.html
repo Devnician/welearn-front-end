@@ -1,57 +1,78 @@
 <div class="mat-elevation-z8">
   <div class="b-bar">
-    <button class="mdc-fab" aria-label="Favorite" (click)="addUser()" matTooltip="добавяне на нов потребител"
-      [disabled]="disableEdit === true">
-      <div class="mdc-fab__exited"></div>
-      <span class="mdc-fab__icon material-icons">add</span>
+    <button
+      mat-mini-fab
+      aria-label="Favorite"
+      (click)="addUser()"
+      matTooltip="добавяне на нов потребител"
+      [disabled]="disableEdit === true"
+    >
+      <mat-icon>add</mat-icon>
     </button>
   </div>
   <table mat-table #table [dataSource]="paginator.slice">
     <ng-container matColumnDef="online">
-      <th mat-header-cell *matHeaderCellDef> online </th>
+      <th scope="col" mat-header-cell *matHeaderCellDef>online</th>
       <td mat-cell *matCellDef="let user">
-        <span class="dot" [ngClass]="{
-          'dot-red' : user.loggedIn == 0,
-          'dot-green' : user.loggedIn == 1 }"></span>
+        <span
+          class="dot"
+          [ngClass]="{
+            'dot-red': user.loggedIn == 0,
+            'dot-green': user.loggedIn == 1
+          }"
+        ></span>
       </td>
     </ng-container>
     <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.role'|translate}} </th>
-      <td mat-cell *matCellDef="let user"> {{user.role?.roleBg}} </td>
+      <th scope="col" mat-header-cell *matHeaderCellDef>
+        {{ 'wl.role' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let user">{{ user.role?.roleBg }}</td>
     </ng-container>
     <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.first_name' |translate}} </th>
-      <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+      <th scope="col" mat-header-cell *matHeaderCellDef>
+        {{ 'wl.first_name' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
     </ng-container>
 
     <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.last_name'|translate}} </th>
-      <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+      <th scope="col" mat-header-cell *matHeaderCellDef>
+        {{ 'wl.last_name' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="middleName">>
-      <th mat-header-cell *matHeaderCellDef>{{'wl.middle_name'|translate}}
-        <!-- <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value, 'firstName')"
-            placeholder="{{'wl.first_name'|translate}}">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field> -->
+    <ng-container matColumnDef="middleName"
+      >>
+      <th scope="col" mat-header-cell *matHeaderCellDef>
+        {{ 'wl.middle_name' | translate }} 
       </th>
-      <td mat-cell *matCellDef="let user"> {{user.middleName}} </td>
+      <td mat-cell *matCellDef="let user">{{ user.middleName }}</td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef> </th>
+      <th scope="col" mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let user">
-        <button class="pepe-table-button" mat-raised-button (click)="editUser(user)" [disabled]="disableEdit === true">
+        <button
+          class="pepe-table-button"
+          mat-raised-button
+          (click)="editUser(user)"
+          [disabled]="disableEdit === true"
+        >
           <mat-icon class="list-mat-icon">edit</mat-icon>
         </button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize [pageSizeOptions]="paginator.pageOptions"
-    showFirstLastButtons (page)="handlePage($event)"></mat-paginator>
+  <mat-paginator
+    [length]="paginator.allElements"
+    [pageSize]="paginator.pageSize"
+    [pageSizeOptions]="paginator.pageOptions"
+    showFirstLastButtons
+    (page)="handlePage($event)"
+  ></mat-paginator>
 </div>

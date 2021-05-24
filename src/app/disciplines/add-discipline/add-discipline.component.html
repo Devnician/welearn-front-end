@@ -1,100 +1,139 @@
 <mat-card>
-    <mat-card-title> добавяне на дисциплина </mat-card-title>
-    <mat-card-content>
-        <form [formGroup]="addForm" class="addDisciplineForm">
-            <div class="f-row">
-                <div class="inner-row-trans">
-                    <mat-form-field class="three-on-row">
-                        <input matInput placeholder="{{'wl.discipline' | translate}}" type="text" class="form-control"
-                            formControlName="name" autocomplete="off" required>
-                    </mat-form-field>
-                </div>
-                <mat-form-field class="two-on-row">
-                    <mat-label>{{'wl.lector' | translate}}</mat-label> 
-                    <mat-select #lSel placeholder="{{'wl.lector' | translate}}" formControlName="teacher"> 
-                        <mat-option *ngFor="let lector of lectors" [value]="lector" class="form-control">
-                            {{lector?.firstName}} {{lector?.middleName}} {{lector?.lastName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field class="two-on-row">
-                    <mat-label>{{'wl.assistant' | translate}}</mat-label>
-                    <mat-select #aSel placeholder="{{'wl.assistant' | translate}}" formControlName="assistant">
-                        <mat-option *ngFor="let lector of lectors" [value]="lector" class="form-control">
-                            {{lector?.firstName}} {{lector?.middleName}} {{lector?.lastName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div>
-                    <div style="display: flex; align-items: baseline;">
-                        <input #docFirst type="file" style="width:100%;height:auto;margin: 3px;" accept=".doc,.docx"
-                            (change)="uploadDoc(docFirst)">
-                        <button type="button" mat-icon-button color="accent" (click)="docFirst.value=''">
-                            <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
-                        </button>
-                    </div>
-                    <div style="display: flex; align-items: baseline;">
-                        <input #docSecond type="file" style="width:100%;height:auto;margin: 3px;" accept=".doc,.docx"
-                            (change)="uploadDoc(docSecond)">
-                        <button type="button" mat-icon-button color="accent" (click)="docSecond.value=''">
-                            <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
-                        </button>
-                    </div>
-                    <div style="display: flex; align-items: baseline;">
-                        <input #docThird type="file" style="width:100%;height:auto;margin: 3px;" accept=".doc,.docx"
-                            (change)="uploadDoc(docThird)">
-                        <button type="button" mat-icon-button color="accent" (click)="docThird.value=''">
-                            <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
+  <mat-card-title> добавяне на дисциплина </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="addForm" class="addDisciplineForm">
+      <div class="f-row">
+        <div class="inner-row-trans">
+          <mat-form-field class="three-on-row">
+            <input
+              matInput
+              placeholder="{{ 'wl.discipline' | translate }}"
+              type="text"
+              class="form-control"
+              formControlName="name"
+              autocomplete="off"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <mat-form-field class="two-on-row">
+          <mat-label>{{ "wl.lector" | translate }}</mat-label>
+          <mat-select
+            #lSel
+            placeholder="{{ 'wl.lector' | translate }}"
+            formControlName="teacher"
+          >
+            <mat-option
+              *ngFor="let lector of lectors"
+              [value]="lector"
+              class="form-control"
+            >
+              {{ lector?.firstName }} {{ lector?.middleName }}
+              {{ lector?.lastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="two-on-row">
+          <mat-label>{{ "wl.assistant" | translate }}</mat-label>
+          <mat-select
+            #aSel
+            placeholder="{{ 'wl.assistant' | translate }}"
+            formControlName="assistant"
+          >
+            <mat-option
+              *ngFor="let lector of lectors"
+              [value]="lector"
+              class="form-control"
+            >
+              {{ lector?.firstName }} {{ lector?.middleName }}
+              {{ lector?.lastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <div style="display: flex; align-items: baseline">
+            <input
+              #docFirst
+              type="file"
+              style="width: 100%; height: auto; margin: 3px"
+              accept=".doc,.docx"
+              (change)="uploadDoc(docFirst)"
+            />
+            <button
+              type="button"
+              mat-icon-button
+              color="accent"
+              (click)="docFirst.value = ''"
+            >
+              <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+            </button>
+          </div>
+          <div style="display: flex; align-items: baseline">
+            <input
+              #docSecond
+              type="file"
+              style="width: 100%; height: auto; margin: 3px"
+              accept=".doc,.docx"
+              (change)="uploadDoc(docSecond)"
+            />
+            <button
+              type="button"
+              mat-icon-button
+              color="accent"
+              (click)="docSecond.value = ''"
+            >
+              <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+            </button>
+          </div>
+          <div style="display: flex; align-items: baseline">
+            <input
+              #docThird
+              type="file"
+              style="width: 100%; height: auto; margin: 3px"
+              accept=".doc,.docx"
+              (change)="uploadDoc(docThird)"
+            />
+            <button
+              type="button"
+              mat-icon-button
+              color="accent"
+              (click)="docThird.value = ''"
+            >
+              <mat-icon aria-label="delete" class="md-20">delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
 
-
-            <div class="f-row">
-                <mat-form-field appearance="fill">
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-
-            <div style="display: flex;">
-                <mat-slide-toggle>понеделник</mat-slide-toggle>
-                <mat-slide-toggle>вторник</mat-slide-toggle>
-                <mat-slide-toggle>сряда</mat-slide-toggle>
-                <mat-slide-toggle>четвъртък</mat-slide-toggle>
-                <mat-slide-toggle>петък</mat-slide-toggle>
-            </div>
-
-
-            <!-- //https://www.npmjs.com/package/mat-timepicker -->
-            <mat-form-field appearance="fill">
-                <mat-label>начало</mat-label>
-                <!-- The timepicker input -->
-                <input matTimepicker #t="matTimepicker" #time="ngModel" [minDate]="minValue" [maxDate]="maxValue"
-                    [strict]="false" id="timepicker-example" mode="24h" [ngModel]="defaultValue"
-                    placeholder="Please select time..." name="time" [errorStateMatcher]="customErrorStateMatcher"
-                    required (timeChange)="timeChangeHandler($event)" (invalidInput)="invalidInputHandler()">
-                <!-- An icon for the timepicker input that will open the timepicker dialog when clicked -->
-                <mat-icon matSuffix (click)="t.showDialog()">access_time</mat-icon>
-
-                <!-- Error that will be shown when the input date is invalid -->
-                <mat-error *ngIf="time.touched && time.invalid">Invalid Date</mat-error>
-            </mat-form-field>
-
-            <div class="button-bar">
-                <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="goBack()">
-                    {{'wl.cancel' | translate}}
-                </button>
-                <button mat-raised-button type="button" color="primary" style="margin-right: 10px;" (click)="reset()">
-                    <mat-icon>clear_all</mat-icon>{{'wl.reset' | translate}}
-                </button>
-                <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">{{'wl.save' |
-                    translate}}</button>
-            </div>
-        </form>
-    </mat-card-content>
-    <!-- <pre>{{addForm.value | json}}</pre> -->
+      <div class="button-bar">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          style="margin-right: 10px"
+          (click)="goBack()"
+        >
+          {{ "wl.cancel" | translate }}
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          style="margin-right: 10px"
+          (click)="reset()"
+        >
+          <mat-icon>clear_all</mat-icon>{{ "wl.reset" | translate }}
+        </button>
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          (click)="onSubmit()"
+        >
+          {{ "wl.save" | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+  <!-- <pre>{{addForm.value | json}}</pre> -->
 </mat-card>

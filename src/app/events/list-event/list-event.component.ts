@@ -7,30 +7,41 @@ import { BaseComponent } from 'src/app/base/base.component';
 @Component({
   selector: 'app-list-event',
   templateUrl: './list-event.component.html',
-  styleUrls: ['./list-event.component.scss']
+  styleUrls: ['./list-event.component.scss'],
 })
 export class ListEventComponent extends BaseComponent implements OnInit {
   disableEdit: boolean = false;
-  displayedColumns = ['id', 'type', 'subject', 'starDateTime', 'endDateTime', 'edit', 'delete'];
+  displayedColumns = [
+    'id',
+    'type',
+    'subject',
+    'starDateTime',
+    'endDateTime',
+    'edit',
+    'delete',
+  ];
   events: EventDto[] = [];
 
-  constructor(ar: ActivatedRoute, public dialog: MatDialog, injector: Injector) {
+  constructor(
+    ar: ActivatedRoute,
+    public dialog: MatDialog,
+    injector: Injector
+  ) {
     super(ar, injector);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   addEvent() {
     this.router.navigate(['home/list-event/add-event']);
   }
 
   editEvent(event: EventDto) {
-    alert('open dialog for edit  - Not implemented yet')
+    alert('open dialog for edit  - Not implemented yet');
   }
 
   deleteEvent(event: EventDto) {
-    alert('logic for delete')
+    alert('logic for delete');
   }
 
   openRoom() {

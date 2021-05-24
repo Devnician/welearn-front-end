@@ -20,6 +20,8 @@
         "subject": "subject",
         "startDateTime": "start time",
         "endDateTime": "end time",
+        "startDateTimeIncl": "start date - included",
+        "endDateTimeIncl": "end ddate - included",
         "select_group": "select group",
         "select_owner": "select owner",
         "room": "room",
@@ -157,6 +159,7 @@
         "select_internal": "task",
         "select_office": "office",
         "select_sim_card": "select sim card",
+        "select_day":"day of week",
         "requestDate": "request date",
         "request_qty": "request quantity",
         "simNumber": "sim number",
@@ -302,6 +305,8 @@
         "to": "to",
         "my_account": "my account",
         "marks": "marks",
-        "mark": "mark"
+        "mark": "mark",
+        "invalid_schedule_date":"selected date is out of course range"
+        
     }
 }

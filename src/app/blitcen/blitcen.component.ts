@@ -1,10 +1,20 @@
 import { Component, Injector } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  SimpleSnackBar,
+} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DisciplineControllerService, GroupControllerService, RoleControllerService, UserControllerService } from 'libs/rest-client/src';
+import {
+  DisciplineControllerService,
+  EventControllerService,
+  GroupControllerService,
+  RoleControllerService,
+  UserControllerService,
+} from 'libs/rest-client/src';
 import { AppComponent } from '../app.component';
 import { DonkeyService } from '../core/donkey.service';
 import { Valido } from '../core/valido';
@@ -16,15 +26,11 @@ const jwtHelper = new JwtHelperService();
 
 @Component({
   selector: 'app-blitcen',
-  template: `
-    <p>
-      beard
-    </p>
-  `,
-  styleUrls: ['./blitcen.component.scss']
+  template: ` <p>beard</p> `,
+  styleUrls: ['./blitcen.component.scss'],
 })
 /**
- * Master component.All components must be descendants of this !!!!!!!! 
+ * Master component.All components must be descendants of this !!!!!!!!
  */
 export class BlitcenComponent {
   app: AppComponent = AppComponent.myapp;
@@ -36,6 +42,7 @@ export class BlitcenComponent {
   protected apiRoles: RoleControllerService;
   protected apiGroups: GroupControllerService;
   protected apiDisciplines: DisciplineControllerService;
+  protected apiEvents: EventControllerService;
 
   protected router: Router;
   protected snack: MatSnackBar;
@@ -47,13 +54,26 @@ export class BlitcenComponent {
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
   constructor(injector: Injector) {
+    if (!this.app?.user) {
+      return;
+    }
     this.user = this.app.user;
 
-    this.apiUsers = this.addAuthorizationToService(injector.get(UserControllerService)) as UserControllerService;
-    this.apiRoles = this.addAuthorizationToService(injector.get(RoleControllerService)) as RoleControllerService;
-    this.apiGroups = this.addAuthorizationToService(injector.get(GroupControllerService)) as GroupControllerService;
-    this.apiDisciplines = this.addAuthorizationToService(injector.get(DisciplineControllerService)) as DisciplineControllerService;
-
+    this.apiUsers = this.addAuthorizationToService(
+      injector.get(UserControllerService)
+    );
+    this.apiRoles = this.addAuthorizationToService(
+      injector.get(RoleControllerService)
+    );
+    this.apiGroups = this.addAuthorizationToService(
+      injector.get(GroupControllerService)
+    );
+    this.apiDisciplines = this.addAuthorizationToService(
+      injector.get(DisciplineControllerService)
+    );
+    this.apiEvents = this.addAuthorizationToService(
+      injector.get(EventControllerService)
+    );
 
     this.valido = injector.get(Valido);
     this.router = injector.get(Router);
@@ -62,16 +82,17 @@ export class BlitcenComponent {
     this.infoDialog = injector.get(MatDialog);
 
     this.lang = AppComponent.lang;
-    this.langExt = (this.lang != undefined && this.lang === 'bg') ? "_" + this.lang : '';
+    this.langExt =
+      this.lang != undefined && this.lang === 'bg' ? '_' + this.lang : '';
     this.checkUser();
   }
 
   addAuthorizationToService(service: any): any {
     let map: { [key: string]: string } = {};
     if (this.user) {
-      map["Authorization"] = "Bearer " + this.user?.token;
+      map['Authorization'] = 'Bearer ' + this.user?.token;
     } else {
-      map["Authorization"] = "";
+      map['Authorization'] = '';
     }
     service.configuration.apiKeys = map;
     return service;
@@ -81,8 +102,6 @@ export class BlitcenComponent {
     // this.user = this.app.user;
     // this.canFetch = true;
     //let failed: boolean = false;
-
-
     // try {
     //   let token = localStorage.getItem('user');
     //   if (isNullOrUndefined(token) === true || jwtHelper.isTokenExpired(token)) {
@@ -113,43 +132,62 @@ export class BlitcenComponent {
     this.router.navigate(['']);
   }
 
-
   /**
-   * 
+   *
    * @param arg0  text
    * @param action  buttons
-   * @param duartion in milliseconds 
-   * @returns 
+   * @param duartion in milliseconds
+   * @returns
    */
-  showSnack(arg0: string, action: string, duartion: number): MatSnackBarRef<SimpleSnackBar> {
+  showSnack(
+    arg0: string,
+    action: string,
+    duartion: number
+  ): MatSnackBarRef<SimpleSnackBar> {
     let snackBarRef = this.snack.open(arg0, action, {
       duration: duartion,
     });
     return snackBarRef;
   }
 
-  showInfoDialog(label: string, singleMessage: string, messages: string[]): void {
-    let dialogData: any = { 'label': label, 'singleMessage': singleMessage, 'messages': messages };
+  showInfoDialog(
+    label: string,
+    singleMessage: string,
+    messages: string[]
+  ): void {
+    let dialogData: any = {
+      label: label,
+      singleMessage: singleMessage,
+      messages: messages,
+    };
     this.infoDialog.open(DialogInfoComponent, {
       width: 'auto',
-      data: { dialogData }
+      data: { dialogData },
     });
   }
   /**
    * A method that open confirmation dialog.
-   * @param label 
-   * @param singleMessage 
-   * @param messages 
+   * @param label
+   * @param singleMessage
+   * @param messages
    */
-  showConfirmDialog(label: string, singleMessage: string, messages: string[]): MatDialogRef<DialogInfoComponent> {
-    let dialogData: any = { 'label': label, 'singleMessage': singleMessage, 'messages': messages, 'confirmation': true };
+  showConfirmDialog(
+    label: string,
+    singleMessage: string,
+    messages: string[]
+  ): MatDialogRef<DialogInfoComponent> {
+    let dialogData: any = {
+      label: label,
+      singleMessage: singleMessage,
+      messages: messages,
+      confirmation: true,
+    };
     const dialogRef = this.infoDialog.open(DialogInfoComponent, {
       width: 'auto',
-      data: { dialogData }
+      data: { dialogData },
     });
     return dialogRef;
   }
-
 
   getWordBlobFromByteArray(byteArr: any): Blob {
     // The atob function will decode a Base64-encoded string into a new string with a character for each byte of the binary data.
@@ -166,12 +204,12 @@ export class BlitcenComponent {
     return blob;
   }
   /**
-   * 
+   *
    * @param name ticket_15.doc
    * @param url the blob url
    */
   fetchFile(name: string, url: string) {
-    var anchor = document.createElement("a");
+    var anchor = document.createElement('a');
     anchor.download = name;
     anchor.href = url;
     anchor.target = '_blank';
@@ -179,22 +217,20 @@ export class BlitcenComponent {
   }
 
   /**
-   *  Tries to disable given fields if they are present in the form 
+   *  Tries to disable given fields if they are present in the form
    */
   disableFormFields(form: FormGroup, names: string[]) {
     if (names) {
-      names.forEach(fieldName => {
+      names.forEach((fieldName) => {
         try {
           form.get(fieldName).disable();
-        } catch (error) {
-        }
+        } catch (error) {}
       });
     }
   }
 
-
   disableFormFormArray(formArr: FormArray) {
-    formArr.controls.forEach(group => {
+    formArr.controls.forEach((group) => {
       if (group instanceof FormGroup) {
         group.disable();
       }
@@ -208,7 +244,12 @@ export class BlitcenComponent {
    * @param info  Useful data or key
    * @param path for where
    */
-  loadDonkeyDataAndNavigate(donkey: DonkeyService, data: any, info: string, path: string[]) {
+  loadDonkeyDataAndNavigate(
+    donkey: DonkeyService,
+    data: any,
+    info: string,
+    path: string[]
+  ) {
     donkey.setData(data);
     donkey.setInfo(info);
     this.router.navigate(path);

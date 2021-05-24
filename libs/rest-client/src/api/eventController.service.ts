@@ -18,14 +18,14 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import { EvaluationMarkDto } from '../model/evaluationMarkDto';
+import { EventDto } from '../model/eventDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class EvaluationMarkControllerService {
+export class EventControllerService {
 
     protected basePath = 'http://localhost:8080';
     public defaultHeaders = new HttpHeaders();
@@ -58,18 +58,18 @@ export class EvaluationMarkControllerService {
 
 
     /**
-     * createMark
+     * createEvent
      * 
-     * @param evaluationMarkDto evaluationMarkDto
+     * @param eventDto eventDto
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (evaluationMarkDto === null || evaluationMarkDto === undefined) {
-            throw new Error('Required parameter evaluationMarkDto was null or undefined when calling createMarkUsingPOST.');
+    public createEventUsingPOST(eventDto: EventDto, observe?: 'body', reportProgress?: boolean): Observable<EventDto>;
+    public createEventUsingPOST(eventDto: EventDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EventDto>>;
+    public createEventUsingPOST(eventDto: EventDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EventDto>>;
+    public createEventUsingPOST(eventDto: EventDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (eventDto === null || eventDto === undefined) {
+            throw new Error('Required parameter eventDto was null or undefined when calling createEventUsingPOST.');
         }
 
         let headers = this.defaultHeaders;
@@ -97,8 +97,8 @@ export class EvaluationMarkControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<EvaluationMarkDto>(`${this.configuration.basePath}/api/evaluationMark`,
-            evaluationMarkDto,
+        return this.httpClient.post<EventDto>(`${this.configuration.basePath}/api/event`,
+            eventDto,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -109,18 +109,18 @@ export class EvaluationMarkControllerService {
     }
 
     /**
-     * deleteMark
+     * deleteEvent
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteMarkUsingDELETE(id: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public deleteMarkUsingDELETE(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public deleteMarkUsingDELETE(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public deleteMarkUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteEventUsingDELETE(id: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public deleteEventUsingDELETE(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public deleteEventUsingDELETE(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public deleteEventUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling deleteMarkUsingDELETE.');
+            throw new Error('Required parameter id was null or undefined when calling deleteEventUsingDELETE.');
         }
 
         let headers = this.defaultHeaders;
@@ -143,7 +143,7 @@ export class EvaluationMarkControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<boolean>(`${this.configuration.basePath}/api/evaluationMark/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<boolean>(`${this.configuration.basePath}/api/event/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -154,18 +154,18 @@ export class EvaluationMarkControllerService {
     }
 
     /**
-     * editEvaluationMark
+     * editEvent
      * 
-     * @param evaluationMarkDto evaluationMarkDto
+     * @param eventDto eventDto
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
-    public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
-    public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public editEvaluationMarkUsingPUT(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (evaluationMarkDto === null || evaluationMarkDto === undefined) {
-            throw new Error('Required parameter evaluationMarkDto was null or undefined when calling editEvaluationMarkUsingPUT.');
+    public editEventUsingPUT(eventDto: EventDto, observe?: 'body', reportProgress?: boolean): Observable<EventDto>;
+    public editEventUsingPUT(eventDto: EventDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EventDto>>;
+    public editEventUsingPUT(eventDto: EventDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EventDto>>;
+    public editEventUsingPUT(eventDto: EventDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (eventDto === null || eventDto === undefined) {
+            throw new Error('Required parameter eventDto was null or undefined when calling editEventUsingPUT.');
         }
 
         let headers = this.defaultHeaders;
@@ -193,8 +193,8 @@ export class EvaluationMarkControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<EvaluationMarkDto>(`${this.configuration.basePath}/api/evaluationMark`,
-            evaluationMarkDto,
+        return this.httpClient.put<EventDto>(`${this.configuration.basePath}/api/event`,
+            eventDto,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -210,10 +210,10 @@ export class EvaluationMarkControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<EvaluationMarkDto>>;
-    public findAllUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<EvaluationMarkDto>>>;
-    public findAllUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<EvaluationMarkDto>>>;
-    public findAllUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllUsingGET1(observe?: 'body', reportProgress?: boolean): Observable<Array<EventDto>>;
+    public findAllUsingGET1(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<EventDto>>>;
+    public findAllUsingGET1(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<EventDto>>>;
+    public findAllUsingGET1(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -235,7 +235,7 @@ export class EvaluationMarkControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<EvaluationMarkDto>>(`${this.configuration.basePath}/api/evaluationMark`,
+        return this.httpClient.get<Array<EventDto>>(`${this.configuration.basePath}/api/event`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -252,12 +252,12 @@ export class EvaluationMarkControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getByIdUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
-    public getByIdUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
-    public getByIdUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public getByIdUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getByIdUsingGET1(id: string, observe?: 'body', reportProgress?: boolean): Observable<EventDto>;
+    public getByIdUsingGET1(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EventDto>>;
+    public getByIdUsingGET1(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EventDto>>;
+    public getByIdUsingGET1(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getByIdUsingGET.');
+            throw new Error('Required parameter id was null or undefined when calling getByIdUsingGET1.');
         }
 
         let headers = this.defaultHeaders;
@@ -280,7 +280,7 @@ export class EvaluationMarkControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EvaluationMarkDto>(`${this.configuration.basePath}/api/evaluationMark/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<EventDto>(`${this.configuration.basePath}/api/event/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

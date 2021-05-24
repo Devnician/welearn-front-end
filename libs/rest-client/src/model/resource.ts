@@ -9,18 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { DisciplineDto } from './disciplineDto';
-import { UserDto } from './userDto';
+import { InputStream } from './inputStream';
 
 
-export interface EventDto { 
-    blacklist?: Array<UserDto>;
+export interface Resource { 
     description?: string;
-    discipline?: DisciplineDto;
-    endDate: Date;
-    eventId?: string;
-    groupId?: string;
-    name: string;
-    startDate: Date;
-    type: string;
+    file?: Blob;
+    filename?: string;
+    inputStream?: InputStream;
+    open?: boolean;
+    readable?: boolean;
+    uri?: string;
+    url?: string;
 }
