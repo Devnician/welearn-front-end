@@ -91,32 +91,29 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
+        <tr #noData *matNoDataRow class="mat-row no-data-row">
+          <td colspan="20">Няма намерени записи!</td>
+        </tr>
+      </table>
 
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a student</mat-label>
+        <mat-select #sSel placeholder="{{'wl.student' | translate}}"
+        (selectionChange)="onStudentSelect(sSel.value)">
+          <mat-option *ngFor="let student of studentsList" [value]="student.userId">
+              {{student?.email}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                <tr #noData *matNoDataRow class="mat-row no-data-row">
-                    <td colspan="20">Няма намерени записи!</td>
-                </tr>
-
-            </table>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Choose a student</mat-label>
-              <mat-select #sSel placeholder="{{'wl.student' | translate}}"
-              (selectionChange)="onStudentSelect(sSel.value)">
-                <mat-option *ngFor="let student of studentsList" [value]="student.userId">
-                    {{student?.email}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-
-            <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize
-                [pageSizeOptions]="paginator.pageOptions" showFirstLastButtons (page)="handlePage($event)">
-            </mat-paginator>
-        </div>
+      <mat-paginator
+        [length]="paginator.allElements"
+        [pageSize]="paginator.pageSize"
+        [pageSizeOptions]="paginator.pageOptions"
+        showFirstLastButtons
+        (page)="handlePage($event)"
+      >
+      </mat-paginator>
     </div>
   </div>
 
