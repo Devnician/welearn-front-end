@@ -26,7 +26,7 @@ export interface UserDto {
     lastName: string;
     loggedIn?: number;
     middleName?: string;
-    password: string;
+    password?: string;
     phoneNumber?: string;
     role: RoleDto;
     taughtDisciplineIds?: Array<string>;

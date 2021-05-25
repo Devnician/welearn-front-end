@@ -1,33 +1,44 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Role } from 'src/app/model/role.model';
 import { TimeUtil } from 'src/app/utils/time-util';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
-import { BaseformComponent } from '../../baseform/baseform.component';
 
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
 })
-export class EditUserComponent extends BaseformComponent implements OnInit {
-  private _destroyed$ = new Subject();
+export class EditUserComponent
+  extends BlitcenComponent
+  implements OnInit, OnDestroy
+{
+  private destroyed = new Subject();
   editUser: UserDto;
   editForm: FormGroup;
-  parentDir: string = 'home/list-user';
-  selfEdit: boolean = false;
+  parentDir = 'home/list-user';
+  selfEdit = false;
   roles: Role[] = [];
 
   constructor(
     private sanitizer: DomSanitizer,
     private donkey: DonkeyService,
-    injector: Injector
+    injector: Injector,
+    private formBuilder: FormBuilder,
+    private s: MatSnackBar
   ) {
-    super(injector);
+    super(injector, s);
     // const currentMenu = this.app.getCurrentMenuObject('/' + this.parentDir);
     this.selfEdit = donkey.getInfo() === 'self';
     this.editUser = donkey.getData();
@@ -75,7 +86,7 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
    * return True if it is valed false otherwise
    */
   isFieldValid(field: string) {
-    //return true;
+    // return true;
     return (
       !this.editForm?.get(field).valid && this.editForm?.get(field).touched
     );
@@ -89,10 +100,10 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       this.valido.validateAllFormFields(this.editForm);
       return;
     }
-    let user: UserDto = this.editForm.getRawValue();
-    let roleId = user['roleID'];
+    const user: UserDto = this.editForm.getRawValue();
+    const roleId = user['roleID'];
     delete user['roleID'];
-    user.role = this.roles.find((r) => r.id == roleId);
+    user.role = this.roles.find((r) => r.id === roleId);
 
     if (user.password === 'unknown') {
       user.password = null;
@@ -111,15 +122,15 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
    */
   shouldIValidatePass() {
     const control = this.editForm.get('password');
-    let pass: string = control?.value;
-    if (pass == 'unknown' || pass == '') {
+    const pass: string = control?.value;
+    if (pass === 'unknown' || pass === '') {
       control.clearValidators();
       control.updateValueAndValidity();
     }
   }
 
   public ngOnDestroy(): void {
-    this._destroyed$.next();
-    this._destroyed$.complete();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }

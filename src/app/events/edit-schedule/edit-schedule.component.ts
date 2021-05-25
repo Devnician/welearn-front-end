@@ -1,6 +1,7 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { GroupDto, ScheduleDto } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -33,9 +34,10 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: ScheduleDto,
     private dialogRef: MatDialogRef<EditScheduleComponent>,
-    private injector: Injector
+    private injector: Injector,
+    private s: MatSnackBar
   ) {
-    super(injector);
+    super(injector, s);
   }
 
   ngOnInit(): void {

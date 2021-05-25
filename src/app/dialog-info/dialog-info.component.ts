@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -10,16 +10,15 @@ export interface DialogData {
 @Component({
   selector: 'app-dialog-info',
   templateUrl: './dialog-info.component.html',
-  styleUrls: ['./dialog-info.component.scss']
+  styleUrls: ['./dialog-info.component.scss'],
 })
-
 export class DialogInfoComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogInfoComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
   ngOnInit(): void {
-    //throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");
   }
   onNoClick(): void {
     this.dialogRef.close({ res: 'declined' });

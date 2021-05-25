@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormArray, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
 import { Role } from 'src/app/model/role.model';
@@ -19,8 +20,12 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   menus: FormArray = this.formBuilder.array([]);
   availableMenus: FormArray = this.formBuilder.array([]);
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(
+    injector: Injector,
+    private formBuilder: FormBuilder,
+    private s: MatSnackBar
+  ) {
+    super(injector, s);
   }
 
   ngOnInit() {
@@ -40,10 +45,9 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
 
   /**
    * Adds menu in selected
-   * @param menu
    */
   addMenu(menu: MenuOptions) {
-    let foundOne = this.selectedMenus.find((elem) => elem.key === menu.key);
+    const foundOne = this.selectedMenus.find((elem) => elem.key === menu.key);
     if (!foundOne) {
       // if is not present - add it
       this.selectedMenus.push(menu);
@@ -94,19 +98,19 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   }
 
   onSubmit() {
-    let role: Role = this.addForm.getRawValue();
+    const role: Role = this.addForm.getRawValue();
     delete role['available'];
 
     let permissions: any[] = [];
 
     role.menus.forEach((element) => {
-      let permission: any[] = [];
+      const permission: any[] = [];
       permission[0] = element.key;
       permission[1] = element.add ? 1 : 0;
       permission[2] = element.edit ? 1 : 0;
       permission[3] = element.delete ? 1 : 0;
       if (permission[1] + permission[2] + permission[3] === 0) {
-        permission[4] = 1; //voyeur
+        permission[4] = 1; // voyeur
       } else {
         permission[4] = element.preview ? 1 : 0;
       }
@@ -127,18 +131,16 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   }
   /**
    * Remove all other marks if preview is selected
-   * @param menu
-   * @param checked
    */
   previewSelected(menu: FormGroup, checked: boolean) {
-    let opt: MenuOptions = menu.value;
+    const opt: MenuOptions = menu.value;
     opt.add = opt.edit = opt.delete = !checked;
     opt.preview = checked;
     menu.patchValue(opt);
   }
 
   removePreviewCheck(menu: FormGroup) {
-    let opt: MenuOptions = menu.value;
+    const opt: MenuOptions = menu.value;
     opt.preview = false;
     menu.patchValue(opt);
   }

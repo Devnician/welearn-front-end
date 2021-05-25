@@ -1,8 +1,9 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { GroupDto } from 'libs/rest-client/src';
-import { BaseformComponent } from 'src/app/baseform/baseform.component';
+import { DisciplineControllerService, GroupDto } from 'libs/rest-client/src';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { Discipline } from 'src/app/model/discipline.model';
 
 @Component({
@@ -10,7 +11,7 @@ import { Discipline } from 'src/app/model/discipline.model';
   templateUrl: './add-group.component.html',
   styleUrls: ['./add-group.component.scss'],
 })
-export class AddGroupComponent extends BaseformComponent implements OnInit {
+export class AddGroupComponent extends BlitcenComponent implements OnInit {
   @ViewChild(MatTable, { static: false }) table: MatTable<any>;
   addForm: FormGroup;
   disciplinesFormArray: FormArray = this.formBuilder.array([new Discipline()]);
@@ -18,8 +19,14 @@ export class AddGroupComponent extends BaseformComponent implements OnInit {
   displayedColumns = ['name', 'teacher', 'assistant', 'remove'];
   disciplines: Discipline[] = [];
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(
+    injector: Injector,
+    private formBuilder: FormBuilder,
+    private apiDisciplines: DisciplineControllerService,
+    private s: MatSnackBar
+  ) {
+    super(injector, s);
+    this.addAuthorizationToService(apiDisciplines);
   }
 
   ngOnInit(): void {

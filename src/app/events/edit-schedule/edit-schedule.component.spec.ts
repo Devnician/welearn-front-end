@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
 import { EditScheduleComponent } from './edit-schedule.component';
 
 describe('EditScheduleComponent', () => {
@@ -8,9 +9,10 @@ describe('EditScheduleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditScheduleComponent ]
-    })
-    .compileComponents();
+      imports: [CommonModule],
+      declarations: [EditScheduleComponent],
+      providers: [FormsModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

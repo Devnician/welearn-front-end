@@ -1,5 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { EventControllerService } from 'libs/rest-client/src';
 import { CalendarComponent } from './calendar.component';
 
 describe('CalendarComponent', () => {
@@ -8,9 +10,10 @@ describe('CalendarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CalendarComponent ]
-    })
-    .compileComponents();
+      imports: [MatDialogModule, HttpClientTestingModule],
+      declarations: [CalendarComponent],
+      providers: [EventControllerService],
+    }).compileComponents();
   });
 
   beforeEach(() => {

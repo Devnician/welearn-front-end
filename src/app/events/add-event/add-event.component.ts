@@ -1,8 +1,14 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EventDto, GroupDto, UserDto } from 'libs/rest-client/src';
-import { BaseformComponent } from 'src/app/baseform/baseform.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  EventControllerService,
+  EventDto,
+  GroupDto,
+  UserDto,
+} from 'libs/rest-client/src';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { Discipline } from 'src/app/model/discipline.model';
 import EVENT_TYPES from '../event-types';
 
@@ -11,7 +17,7 @@ import EVENT_TYPES from '../event-types';
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.scss'],
 })
-export class AddEventComponent extends BaseformComponent implements OnInit {
+export class AddEventComponent extends BlitcenComponent implements OnInit {
   createMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
@@ -24,11 +30,14 @@ export class AddEventComponent extends BaseformComponent implements OnInit {
 
   constructor(
     injector: Injector,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: EventDto,
-    private dialogRef: MatDialogRef<AddEventComponent>
+    private dialogRef: MatDialogRef<AddEventComponent>,
+    private apiEvents: EventControllerService,
+    private s: MatSnackBar
   ) {
-    super(injector);
+    super(injector, s);
+    this.addAuthorizationToService(apiEvents);
   }
 
   ngOnInit(): void {

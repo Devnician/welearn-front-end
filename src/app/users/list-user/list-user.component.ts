@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'libs/rest-client/src';
 import { DonkeyService } from 'src/app/core/donkey.service';
@@ -29,9 +30,10 @@ export class ListUserComponent extends BaseComponent implements OnInit {
   constructor(
     ar: ActivatedRoute,
     private donkey: DonkeyService,
-    injector: Injector
+    injector: Injector,
+    private s: MatSnackBar
   ) {
-    super(ar, injector);
+    super(ar, injector, s);
     if (this.user) {
       this.fetchRoles();
     }
@@ -54,7 +56,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
    * Fetch all users
    */
   loadUsers() {
-    this.apiUsers.listUserUsingGET().subscribe((data) => {
+    this.apiUsers?.listUserUsingGET().subscribe((data) => {
       this.users = data;
       this.filterUsers();
     });
@@ -65,7 +67,7 @@ export class ListUserComponent extends BaseComponent implements OnInit {
     if (currentUserRoleAsString.includes('admin')) {
       // go go
     } else if (currentUserRoleAsString.includes('teacher')) {
-      //API CALL - getGroupsByTeacherId
+      // API CALL - getGroupsByTeacherId
       this.groups = this.groups.filter(
         (gr) =>
           gr.disciplines.findIndex(
