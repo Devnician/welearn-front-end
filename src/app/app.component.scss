@@ -151,10 +151,10 @@ main {
 	float: right;
 }
 //   table loader
-.loader-hidden {
+.app-loader-hidden {
 	visibility: hidden;
 }
-.loader-overlay {
+.app-loader-overlay {
 	position: absolute;
 	width: 100%;
 	top: 0;
@@ -162,7 +162,7 @@ main {
 	opacity: 1;
 	z-index: 500000;
 }
-//end table loader
+ 
 
 ::ng-deep.mat-select-value {
 	color: rgba(0, 0, 0, 0.99) !important;

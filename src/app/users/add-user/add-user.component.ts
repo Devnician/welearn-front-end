@@ -1,31 +1,38 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { Valido } from 'src/app/core/valido';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
-import { BaseformComponent } from '../../baseform/baseform.component';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
 })
-export class AddUserComponent extends BaseformComponent implements OnInit {
+export class AddUserComponent extends BlitcenComponent implements OnInit {
   addForm: FormGroup;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(
+    injector: Injector,
+    private formBuilder: FormBuilder,
+    private v: Valido,
+    private s: MatSnackBar
+  ) {
+    super(injector, s);
   }
   ngOnInit() {
     this.addForm = this.formBuilder.group({
       id: [],
-      username: ['', this.valido.validateUsername(true)],
-      password: ['', this.valido.validatePassowrd(6, 30)],
-      firstName: ['', this.valido.validateName(2, 30)],
-      middleName: ['', this.valido.validateName(2, 30)],
-      lastName: ['', this.valido.validateName(2, 30)],
+      username: ['', this.v.validateUsername(true)],
+      password: ['', this.v.validatePassowrd(6, 30)],
+      firstName: ['', this.v.validateName(2, 30)],
+      middleName: ['', this.v.validateName(2, 30)],
+      lastName: ['', this.v.validateName(2, 30)],
       birthdate: ['', Validators.required],
       address: ['', Validators.required],
       role: [{}, Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', this.valido.validatePhone(true)],
+      phoneNumber: ['', this.v.validatePhone(true)],
       otherContacts: [''],
       deleted: ['', ''],
       loggedIn: [],
@@ -56,7 +63,7 @@ export class AddUserComponent extends BaseformComponent implements OnInit {
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
-    let newUser: UserDto = this.addForm.value;
+    const newUser: UserDto = this.addForm.value;
     this.apiUsers.saveUserUsingPOST(newUser).subscribe((data) => {
       let message = 'данните бяха записани';
       if (!data) {

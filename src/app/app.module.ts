@@ -46,7 +46,6 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BaseComponent } from './base/base.component';
-import { BaseformComponent } from './baseform/baseform.component';
 import { BlitcenComponent } from './blitcen/blitcen.component';
 import { DonkeyService } from './core/donkey.service';
 import { GlobalErrorHandler } from './core/global-error-handler';
@@ -113,7 +112,6 @@ FullCalendarModule.registerPlugins([
     HelpPageComponent,
     CalendarComponent,
     BaseComponent,
-    BaseformComponent,
     DialogModalComponent,
     BlitcenComponent,
     DialogInfoComponent,

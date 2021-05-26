@@ -1,4 +1,5 @@
 import { Component, Injector, OnDestroy, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
@@ -7,7 +8,7 @@ import { PPaginator } from '../utils/paginator.model';
 @Component({
   selector: 'app-base',
   template: 'NO UI TO BE FOUND HERE!',
-  styleUrls: ['./base.component.scss']
+  styleUrls: ['./base.component.scss'],
 })
 
 /**
@@ -15,21 +16,21 @@ import { PPaginator } from '../utils/paginator.model';
  */
 export class BaseComponent extends BlitcenComponent implements OnDestroy {
   show = false;
-  officeId: number = 0;
+  officeId = 0;
   paginator: PPaginator;
   protected activatedRoute: ActivatedRoute;
 
   @ViewChild('table', { static: true }) table: MatTable<any>;
 
-  constructor(ar: ActivatedRoute, injector: Injector) {
-    super(injector);
+  constructor(ar: ActivatedRoute, injector: Injector, s: MatSnackBar) {
+    super(injector, s);
     this.paginator = injector.get(PPaginator);
     this.activatedRoute = ar;
   }
 
   /**
    * Loads pager with given collection.
-   * @param data The data  
+   * @param data The data
    * @param prop initial property for filtering
    */
   loadPaginator(data: any, prop: string) {
@@ -45,7 +46,7 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   }
   /**
    * Handler for pagination event's
-   * @param e 
+   * @param e
    */
   handlePage(e: any) {
     this.paginator.notify(e);

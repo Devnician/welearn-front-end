@@ -12,6 +12,7 @@
 
 
 export interface ScheduleDto { 
+    days: string;
     disciplineId: string;
     endTime: Date;
     groupId: string;

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -8,7 +9,11 @@ import {
   EventInput,
 } from '@fullcalendar/angular';
 import bgLocale from '@fullcalendar/core/locales/bg';
-import { EventDto, ScheduleDto } from 'libs/rest-client/src';
+import {
+  EventControllerService,
+  EventDto,
+  ScheduleDto,
+} from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { AddEventComponent } from '../add-event/add-event.component';
@@ -26,6 +31,7 @@ export class CalendarComponent
 {
   autoSchedule: ScheduleDto[] = [
     {
+      days: 'Tuesday',
       groupId: 'adsasd',
       disciplineId: 'asdasd',
       startTime: moment().toDate(),
@@ -40,7 +46,7 @@ export class CalendarComponent
 
   locales = [bgLocale /*, enLocale*/]; // bind to app locale
 
-  //calendarVisible = true;
+  // calendarVisible = true;
   calendarOptions: CalendarOptions = {
     locale: bgLocale,
     headerToolbar: {
@@ -49,7 +55,7 @@ export class CalendarComponent
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, //this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: INITIAL_EVENTS, // this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -69,8 +75,14 @@ export class CalendarComponent
   };
   currentEvents: EventApi[] = [];
 
-  constructor(private dialog: MatDialog, injector: Injector) {
-    super(injector);
+  constructor(
+    private dialog: MatDialog,
+    injector: Injector,
+    private apiEvents: EventControllerService,
+    private s: MatSnackBar
+  ) {
+    super(injector, s);
+    this.addAuthorizationToService(apiEvents);
   }
 
   ngOnInit(): void {
@@ -83,6 +95,7 @@ export class CalendarComponent
 
   loadMyAutoSchedule() {
     const sch: ScheduleDto = {
+      days: 'Monday',
       groupId: 'adsasd',
       disciplineId: 'asdasd',
       startTime: moment().toDate(),
@@ -128,7 +141,7 @@ export class CalendarComponent
 
     calendarApi.unselect(); // clear date selection
 
-    let newEvent: EventDto = {
+    const newEvent: EventDto = {
       type: 'type',
       endDate: null,
       startDate: null,
@@ -140,7 +153,6 @@ export class CalendarComponent
   }
   /**
    * The event was clicked - edit mode.
-   * @param clickInfo
    */
   handleEventClick(clickInfo: EventClickArg) {
     const ev: EventApi = clickInfo.event;

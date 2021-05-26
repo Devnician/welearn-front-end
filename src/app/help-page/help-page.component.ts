@@ -13,7 +13,7 @@ export class HelpPageComponent implements OnInit {
     this.data = {};
     this.data.isAllSelected = false;
     this.data.isAllCollapsed = false;
-    //List object having hierarchy of parents and its children
+    // List object having hierarchy of parents and its children
     this.data.ParentChildchecklist = [
       {
         id: 1,
@@ -115,24 +115,24 @@ export class HelpPageComponent implements OnInit {
 
   ngOnInit() {}
 
-  //Click event on parent checkbox
+  // Click event on parent checkbox
   parentCheck(parentObj) {
     for (var i = 0; i < parentObj.childList.length; i++) {
       parentObj.childList[i].isSelected = parentObj.isSelected;
     }
   }
 
-  //Click event on child checkbox
+  // Click event on child checkbox
   childCheck(parentObj, childObj) {
     parentObj.isSelected = childObj.every(function (itemChild: any) {
       return itemChild.isSelected == true;
     });
   }
 
-  //Click event on master select
+  // Click event on master select
   selectUnselectAll(obj) {
     obj.isAllSelected = !obj.isAllSelected;
-    for (var i = 0; i < obj.ParentChildchecklist.length; i++) {
+    for (let i = 0; i < obj.ParentChildchecklist.length; i++) {
       obj.ParentChildchecklist[i].isSelected = obj.isAllSelected;
       // for (var j = 0; j < obj.ParentChildchecklist[i].childList.length; j++) {
       //   obj.ParentChildchecklist[i].childList[j].isSelected = obj.isAllSelected;
@@ -140,20 +140,20 @@ export class HelpPageComponent implements OnInit {
     }
   }
 
-  //Expand/Collapse event on each parent
+  // Expand/Collapse event on each parent
   expandCollapse(obj) {
     obj.isClosed = !obj.isClosed;
   }
 
-  //Master expand/ collapse event
+  // Master expand/ collapse event
   expandCollapseAll(obj) {
-    for (var i = 0; i < obj.ParentChildchecklist.length; i++) {
+    for (let i = 0; i < obj.ParentChildchecklist.length; i++) {
       obj.ParentChildchecklist[i].isClosed = !obj.isAllCollapsed;
     }
     obj.isAllCollapsed = !obj.isAllCollapsed;
   }
 
-  //Just to show updated JSON object on view
+  // Just to show updated JSON object on view
   stringify(obj) {
     return JSON.stringify(obj);
   }

@@ -14,6 +14,7 @@ import {
   RoleControllerService,
   UserControllerService,
 } from 'libs/rest-client/src';
+import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Valido } from 'src/app/core/valido';
 import { MaterialModule } from 'src/app/material.module';
@@ -40,6 +41,7 @@ describe('ListRoleComponent', () => {
         declarations: [ListRoleComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
         providers: [
+          BaseComponent,
           GroupControllerService,
           RoleControllerService,
           UserControllerService,

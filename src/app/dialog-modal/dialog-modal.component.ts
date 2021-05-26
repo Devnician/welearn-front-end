@@ -6,14 +6,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { UserDto } from 'libs/rest-client/src';
 import { isNullOrUndefined, isNumber } from 'util';
 import { AppComponent } from '../app.component';
-import { ImageSnippet } from '../baseform/baseform.component';
 import { Valido } from '../core/valido';
 import { Discipline } from '../model/discipline.model';
 import { TimeUtil } from '../utils/time-util';
-
-export class ImageCouple {
-  constructor(public sanitized: string, public snippet: ImageSnippet) {}
-}
 
 @Component({
   selector: 'app-dialog-modal',

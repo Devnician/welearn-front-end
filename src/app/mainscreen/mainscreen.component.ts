@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 
@@ -11,14 +12,14 @@ export class EventsRow {
 @Component({
   selector: 'app-mainscreen',
   templateUrl: './mainscreen.component.html',
-  styleUrls: ['./mainscreen.component.scss']
+  styleUrls: ['./mainscreen.component.scss'],
 })
 export class MainscreenComponent extends BlitcenComponent implements OnInit {
   rows: EventsRow[] = [];
   menuOpt: any;
   show = true;
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, private s: MatSnackBar) {
+    super(injector, s);
   }
 
   /**
@@ -26,7 +27,7 @@ export class MainscreenComponent extends BlitcenComponent implements OnInit {
    */
   ngOnInit() {
     this.menuOpt = AppComponent.myapp?.menuOptions;
-    this.rows.push({ type: 'eventType', date: new Date(), discipline: 'DB' })
+    this.rows.push({ type: 'eventType', date: new Date(), discipline: 'DB' });
     this.show = false;
   }
 }

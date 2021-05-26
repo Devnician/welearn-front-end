@@ -9,13 +9,12 @@ const jwtHelper = new JwtHelperService();
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  private online: boolean = true;
+  private online = true;
 
   constructor(private snackBar: MatSnackBar) {}
 
   /**
    * Shows error in console and send it to backend.
-   * @param error
    */
   handleError(error: { message: any; toString: () => any; stack: any }) {
     if (error instanceof HttpErrorResponse) {
@@ -57,7 +56,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         stack: error.stack ? error.stack : '',
       };
       if (AppComponent.myapp.user?.token) {
-        let e = new Error();
+        const e = new Error();
         e.message = err.message;
 
         if (e.message.startsWith('Http failure')) {

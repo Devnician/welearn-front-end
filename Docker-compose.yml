@@ -1,0 +1,10 @@
+version: "3"
+services: 
+   welearn-gui:
+    container_name: welearn-gui
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: welearn-gui:latest
+    ports: 
+        - "4200:80"    
