@@ -1,0 +1,10 @@
+{
+  "baseUrl": "http://localhost:4200",
+  "fixturesFolder": "cypress/fixtures",
+  "supportFile": "cypress/support/index.js",
+  "pluginsFile": "cypress/plugins/index.js",
+  "integrationFolder": "cypress/integration",
+  "defaultCommandTimeout": 10000,
+  "video": false,
+  "numTestsKeptInMemory": 10
+}

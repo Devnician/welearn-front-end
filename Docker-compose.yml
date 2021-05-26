@@ -1,10 +1,10 @@
 version: "3"
 services: 
-   welearn-gui:
-    container_name: welearn-gui
+  welearn-front-end:
+    container_name: welearn-front-end
     build:
         context: .
         dockerfile: Dockerfile
-    image: welearn-gui:latest
+    image: welearn-front-end:latest
     ports: 
         - "4200:80"    
