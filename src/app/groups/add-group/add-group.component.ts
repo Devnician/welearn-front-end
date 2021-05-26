@@ -48,7 +48,8 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
   }
 
   /**
-   * Selection handler. Checks for already selected item, replaces empty row with actual object, adds rows for the next discipline and refreshes the table.
+   * Selection handler. Checks for already selected item, replaces empty row with actual
+   * object, adds rows for the next discipline and refreshes the table.
    * @param index on which row
    * @param discipline selected element for this.disciplines
    */
@@ -72,8 +73,8 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
    * Adds empty row to table
    */
   addEmptyRow() {
-    let d = new Discipline();
-    let discGroup = this.formBuilder.group({
+    const d = new Discipline();
+    const discGroup = this.formBuilder.group({
       id: this.formBuilder.control(d.id),
       name: this.formBuilder.control(d.name),
       teacher: this.formBuilder.control(d.teacher),
@@ -83,7 +84,6 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
   }
   /**
    * Delete element from FormArray controls by discipline id
-   * @param id
    */
   delete(id: any) {
     this.disciplinesFormArray.controls =
@@ -93,18 +93,16 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
   }
   /**
    * Checks given field in form
-   * @param field
-   * @returns
    */
   isFieldValid(field: string) {
     return !this.addForm.get(field).valid && this.addForm.get(field).touched;
   }
   /**
-   *TODO -  Add API call, notify user and go back.
+   * TODO -  Add API call, notify user and go back.
    */
   onSubmit() {
-    let group: GroupDto = this.addForm.getRawValue();
-    //remove fake row
+    const group: GroupDto = this.addForm.getRawValue();
+    // remove fake row
     group.disciplines = group.disciplines.filter((d) => d?.id);
     this.apiGroups.saveGroupUsingPOST(group).subscribe((data) => {
       this.showSnack('Данните са записани успешно.', '', 1300);

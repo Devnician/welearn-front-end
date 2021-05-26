@@ -50,7 +50,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
         this.groups = result;
       });
     } else {
-      //TODO - find groups for this user(only teacher can see this!)
+      // TODO - find groups for this user(only teacher can see this!)
       alert('Ont omplemented for this role');
     }
 
@@ -134,13 +134,13 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
   }
 
   getMinutesFromMidnightToThisMoment(m: moment.Moment): number {
-    var mmtMidnight = m.clone().startOf('day');
-    var diffMinutes = m.diff(mmtMidnight, 'minutes');
+    const mmtMidnight = m.clone().startOf('day');
+    const diffMinutes = m.diff(mmtMidnight, 'minutes');
     return diffMinutes;
   }
 
   isDateCorrect(): boolean {
-    let isValid: boolean =
+    const isValid: boolean =
       this.addForm.controls.startDate.errors?.length > 0 ||
       this.addForm.controls.endDate.errors?.length > 0;
     if (isValid) {
@@ -155,7 +155,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
-    let result = this.addForm.getRawValue();
+    const result = this.addForm.getRawValue();
     result.startHour = moment(result.startHour).format('HH:MM').toString();
     result.endHour = moment(result.endHour).format('HH:MM').toString();
     result.groupId = result.group.groupId;

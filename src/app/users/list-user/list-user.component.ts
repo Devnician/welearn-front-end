@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'libs/rest-client/src';
@@ -12,7 +12,10 @@ import { Role } from '../../model/role.model';
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.scss'],
 })
-export class ListUserComponent extends BaseComponent implements OnInit {
+export class ListUserComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
   interval: any;
   displayedColumns = [
     'online',
