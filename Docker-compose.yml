@@ -5,6 +5,6 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
-    image: welearn-front-end:latest
+    image: pesho02/welearn-front-end:latest
     ports: 
         - "4200:80"    

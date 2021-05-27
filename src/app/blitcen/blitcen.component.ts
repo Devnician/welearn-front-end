@@ -46,7 +46,7 @@ export class BlitcenComponent {
   private snack: MatSnackBar;
   // protected formBuilder: FormBuilder;
   protected infoDialog: MatDialog;
-  protected valido: Valido;
+  public valido: Valido;
   // protected user: UserDto;
   protected canFetch = false;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');

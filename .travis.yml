@@ -1,0 +1,32 @@
+language: node_js
+
+node_js:
+  - "12"
+
+dist: trusty
+
+if: type = pull_request OR branch = main OR tag IS present
+
+addons:
+  chrome: stable
+  apt:
+    packages:
+      - libgconf-2-4
+
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
+
+script:
+  # - npm run lint
+  - npm run cy:ci
+
+before_deploy:
+  - docker build -t pesho02/welearn-front-end .
+
+deploy:
+  - provider: script
+    script: bash docker_push.sh
+    on:
+      branch: main

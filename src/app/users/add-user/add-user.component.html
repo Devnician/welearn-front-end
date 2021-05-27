@@ -144,7 +144,7 @@
           <input
             matInput
             placeholder="{{ 'wl.password' | translate }}"
-            type="{{ passFieldType }}"
+            type="text"
             class="form-control"
             formControlName="password"
             id="pwd"
@@ -152,7 +152,7 @@
             required
             matTooltip="Поне по една цифра, малка буква, голяма буква и специален символ. Минимлна дължина 6 символа."
           />
-          <button
+          <!-- <button
             class="eye-button"
             type="button"
             (click)="changePassType()"
@@ -160,7 +160,7 @@
             mat-icon-button
           >
             <mat-icon>remove_red_eye</mat-icon>
-          </button>
+          </button> -->
           <mat-error *ngIf="isFieldValid('password')">{{
             valido.getErrorMessage('password') | translate
           }}</mat-error>

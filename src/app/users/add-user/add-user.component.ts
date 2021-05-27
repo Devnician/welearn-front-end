@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RoleDto } from 'libs/rest-client/src';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { Valido } from 'src/app/core/valido';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
@@ -11,7 +12,7 @@ import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
 })
 export class AddUserComponent extends BlitcenComponent implements OnInit {
   addForm: FormGroup;
-
+  roles: RoleDto[] = [];
   constructor(
     injector: Injector,
     private formBuilder: FormBuilder,
