@@ -7,7 +7,6 @@ import {
   SimpleSnackBar,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import {
   GroupControllerService,
   RoleControllerService,
@@ -19,8 +18,6 @@ import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
 import { User } from '../model/user.model';
 import { TimeUtil } from '../utils/time-util';
-
-const jwtHelper = new JwtHelperService();
 
 @Component({
   selector: 'app-blitcen',

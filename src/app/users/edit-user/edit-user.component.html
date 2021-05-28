@@ -96,10 +96,14 @@
 
         <mat-form-field class="five-on-row">
           <mat-label> {{ 'wl.select_role' | translate }}</mat-label>
-          <mat-select formControlName="roleID" required>
+          <mat-select
+            formControlName="role"
+            required
+            [compareWith]="compareRoles"
+          >
             <mat-option
               *ngFor="let r of roles"
-              [value]="r.id"
+              [value]="r"
               class="form-control"
               matTooltip="{{ r.descriptionBg }}"
               matTooltipPosition="right"
@@ -126,9 +130,10 @@
         </mat-form-field>
         <mat-form-field class="five-on-row">
           <input
+            #passIn
             matInput
             placeholder="{{ 'wl.password' | translate }}"
-            type="text"
+            type="password"
             class="form-control"
             formControlName="password"
             id="pwd"
@@ -136,17 +141,20 @@
             required
             matTooltip="Поне по една цифра, малка буква, голяма буква и специален символ. Минимлна дължина 6 символа."
           />
-          <!-- <button
+          <button
             class="eye-button"
             type="button"
-            (click)="changePassType()"
+            (click)="
+              passIn.type === 'text'
+                ? (passIn.type = 'password')
+                : (passIn.type = 'text')
+            "
             matSuffix
             mat-icon-button
           >
             <mat-icon>remove_red_eye</mat-icon>
-          </button> -->
-          <!-- <div ng-click="toggleShowPassword()" ng-class="{'fa fa-eye': showPassword,'fa fa-eye-slash': !showPassword}" style="cursor: pointer;"></div> -->
-          <!-- <input type="checkbox" title="Show Password" ng-model="showPassword" ng-checked="showPassword"> -->
+          </button>
+
           <mat-error *ngIf="isFieldValid('password')">{{
             valido.getErrorMessage('password') | translate
           }}</mat-error>
@@ -198,5 +206,5 @@
       </div>
     </form>
   </mat-card-content>
-  <!-- <pre>{{editForm.value | json}}</pre> -->
+  <pre>{{ editForm.value | json }}</pre>
 </mat-card>

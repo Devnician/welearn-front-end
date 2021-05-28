@@ -18,31 +18,31 @@ import * as moment from 'moment';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { AddEventComponent } from '../add-event/add-event.component';
 import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
-import { INITIAL_EVENTS } from './event-util';
+import EVENT_TYPES from '../event-types';
+//import { INITIAL_EVENTS } from './event-util';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
+// https://fullcalendar.io/docs/angular
+// npm i --save @fullcalendar/core
+// npm install --save @fullcalendar/angular @fullcalendar/daygrid
+// npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid
 export class CalendarComponent
   extends BlitcenComponent
   implements OnInit, AfterViewInit
 {
-  autoSchedule: ScheduleDto[] = [
-    {
-      days: 'Tuesday',
-      groupId: 'adsasd',
-      disciplineId: 'asdasd',
-      startTime: moment().toDate(),
-      endTime: moment().toDate(),
-    },
-  ];
-
-  // https://fullcalendar.io/docs/angular
-  // npm i --save @fullcalendar/core
-  // npm install --save @fullcalendar/angular @fullcalendar/daygrid
-  // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid
+  myEvents: EventDto[] = [];
+  //   {
+  //     days: 'Tuesday',
+  //     groupId: 'adsasd',
+  //     disciplineId: 'asdasd',
+  //     startTime: moment().toDate(),
+  //     endTime: moment().toDate(),
+  //   },
+  // ];
 
   locales = [bgLocale /*, enLocale*/]; // bind to app locale
 
@@ -55,7 +55,7 @@ export class CalendarComponent
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, // this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: [], // INITIAL_EVENTS, // this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -88,9 +88,53 @@ export class CalendarComponent
   ngOnInit(): void {
     this.loadMyAutoSchedule();
 
+    this.letShowEvents();
+  }
+  letShowEvents() {
+    let showEvents: EventInput[] = [];
+
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
-      console.log(data);
+      this.myEvents = data;
+      // console.log(this.myEvents);
+      // title: 'ООП, тип: Лекция ',
+      //   start: moment().add(-2, 'days').startOf('day').add(9, 'hour').toISOString(), // TODAY_STR + 'T08:00:00',
+      //   color: 'red',
+      this.myEvents.forEach((element) => {
+        console.log(element);
+        showEvents.push({
+          editable: false,
+          title: '(' + element.type + ') ' + element.discipline.name,
+          extendedProps: { element: element },
+          borderColor: 'white',
+          textColor: '#696969',
+          start: moment(element.startDate).toDate(),
+          end: moment(element.endDate).toDate(),
+          color: this.getColorForThisEvent(EVENT_TYPES[element.type]),
+          display: element.type,
+        });
+
+        //this.calendarOptions.
+      });
+      console.log(showEvents);
+      this.calendarOptions.events = showEvents;
+      // this.calendarOptions.rerenderDelay = true;
     });
+  }
+  getColorForThisEvent(type: EVENT_TYPES): string {
+    console.log(type);
+    switch (type) {
+      case EVENT_TYPES.Consultation:
+        return '#00BFFF';
+      case EVENT_TYPES.Exam:
+        return '#F08080';
+      case EVENT_TYPES.Exercise:
+        return '#BDB76B';
+      case EVENT_TYPES.Lection:
+        return '#7FFFD4';
+
+      default:
+        return 'yellow';
+    }
   }
 
   loadMyAutoSchedule() {
@@ -102,19 +146,14 @@ export class CalendarComponent
       endTime: moment().toDate(),
     };
 
-    this.autoSchedule.push(sch);
-    this.autoSchedule.push(sch);
-    this.autoSchedule.push(sch);
-    this.autoSchedule.push(sch);
+    // this.autoSchedule.push(sch);
+    // this.autoSchedule.push(sch);
+    // this.autoSchedule.push(sch);
+    // this.autoSchedule.push(sch);
     // console.log(this.autoSchedule);
   }
   ngAfterViewInit(): void {
     // this.allEvents.next(this.currentEvents.length);
-  }
-
-  loadEvents(): EventInput[] {
-    // map EventDto to EventInput[]
-    return INITIAL_EVENTS;
   }
 
   startDrag(event: any) {
@@ -156,17 +195,8 @@ export class CalendarComponent
    */
   handleEventClick(clickInfo: EventClickArg) {
     const ev: EventApi = clickInfo.event;
-    console.log(clickInfo.event);
-
-    const newEvent: EventDto = {
-      type: 'type',
-      endDate: null,
-      startDate: null,
-      name: ev._def.title,
-      eventId: null,
-      groupId: null,
-    };
-    this.openEventDialog(newEvent);
+    console.log(ev._def.extendedProps.element);
+    this.openEventDialog(ev._def.extendedProps.element);
   }
 
   handleEvents(events: EventApi[]) {
@@ -179,8 +209,13 @@ export class CalendarComponent
     config.data = data;
     const dialogRef = this.dialog.open(AddEventComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('do something');
+      console.log(result);
+      this.letShowEvents();
     });
+  }
+
+  previewOrEdit() {
+    console.log('Eheeee');
   }
 
   // private openEditDialog(data: EventDto): void {

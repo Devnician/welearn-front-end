@@ -18,6 +18,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
           <input
             class="form-control"
@@ -28,9 +29,11 @@
             formControlName="startDate"
             id="starDateTime"
             readonly
+            [pickerType]="'calendar'"
           />
           <owl-date-time #dt1></owl-date-time>
         </mat-form-field>
+
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
           <input
             class="form-control"
@@ -51,6 +54,7 @@
             name="group"
             formControlName="group"
             required
+            (selectionChange)="onGroupSelected(groupSelector.value)"
           >
             <mat-option
               *ngFor="let group of groups"
@@ -65,11 +69,11 @@
             valido.getErrorMessage('group') | translate
           }}</mat-error>
         </mat-form-field>
-        <!-- <mat-form-field class="four-on-row">
+        <mat-form-field class="four-on-row">
           <mat-label> {{ 'wl.discipline' | translate }}</mat-label>
           <mat-select name="discipline" formControlName="discipline" required>
             <mat-option
-              *ngFor="let discipline of groupSelector?.value?.disciplines"
+              *ngFor="let discipline of selectedGroup?.disciplines"
               [value]="discipline"
               class="form-control"
               matTooltipPosition="right"
@@ -80,7 +84,7 @@
           <mat-error *ngIf="isFieldValid('discipline')">{{
             valido.getErrorMessage('discipline') | translate
           }}</mat-error>
-        </mat-form-field> -->
+        </mat-form-field>
         <mat-form-field class="four-on-row">
           <input
             matInput
@@ -133,8 +137,9 @@
           style="margin-right: 10px"
           (click)="close()"
         >
-          <mat-icon>close</mat-icon>{{ 'wl.cancel' | translate }}
+          <mat-icon>close</mat-icon>{{ 'wl.close' | translate }}
         </button>
+
         <button
           mat-raised-button
           type="button"
@@ -150,7 +155,7 @@
           color="primary"
           (click)="onSubmit()"
         >
-          {{ 'wl.submit' | translate }}
+          {{ isEditMode ? ('wl.update' | translate) : ('wl.save' | translate) }}
         </button>
       </div>
     </form>

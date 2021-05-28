@@ -35,7 +35,7 @@
           orientation="vertical"
         >
           <ng-container *cdkVirtualFor="let schedule of autoSchedule">
-            <div class="schedule-row" (click)="openScheduleDialog(schedule)">
+            <div class="schedule-row" (click)="previewOrEdit(schedule)">
               <!-- <div>{{ discipline.name }}</div> -->
               <div>ООП : {{ schedule.disciplineId }}</div>
               <div>{{ schedule.startTime | date }}</div>

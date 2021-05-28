@@ -149,6 +149,8 @@
         "info_ticket": "ticket info",
         "info_extra": "add info",
         "save": "save",
+        "update":"промени", 
+        "close":"close",
         "preview": "preview",
         "required_field": "this is fueld is required",
         "add_customer_title": "adding a customer",

@@ -74,7 +74,6 @@ import { AddRoleComponent } from './roles/add-role/add-role.component';
 import { EditRoleComponent } from './roles/edit-role/edit-role.component';
 import { ListRoleComponent } from './roles/list-role/list-role.component';
 import { RoomComponent } from './rooms/room/room.component';
-import { AddUserComponent } from './users/add-user/add-user.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 import { AlertTagComponent } from './utils/alert-tag.component';
@@ -101,7 +100,7 @@ FullCalendarModule.registerPlugins([
   declarations: [
     AppComponent,
     LoginComponent,
-    AddUserComponent,
+    // AddUserComponent,
     EditUserComponent,
     ListUserComponent,
     MainscreenComponent,

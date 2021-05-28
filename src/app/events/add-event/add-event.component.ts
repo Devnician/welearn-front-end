@@ -18,7 +18,7 @@ import EVENT_TYPES from '../event-types';
   styleUrls: ['./add-event.component.scss'],
 })
 export class AddEventComponent extends BlitcenComponent implements OnInit {
-  createMode = true;
+  isEditMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
 
@@ -27,6 +27,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
   disciplines: Discipline[] = [];
+  selectedGroup: GroupDto;
 
   constructor(
     injector: Injector,
@@ -42,7 +43,6 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiGroups.findAllUsingGET2().subscribe((data) => {
-      console.log(data);
       this.groups = data;
     });
 
@@ -52,21 +52,34 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     // groupId?: string;
     // name: string;
 
-    this.createMode = this.data.eventId?.length > 0;
+    this.isEditMode = this.data.eventId?.length > 0;
 
-    console.log(this.createMode);
+    console.log('Is CREATE MODE ' + this.isEditMode);
+
     this.addForm = this.formBuilder.group({
-      id: [],
+      id: [this.isEditMode ? this.data.eventId : ''],
 
-      type: ['Lection', Validators.required],
+      type: [this.isEditMode ? this.data.type : null, Validators.required],
 
-      name: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      description: ['', Validators.required],
-      //  discipline: [{}, Validators.required], // discipline?: DisciplineDto;
+      name: [this.isEditMode ? this.data.name : null, Validators.required],
+      startDate: [
+        this.isEditMode ? this.data.startDate : null,
+        Validators.required,
+      ],
+      endDate: [
+        this.isEditMode ? this.data.endDate : null,
+        Validators.required,
+      ],
+      description: [
+        this.isEditMode ? this.data.description : null,
+        Validators.required,
+      ],
+
       group: ['', Validators.required],
-      // owner: ["", ""],
+      discipline: [
+        this.isEditMode ? this.data.discipline : null,
+        Validators.required,
+      ],
     });
 
     //this.addForm.controls.type.setValue(EVENT_TYPES.Lection);
@@ -92,6 +105,11 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  onGroupSelected(group: any) {
+    this.selectedGroup = group;
+    // console.log(group);
+  }
+
   /**
    * Submit form if is valid
    */
@@ -102,10 +120,12 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
       return;
     }
     let newEvent: EventDto = this.addForm.getRawValue();
+    newEvent.eventId = '';
     console.log(newEvent);
 
     this.apiEvents.createEventUsingPOST(newEvent).subscribe((data) => {
-      console.log(data);
+      this.dialogRef.close({ result: 'ok' });
+      this.showSnack('Добавихте събитие успешно.', 'ok', 2128);
     });
   }
 }
