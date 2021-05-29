@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
+  DisciplineDto,
   EventControllerService,
   EventDto,
+  GroupControllerService,
   GroupDto,
   UserDto,
 } from 'libs/rest-client/src';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
-import { Discipline } from 'src/app/model/discipline.model';
 import EVENT_TYPES from '../event-types';
 
 @Component({
@@ -18,7 +19,7 @@ import EVENT_TYPES from '../event-types';
   styleUrls: ['./add-event.component.scss'],
 })
 export class AddEventComponent extends BlitcenComponent implements OnInit {
-  createMode = true;
+  isEditMode = true;
   addForm: FormGroup;
   minDate: Date = new Date();
 
@@ -26,23 +27,27 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   selected: EVENT_TYPES.Lection;
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
-  disciplines: Discipline[] = [];
+
+  //selectedDisciplines: DisciplineDto[] = [];
+  selectedGroup: GroupDto;
+  selectedDiscipline: DisciplineDto;
 
   constructor(
     injector: Injector,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: EventDto,
+    @Inject(MAT_DIALOG_DATA) public bundle: any,
     private dialogRef: MatDialogRef<AddEventComponent>,
     private apiEvents: EventControllerService,
+    private apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
+    this.addAuthorizationToService(apiGroups);
   }
 
   ngOnInit(): void {
     this.apiGroups.findAllUsingGET2().subscribe((data) => {
-      console.log(data);
       this.groups = data;
     });
 
@@ -51,23 +56,49 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     // description?: string;
     // groupId?: string;
     // name: string;
+    let evDTO = this.bundle.eventDto;
+    evDTO.group = this.bundle.group;
 
-    this.createMode = this.data.eventId?.length > 0;
+    console.log(this.bundle);
+    //this.selectedGroup = this.bundle.group;
 
-    console.log(this.createMode);
+    this.isEditMode = evDTO.eventId?.length > 0;
+    if (this.isEditMode === true) {
+      this.selectedGroup = evDTO.group;
+      console.log(this.selectedGroup);
+      this.selectedDiscipline = evDTO.discipline;
+      //  this.selectedDisciplines = this.selectedGroup.disciplines;
+    }
+
+    console.log('Is edit MODE ' + this.isEditMode);
+
+    console.log(evDTO);
     this.addForm = this.formBuilder.group({
-      id: [],
+      id: [this.isEditMode ? evDTO.eventId : ''],
 
-      type: ['Lection', Validators.required],
+      type: [this.isEditMode ? evDTO.type : null, Validators.required],
 
-      name: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      description: ['', Validators.required],
-      //  discipline: [{}, Validators.required], // discipline?: DisciplineDto;
-      group: ['', Validators.required],
-      // owner: ["", ""],
+      name: [this.isEditMode ? evDTO.name : null, Validators.required],
+      startDate: [
+        this.isEditMode ? evDTO.startDate : null,
+        Validators.required,
+      ],
+      endDate: [this.isEditMode ? evDTO.endDate : null, Validators.required],
+      description: [
+        this.isEditMode ? evDTO.description : null,
+        Validators.required,
+      ],
+
+      group: [this.isEditMode ? evDTO.group : null, Validators.required],
+      discipline: [
+        this.isEditMode ? evDTO.discipline : null,
+        Validators.required,
+      ],
     });
+
+    this.addForm.updateValueAndValidity();
+
+    console.log(this.addForm.value);
 
     //this.addForm.controls.type.setValue(EVENT_TYPES.Lection);
   }
@@ -80,6 +111,16 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   isFieldValid(field: string) {
     return !this.addForm.get(field).valid && this.addForm.get(field).touched;
   }
+  // MAT SELECT  COMPARATORS
+  public compareGroups = function (option: GroupDto, value: GroupDto): boolean {
+    return option.groupId === value.groupId;
+  };
+  public compareDisciplines = function (
+    option: DisciplineDto,
+    value: DisciplineDto
+  ): boolean {
+    return option.id === value.id;
+  };
 
   /**
    * Clear form
@@ -92,6 +133,11 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  onGroupSelected(group: any) {
+    this.selectedGroup = group;
+    // console.log(group);
+  }
+
   /**
    * Submit form if is valid
    */
@@ -102,10 +148,12 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
       return;
     }
     let newEvent: EventDto = this.addForm.getRawValue();
+    newEvent.eventId = '';
     console.log(newEvent);
 
     this.apiEvents.createEventUsingPOST(newEvent).subscribe((data) => {
-      console.log(data);
+      this.dialogRef.close({ result: 'ok' });
+      this.showSnack('Добавихте събитие успешно.', 'ok', 2128);
     });
   }
 }

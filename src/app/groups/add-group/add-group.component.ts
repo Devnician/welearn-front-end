@@ -2,7 +2,11 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { DisciplineControllerService, GroupDto } from 'libs/rest-client/src';
+import {
+  DisciplineControllerService,
+  GroupControllerService,
+  GroupDto,
+} from 'libs/rest-client/src';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { Discipline } from 'src/app/model/discipline.model';
 
@@ -23,10 +27,12 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
     injector: Injector,
     private formBuilder: FormBuilder,
     private apiDisciplines: DisciplineControllerService,
+    private apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiDisciplines);
+    this.addAuthorizationToService(apiGroups);
   }
 
   ngOnInit(): void {

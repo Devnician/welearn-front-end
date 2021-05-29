@@ -1,11 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppComponent } from '../app.component';
 import { Error } from '../model/error.model';
-
-const jwtHelper = new JwtHelperService();
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

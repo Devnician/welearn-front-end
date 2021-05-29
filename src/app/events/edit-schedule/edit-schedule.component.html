@@ -46,7 +46,7 @@
             readonly
           />
           <owl-date-time #dtStart [pickerType]="'calendar'"></owl-date-time>
-          <mat-error *ngIf="isDateCorrect(true) === false">
+          <mat-error *ngIf="isDateCorrect() === false">
             {{ 'wl.invalid_schedule_date' | translate }}
           </mat-error>
         </mat-form-field>
@@ -64,7 +64,7 @@
             readonly
           />
           <owl-date-time #dtEnd [pickerType]="'calendar'"></owl-date-time>
-          <mat-error *ngIf="isDateCorrect(false) === false"
+          <mat-error *ngIf="isDateCorrect() === false"
             >{{ 'wl.invalid_schedule_date' | translate }}
           </mat-error>
         </mat-form-field>

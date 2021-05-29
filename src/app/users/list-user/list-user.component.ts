@@ -71,6 +71,7 @@ export class ListUserComponent
       // go go
     } else if (currentUserRoleAsString.includes('teacher')) {
       // API CALL - getGroupsByTeacherId
+
       this.groups = this.groups.filter(
         (gr) =>
           gr.disciplines.findIndex(
@@ -118,13 +119,12 @@ export class ListUserComponent
   }
 
   editUser(user: UserDto): void {
-    user.password = 'unknown';
-    this.donkey.setData(user);
-    this.router.navigate(['home/list-user/edit-user']);
-  }
+    if (user) {
+      user.password = 'unknown';
+      this.donkey.setData(user);
+    }
 
-  addUser(): void {
-    this.router.navigate(['home/list-user/add-user']);
+    this.router.navigate(['home/list-user/edit-user']);
   }
 
   /**

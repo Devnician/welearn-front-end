@@ -7,9 +7,7 @@ import {
   SimpleSnackBar,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import {
-  GroupControllerService,
   RoleControllerService,
   UserControllerService,
 } from 'libs/rest-client/src';
@@ -19,8 +17,6 @@ import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
 import { User } from '../model/user.model';
 import { TimeUtil } from '../utils/time-util';
-
-const jwtHelper = new JwtHelperService();
 
 @Component({
   selector: 'app-blitcen',
@@ -38,15 +34,11 @@ export class BlitcenComponent {
 
   protected apiUsers: UserControllerService;
   protected apiRoles: RoleControllerService;
-  protected apiGroups: GroupControllerService;
-  // protected apiDisciplines: DisciplineControllerService;
-  // protected apiEvents: EventControllerService;
-
   protected router: Router;
   private snack: MatSnackBar;
   // protected formBuilder: FormBuilder;
   protected infoDialog: MatDialog;
-  protected valido: Valido;
+  public valido: Valido;
   // protected user: UserDto;
   protected canFetch = false;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
@@ -63,18 +55,10 @@ export class BlitcenComponent {
     this.apiRoles = this.addAuthorizationToService(
       injector.get(RoleControllerService)
     );
-    this.apiGroups = this.addAuthorizationToService(
-      injector.get(GroupControllerService)
-    );
-
-    // this.apiEvents = this.addAuthorizationToService(
-    //   injector.get(EventControllerService)
-    // );
 
     this.valido = injector.get(Valido);
     this.router = injector.get(Router);
     this.snack = injector.get(MatSnackBar);
-    //  this.formBuilder = injector.get(FormBuilder);
     this.infoDialog = injector.get(MatDialog);
 
     this.lang = AppComponent.lang;

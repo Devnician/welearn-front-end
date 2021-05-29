@@ -4,11 +4,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "eslint 'src/**'",
-    "lint:fix": "eslint --fix 'src/**'",
-    "e2e": "ng e2e"
+    "lint:fix": "eslint --fix 'src/**'", 
+    "start:ci": "http-server ./dist/welearn-front-end -a localhost -p 4200 -c-1",
+    "cy:ci": "ng build --prod && run-p --race start:ci cy:run", 
+    "cy:open": "cypress open",
+    "cy:run": "cypress run --spec cypress/integration/**/*.spec.js"
   },
   "private": true,
   "dependencies": {
@@ -56,6 +59,7 @@
     "@types/jwt-decode": "^2.2.1",
     "@types/node": "^8.10.66",
     "codelyzer": "^6.0.0",
+    "cypress": "^7.4.0",
     "eslint": "^7.27.0",
     "firebase-tools": "^9.10.0",
     "fuzzy": "^0.1.3",

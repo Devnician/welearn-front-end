@@ -21,10 +21,6 @@ import { AddRoleComponent } from './roles/add-role/add-role.component';
 import { EditRoleComponent } from './roles/edit-role/edit-role.component';
 import { ListRoleComponent } from './roles/list-role/list-role.component';
 import { RoomComponent } from './rooms/room/room.component';
-/**
- * User
- */
-import { AddUserComponent } from './users/add-user/add-user.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 
@@ -58,11 +54,6 @@ const routes: Routes = [
               {
                 path: '',
                 component: ListUserComponent,
-              },
-              {
-                path: 'add-user',
-                component: AddUserComponent,
-                data: { breadcrumb: 'wl.add' },
               },
               {
                 path: 'edit-user',
@@ -164,11 +155,6 @@ const routes: Routes = [
             component: HelpPageComponent,
             data: { breadcrumb: 'wl.help' },
           },
-          // {
-          //   path: 'calendar', component: CalendarComponent,
-          //   data: { breadcrumb: 'wl.calendar' },
-          // },
-
           {
             path: 'documents',
             component: DocumentsComponent,
@@ -181,7 +167,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  // imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
