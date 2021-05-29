@@ -34,12 +34,14 @@
           itemSize="10"
           orientation="vertical"
         >
-          <ng-container *cdkVirtualFor="let schedule of autoSchedule">
-            <div class="schedule-row" (click)="previewOrEdit(schedule)">
-              <!-- <div>{{ discipline.name }}</div> -->
-              <div>ООП : {{ schedule.disciplineId }}</div>
-              <div>{{ schedule.startTime | date }}</div>
-              <div>{{ schedule.endTime | date }}</div>
+          <ng-container *cdkVirtualFor="let eventDto of upcomingEvents">
+            <div class="schedule-row" (click)="previewOrEdit(eventDto)">
+              <div>{{ eventDto.discipline.name }} / {{ eventDto.type }}</div>
+              <div>{{ eventDto.name }}</div>
+              <div>
+                {{ eventDto.startDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+              </div>
+              <div>{{ eventDto.endDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
               <mat-divider></mat-divider>
             </div>
           </ng-container>

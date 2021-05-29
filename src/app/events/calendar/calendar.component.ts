@@ -35,15 +35,7 @@ export class CalendarComponent
   implements OnInit, AfterViewInit
 {
   myEvents: EventDto[] = [];
-  //   {
-  //     days: 'Tuesday',
-  //     groupId: 'adsasd',
-  //     disciplineId: 'asdasd',
-  //     startTime: moment().toDate(),
-  //     endTime: moment().toDate(),
-  //   },
-  // ];
-
+  upcomingEvents: EventDto[] = [];
   locales = [bgLocale /*, enLocale*/]; // bind to app locale
 
   // calendarVisible = true;
@@ -55,7 +47,7 @@ export class CalendarComponent
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
     initialView: 'dayGridMonth',
-    initialEvents: [], // INITIAL_EVENTS, // this.loadEvents(), // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: [],
     weekends: true,
     editable: true,
     selectable: true,
@@ -73,6 +65,7 @@ export class CalendarComponent
     eventRemove:
     */
   };
+
   currentEvents: EventApi[] = [];
 
   constructor(
@@ -86,10 +79,9 @@ export class CalendarComponent
   }
 
   ngOnInit(): void {
-    this.loadMyAutoSchedule();
-
     this.letShowEvents();
   }
+
   letShowEvents() {
     let showEvents: EventInput[] = [];
 
@@ -112,14 +104,17 @@ export class CalendarComponent
           color: this.getColorForThisEvent(EVENT_TYPES[element.type]),
           display: element.type,
         });
-
-        //this.calendarOptions.
       });
-      console.log(showEvents);
       this.calendarOptions.events = showEvents;
-      // this.calendarOptions.rerenderDelay = true;
+      //
+      // console.log(showEvents);
+      const today: moment.Moment = moment().startOf('day');
+      this.upcomingEvents = this.myEvents.filter((e) =>
+        today.isBefore(e.startDate)
+      );
     });
   }
+
   getColorForThisEvent(type: EVENT_TYPES): string {
     console.log(type);
     switch (type) {
@@ -131,27 +126,11 @@ export class CalendarComponent
         return '#BDB76B';
       case EVENT_TYPES.Lection:
         return '#7FFFD4';
-
       default:
         return 'yellow';
     }
   }
 
-  loadMyAutoSchedule() {
-    const sch: ScheduleDto = {
-      days: 'Monday',
-      groupId: 'adsasd',
-      disciplineId: 'asdasd',
-      startTime: moment().toDate(),
-      endTime: moment().toDate(),
-    };
-
-    // this.autoSchedule.push(sch);
-    // this.autoSchedule.push(sch);
-    // this.autoSchedule.push(sch);
-    // this.autoSchedule.push(sch);
-    // console.log(this.autoSchedule);
-  }
   ngAfterViewInit(): void {
     // this.allEvents.next(this.currentEvents.length);
   }
@@ -177,7 +156,6 @@ export class CalendarComponent
   handleDateSelect(selectInfo: DateSelectArg) {
     // const title = prompt("Please enter a new title for your event");
     const calendarApi = selectInfo.view.calendar;
-
     calendarApi.unselect(); // clear date selection
 
     const newEvent: EventDto = {
@@ -214,8 +192,8 @@ export class CalendarComponent
     });
   }
 
-  previewOrEdit() {
-    console.log('Eheeee');
+  previewOrEdit(eventDto: EventDto) {
+    console.log(eventDto);
   }
 
   // private openEditDialog(data: EventDto): void {

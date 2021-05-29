@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    {{ createMode === true ? 'Създаване' : 'Редактиране' }} на събитие
+    {{ isEditMode === false ? 'Създаване' : 'Редактиране' }} на събитие
   </mat-card-title>
   <mat-card-content>
     <form [formGroup]="addForm">
@@ -29,9 +29,8 @@
             formControlName="startDate"
             id="starDateTime"
             readonly
-            [pickerType]="'calendar'"
           />
-          <owl-date-time #dt1></owl-date-time>
+          <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
         </mat-form-field>
 
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
@@ -45,7 +44,7 @@
             id="endDateTime"
             readonly
           />
-          <owl-date-time #dt2></owl-date-time>
+          <owl-date-time #dt2 [pickerType]="'calendar'"></owl-date-time>
         </mat-form-field>
         <mat-form-field class="four-on-row">
           <mat-label> {{ 'wl.select_group' | translate }}</mat-label>
