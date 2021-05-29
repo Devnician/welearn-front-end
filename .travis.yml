@@ -29,5 +29,7 @@ before_deploy:
 deploy:
   - provider: script
     script: bash docker_push.sh
+    skip_existing: true
+    skip_cleanup: true
     on:
       branch: main
