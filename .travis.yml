@@ -20,7 +20,8 @@ cache:
 
 script:
   # - npm run lint
-  - npm run cy:ci
+  # - npm run cy:ci
+  - npm build
 
 before_deploy:
   - docker build -t pesho02/welearn-front-end .
