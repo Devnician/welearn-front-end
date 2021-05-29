@@ -24,11 +24,15 @@ script:
   - npm run build
 
 before_deploy:
-  - docker build -t pesho02/welearn-front-end .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t "$DOCKER_USERNAME"/welearn-front-end .
+  - docker images
+  - docker tag welearn-front-end "$DOCKER_USERNAME"/welearn-front-end
+  - docker push "$DOCKER_USERNAME"/welearn-front-end
 
 deploy:
   - provider: script
-    script: bash docker_push.sh
+    script: echo "DONE!"
     skip_existing: true
     skip_cleanup: true
     on:
