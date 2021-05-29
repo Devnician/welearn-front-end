@@ -12,9 +12,12 @@ import bgLocale from '@fullcalendar/core/locales/bg';
 import {
   EventControllerService,
   EventDto,
+  GroupControllerService,
+  GroupDto,
   ScheduleDto,
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { AddEventComponent } from '../add-event/add-event.component';
 import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
@@ -56,8 +59,8 @@ export class CalendarComponent
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    eventDragStart: this.startDrag.bind(this),
-    eventDragStop: this.storpDrag.bind(this),
+    //  eventDragStart: this.startDrag.bind(this),
+    //  eventDragStop: this.storpDrag.bind(this),
 
     /* you can update a remote database when these fire:
     eventAdd:
@@ -67,42 +70,59 @@ export class CalendarComponent
   };
 
   currentEvents: EventApi[] = [];
+  // groups: GroupDto[] = [];
+
+  gorups: BehaviorSubject<any> = new BehaviorSubject(null);
+  gorups$ = this.gorups as Observable<GroupDto[]>;
 
   constructor(
     private dialog: MatDialog,
     injector: Injector,
     private apiEvents: EventControllerService,
+    private apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
+    this.addAuthorizationToService(apiGroups);
   }
 
   ngOnInit(): void {
-    this.letShowEvents();
+    this.loadGroups();
+    this.gorups$.subscribe((data) => {
+      if (data) {
+        this.letShowEvents();
+      }
+    });
+  }
+
+  loadGroups() {
+    this.apiGroups.findAllUsingGET2().subscribe((result) => {
+      this.gorups.next(result);
+      console.log('Groups loaded');
+    });
   }
 
   letShowEvents() {
     let showEvents: EventInput[] = [];
-
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
       this.myEvents = data;
-      // console.log(this.myEvents);
       // title: 'ООП, тип: Лекция ',
       //   start: moment().add(-2, 'days').startOf('day').add(9, 'hour').toISOString(), // TODAY_STR + 'T08:00:00',
       //   color: 'red',
-      this.myEvents.forEach((element) => {
-        console.log(element);
+      this.myEvents.forEach((eventDto) => {
         showEvents.push({
           editable: false,
-          title: '(' + element.type + ') ' + element.discipline.name,
-          extendedProps: { element: element },
+          title: '(' + eventDto.type + ') ' + eventDto.discipline.name,
+          extendedProps: {
+            eventDto: eventDto,
+          },
           borderColor: 'white',
           textColor: '#696969',
-          start: moment(element.startDate).toDate(),
-          end: moment(element.endDate).toDate(),
-          color: this.getColorForThisEvent(EVENT_TYPES[element.type]),
-          display: element.type,
+          start: moment(eventDto.startDate).toDate(),
+          end: moment(eventDto.endDate).toDate(),
+          color: this.getColorForThisEvent(EVENT_TYPES[eventDto.type]),
+          display: eventDto.type,
         });
       });
       this.calendarOptions.events = showEvents;
@@ -112,11 +132,17 @@ export class CalendarComponent
       this.upcomingEvents = this.myEvents.filter((e) =>
         today.isBefore(e.startDate)
       );
+      this.upcomingEvents.sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+      // this.upcomingEvents.sort((val1, val2) => {
+      //   return moment(val1.startDate).isBefore(val2.startDate);// new Date(val2.CREATE_TS);
+      // });
     });
   }
 
   getColorForThisEvent(type: EVENT_TYPES): string {
-    console.log(type);
     switch (type) {
       case EVENT_TYPES.Consultation:
         return '#00BFFF';
@@ -169,22 +195,26 @@ export class CalendarComponent
     this.openEventDialog(newEvent);
   }
   /**
-   * The event was clicked - edit mode.
+   * The event was clicked - open edit dialog.
    */
   handleEventClick(clickInfo: EventClickArg) {
     const ev: EventApi = clickInfo.event;
-    console.log(ev._def.extendedProps.element);
-    this.openEventDialog(ev._def.extendedProps.element);
+    // console.log(ev._def.extendedProps.eventDto);
+    let dto = ev._def.extendedProps.eventDto;
+    this.openEventDialog({
+      eventDto: dto,
+      group: this.gorups.value.find((e) => e.groupId === dto.groupId),
+    });
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
 
-  private openEventDialog(data: EventDto): void {
+  private openEventDialog(bundle: any): void {
     const config = new MatDialogConfig();
     config.closeOnNavigation = false;
-    config.data = data;
+    config.data = bundle;
     const dialogRef = this.dialog.open(AddEventComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);

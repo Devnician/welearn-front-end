@@ -30,7 +30,7 @@
             id="starDateTime"
             readonly
           />
-          <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
+          <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
         </mat-form-field>
 
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
@@ -44,8 +44,9 @@
             id="endDateTime"
             readonly
           />
-          <owl-date-time #dt2 [pickerType]="'calendar'"></owl-date-time>
+          <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
         </mat-form-field>
+
         <mat-form-field class="four-on-row">
           <mat-label> {{ 'wl.select_group' | translate }}</mat-label>
           <mat-select
@@ -54,6 +55,7 @@
             formControlName="group"
             required
             (selectionChange)="onGroupSelected(groupSelector.value)"
+            [compareWith]="compareGroups"
           >
             <mat-option
               *ngFor="let group of groups"
@@ -64,6 +66,7 @@
               {{ group.name }}
             </mat-option>
           </mat-select>
+
           <mat-error *ngIf="isFieldValid('group')">{{
             valido.getErrorMessage('group') | translate
           }}</mat-error>
@@ -76,6 +79,7 @@
               [value]="discipline"
               class="form-control"
               matTooltipPosition="right"
+              [compareWith]="compareDisciplines"
             >
               {{ discipline.name }}
             </mat-option>

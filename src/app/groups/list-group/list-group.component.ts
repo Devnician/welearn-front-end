@@ -2,7 +2,7 @@ import { Component, ContentChild, Injector, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { GroupDto } from 'libs/rest-client/src';
+import { GroupControllerService, GroupDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 
@@ -29,9 +29,11 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     ar: ActivatedRoute,
     private donkey: DonkeyService,
     injector: Injector,
-    private s: MatSnackBar
+    private s: MatSnackBar,
+    private apiGroups: GroupControllerService
   ) {
     super(ar, injector, s);
+    this.addAuthorizationToService(apiGroups);
   }
 
   ngOnInit(): void {

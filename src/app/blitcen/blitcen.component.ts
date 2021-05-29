@@ -8,7 +8,6 @@ import {
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
-  GroupControllerService,
   RoleControllerService,
   UserControllerService,
 } from 'libs/rest-client/src';
@@ -35,10 +34,6 @@ export class BlitcenComponent {
 
   protected apiUsers: UserControllerService;
   protected apiRoles: RoleControllerService;
-  protected apiGroups: GroupControllerService;
-  // protected apiDisciplines: DisciplineControllerService;
-  // protected apiEvents: EventControllerService;
-
   protected router: Router;
   private snack: MatSnackBar;
   // protected formBuilder: FormBuilder;
@@ -60,18 +55,10 @@ export class BlitcenComponent {
     this.apiRoles = this.addAuthorizationToService(
       injector.get(RoleControllerService)
     );
-    this.apiGroups = this.addAuthorizationToService(
-      injector.get(GroupControllerService)
-    );
-
-    // this.apiEvents = this.addAuthorizationToService(
-    //   injector.get(EventControllerService)
-    // );
 
     this.valido = injector.get(Valido);
     this.router = injector.get(Router);
     this.snack = injector.get(MatSnackBar);
-    //  this.formBuilder = injector.get(FormBuilder);
     this.infoDialog = injector.get(MatDialog);
 
     this.lang = AppComponent.lang;

@@ -146,6 +146,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param role
    */
   private buildMenuForThisRole(role: RoleDto) {
+    console.log(role);
     let unorderedMenus: MenuOptions[] = [];
     let all: MenuOptions[] = MenuUtil.getAllMenus();
     MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);

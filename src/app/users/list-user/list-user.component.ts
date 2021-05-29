@@ -71,6 +71,7 @@ export class ListUserComponent
       // go go
     } else if (currentUserRoleAsString.includes('teacher')) {
       // API CALL - getGroupsByTeacherId
+
       this.groups = this.groups.filter(
         (gr) =>
           gr.disciplines.findIndex(
