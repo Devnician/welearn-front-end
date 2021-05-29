@@ -62,7 +62,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
       console.log(this.paginator)
       this.apiUsers.listUserUsingGET().subscribe(
         data => {
-          const students = data.filter(s => s.role.id === 3); //Take students only
+          const students = data.filter(s => s.role.id === 3 && !s.groupId); //Take students only
           this.studentsList = students;
         }
       )
@@ -78,8 +78,14 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
     // });
   }
 
-  removeStudent(user: UserDto) {
+  removeStudent(userId: string) {
     alert('arer you sure');
+
+    this.apiGroups.removeStudentFromGroupPUT(this.studentGroup.groupId, userId).subscribe(
+      data => {
+        this.studentGroup = data
+        this.loadPaginator(this.studentGroup.users, 'firstName');
+      })
   }
 
   addDiscipline() {
