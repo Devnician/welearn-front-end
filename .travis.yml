@@ -21,7 +21,7 @@ cache:
 script:
   # - npm run lint
   # - npm run cy:ci
-  - npm run build
+  - npm run build:ci
 
 before_deploy:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
