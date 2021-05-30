@@ -106,12 +106,11 @@ export class Valido {
    * @param userInput the user input
    */
   isThereForbiddenWords(userInput: string): boolean {
-    for (let index = 0; index < this.forbiddenWords.length; index++) {
-      const element = this.forbiddenWords[index];
+    this.forbiddenWords.forEach((element) => {
       if (userInput.toLowerCase().includes(element)) {
         return true;
       }
-    }
+    });
     return false;
   }
   ////////////////////////////////

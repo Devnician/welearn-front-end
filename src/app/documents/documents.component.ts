@@ -54,7 +54,7 @@ export class DocumentsComponent extends BlitcenComponent implements OnInit {
   }
 
   showHide(parent: any) {
-    let par = this.parents.find((p) => p.id === parent.id);
+    const par = this.parents.find((p) => p.id === parent.id);
     par.expanded = !par.expanded;
     this.parents.forEach((e) => {
       if (e.id !== parent.id) {

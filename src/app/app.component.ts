@@ -31,7 +31,7 @@ import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
 import { User } from './model/user.model';
 import { MenuUtil } from './utils/menu-util';
-//registerLocaleData(localeEn);
+// registerLocaleData(localeEn);
 registerLocaleData(localeBg);
 
 export interface IBreadCrumb {
@@ -46,11 +46,11 @@ export interface IBreadCrumb {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  version: string = '1.0.00';
-  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
   static myapp: AppComponent;
   static lang: string;
-  static isMedia: boolean = false;
+  static isMedia = false;
+  version = '1.0.00';
+  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
   private interval: any;
   public breadcrumbs: IBreadCrumb[] = [];
   user: User;
@@ -87,8 +87,8 @@ export class AppComponent implements OnInit, OnDestroy {
          * This property(router.navigated) is false when the router starts and
          *  after the first navigation it changes to true. And that’s it.
          */
-        let browserRefresh = !router.navigated;
-        //TODO HERE UNLOCK ALL
+        const browserRefresh = !router.navigated;
+        // TODO HERE UNLOCK ALL
         if (browserRefresh) {
           this.clearUserData();
         } else {
@@ -106,7 +106,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Change language
-   * @param language
    */
   useLanguage(language: string) {
     this.opened = false;
@@ -143,30 +142,37 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   /**
    * Builds menus according Role. If there is a saved order in the local storage - arranges the menus.
-   * @param role
    */
   private buildMenuForThisRole(role: RoleDto) {
     console.log(role);
     let unorderedMenus: MenuOptions[] = [];
-    let all: MenuOptions[] = MenuUtil.getAllMenus();
+    const all: MenuOptions[] = MenuUtil.getAllMenus();
     MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);
     this.menuOptions = [];
-    //get saved order if any
-    let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
+    // get saved order if any
+    const order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
 
     if (order) {
       // order it
       order.forEach((element) => {
         let toBeRemoved: number;
-        for (let index = 0; index < unorderedMenus.length; index++) {
-          const foundOne = unorderedMenus[index];
-          if (element === foundOne['key']) {
-            this.menuOptions.push(foundOne);
+        for (const row of unorderedMenus) {
+          if (element === row.key) {
+            this.menuOptions.push(row);
             toBeRemoved = element;
             break;
           }
         }
-        unorderedMenus = unorderedMenus.filter((e) => e['key'] !== toBeRemoved);
+
+        // for  (let index = 0; index < unorderedMenus.length; index++) {
+        //   const foundOne = unorderedMenus[index];
+        //   if (element === foundOne['key']) {
+        //     this.menuOptions.push(foundOne);
+        //     toBeRemoved = element;
+        //     break;
+        //   }
+        // }
+        unorderedMenus = unorderedMenus.filter((e) => e.key !== toBeRemoved);
       });
 
       if (unorderedMenus.length > 0) {
@@ -178,14 +184,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.saveOrderOfMenus();
     } else {
-      //show them as they arrived
+      // show them as they arrived
       this.menuOptions = unorderedMenus;
     }
   }
 
   /**
    * Before close tab or restart in devMode -  marks user as loged out and clears his local data.
-   * @param event
    *
    */
   @HostListener('window:beforeunload', ['$event'])
@@ -194,8 +199,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   *
-   * @param event On back press
+   * On back press
    */
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
@@ -233,7 +237,6 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.user) {
         this.isUserAuthToFetch(this.apiUsers);
         this.apiUsers.logoutUsingGET(this.user.userId).subscribe((data) => {
-          let d = data;
           this.clearUserData();
         });
       }
@@ -244,9 +247,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   
-  /**
-   * Clears data, hides menu and header
+   *  Clears data, hides menu and header
    */
   clearUserData() {
     this.menuOptions = [];
@@ -257,7 +258,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Gets menu according the url parameter
-   * @param url
    */
   getCurrentMenuObject(url: string): MenuOptions {
     return this.menuOptions.find((menu) => menu.route === url);
@@ -265,7 +265,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * rearrange menus
-   * @param event
    */
   drop(event: CdkDragDrop<MenuOptions[]>) {
     moveItemInArray(this.menuOptions, event.previousIndex, event.currentIndex);
@@ -275,7 +274,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Saves order of menus in local storage
    */
   saveOrderOfMenus() {
-    let order: number[] = [];
+    const order: number[] = [];
     this.menuOptions.forEach((element) => {
       order.push(element.key as number);
     });
@@ -283,12 +282,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   /**
    * Gets translated string according arg as key
-   * @param arg
    */
   getTranslation(arg: string): string {
     return this.translate.instant(arg);
   }
-  //BREADCRUMB METHODS
+  // BREADCRUMB METHODS
 
   subsForRouterEvents() {
     this.router.events.subscribe((event) => {
@@ -300,7 +298,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // Hide loading indicator
         delete this.breadcrumbs;
         this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
-        let len: number = this.breadcrumbs.length;
+        const len: number = this.breadcrumbs.length;
         if (len > 0) {
           this.breadcrumbs[len - 1].enabled = false;
         }
@@ -314,16 +312,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Recursively build breadcrumb according to activated route.
-   * @param route
-   * @param url
-   * @param breadcrumbs
    */
   buildBreadCrumb(
     route: ActivatedRoute,
     url: string = '',
     breadcrumbs: IBreadCrumb[] = []
   ): IBreadCrumb[] {
-    //If no routeConfig is avalailable we are on the root path
+    // If no routeConfig is avalailable we are on the root path
     let label =
       route.routeConfig && route.routeConfig.data
         ? route.routeConfig.data.breadcrumb
@@ -340,12 +335,12 @@ export class AppComponent implements OnInit, OnDestroy {
       label = route.snapshot.params[paramName];
     }
 
-    //In the routeConfig the complete path is not available,
-    //so we rebuild it each time
+    // In the routeConfig the complete path is not available,
+    // so we rebuild it each time
     const nextUrl = path ? `${url}/${path}` : url;
 
     const breadcrumb: IBreadCrumb = {
-      label: label,
+      label,
       url: nextUrl,
       enabled: true,
     };
@@ -354,8 +349,8 @@ export class AppComponent implements OnInit, OnDestroy {
       ? [...breadcrumbs, breadcrumb]
       : [...breadcrumbs];
     if (route.firstChild) {
-      //If we are not on our current path yet,
-      //there will be more children to look after, to build our breadcumb
+      // If we are not on our current path yet,
+      // there will be more children to look after, to build our breadcumb
       return this.buildBreadCrumb(route.firstChild, nextUrl, newBreadcrumbs);
     }
     return newBreadcrumbs;
@@ -374,11 +369,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isUserAuthToFetch(service: any) {
-    let map: { [key: string]: string } = {};
+    const map: { [key: string]: string } = {};
     if (this.user) {
-      map['Authorization'] = 'Bearer ' + this.user.token;
+      map.Authorization = 'Bearer ' + this.user.token;
     } else {
-      map['Authorization'] = '';
+      map.Authorization = '';
     }
     service.configuration.apiKeys = map;
   }

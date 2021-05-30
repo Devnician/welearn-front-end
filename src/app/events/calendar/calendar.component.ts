@@ -22,7 +22,6 @@ import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { AddEventComponent } from '../add-event/add-event.component';
 import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
 import EVENT_TYPES from '../event-types';
-//import { INITIAL_EVENTS } from './event-util';
 
 @Component({
   selector: 'app-calendar',
@@ -104,7 +103,7 @@ export class CalendarComponent
   }
 
   letShowEvents() {
-    let showEvents: EventInput[] = [];
+    const showEvents: EventInput[] = [];
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
       this.myEvents = data;
       // title: 'ООП, тип: Лекция ',
@@ -115,7 +114,7 @@ export class CalendarComponent
           editable: false,
           title: '(' + eventDto.type + ') ' + eventDto.discipline.name,
           extendedProps: {
-            eventDto: eventDto,
+            eventDto,
           },
           borderColor: 'white',
           textColor: '#696969',
@@ -200,7 +199,7 @@ export class CalendarComponent
   handleEventClick(clickInfo: EventClickArg) {
     const ev: EventApi = clickInfo.event;
     // console.log(ev._def.extendedProps.eventDto);
-    let dto = ev._def.extendedProps.eventDto;
+    const dto = ev._def.extendedProps.eventDto;
     this.openEventDialog({
       eventDto: dto,
       group: this.gorups.value.find((e) => e.groupId === dto.groupId),

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  restUrl: 'http://localhost:8080/',
+  restUrl: 'http://localhost:8080',
   user: 'admin',
   // user: 'Student',
   pass: 'admiN123+',

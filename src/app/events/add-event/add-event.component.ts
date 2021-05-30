@@ -28,7 +28,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
 
-  //selectedDisciplines: DisciplineDto[] = [];
+  // selectedDisciplines: DisciplineDto[] = [];
   selectedGroup: GroupDto;
   selectedDiscipline: DisciplineDto;
 
@@ -56,11 +56,11 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     // description?: string;
     // groupId?: string;
     // name: string;
-    let evDTO = this.bundle.eventDto;
+    const evDTO = this.bundle.eventDto;
     evDTO.group = this.bundle.group;
 
     console.log(this.bundle);
-    //this.selectedGroup = this.bundle.group;
+    // this.selectedGroup = this.bundle.group;
 
     this.isEditMode = evDTO.eventId?.length > 0;
     if (this.isEditMode === true) {
@@ -100,7 +100,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
 
     console.log(this.addForm.value);
 
-    //this.addForm.controls.type.setValue(EVENT_TYPES.Lection);
+    // this.addForm.controls.type.setValue(EVENT_TYPES.Lection);
   }
 
   /**
@@ -112,15 +112,12 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     return !this.addForm.get(field).valid && this.addForm.get(field).touched;
   }
   // MAT SELECT  COMPARATORS
-  public compareGroups = function (option: GroupDto, value: GroupDto): boolean {
+  compareGroups(option: GroupDto, value: GroupDto): boolean {
     return option.groupId === value.groupId;
-  };
-  public compareDisciplines = function (
-    option: DisciplineDto,
-    value: DisciplineDto
-  ): boolean {
+  }
+  compareDisciplines(option: DisciplineDto, value: DisciplineDto): boolean {
     return option.id === value.id;
-  };
+  }
 
   /**
    * Clear form
@@ -147,7 +144,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
-    let newEvent: EventDto = this.addForm.getRawValue();
+    const newEvent: EventDto = this.addForm.getRawValue();
     newEvent.eventId = '';
     console.log(newEvent);
 
