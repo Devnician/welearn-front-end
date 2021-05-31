@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   restUrl: 'http://localhost:8080',
-  user: '',
-  pass: '',
-  // user: 'admin',
-  // pass: 'admiN123+',
+  // user: '',
+  // pass: '',
+  user: 'admin',
+  pass: 'admiN123+',
 };
 
 /*

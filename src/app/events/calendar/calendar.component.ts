@@ -19,6 +19,7 @@ import {
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { ProcessTypes } from 'src/app/utils/process-enum';
 import { AddEventComponent } from '../add-event/add-event.component';
 import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
 import EVENT_TYPES from '../event-types';
@@ -179,19 +180,31 @@ export class CalendarComponent
    * @param selectInfo arg
    */
   handleDateSelect(selectInfo: DateSelectArg) {
-    // const title = prompt("Please enter a new title for your event");
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect(); // clear date selection
 
+    if (moment(selectInfo.start).isBefore(moment())) {
+      this.showSnack(
+        'Не е възможно създаване на събитие за изминал период.',
+        'Разбрах',
+        3333
+      );
+      return;
+    }
     const newEvent: EventDto = {
       type: 'type',
-      endDate: null,
-      startDate: null,
+      endDate: null, //selectInfo.end,
+      startDate: selectInfo.start,
       name: '',
       eventId: null,
       groupId: null,
     };
-    this.openEventDialog(newEvent);
+
+    this.openEventDialog({
+      mode: ProcessTypes.CREATE,
+      eventDto: newEvent,
+      group: undefined,
+    });
   }
   /**
    * The event was clicked - open edit dialog.
@@ -200,7 +213,11 @@ export class CalendarComponent
     const ev: EventApi = clickInfo.event;
     // console.log(ev._def.extendedProps.eventDto);
     const dto = ev._def.extendedProps.eventDto;
+    console.log(dto);
+    console.log(this.gorups.value.find((e) => e.groupId === dto.groupId));
+
     this.openEventDialog({
+      mode: ProcessTypes.UPDATE,
       eventDto: dto,
       group: this.gorups.value.find((e) => e.groupId === dto.groupId),
     });
