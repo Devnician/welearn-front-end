@@ -13,6 +13,7 @@ import {
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { MenuOptions } from 'src/app/model/menu.model';
 import { ProcessTypes } from 'src/app/utils/process-enum';
 import EVENT_TYPES from '../event-types';
 
@@ -53,7 +54,6 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.canUserEditThisEvent();
     this.apiGroups.findAllUsingGET2().subscribe((data) => {
       this.groups = data;
     });
@@ -61,6 +61,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.currentMode = this.bundle.mode;
     const evDTO = this.bundle.eventDto;
     evDTO.group = this.bundle.group;
+    this.canUserEditThisEvent(this.bundle.opt);
 
     if (this.currentMode !== ProcessTypes.CREATE) {
       this.selectedGroup = evDTO.group;
@@ -76,13 +77,9 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
         .startOf('day')
         .add(9, 'hour')
         .toDate();
-      console.log('FOR DAY : ' + this.eventStartDateTime);
     }
 
-    console.log(' MODE ' + this.currentMode);
-
     const hasValues = this.currentMode !== ProcessTypes.CREATE;
-
     this.addForm = this.formBuilder.group({
       eventId: [hasValues ? evDTO.eventId : ''],
       type: [hasValues ? evDTO.type : null, Validators.required],
@@ -90,34 +87,35 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
       startDate: [hasValues ? evDTO.startDate : null, Validators.required],
       endDate: [hasValues ? evDTO.endDate : null, Validators.required],
       description: [hasValues ? evDTO.description : null, Validators.required],
-
-      group: [hasValues ? evDTO.group : null, Validators.required],
       discipline: [hasValues ? evDTO.discipline : null, Validators.required],
+      group: [hasValues ? evDTO.group : null, Validators.required],
     });
 
     this.addForm.updateValueAndValidity();
 
-    console.log(this.addForm.value);
-
-    // this.addForm.controls.type.setValue(EVENT_TYPES.Lection);
+    if (this.canEditThi$.value === false) {
+      this.addForm.disable();
+    }
   }
-  canUserEditThisEvent() {
+  /**
+   * Double check..
+   */
+  canUserEditThisEvent(options: MenuOptions) {
     switch (this.user.role.role) {
       case 'administrator':
         this.canEditThi$.next(true);
         break;
       case 'teacher':
         // todo add creator check
-        this.canEditThi$.next(true);
+        this.canEditThi$.next(options.preview === false);
         break;
       case 'student':
-        this.canEditThi$.next(false);
-        break;
       case 'observer':
-        this.canEditThi$.next(false);
+        this.canEditThi$.next(options.preview === false);
         break;
 
       default:
+        this.canEditThi$.next(false);
         break;
     }
   }
@@ -137,18 +135,12 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   compareDisciplines(option: DisciplineDto, value: DisciplineDto): boolean {
     return option?.id === value?.id;
   }
-
-  /**
-   * Clear form
-   */
   reset() {
     this.addForm.reset();
   }
-
   close() {
     this.dialogRef.close();
   }
-
   onGroupSelected(group: any) {
     this.selectedGroup = group;
     this.selectedDisciplines = this.selectedGroup.disciplines;
@@ -191,7 +183,6 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
         });
         break;
       case ProcessTypes.UPDATE:
-        console.log(ev);
         this.apiEvents.editEventUsingPUT(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Пременихте данни за събитие успешно.', 'ok', 2128);

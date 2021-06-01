@@ -152,16 +152,17 @@
           color="primary"
           style="margin-right: 10px"
           (click)="reset()"
+          [disabled]="(canEditThis | async) === false"
         >
           <mat-icon>clear_all</mat-icon>{{ 'wl.reset' | translate }}
         </button>
-        <!-- [disabled]="canEditThis | async" -->
+
         <button
           mat-raised-button
           type="submit"
           color="primary"
           (click)="onSubmit()"
-          [disabled]="!(canEditThis | async)"
+          [disabled]="(canEditThis | async) === false"
         >
           {{
             currentMode === 'create'
@@ -172,5 +173,5 @@
       </div>
     </form>
   </mat-card-content>
-  <pre>{{ addForm.value | json }}</pre>
+  <!-- <pre>{{ addForm.value | json }}</pre> -->
 </mat-card>
