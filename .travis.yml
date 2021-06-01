@@ -19,7 +19,7 @@ cache:
     - ~/.cache
 
 script:
-  - npm run lint
+  # - npm run lint
   # - npm run cy:ci
   - npm run build
 
