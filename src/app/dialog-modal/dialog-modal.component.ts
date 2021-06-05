@@ -23,7 +23,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   mode: string;
   classType: string;
   valido: Valido;
-  isMedia: boolean = false;
+  isMedia = false;
   studentNames: string;
   disciplines: FormArray = this.formBuilder.array([]);
   displayedSimColumns: string[] = ['id', 'name', 'mark'];

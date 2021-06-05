@@ -46,7 +46,6 @@ export class BaseComponent extends BlitcenComponent implements OnDestroy {
   }
   /**
    * Handler for pagination event's
-   * @param e
    */
   handlePage(e: any) {
     this.paginator.notify(e);

@@ -12,7 +12,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//Calendar module
+// Calendar module
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
@@ -35,7 +35,7 @@ import {
   OwlNativeDateTimeModule,
   OWL_DATE_TIME_LOCALE,
 } from 'ng-pick-datetime';
-//import { MatTimepickerModule } from "mat-timepicker";
+// import { MatTimepickerModule } from "mat-timepicker";
 // import { MatTimepickerModule } from "mat-timepicker";
 // //datetime picker
 // import {
@@ -52,7 +52,7 @@ import { GlobalErrorHandler } from './core/global-error-handler';
 import { TokenInterceptor } from './core/interceptor';
 import { Valido } from './core/valido';
 import { DialogInfoComponent } from './dialog-info/dialog-info.component';
-//import { DATE_TIME_LOCALE } from 'angular-calendar';
+// import { DATE_TIME_LOCALE } from 'angular-calendar';
 import { DialogModalComponent } from './dialog-modal/dialog-modal.component';
 import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipline.component';
 import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
@@ -86,21 +86,10 @@ FullCalendarModule.registerPlugins([
   listPlugin,
 ]);
 
-// export const MY_CUSTOM_FORMATS = {
-//   parseInput: 'LL LT',
-//   fullPickerInput: 'LL LT',
-//   datePickerInput: 'LL',
-//   timePickerInput: 'H:MM',
-//   monthYearLabel: 'MMM YYYY',
-//   dateA11yLabel: 'LL',
-//   monthYearA11yLabel: 'MMMM YYYY',
-// };
-
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    // AddUserComponent,
     EditUserComponent,
     ListUserComponent,
     MainscreenComponent,
@@ -176,35 +165,24 @@ FullCalendarModule.registerPlugins([
     },
 
     { provide: MAT_DATE_LOCALE, useValue: 'bg' },
-    //for dateTime picker
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'bg' },
-
     //  {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
-
     // { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
-
     // { provide: OwlDateTimeIntl, useClass: DefaultIntl },
-    //,
     // { provide: DateAdapter, useClass: MyDateAdapter },
     // { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     // { provide: NGX_MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    //NgxMatNativeDateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  // constructor(injector: Injector) {
-  //   AppInjector.setInjector(injector);
-  // }
-}
+export class AppModule {}
 
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-//https://fullcalendar.io/docs/angular
 //  ng build --prod --base-href /we-learn/
 /// --outputHashing=all
 //// USe this for refresh client after deploy

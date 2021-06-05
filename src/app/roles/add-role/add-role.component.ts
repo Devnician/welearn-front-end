@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
-import { Role } from 'src/app/model/role.model';
 import { MenuUtil } from 'src/app/utils/menu-util';
 
 @Component({
@@ -60,7 +59,7 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   }
 
   removeMenu(menu: MenuOptions) {
-    this.selectedMenus = this.selectedMenus.filter((e) => e.key != menu.key);
+    this.selectedMenus = this.selectedMenus.filter((e) => e.key !== menu.key);
     this.allMenus.push(menu);
     this.showAvailableMenus();
     this.showSelectedMenus();
@@ -98,10 +97,10 @@ export class AddRoleComponent extends BlitcenComponent implements OnInit {
   }
 
   onSubmit() {
-    const role: Role = this.addForm.getRawValue();
-    delete role['available'];
+    const role: any = this.addForm.getRawValue();
+    delete role.available;
 
-    let permissions: any[] = [];
+    const permissions: any[] = [];
 
     role.menus.forEach((element) => {
       const permission: any[] = [];

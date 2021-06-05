@@ -106,7 +106,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
 
   private showAvailableMenus() {
     if (this.editForm) {
-      //Bugfix : MSE20-53
+      // Bugfix : MSE20-53
       const tempMenus: MenuOptions[] = [];
       this.allMenus.forEach((menu) => {
         if (!this.selectedMenus.find((m) => m.key === menu.key)) {
@@ -135,8 +135,8 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
   }
 
   onSubmit() {
-    const role: Role = this.editForm.getRawValue();
-    delete role['available'];
+    const role: any = this.editForm.getRawValue();
+    delete role.available;
     const permissions: any[] = [];
 
     role.menus.forEach((element) => {
@@ -146,7 +146,7 @@ export class EditRoleComponent extends BlitcenComponent implements OnInit {
       permission[2] = element.edit ? 1 : 0;
       permission[3] = element.delete ? 1 : 0;
       if (permission[1] + permission[2] + permission[3] === 0) {
-        permission[4] = 1; //voyeur
+        permission[4] = 1; // voyeur
       } else {
         permission[4] = element.preview ? 1 : 0;
       }

@@ -46,7 +46,7 @@ const routes: Routes = [
             component: MainscreenComponent,
           },
 
-          //USERS
+          // USERS
           {
             path: 'list-user',
             data: { breadcrumb: 'wl.menu_list_users' },
@@ -63,7 +63,7 @@ const routes: Routes = [
             ],
           },
 
-          //ROLES
+          // ROLES
           {
             path: 'list-role',
             data: { breadcrumb: 'wl.roles' },
@@ -149,7 +149,7 @@ const routes: Routes = [
               },
             ],
           },
-          //Singe pages
+          // Singe pages
           {
             path: 'help-page',
             component: HelpPageComponent,

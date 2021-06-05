@@ -11,8 +11,6 @@
   <div class="demo-app-sidebar">
     <div class="demo-app-sidebar-section">
       <div class="schedule-table">
-        <!-- <div class="b-l-bar"></div> -->
-
         <div class="schedule-header">
           <button
             mat-mini-fab
@@ -26,9 +24,7 @@
           </button>
           <h4 style="width: 100%; text-align: center">Предстоящи събития</h4>
         </div>
-
         <mat-divider></mat-divider>
-
         <cdk-virtual-scroll-viewport
           class="schedule-list"
           itemSize="10"
@@ -38,27 +34,15 @@
             <div class="schedule-row" (click)="previewOrEdit(eventDto)">
               <div>{{ eventDto.discipline.name }} / {{ eventDto.type }}</div>
               <div>{{ eventDto.name }}</div>
-              <div>
-                {{ eventDto.startDate | date: 'dd/MM/yyyy HH:mm:ss' }}
-              </div>
-              <div>{{ eventDto.endDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+              {{ eventDto.startDate | date: 'HH:mm' }} -
+              {{ eventDto.endDate | date: 'HH:mm dd/MM/yyyy' }}
               <mat-divider></mat-divider>
             </div>
           </ng-container>
         </cdk-virtual-scroll-viewport>
       </div>
     </div>
-
-    <!-- <div class="demo-app-sidebar-section">
-      <ul>
-        <li *ngFor="let event of currentEvents">
-          <b>{{ event.startStr }}</b>
-          <i>{{ event.title }}</i>
-        </li>
-      </ul>
-    </div> -->
   </div>
-
   <div class="demo-app-main">
     <full-calendar [options]="calendarOptions"></full-calendar>
   </div>

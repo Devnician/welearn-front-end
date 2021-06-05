@@ -1,13 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EventControllerService, EventDto } from 'libs/rest-client/src';
+import * as moment from 'moment';
 import { AppComponent } from '../app.component';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
-
-export class EventsRow {
-  type: any;
-  date: any;
-  discipline: any;
-}
 
 @Component({
   selector: 'app-mainscreen',
@@ -15,11 +11,17 @@ export class EventsRow {
   styleUrls: ['./mainscreen.component.scss'],
 })
 export class MainscreenComponent extends BlitcenComponent implements OnInit {
-  rows: EventsRow[] = [];
+  upcomingEvents: EventDto[] = [];
   menuOpt: any;
   show = true;
-  constructor(injector: Injector, private s: MatSnackBar) {
+
+  constructor(
+    injector: Injector,
+    private s: MatSnackBar,
+    private eventService: EventControllerService
+  ) {
     super(injector, s);
+    this.addAuthorizationToService(eventService);
   }
 
   /**
@@ -27,7 +29,22 @@ export class MainscreenComponent extends BlitcenComponent implements OnInit {
    */
   ngOnInit() {
     this.menuOpt = AppComponent.myapp?.menuOptions;
-    this.rows.push({ type: 'eventType', date: new Date(), discipline: 'DB' });
     this.show = false;
+
+    this.eventService.findAllUsingGET1().subscribe((result) => {
+      if (!result) {
+        this.showSnack('Нямате предстоящи събития.', 'OK', 2000);
+        return;
+      }
+      const res: EventDto[] = result;
+      const today: moment.Moment = moment().startOf('day');
+      this.upcomingEvents = res.filter((e) => today.isBefore(e.startDate));
+      this.upcomingEvents.sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+    });
+
+    // this.rows.push({ type: 'eventType', date: new Date(), discipline: 'DB' });
   }
 }

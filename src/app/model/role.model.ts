@@ -9,6 +9,6 @@ export class Role implements RoleDto {
   descriptionBg: string;
   permissions: string;
 
-  //this will be loaded after login in AppComponent
+  // this will be loaded after login in AppComponent
   menus: MenuOptions[] = [];
 }

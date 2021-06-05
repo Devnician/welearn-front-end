@@ -78,9 +78,9 @@ export class EditUserComponent extends BlitcenComponent implements OnInit {
     );
   }
 
-  public compareRoles = function (option: RoleDto, value: RoleDto): boolean {
+  compareRoles(option: RoleDto, value: RoleDto): boolean {
     return option.id === value.id;
-  };
+  }
   /**
    *
    */

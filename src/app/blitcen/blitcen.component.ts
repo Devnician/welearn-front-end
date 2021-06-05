@@ -70,9 +70,9 @@ export class BlitcenComponent {
   addAuthorizationToService(service: any): any {
     const map: { [key: string]: string } = {};
     if (this.user) {
-      map['Authorization'] = 'Bearer ' + this.user?.token;
+      map.Authorization = 'Bearer ' + this.user?.token;
     } else {
-      map['Authorization'] = '';
+      map.Authorization = '';
     }
     service.configuration.apiKeys = map;
     return service;
@@ -81,7 +81,7 @@ export class BlitcenComponent {
   private checkUser() {
     // this.user = this.app.user;
     // this.canFetch = true;
-    //let failed: boolean = false;
+    // let failed: boolean = false;
     // try {
     //   let token = localStorage.getItem('user');
     //   if (isNullOrUndefined(token) === true || jwtHelper.isTokenExpired(token)) {
@@ -178,7 +178,7 @@ export class BlitcenComponent {
     // passing it to the Uint8Array constructor.
     const byteArray = new Uint8Array(byteNumbers);
     // This in turn can be converted to a BLOB by wrapping it in an array and passing it to the Blob constructor.
-    let blob = new Blob([byteArray], { type: 'application/ms-word' });
+    const blob = new Blob([byteArray], { type: 'application/ms-word' });
     return blob;
   }
   /**
@@ -187,7 +187,7 @@ export class BlitcenComponent {
    * @param url the blob url
    */
   fetchFile(name: string, url: string) {
-    var anchor = document.createElement('a');
+    const anchor = document.createElement('a');
     anchor.download = name;
     anchor.href = url;
     anchor.target = '_blank';

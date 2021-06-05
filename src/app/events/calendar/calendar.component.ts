@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -18,11 +18,13 @@ import {
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { MenuOptions } from 'src/app/model/menu.model';
+import { ProcessTypes } from 'src/app/utils/process-enum';
 import { AddEventComponent } from '../add-event/add-event.component';
 import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
 import EVENT_TYPES from '../event-types';
-//import { INITIAL_EVENTS } from './event-util';
 
 @Component({
   selector: 'app-calendar',
@@ -33,10 +35,7 @@ import EVENT_TYPES from '../event-types';
 // npm i --save @fullcalendar/core
 // npm install --save @fullcalendar/angular @fullcalendar/daygrid
 // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid
-export class CalendarComponent
-  extends BlitcenComponent
-  implements OnInit, AfterViewInit
-{
+export class CalendarComponent extends BlitcenComponent implements OnInit {
   myEvents: EventDto[] = [];
   upcomingEvents: EventDto[] = [];
   locales = [bgLocale /*, enLocale*/]; // bind to app locale
@@ -61,7 +60,6 @@ export class CalendarComponent
     eventsSet: this.handleEvents.bind(this),
     //  eventDragStart: this.startDrag.bind(this),
     //  eventDragStop: this.storpDrag.bind(this),
-
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -70,11 +68,15 @@ export class CalendarComponent
   };
 
   currentEvents: EventApi[] = [];
-  // groups: GroupDto[] = [];
-
   gorups: BehaviorSubject<any> = new BehaviorSubject(null);
   gorups$ = this.gorups as Observable<GroupDto[]>;
+  //  canEditThi$: BehaviorSubject<String> = new BehaviorSubject('observer');
+  //  canEditThis = this.canEditThi$ as Observable<boolean>;
+  // processMode: ProcessTypes = ProcessTypes.PREVIEW;
 
+  // canEdit = false;
+  // canCreate;
+  cm: MenuOptions;
   constructor(
     private dialog: MatDialog,
     injector: Injector,
@@ -85,6 +87,7 @@ export class CalendarComponent
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
     this.addAuthorizationToService(apiGroups);
+    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
   }
 
   ngOnInit(): void {
@@ -99,23 +102,23 @@ export class CalendarComponent
   loadGroups() {
     this.apiGroups.findAllUsingGET2().subscribe((result) => {
       this.gorups.next(result);
-      console.log('Groups loaded');
     });
   }
 
   letShowEvents() {
-    let showEvents: EventInput[] = [];
+    const showEvents: EventInput[] = [];
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
       this.myEvents = data;
       // title: 'ООП, тип: Лекция ',
       //   start: moment().add(-2, 'days').startOf('day').add(9, 'hour').toISOString(), // TODAY_STR + 'T08:00:00',
       //   color: 'red',
+
       this.myEvents.forEach((eventDto) => {
         showEvents.push({
           editable: false,
           title: '(' + eventDto.type + ') ' + eventDto.discipline.name,
           extendedProps: {
-            eventDto: eventDto,
+            eventDto,
           },
           borderColor: 'white',
           textColor: '#696969',
@@ -126,8 +129,7 @@ export class CalendarComponent
         });
       });
       this.calendarOptions.events = showEvents;
-      //
-      // console.log(showEvents);
+
       const today: moment.Moment = moment().startOf('day');
       this.upcomingEvents = this.myEvents.filter((e) =>
         today.isBefore(e.startDate)
@@ -136,9 +138,6 @@ export class CalendarComponent
         (a, b) =>
           new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
       );
-      // this.upcomingEvents.sort((val1, val2) => {
-      //   return moment(val1.startDate).isBefore(val2.startDate);// new Date(val2.CREATE_TS);
-      // });
     });
   }
 
@@ -156,20 +155,15 @@ export class CalendarComponent
         return 'yellow';
     }
   }
+  // startDrag(event: any) {
+  //   console.log('DRAG START');
+  //   console.log(event);
+  // }
 
-  ngAfterViewInit(): void {
-    // this.allEvents.next(this.currentEvents.length);
-  }
-
-  startDrag(event: any) {
-    console.log('DRAG START');
-    console.log(event);
-  }
-
-  storpDrag(event: any) {
-    console.log('DRAG STOP');
-    console.log(event);
-  }
+  // storpDrag(event: any) {
+  //   console.log('DRAG STOP');
+  //   console.log(event);
+  // }
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;
@@ -180,35 +174,68 @@ export class CalendarComponent
    * @param selectInfo arg
    */
   handleDateSelect(selectInfo: DateSelectArg) {
-    // const title = prompt("Please enter a new title for your event");
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect(); // clear date selection
 
+    if (this.cm.add === false) {
+      this.showSnack(
+        'Не е възможно да добавяте събития в графика',
+        'Разбрах',
+        3000
+      );
+      return;
+    }
+
+    if (moment(selectInfo.start).isBefore(moment())) {
+      this.showSnack(
+        'Не е възможно създаване на събитие за изминал период.',
+        'Разбрах',
+        3333
+      );
+      return;
+    }
     const newEvent: EventDto = {
       type: 'type',
       endDate: null,
-      startDate: null,
+      startDate: selectInfo.start,
       name: '',
       eventId: null,
       groupId: null,
     };
-    this.openEventDialog(newEvent);
+
+    this.openEventDialog({
+      mode: ProcessTypes.CREATE,
+      eventDto: newEvent,
+      group: undefined,
+      opt: this.cm,
+    });
+  }
+
+  handleEvents(events: EventApi[]) {
+    this.currentEvents = events;
   }
   /**
    * The event was clicked - open edit dialog.
    */
   handleEventClick(clickInfo: EventClickArg) {
     const ev: EventApi = clickInfo.event;
-    // console.log(ev._def.extendedProps.eventDto);
-    let dto = ev._def.extendedProps.eventDto;
+    const dto = ev._def.extendedProps.eventDto;
+
     this.openEventDialog({
+      mode: ProcessTypes.UPDATE,
       eventDto: dto,
       group: this.gorups.value.find((e) => e.groupId === dto.groupId),
+      opt: this.cm,
     });
   }
 
-  handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
+  previewOrEdit(dto: any) {
+    this.openEventDialog({
+      mode: ProcessTypes.UPDATE,
+      eventDto: dto,
+      group: this.gorups.value.find((e) => e.groupId === dto.groupId),
+      opt: this.cm,
+    });
   }
 
   private openEventDialog(bundle: any): void {
@@ -222,18 +249,10 @@ export class CalendarComponent
     });
   }
 
-  previewOrEdit(eventDto: EventDto) {
-    console.log(eventDto);
-  }
-
-  // private openEditDialog(data: EventDto): void {
-  //   const config = new MatDialogConfig();
-  //   config.closeOnNavigation = true;
-  //   config.data = data;
-  //   const dialogRef = this.dialog.open(EditEventComponent, config);
-  //   dialogRef.afterClosed().subscribe();
-  // }
-
+  /**
+   * Opend dialog for chedule generator.
+   * @param data The ScheduleDto
+   */
   openScheduleDialog(data: ScheduleDto): void {
     const config = new MatDialogConfig();
     config.closeOnNavigation = false;

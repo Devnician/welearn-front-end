@@ -117,26 +117,26 @@ export class HelpPageComponent implements OnInit {
 
   // Click event on parent checkbox
   parentCheck(parentObj) {
-    for (var i = 0; i < parentObj.childList.length; i++) {
-      parentObj.childList[i].isSelected = parentObj.isSelected;
+    for (const row of parentObj.childList) {
+      row.isSelected = parentObj.isSelected;
     }
   }
 
   // Click event on child checkbox
   childCheck(parentObj, childObj) {
-    parentObj.isSelected = childObj.every(function (itemChild: any) {
-      return itemChild.isSelected == true;
-    });
+    for (const row of childObj) {
+      if (row.isSelected === true) {
+        parentObj.isSelected = true;
+        break;
+      }
+    }
   }
 
   // Click event on master select
   selectUnselectAll(obj) {
     obj.isAllSelected = !obj.isAllSelected;
-    for (let i = 0; i < obj.ParentChildchecklist.length; i++) {
-      obj.ParentChildchecklist[i].isSelected = obj.isAllSelected;
-      // for (var j = 0; j < obj.ParentChildchecklist[i].childList.length; j++) {
-      //   obj.ParentChildchecklist[i].childList[j].isSelected = obj.isAllSelected;
-      // }
+    for (const row of obj.ParentChildchecklist) {
+      row.isSelected = obj.isAllSelected;
     }
   }
 
@@ -147,8 +147,8 @@ export class HelpPageComponent implements OnInit {
 
   // Master expand/ collapse event
   expandCollapseAll(obj) {
-    for (let i = 0; i < obj.ParentChildchecklist.length; i++) {
-      obj.ParentChildchecklist[i].isClosed = !obj.isAllCollapsed;
+    for (const row of obj.ParentChildchecklist) {
+      row.isClosed = !obj.isAllCollapsed;
     }
     obj.isAllCollapsed = !obj.isAllCollapsed;
   }

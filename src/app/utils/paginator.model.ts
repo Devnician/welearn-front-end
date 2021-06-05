@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { FilterPipe } from '../filter.pipe';
 
@@ -140,12 +140,12 @@ export class PPaginator {
   /**
    * Show on matPaginator reference new options
    */
-  refreshViewPageSizeOptions(pagin: ElementRef<any>, showAll: boolean) {
+  refreshViewPageSizeOptions(pagin: any /*ElementRef<any>*/, showAll: boolean) {
     if (showAll === true) {
       this.highValue = this.allElements;
       this.pageSize = this.highValue;
       this.refreshSlice();
     }
-    pagin['pageSizeOptions'] = this.pageOptions;
+    pagin.pageSizeOptions = this.pageOptions;
   }
 }

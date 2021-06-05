@@ -8,8 +8,8 @@ export class DonkeyService {
   private data: any;
   private info: string;
   private flag: boolean;
-  private menu: MenuOptions; //parent menu with user rights
-  private loaded: boolean = false;
+  private menu: MenuOptions; // parent menu with user rights
+  private loaded = false;
 
   setFlag(flag: boolean) {
     this.flag = flag;
@@ -30,7 +30,7 @@ export class DonkeyService {
   }
 
   getData(): any {
-    let res = this.data;
+    const res = this.data;
     delete this.data;
     delete this.info;
     this.loaded = false;

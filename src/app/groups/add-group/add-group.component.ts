@@ -62,7 +62,7 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
   onDisciplineSelected(index: number, discipline: Discipline) {
     if (
       this.disciplinesFormArray.controls.findIndex(
-        (c) => c.value['id'] === discipline.id
+        (c) => c.value.id === discipline.id
       ) < 0
     ) {
       this.disciplinesFormArray.controls[index].reset();
@@ -94,7 +94,7 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
   delete(id: any) {
     this.disciplinesFormArray.controls =
       this.disciplinesFormArray.controls.filter(
-        (contr) => contr.value['id'] != id
+        (contr) => contr.value.id !== id
       );
   }
   /**
