@@ -1,0 +1,10 @@
+version: "3"
+services: 
+  welearn-front-end:
+    container_name: welearn-front-end
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: pesho02/welearn-front-end:latest
+    ports: 
+        - "4200:80"    

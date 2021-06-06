@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBar,
@@ -7,10 +7,7 @@ import {
   SimpleSnackBar,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import {
-  DisciplineControllerService,
-  EventControllerService,
   GroupControllerService,
   RoleControllerService,
   UserControllerService,
@@ -21,8 +18,6 @@ import { Valido } from '../core/valido';
 import { DialogInfoComponent } from '../dialog-info/dialog-info.component';
 import { User } from '../model/user.model';
 import { TimeUtil } from '../utils/time-util';
-
-const jwtHelper = new JwtHelperService();
 
 @Component({
   selector: 'app-blitcen',
@@ -41,19 +36,16 @@ export class BlitcenComponent {
   protected apiUsers: UserControllerService;
   protected apiRoles: RoleControllerService;
   protected apiGroups: GroupControllerService;
-  protected apiDisciplines: DisciplineControllerService;
-  protected apiEvents: EventControllerService;
-
   protected router: Router;
-  protected snack: MatSnackBar;
-  protected formBuilder: FormBuilder;
+  private snack: MatSnackBar;
+  // protected formBuilder: FormBuilder;
   protected infoDialog: MatDialog;
-  protected valido: Valido;
+  public valido: Valido;
   // protected user: UserDto;
-  protected canFetch: boolean = false;
+  protected canFetch = false;
   protected timeUtil: TimeUtil = new TimeUtil('bg-BG');
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private snackBar: MatSnackBar) {
     if (!this.app?.user) {
       return;
     }
@@ -65,34 +57,28 @@ export class BlitcenComponent {
     this.apiRoles = this.addAuthorizationToService(
       injector.get(RoleControllerService)
     );
+
     this.apiGroups = this.addAuthorizationToService(
       injector.get(GroupControllerService)
-    );
-    this.apiDisciplines = this.addAuthorizationToService(
-      injector.get(DisciplineControllerService)
-    );
-    this.apiEvents = this.addAuthorizationToService(
-      injector.get(EventControllerService)
-    );
+    )
 
     this.valido = injector.get(Valido);
     this.router = injector.get(Router);
     this.snack = injector.get(MatSnackBar);
-    this.formBuilder = injector.get(FormBuilder);
     this.infoDialog = injector.get(MatDialog);
 
     this.lang = AppComponent.lang;
     this.langExt =
-      this.lang != undefined && this.lang === 'bg' ? '_' + this.lang : '';
+      this.lang !== undefined && this.lang === 'bg' ? '_' + this.lang : '';
     this.checkUser();
   }
 
   addAuthorizationToService(service: any): any {
-    let map: { [key: string]: string } = {};
+    const map: { [key: string]: string } = {};
     if (this.user) {
-      map['Authorization'] = 'Bearer ' + this.user?.token;
+      map.Authorization = 'Bearer ' + this.user?.token;
     } else {
-      map['Authorization'] = '';
+      map.Authorization = '';
     }
     service.configuration.apiKeys = map;
     return service;
@@ -101,7 +87,7 @@ export class BlitcenComponent {
   private checkUser() {
     // this.user = this.app.user;
     // this.canFetch = true;
-    //let failed: boolean = false;
+    // let failed: boolean = false;
     // try {
     //   let token = localStorage.getItem('user');
     //   if (isNullOrUndefined(token) === true || jwtHelper.isTokenExpired(token)) {
@@ -137,14 +123,13 @@ export class BlitcenComponent {
    * @param arg0  text
    * @param action  buttons
    * @param duartion in milliseconds
-   * @returns
    */
   showSnack(
     arg0: string,
     action: string,
     duartion: number
   ): MatSnackBarRef<SimpleSnackBar> {
-    let snackBarRef = this.snack.open(arg0, action, {
+    const snackBarRef = this.snack.open(arg0, action, {
       duration: duartion,
     });
     return snackBarRef;
@@ -155,10 +140,10 @@ export class BlitcenComponent {
     singleMessage: string,
     messages: string[]
   ): void {
-    let dialogData: any = {
-      label: label,
-      singleMessage: singleMessage,
-      messages: messages,
+    const dialogData: any = {
+      label,
+      singleMessage,
+      messages,
     };
     this.infoDialog.open(DialogInfoComponent, {
       width: 'auto',
@@ -167,19 +152,16 @@ export class BlitcenComponent {
   }
   /**
    * A method that open confirmation dialog.
-   * @param label
-   * @param singleMessage
-   * @param messages
    */
   showConfirmDialog(
     label: string,
     singleMessage: string,
     messages: string[]
   ): MatDialogRef<DialogInfoComponent> {
-    let dialogData: any = {
-      label: label,
-      singleMessage: singleMessage,
-      messages: messages,
+    const dialogData: any = {
+      label,
+      singleMessage,
+      messages,
       confirmation: true,
     };
     const dialogRef = this.infoDialog.open(DialogInfoComponent, {
@@ -192,15 +174,17 @@ export class BlitcenComponent {
   getWordBlobFromByteArray(byteArr: any): Blob {
     // The atob function will decode a Base64-encoded string into a new string with a character for each byte of the binary data.
     const byteCharacters = atob(byteArr);
-    //Each character's code point (charCode) will be the value of the byte. We can create an array of byte values by applying this using the .charCodeAt method for each character in the string.
+    // Each character's code point (charCode) will be the value of the byte. We can create an array of byte
+    // values by applying this using the.charCodeAt method for each character in the string.
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-    //You can convert this array of byte values into a real typed byte array by passing it to the Uint8Array constructor.
+    // You can convert this array of byte values into a real typed byte array by
+    // passing it to the Uint8Array constructor.
     const byteArray = new Uint8Array(byteNumbers);
-    //This in turn can be converted to a BLOB by wrapping it in an array and passing it to the Blob constructor.
-    let blob = new Blob([byteArray], { type: 'application/ms-word' });
+    // This in turn can be converted to a BLOB by wrapping it in an array and passing it to the Blob constructor.
+    const blob = new Blob([byteArray], { type: 'application/ms-word' });
     return blob;
   }
   /**
@@ -209,7 +193,7 @@ export class BlitcenComponent {
    * @param url the blob url
    */
   fetchFile(name: string, url: string) {
-    var anchor = document.createElement('a');
+    const anchor = document.createElement('a');
     anchor.download = name;
     anchor.href = url;
     anchor.target = '_blank';
@@ -253,5 +237,9 @@ export class BlitcenComponent {
     donkey.setData(data);
     donkey.setInfo(info);
     this.router.navigate(path);
+  }
+
+  goBack() {
+    history.back();
   }
 }

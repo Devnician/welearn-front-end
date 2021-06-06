@@ -1,7 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   TranslateFakeLoader,
@@ -16,7 +17,6 @@ import {
 } from 'libs/rest-client/src';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Valido } from 'src/app/core/valido';
-import { MaterialModule } from 'src/app/material.module';
 import { EditUserComponent } from './edit-user.component';
 
 describe('EditUserComponent', () => {
@@ -28,13 +28,11 @@ describe('EditUserComponent', () => {
       TestBed.configureTestingModule({
         declarations: [EditUserComponent],
         imports: [
-          // CommonModule,
-          // FormsModule,
-          // ReactiveFormsModule,
-
+          ,
+          MatSnackBarModule,
           HttpClientTestingModule,
           RouterTestingModule,
-          MaterialModule,
+          ReactiveFormsModule,
           TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,

@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -18,9 +19,10 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
   constructor(
     private donkey: DonkeyService,
     ar: ActivatedRoute,
-    injector: Injector
+    injector: Injector,
+    private s: MatSnackBar
   ) {
-    super(ar, injector);
+    super(ar, injector, s);
   }
 
   ngOnInit() {
@@ -30,7 +32,7 @@ export class ListRoleComponent extends BaseComponent implements OnInit {
    * Fetch and show role's in table
    */
   loadRoles() {
-    this.apiRoles.listRolesUsingGET().subscribe((data) => {
+    this.apiRoles?.listRolesUsingGET().subscribe((data) => {
       this.roles = data as Role[];
       this.paginator.init(this.roles, '');
       // this.paginator.init(this.roles.filter((role: { id: number; }) => role.id !== 1), '');

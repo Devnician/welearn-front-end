@@ -1,49 +1,44 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RoleDto } from 'libs/rest-client/src';
 import { AppComponent } from 'src/app/app.component';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Role } from 'src/app/model/role.model';
 import { TimeUtil } from 'src/app/utils/time-util';
 import { UserDto } from '../../../../libs/rest-client/src/model/userDto';
-import { BaseformComponent } from '../../baseform/baseform.component';
 
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
 })
-export class EditUserComponent extends BaseformComponent implements OnInit {
-  private _destroyed$ = new Subject();
+export class EditUserComponent extends BlitcenComponent implements OnInit {
   editUser: UserDto;
   editForm: FormGroup;
-  parentDir: string = 'home/list-user';
-  selfEdit: boolean = false;
+  selfEdit = false;
   roles: Role[] = [];
-
+  isEditMode = false;
   constructor(
-    private sanitizer: DomSanitizer,
     private donkey: DonkeyService,
-    injector: Injector
+    injector: Injector,
+    private formBuilder: FormBuilder,
+    private s: MatSnackBar
   ) {
-    super(injector);
-    // const currentMenu = this.app.getCurrentMenuObject('/' + this.parentDir);
-    this.selfEdit = donkey.getInfo() === 'self';
-    this.editUser = donkey.getData();
+    super(injector, s);
+    this.selfEdit = this.donkey.getInfo() === 'self';
+    this.editUser = this.donkey.getData();
+    this.isEditMode = !(this.editUser === null || this.editUser === undefined);
     this.roles = AppComponent.myapp?.roles;
   }
 
   ngOnInit() {
-    if (!this.editUser) {
-      return;
-    }
-    if (!this.editUser.userId) {
-      history.back();
-    }
+    console.log(this.selfEdit);
     this.editForm = this.formBuilder.group({
+      id: [],
       userId: [],
-      username: ['', Validators.required],
+      username: ['', this.valido.validateUsername(true)],
       password: ['', this.valido.validatePassowrd(6, 30)],
       firstName: ['', this.valido.validateName(2, 30)],
       middleName: ['', this.valido.validateName(2, 30)],
@@ -52,21 +47,23 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       address: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', this.valido.validatePhone(true)],
+      role: [this.isEditMode ? this.editUser.role : {}, Validators.required],
       deleted: ['', ''],
       loggedIn: [],
     });
 
-    this.editUser.password = 'unknown';
-    this.editUser.birthdate = TimeUtil.adjustDate(this.editUser.birthdate);
-    this.editForm.patchValue(this.editUser);
-    if (this.selfEdit === true) {
-      this.disableFormFields(this.editForm, [
-        'username',
-        'roleID',
-        'birthdate',
-      ]);
+    if (this.isEditMode) {
+      this.editUser.password = 'unknown';
+      this.editUser.birthdate = TimeUtil.adjustDate(this.editUser.birthdate);
+      this.editForm.patchValue(this.editUser);
+      if (this.selfEdit === true) {
+        this.disableFormFields(this.editForm, [
+          'username',
+          'role',
+          'birthdate',
+        ]);
+      }
     }
-    this.editForm.setControl('roleID', new FormControl(this.editUser?.role.id));
   }
 
   /**
@@ -75,10 +72,14 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
    * return True if it is valed false otherwise
    */
   isFieldValid(field: string) {
-    //return true;
+    // return true;
     return (
       !this.editForm?.get(field).valid && this.editForm?.get(field).touched
     );
+  }
+
+  compareRoles(option: RoleDto, value: RoleDto): boolean {
+    return option.id === value.id;
   }
   /**
    *
@@ -89,20 +90,33 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
       this.valido.validateAllFormFields(this.editForm);
       return;
     }
-    let user: UserDto = this.editForm.getRawValue();
-    let roleId = user['roleID'];
-    delete user['roleID'];
-    user.role = this.roles.find((r) => r.id == roleId);
+    if (this.isEditMode) {
+      const user: UserDto = this.editForm.getRawValue();
+      if (user.password === 'unknown') {
+        user.password = null;
+      }
 
-    if (user.password === 'unknown') {
-      user.password = null;
+      this.apiUsers.updateUserUsingPUT(user).subscribe(() => {
+        this.showSnack('Данните бяха променени', '', 1500);
+
+        if (this.selfEdit === true) {
+          this.router.navigate(['']);
+          this.app.logout();
+        } else {
+          history.back();
+        }
+      });
+    } else {
+      const newUser: UserDto = this.editForm.value;
+      this.apiUsers.saveUserUsingPOST(newUser).subscribe((data) => {
+        let message = 'данните бяха записани';
+        if (!data) {
+          message = 'нещо се обърка..';
+        }
+        this.showSnack(message, '', 1500);
+        history.back();
+      });
     }
-
-    this.apiUsers.updateUserUsingPUT(user).subscribe(() => {
-      this.showSnack('Данните ви бяха променени, моля влезне отново', '', 1500);
-      this.router.navigate(['']);
-      this.app.logout();
-    });
   }
 
   /**
@@ -111,15 +125,10 @@ export class EditUserComponent extends BaseformComponent implements OnInit {
    */
   shouldIValidatePass() {
     const control = this.editForm.get('password');
-    let pass: string = control?.value;
-    if (pass == 'unknown' || pass == '') {
+    const pass: string = control?.value;
+    if (pass === 'unknown' || pass === '') {
       control.clearValidators();
       control.updateValueAndValidity();
     }
-  }
-
-  public ngOnDestroy(): void {
-    this._destroyed$.next();
-    this._destroyed$.complete();
   }
 }

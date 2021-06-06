@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  restUrl: 'http://00.00.00.00:8080/welearn-api/',
+  restUrl: 'http://172.16.250.30:8080',
   user: '',
   pass: '',
 };

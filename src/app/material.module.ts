@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -29,6 +31,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    CommonModule,
+    FormsModule,
     MatSidenavModule,
     MatTooltipModule,
     MatListModule,
@@ -58,6 +62,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     NoopAnimationsModule,
   ],
   exports: [
+    CommonModule,
+    FormsModule,
     MatSidenavModule,
     MatTooltipModule,
     MatListModule,

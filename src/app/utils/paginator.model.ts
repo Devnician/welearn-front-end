@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { FilterPipe } from '../filter.pipe';
 
@@ -19,7 +19,7 @@ export class PPaginator {
   slice: any[] = [];
 
   private currFilter = '';
-  private currProp: string = '';
+  private currProp = '';
   filter: FilterPipe;
 
   constructor() {
@@ -55,7 +55,7 @@ export class PPaginator {
    * Get array with id's for objects in slice.
    */
   getSliceObjectsIds(): number[] {
-    let arr: number[] = [];
+    const arr: number[] = [];
     this.slice.forEach((element) => {
       arr.push(element.id);
     });
@@ -70,7 +70,6 @@ export class PPaginator {
   }
   /**
    * Receive info from interactions with view- page changes
-   * @param e
    */
   notify(e: any) {
     this.currentPage = e.pageIndex;
@@ -102,8 +101,8 @@ export class PPaginator {
     this.currentPage = 1;
     this.lowValue = 0;
     this.highValue = size ? size : this.pageOptions[0];
-    delete this.origin; //= undefined;
-    delete this.slice; //= undefined;
+    delete this.origin;
+    delete this.slice;
   }
 
   filterCollection(searchText: string, prop: string) {
@@ -126,7 +125,7 @@ export class PPaginator {
       return;
     }
 
-    let sorted = data.sort((a, b) => {
+    const sorted = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       return this.compare(a[sort.active], b[sort.active], isAsc);
     });
@@ -140,14 +139,13 @@ export class PPaginator {
 
   /**
    * Show on matPaginator reference new options
-   * @param pagin
    */
-  refreshViewPageSizeOptions(pagin: ElementRef<any>, showAll: boolean) {
+  refreshViewPageSizeOptions(pagin: any /*ElementRef<any>*/, showAll: boolean) {
     if (showAll === true) {
       this.highValue = this.allElements;
       this.pageSize = this.highValue;
       this.refreshSlice();
     }
-    pagin['pageSizeOptions'] = this.pageOptions;
+    pagin.pageSizeOptions = this.pageOptions;
   }
 }

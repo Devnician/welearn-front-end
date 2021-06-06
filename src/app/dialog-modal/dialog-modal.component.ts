@@ -4,16 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserDto } from 'libs/rest-client/src';
-import { isNullOrUndefined, isNumber } from 'util';
 import { AppComponent } from '../app.component';
-import { ImageSnippet } from '../baseform/baseform.component';
 import { Valido } from '../core/valido';
 import { Discipline } from '../model/discipline.model';
 import { TimeUtil } from '../utils/time-util';
-
-export class ImageCouple {
-  constructor(public sanitized: string, public snippet: ImageSnippet) {}
-}
 
 @Component({
   selector: 'app-dialog-modal',
@@ -29,7 +23,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   mode: string;
   classType: string;
   valido: Valido;
-  isMedia: boolean = false;
+  isMedia = false;
   studentNames: string;
   disciplines: FormArray = this.formBuilder.array([]);
   displayedSimColumns: string[] = ['id', 'name', 'mark'];
@@ -86,28 +80,6 @@ export class DialogModalComponent implements OnInit, OnDestroy {
 
   save() {
     this.dialogRef.close({ data: this.form.getRawValue() });
-  }
-
-  /**
-   *
-   * @param fieldName
-   */
-  isFieldValid(fieldName: string) {
-    // if (!fieldName) {
-    //   return false;
-    // }
-    let val: string = this.form.get(fieldName)?.value;
-    if (isNumber(val)) {
-      return true;
-    }
-
-    if (isNullOrUndefined(val)) {
-      val = '';
-    }
-    if (this.valido.isThereForbiddenWords(val)) {
-      return false;
-    }
-    return !this.form.get(fieldName).valid && this.form.get(fieldName).touched;
   }
 
   ngOnDestroy(): void {}

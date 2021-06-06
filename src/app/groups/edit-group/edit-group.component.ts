@@ -7,6 +7,7 @@ import {
 } from '@angular/animations';
 import { Component, ContentChild, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { DisciplineDto, GroupDto, UserDto } from 'libs/rest-client/src';
@@ -46,9 +47,10 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
     ar: ActivatedRoute,
     private donkey: DonkeyService,
     public dialog: MatDialog,
-    injector: Injector
+    injector: Injector,
+    private s: MatSnackBar
   ) {
-    super(ar, injector);
+    super(ar, injector, s);
     this.studentGroup = donkey.getData();
 
     console.log(this.studentGroup);

@@ -1,13 +1,29 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { registerLocaleData } from '@angular/common';
 import localeBg from '@angular/common/locales/bg'; // to register bg
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
-import { JwtHelperService } from '@auth0/angular-jwt';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { DisciplineControllerService, RoleControllerService, RoleDto, UserControllerService } from 'libs/rest-client/src';
+import {
+  DisciplineControllerService,
+  RoleControllerService,
+  RoleDto,
+  UserControllerService,
+} from 'libs/rest-client/src';
 import { Subscription } from 'rxjs';
 import { DonkeyService } from './core/donkey.service';
 import { Discipline } from './model/discipline.model';
@@ -15,9 +31,8 @@ import { MenuOptions } from './model/menu.model';
 import { Role } from './model/role.model';
 import { User } from './model/user.model';
 import { MenuUtil } from './utils/menu-util';
-//registerLocaleData(localeEn);
+// registerLocaleData(localeEn);
 registerLocaleData(localeBg);
-const jwtHelper = new JwtHelperService();
 
 export interface IBreadCrumb {
   label: string;
@@ -28,15 +43,14 @@ export interface IBreadCrumb {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-
 export class AppComponent implements OnInit, OnDestroy {
-  version: string = '1.0.00';
-  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
   static myapp: AppComponent;
   static lang: string;
-  static isMedia: boolean = false;
+  static isMedia = false;
+  version = '1.0.00';
+  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
   private interval: any;
   public breadcrumbs: IBreadCrumb[] = [];
   user: User;
@@ -55,7 +69,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private apiRoles: RoleControllerService,
     private apiUsers: UserControllerService,
 
-    public router: Router, private translate: TranslateService, public snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private donkey: DonkeyService) {
+    public router: Router,
+    private translate: TranslateService,
+    public snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    private donkey: DonkeyService
+  ) {
     AppComponent.myapp = this;
     translate.setDefaultLang('bg');
     AppComponent.lang = 'bg';
@@ -66,10 +85,10 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event instanceof NavigationStart) {
         /**
          * This property(router.navigated) is false when the router starts and
-         *  after the first navigation it changes to true. And that’s it.        
+         *  after the first navigation it changes to true. And that’s it.
          */
-        let browserRefresh = !router.navigated;
-        //TODO HERE UNLOCK ALL
+        const browserRefresh = !router.navigated;
+        // TODO HERE UNLOCK ALL
         if (browserRefresh) {
           this.clearUserData();
         } else {
@@ -84,12 +103,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subsForRouterEvents();
     this.router.navigate(['']);
   }
- 
+
   /**
    * Change language
-   * @param language 
    */
-  useLanguage(language: string) { 
+  useLanguage(language: string) {
     this.opened = false;
     this.translate.use(language);
     AppComponent.lang = language;
@@ -97,10 +115,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   fetchDisciplines() {
     this.isUserAuthToFetch(this.apiDisciplines);
-    this.apiDisciplines.getDisciplinesUsingGET()
-      .subscribe(data => {
-        this.disciplines = data as Discipline[];
-      });
+    this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
+      this.disciplines = data as Discipline[];
+    });
   }
 
   /**
@@ -117,53 +134,64 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Fetch all roles for checking for logged user role.
    */
-  findAllRoles() { 
+  findAllRoles() {
     this.isUserAuthToFetch(this.apiRoles);
-    this.apiRoles.listRolesUsingGET()
-      .subscribe(data => {
-        this.roles = data as Role[];
-      });
+    this.apiRoles.listRolesUsingGET().subscribe((data) => {
+      this.roles = data as Role[];
+    });
   }
   /**
    * Builds menus according Role. If there is a saved order in the local storage - arranges the menus.
-   * @param role 
    */
   private buildMenuForThisRole(role: RoleDto) {
+    console.log(role);
     let unorderedMenus: MenuOptions[] = [];
-    let all: MenuOptions[] = MenuUtil.getAllMenus();
-    MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);  
-    this.menuOptions = []; 
-    //get saved order if any
-    let order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
-    
-    if (order) { // order it 
-      order.forEach(element => {
+    const all: MenuOptions[] = MenuUtil.getAllMenus();
+    MenuUtil.determineSelectedMenusForThisRole(role, unorderedMenus, all);
+    this.menuOptions = [];
+    // get saved order if any
+    const order: number[] = JSON.parse(localStorage.getItem('orderedMenus'));
+
+    if (order) {
+      // order it
+      order.forEach((element) => {
         let toBeRemoved: number;
-        for (let index = 0; index < unorderedMenus.length; index++) {
-          const foundOne = unorderedMenus[index];
-          if (element === foundOne['key']) {
-            this.menuOptions.push(foundOne);
+        for (const row of unorderedMenus) {
+          if (element === row.key) {
+            this.menuOptions.push(row);
             toBeRemoved = element;
             break;
           }
         }
-        unorderedMenus = unorderedMenus.filter(e => e['key'] !== toBeRemoved);
+
+        // for  (let index = 0; index < unorderedMenus.length; index++) {
+        //   const foundOne = unorderedMenus[index];
+        //   if (element === foundOne['key']) {
+        //     this.menuOptions.push(foundOne);
+        //     toBeRemoved = element;
+        //     break;
+        //   }
+        // }
+        unorderedMenus = unorderedMenus.filter((e) => e.key !== toBeRemoved);
       });
 
-      if (unorderedMenus.length > 0) { // if menus are more than saved, add it on bottom            
-        unorderedMenus.forEach(r => { this.menuOptions.push(r) });
+      if (unorderedMenus.length > 0) {
+        // if menus are more than saved, add it on bottom
+        unorderedMenus.forEach((r) => {
+          this.menuOptions.push(r);
+        });
       }
 
       this.saveOrderOfMenus();
-    } else { //show them as they arrived
+    } else {
+      // show them as they arrived
       this.menuOptions = unorderedMenus;
     }
   }
 
   /**
    * Before close tab or restart in devMode -  marks user as loged out and clears his local data.
-   * @param event 
-   * 
+   *
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHander(event) {
@@ -171,16 +199,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * 
-   * @param event On back press
+   * On back press
    */
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
-    ;
     switch (this.router.url) {
       case '/home':
         this.logout();
-        this.snackBar.open("Bye-bye!", "", {
+        this.snackBar.open('Bye-bye!', '', {
           duration: 3000,
         });
         break;
@@ -203,18 +229,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * Clear after user and mark as logged out. Redirect to login page.
-  */
+   * Clear after user and mark as logged out. Redirect to login page.
+   */
   logout(): void {
     clearInterval(this.interval);
     try {
       if (this.user) {
         this.isUserAuthToFetch(this.apiUsers);
-        this.apiUsers.logoutUsingGET(this.user.userId)
-          .subscribe(data => {
-            let d = data;
-            this.clearUserData();
-          });
+        this.apiUsers.logoutUsingGET(this.user.userId).subscribe((data) => {
+          this.clearUserData();
+        });
       }
     } catch (error) {
       this.clearUserData();
@@ -223,9 +247,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   
-  /**
-   * Clears data, hides menu and header
+   *  Clears data, hides menu and header
    */
   clearUserData() {
     this.menuOptions = [];
@@ -236,16 +258,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Gets menu according the url parameter
-   * @param url 
    */
   getCurrentMenuObject(url: string): MenuOptions {
-    return this.menuOptions.find(menu => menu.route === url);
+    return this.menuOptions.find((menu) => menu.route === url);
   }
-
 
   /**
    * rearrange menus
-   * @param event 
    */
   drop(event: CdkDragDrop<MenuOptions[]>) {
     moveItemInArray(this.menuOptions, event.previousIndex, event.currentIndex);
@@ -255,32 +274,31 @@ export class AppComponent implements OnInit, OnDestroy {
    * Saves order of menus in local storage
    */
   saveOrderOfMenus() {
-    let order: number[] = [];
-    this.menuOptions.forEach(element => {
+    const order: number[] = [];
+    this.menuOptions.forEach((element) => {
       order.push(element.key as number);
     });
     localStorage.setItem('orderedMenus', JSON.stringify(order));
   }
   /**
    * Gets translated string according arg as key
-   * @param arg 
    */
   getTranslation(arg: string): string {
     return this.translate.instant(arg);
   }
-  //BREADCRUMB METHODS
+  // BREADCRUMB METHODS
 
   subsForRouterEvents() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        // Show loading indicator        
+        // Show loading indicator
       }
 
       if (event instanceof NavigationEnd) {
-        // Hide loading indicator        
+        // Hide loading indicator
         delete this.breadcrumbs;
         this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
-        let len: number = this.breadcrumbs.length;
+        const len: number = this.breadcrumbs.length;
         if (len > 0) {
           this.breadcrumbs[len - 1].enabled = false;
         }
@@ -292,17 +310,21 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-
   /**
    * Recursively build breadcrumb according to activated route.
-   * @param route
-   * @param url
-   * @param breadcrumbs
    */
-  buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadCrumb[] = []): IBreadCrumb[] {
-    //If no routeConfig is avalailable we are on the root path
-    let label = route.routeConfig && route.routeConfig.data ? route.routeConfig.data.breadcrumb : '';
-    let path = route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
+  buildBreadCrumb(
+    route: ActivatedRoute,
+    url: string = '',
+    breadcrumbs: IBreadCrumb[] = []
+  ): IBreadCrumb[] {
+    // If no routeConfig is avalailable we are on the root path
+    let label =
+      route.routeConfig && route.routeConfig.data
+        ? route.routeConfig.data.breadcrumb
+        : '';
+    let path =
+      route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
 
     // If the route is dynamic route such as ':id', remove it
     const lastRoutePart = path.split('/').pop();
@@ -313,29 +335,30 @@ export class AppComponent implements OnInit, OnDestroy {
       label = route.snapshot.params[paramName];
     }
 
-    //In the routeConfig the complete path is not available,
-    //so we rebuild it each time
+    // In the routeConfig the complete path is not available,
+    // so we rebuild it each time
     const nextUrl = path ? `${url}/${path}` : url;
 
     const breadcrumb: IBreadCrumb = {
-      label: label,
+      label,
       url: nextUrl,
       enabled: true,
     };
     // Only adding route with non-empty label
-    const newBreadcrumbs = breadcrumb.label ? [...breadcrumbs, breadcrumb] : [...breadcrumbs];
+    const newBreadcrumbs = breadcrumb.label
+      ? [...breadcrumbs, breadcrumb]
+      : [...breadcrumbs];
     if (route.firstChild) {
-      //If we are not on our current path yet,
-      //there will be more children to look after, to build our breadcumb
+      // If we are not on our current path yet,
+      // there will be more children to look after, to build our breadcumb
       return this.buildBreadCrumb(route.firstChild, nextUrl, newBreadcrumbs);
     }
     return newBreadcrumbs;
   }
 
-
   editMyAccount() {
     this.donkey.setData(this.user);
-    this.donkey.setInfo("self");
+    this.donkey.setInfo('self');
     this.router.navigate(['home/list-user/edit-user']);
   }
 
@@ -346,14 +369,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isUserAuthToFetch(service: any) {
-    let map: { [key: string]: string } = {};
+    const map: { [key: string]: string } = {};
     if (this.user) {
-      map["Authorization"] = "Bearer " + this.user.token;
+      map.Authorization = 'Bearer ' + this.user.token;
     } else {
-      map["Authorization"] = "";
+      map.Authorization = '';
     }
     service.configuration.apiKeys = map;
   }
-
 }
-

@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
 
 @Component({
@@ -7,8 +8,8 @@ import { BlitcenComponent } from '../blitcen/blitcen.component';
   styleUrls: ['./documents.component.scss'],
 })
 export class DocumentsComponent extends BlitcenComponent implements OnInit {
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, private s: MatSnackBar) {
+    super(injector, s);
   }
 
   parents: any[] = [];
@@ -53,7 +54,7 @@ export class DocumentsComponent extends BlitcenComponent implements OnInit {
   }
 
   showHide(parent: any) {
-    let par = this.parents.find((p) => p.id === parent.id);
+    const par = this.parents.find((p) => p.id === parent.id);
     par.expanded = !par.expanded;
     this.parents.forEach((e) => {
       if (e.id !== parent.id) {

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'loader',
+  selector: 'app-loader',
   template: `<div [class.loader-hidden]="!show">
     <div class="loader-overlay">
       <div>

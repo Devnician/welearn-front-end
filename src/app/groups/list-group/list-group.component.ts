@@ -1,7 +1,8 @@
 import { Component, ContentChild, Injector, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { GroupDto } from 'libs/rest-client/src';
+import { GroupControllerService, GroupDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 
@@ -27,16 +28,19 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
   constructor(
     ar: ActivatedRoute,
     private donkey: DonkeyService,
-    injector: Injector
+    injector: Injector,
+    private s: MatSnackBar,
+    // private apiGroups: GroupControllerService
   ) {
-    super(ar, injector);
+    super(ar, injector, s);
+    // this.addAuthorizationToService(this.apiGroups);
   }
 
   ngOnInit(): void {
-    this.apiGroups.findAllUsingGET2().subscribe((data) => {
+    this.apiGroups?.findAllUsingGET2().subscribe((data) => {
       this.groups = data as GroupDto[];
 
-      //TODO - fliter according role
+      // TODO - fliter according role
       // if (this.user.roleId == 2) { //teacher
       //   //API CALL - getGroupsByTeacherId
       //   this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
@@ -63,6 +67,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
   deleteGroup(id: string) {
     this.apiGroups.deleteGroupUsingDELETE(id).subscribe((data) => {
       if (data) {
+        // tslint:disable-next-line: no-shadowed-variable
         this.apiGroups.findAllUsingGET2().subscribe((data) => {
           this.groups = data as GroupDto[];
           this.loadPaginator(this.groups, 'name');

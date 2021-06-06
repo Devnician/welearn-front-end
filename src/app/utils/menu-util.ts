@@ -12,7 +12,7 @@ export class MenuUtil {
     const permissions: any[] = JSON.parse(role.permissions);
     permissions.forEach((perm) => {
       const roleId = perm[0];
-      let m: MenuOptions = allMenus.find((menu) => menu.key === roleId);
+      const m: MenuOptions = allMenus.find((menu) => menu.key === roleId);
       m.add = perm[1] === 1;
       m.edit = perm[2] === 1;
       m.delete = perm[3] === 1;
@@ -22,7 +22,7 @@ export class MenuUtil {
   }
 
   public static getAllMenus(): MenuOptions[] {
-    let roleMenus = [];
+    const roleMenus = [];
     roleMenus.push({
       key: 1,
       value: 'wl.users',

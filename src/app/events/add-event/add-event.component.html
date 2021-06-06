@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    {{ createMode === 'true' ? 'Създаване' : 'Редактиране' }} на събитие
+    {{ currentMode === 'create' ? 'Създаване' : 'Редактиране' }} на събитие
   </mat-card-title>
   <mat-card-content>
     <form [formGroup]="addForm">
@@ -18,32 +18,35 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
           <input
+            [(ngModel)]="eventStartDateTime"
             class="form-control"
             matInput
             [owlDateTime]="dt1"
             placeholder="{{ 'wl.startDateTime' | translate }}"
-            [min]="minDate"
             formControlName="startDate"
             id="starDateTime"
             readonly
           />
-          <owl-date-time #dt1></owl-date-time>
+          <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
         </mat-form-field>
+
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
           <input
+            [(ngModel)]="eventEndDateTime"
             class="form-control"
             matInput
             [owlDateTime]="dt2"
             placeholder="{{ 'wl.endDateTime' | translate }}"
-            [min]="minDate"
             formControlName="endDate"
             id="endDateTime"
             readonly
           />
-          <owl-date-time #dt2></owl-date-time>
+          <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
         </mat-form-field>
+
         <mat-form-field class="four-on-row">
           <mat-label> {{ 'wl.select_group' | translate }}</mat-label>
           <mat-select
@@ -51,6 +54,8 @@
             name="group"
             formControlName="group"
             required
+            (selectionChange)="onGroupSelected(groupSelector.value)"
+            [compareWith]="compareGroups"
           >
             <mat-option
               *ngFor="let group of groups"
@@ -61,15 +66,22 @@
               {{ group.name }}
             </mat-option>
           </mat-select>
+
           <mat-error *ngIf="isFieldValid('group')">{{
             valido.getErrorMessage('group') | translate
           }}</mat-error>
         </mat-form-field>
-        <!-- <mat-form-field class="four-on-row">
+
+        <mat-form-field class="four-on-row">
           <mat-label> {{ 'wl.discipline' | translate }}</mat-label>
-          <mat-select name="discipline" formControlName="discipline" required>
+          <mat-select
+            name="discipline"
+            formControlName="discipline"
+            required
+            [compareWith]="compareDisciplines"
+          >
             <mat-option
-              *ngFor="let discipline of groupSelector?.value?.disciplines"
+              *ngFor="let discipline of selectedDisciplines"
               [value]="discipline"
               class="form-control"
               matTooltipPosition="right"
@@ -80,7 +92,7 @@
           <mat-error *ngIf="isFieldValid('discipline')">{{
             valido.getErrorMessage('discipline') | translate
           }}</mat-error>
-        </mat-form-field> -->
+        </mat-form-field>
         <mat-form-field class="four-on-row">
           <input
             matInput
@@ -124,7 +136,6 @@
           ></textarea>
         </mat-form-field>
       </div>
-
       <div class="button-bar">
         <button
           mat-raised-button
@@ -133,7 +144,7 @@
           style="margin-right: 10px"
           (click)="close()"
         >
-          <mat-icon>close</mat-icon>{{ 'wl.cancel' | translate }}
+          <mat-icon>close</mat-icon>{{ 'wl.close' | translate }}
         </button>
         <button
           mat-raised-button
@@ -141,19 +152,26 @@
           color="primary"
           style="margin-right: 10px"
           (click)="reset()"
+          [disabled]="(canEditThis | async) === false"
         >
           <mat-icon>clear_all</mat-icon>{{ 'wl.reset' | translate }}
         </button>
+
         <button
           mat-raised-button
           type="submit"
           color="primary"
           (click)="onSubmit()"
+          [disabled]="(canEditThis | async) === false"
         >
-          {{ 'wl.submit' | translate }}
+          {{
+            currentMode === 'create'
+              ? ('wl.save' | translate)
+              : ('wl.update' | translate)
+          }}
         </button>
       </div>
     </form>
   </mat-card-content>
-  <pre>{{ addForm.value | json }}</pre>
+  <!-- <pre>{{ addForm.value | json }}</pre> -->
 </mat-card>

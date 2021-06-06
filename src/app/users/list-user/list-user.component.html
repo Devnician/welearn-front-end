@@ -3,7 +3,7 @@
     <button
       mat-mini-fab
       aria-label="Favorite"
-      (click)="addUser()"
+      (click)="editUser(undefined)"
       matTooltip="добавяне на нов потребител"
       [disabled]="disableEdit === true"
     >
@@ -46,7 +46,7 @@
     <ng-container matColumnDef="middleName"
       >>
       <th scope="col" mat-header-cell *matHeaderCellDef>
-        {{ 'wl.middle_name' | translate }} 
+        {{ 'wl.middle_name' | translate }}
       </th>
       <td mat-cell *matCellDef="let user">{{ user.middleName }}</td>
     </ng-container>

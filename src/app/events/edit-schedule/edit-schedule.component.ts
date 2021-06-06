@@ -1,7 +1,12 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GroupDto, ScheduleDto } from 'libs/rest-client/src';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  GroupControllerService,
+  GroupDto,
+  ScheduleDto,
+} from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
@@ -33,9 +38,12 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: ScheduleDto,
     private dialogRef: MatDialogRef<EditScheduleComponent>,
-    private injector: Injector
+    // private apiGroups: GroupControllerService,
+    private injector: Injector,
+    private s: MatSnackBar
   ) {
-    super(injector);
+    super(injector, s);
+    // this.addAuthorizationToService(apiGroups);
   }
 
   ngOnInit(): void {
@@ -48,7 +56,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
         this.groups = result;
       });
     } else {
-      //TODO - find groups for this user(only teacher can see this!)
+      // TODO - find groups for this user(only teacher can see this!)
       alert('Ont omplemented for this role');
     }
 
@@ -132,13 +140,13 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
   }
 
   getMinutesFromMidnightToThisMoment(m: moment.Moment): number {
-    var mmtMidnight = m.clone().startOf('day');
-    var diffMinutes = m.diff(mmtMidnight, 'minutes');
+    const mmtMidnight = m.clone().startOf('day');
+    const diffMinutes = m.diff(mmtMidnight, 'minutes');
     return diffMinutes;
   }
 
   isDateCorrect(): boolean {
-    let isValid: boolean =
+    const isValid: boolean =
       this.addForm.controls.startDate.errors?.length > 0 ||
       this.addForm.controls.endDate.errors?.length > 0;
     if (isValid) {
@@ -153,7 +161,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       this.valido.validateAllFormFields(this.addForm);
       return;
     }
-    let result = this.addForm.getRawValue();
+    const result = this.addForm.getRawValue();
     result.startHour = moment(result.startHour).format('HH:MM').toString();
     result.endHour = moment(result.endHour).format('HH:MM').toString();
     result.groupId = result.group.groupId;

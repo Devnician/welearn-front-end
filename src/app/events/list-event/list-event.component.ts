@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { EventDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -10,7 +11,7 @@ import { BaseComponent } from 'src/app/base/base.component';
   styleUrls: ['./list-event.component.scss'],
 })
 export class ListEventComponent extends BaseComponent implements OnInit {
-  disableEdit: boolean = false;
+  disableEdit = false;
   displayedColumns = [
     'id',
     'type',
@@ -25,9 +26,10 @@ export class ListEventComponent extends BaseComponent implements OnInit {
   constructor(
     ar: ActivatedRoute,
     public dialog: MatDialog,
-    injector: Injector
+    injector: Injector,
+    private s: MatSnackBar
   ) {
-    super(ar, injector);
+    super(ar, injector, s);
   }
 
   ngOnInit(): void {}

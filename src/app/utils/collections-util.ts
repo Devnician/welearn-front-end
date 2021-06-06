@@ -194,9 +194,12 @@ export class CollectionsUtil {
   // getDisciplines(): Discipline[] {
   //   let lectors = this.getUsers().filter(user => user.roleId === 2);
   //   let list: Discipline[] = [];
-  //   list.push({ id: 'asd', name: 'ООП', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[0].userId, lector: lectors[0] } as Discipline);
-  //   list.push({ id: 'asdd', name: 'БАЗИ ДАННИ', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[1].userId, lector: lectors[1] } as Discipline);
-  //   list.push({ id: 'asdf', name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt: new Date(), lectorId: lectors[2].userId, lector: lectors[2] } as Discipline);
+  //   list.push({ id: 'asd', name: 'ООП', createdAt: new Date(), updatedAt: new Date(),
+  // lectorId: lectors[0].userId, lector: lectors[0]} as Discipline);
+  //   list.push({ id: 'asdd', name: 'БАЗИ ДАННИ', createdAt: new Date(),
+  // updatedAt: new Date(), lectorId: lectors[1].userId, lector: lectors[1] } as Discipline);
+  //   list.push({ id: 'asdf', name: 'ПРАКТИКУМ 1', createdAt: new Date(), updatedAt:
+  // new Date(), lectorId: lectors[2].userId, lector: lectors[2] } as Discipline);
   //   list.push({ id: 'asds', name: 'ПСС', createdAt: new Date(), updatedAt: new Date() } as Discipline);
   //   list.push({ id: 'asdq', name: 'КСМ', createdAt: new Date(), updatedAt: new Date() } as Discipline);
   //   return list;

@@ -36,15 +36,8 @@ export class LoginComponent implements OnInit {
     });
 
     if (isDevMode()) {
-      let whoIs: number = 1;
-      switch (whoIs) {
-        case 1:
-          this.loginForm.get('username').patchValue(environment.user);
-          this.loginForm.get('password').patchValue(environment.pass);
-          break;
-        default:
-          break;
-      }
+      this.loginForm.get('username').patchValue(environment.user);
+      this.loginForm.get('password').patchValue(environment.pass);
     }
   }
 
@@ -88,25 +81,13 @@ export class LoginComponent implements OnInit {
             this.invalidMessage = 'някой е влязъл с този акаунт';
             return;
           case null:
-            let map: { [key: string]: string } = {};
+            const map: { [key: string]: string } = {};
             map.Authorization = 'Bearer ' + data.token;
             this.apiUser.configuration.apiKeys = map;
 
-            //               let configParams: ConfigurationParameters = {};
-            // let map: { [key: string]: string } = {};
-            // //  let token = localStorage.getItem('user');
-            // map["Bearer"] = data['token'];
-
-            //  configParams.apiKeys = map;// {"Bearer":token};
-            //  let configuration: Configuration = new Configuration(configParams);
-            // // configuration.basePath = environment.restUrl.slice(0, -1);
-            //  configuration.apiKeys["Authorization"] = token;
-            // // this.roleApi.configuration = configuration;
-            // // this.roleApi.configuration.apiKeys = map;
-
-            this.apiUser.getUserUsingGET(data['id']).subscribe((result) => {
-              let user: User = result as User;
-              user.token = data['token'];
+            this.apiUser.getUserUsingGET(data.id).subscribe((result) => {
+              const user: User = result as User;
+              user.token = data.token;
               AppComponent.myapp.setUserAsLogged(user);
               this.router.navigate(['home']);
             });

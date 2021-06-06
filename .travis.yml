@@ -1,0 +1,39 @@
+language: node_js
+
+node_js:
+  - "14"
+
+dist: trusty
+
+if: type = pull_request OR branch = main OR tag IS present
+
+addons:
+  chrome: stable
+  apt:
+    packages:
+      - libgconf-2-4
+
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
+
+script:
+  # - npm run lint
+  # - npm run cy:ci
+  - npm run build:ci
+
+before_deploy:
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  - docker build -t welearn-front-end .
+  - docker images
+  - docker tag welearn-front-end $DOCKER_USERNAME/welearn-front-end
+  - docker push $DOCKER_USERNAME/welearn-front-end
+
+deploy:
+  - provider: script
+    script: echo "DONE!"
+    skip_existing: true
+    skip_cleanup: true
+    on:
+      branch: main

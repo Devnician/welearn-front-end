@@ -1,42 +1,61 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { UserDto } from 'libs/rest-client/src';
-import { BaseformComponent } from 'src/app/baseform/baseform.component';
+import { DisciplineControllerService, UserDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
+import { Role } from 'src/app/model/role.model';
 import { TimeUtil } from 'src/app/utils/time-util';
 
 @Component({
   selector: 'app-edit-discipline',
   templateUrl: './edit-discipline.component.html',
-  styleUrls: ['./edit-discipline.component.scss']
+  styleUrls: ['./edit-discipline.component.scss'],
 })
-export class EditDisciplineComponent extends BaseformComponent implements OnInit {
+export class EditDisciplineComponent
+  extends BlitcenComponent
+  implements OnInit
+{
   editForm: FormGroup;
   discipline: Discipline;
   lectors: UserDto[];
+  roles: Role[] = [];
 
-  constructor(donkey: DonkeyService, ar: ActivatedRoute, injector: Injector) {
-    super(injector);
+  constructor(
+    donkey: DonkeyService,
+    ar: ActivatedRoute,
+    injector: Injector,
+    private formBuilder: FormBuilder,
+    private apiDisciplines: DisciplineControllerService,
+    private s: MatSnackBar
+  ) {
+    super(injector, s);
+    this.addAuthorizationToService(apiDisciplines);
     this.discipline = donkey.getData();
     if (this.discipline) {
-      this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(this.discipline.creationDate);
-      this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(this.discipline.modifiedDate);
+      this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(
+        this.discipline.creationDate
+      );
+      this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(
+        this.discipline.modifiedDate
+      );
     }
+    this.roles = AppComponent?.myapp?.roles;
   }
   /**
    * Initializes the form
    */
   ngOnInit(): void {
-    let roleOfTeachersID: number = this.roles?.find(r => r.role === 'teacher')?.id;
+    const roleOfTeachersID: number = this.roles?.find(
+      (r) => r.role === 'teacher'
+    )?.id;
     if (roleOfTeachersID) {
-      this.apiUsers.listUserUsingGET1(roleOfTeachersID)
-        .subscribe(
-          data => {
-            this.lectors = data;
-          }
-        )
+      this.apiUsers.listUserUsingGET1(roleOfTeachersID).subscribe((data) => {
+        this.lectors = data;
+      });
 
       this.editForm = this.formBuilder.group({
         id: this.discipline.id,
@@ -44,7 +63,7 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
         creationDate: { value: this.discipline.creationDate, disabled: true },
         modifiedDate: { value: this.discipline.modifiedDate, disabled: true },
         teacherId: this.discipline.teacher.userId,
-        assistantId: this.discipline.assistant.userId
+        assistantId: this.discipline.assistant.userId,
       });
     }
   }
@@ -58,20 +77,17 @@ export class EditDisciplineComponent extends BaseformComponent implements OnInit
       this.valido.validateAllFormFields(this.editForm);
       return;
     }
-    let discipline: Discipline = this.editForm.getRawValue();
-    this.apiDisciplines.editDisciplineUsingPUT(discipline)
-      .subscribe(
-        data => {
-          this.showSnack('данните бяха промемени', '', 1300);
-          this.router.navigate(['home/list-discipline']);
-        }
-      );
+    const discipline: Discipline = this.editForm.getRawValue();
+    this.apiDisciplines.editDisciplineUsingPUT(discipline).subscribe((data) => {
+      this.showSnack('данните бяха промемени', '', 1300);
+      this.router.navigate(['home/list-discipline']);
+    });
   }
 
   uploadDoc(input: any) {
     const file: File = input.files[0];
     if (!file.type.includes('doc')) {
-      this.showSnack("Непозволен формат", "", 3000)
+      this.showSnack('Непозволен формат', '', 3000);
       input.value = '';
     } else {
       console.log(file);
