@@ -5,6 +5,7 @@ import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-disc
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
+import { RoomComponent } from './events/room/room.component';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
 import { EditGroupComponent } from './groups/edit-group/edit-group.component';
 import { ListGroupComponent } from './groups/list-group/list-group.component';
@@ -20,7 +21,6 @@ import { MainscreenComponent } from './mainscreen/mainscreen.component';
 import { AddRoleComponent } from './roles/add-role/add-role.component';
 import { EditRoleComponent } from './roles/edit-role/edit-role.component';
 import { ListRoleComponent } from './roles/list-role/list-role.component';
-import { RoomComponent } from './rooms/room/room.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 

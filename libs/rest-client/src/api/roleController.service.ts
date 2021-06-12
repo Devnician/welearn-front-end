@@ -11,18 +11,16 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
-import { Observable }                                        from 'rxjs/Observable';
-
+import { HttpClient, HttpEvent, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { environment } from 'src/environments/environment';
+import { Configuration } from '../configuration';
 import { RoleDto } from '../model/roleDto';
+import { BASE_PATH } from '../variables';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
-import { environment }                                       from 'src/environments/environment';
+
+
 
 @Injectable()
 export class RoleControllerService {

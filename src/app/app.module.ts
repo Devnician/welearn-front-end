@@ -4,7 +4,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   HttpClient,
   HttpClientModule,
-  HTTP_INTERCEPTORS,
+  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,12 +28,13 @@ import {
   EventControllerService,
   GroupControllerService,
   RoleControllerService,
-  UserControllerService,
+  ScheduleControllerService,
+  UserControllerService
 } from 'libs/rest-client/src';
 import {
   OwlDateTimeModule,
   OwlNativeDateTimeModule,
-  OWL_DATE_TIME_LOCALE,
+  OWL_DATE_TIME_LOCALE
 } from 'ng-pick-datetime';
 // import { MatTimepickerModule } from "mat-timepicker";
 // import { MatTimepickerModule } from "mat-timepicker";
@@ -62,6 +63,7 @@ import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
 import { EditScheduleComponent } from './events/edit-schedule/edit-schedule.component';
 import { ListEventComponent } from './events/list-event/list-event.component';
+import { RoomComponent } from './events/room/room.component';
 import { FilterPipe } from './filter.pipe';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
 import { EditGroupComponent } from './groups/edit-group/edit-group.component';
@@ -73,7 +75,6 @@ import { MaterialModule } from './material.module';
 import { AddRoleComponent } from './roles/add-role/add-role.component';
 import { EditRoleComponent } from './roles/edit-role/edit-role.component';
 import { ListRoleComponent } from './roles/list-role/list-role.component';
-import { RoomComponent } from './rooms/room/room.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 import { AlertTagComponent } from './utils/alert-tag.component';
@@ -141,7 +142,11 @@ FullCalendarModule.registerPlugins([
     DragDropModule,
     ScrollingModule,
   ],
-  entryComponents: [DialogModalComponent, DialogInfoComponent],
+  entryComponents: [
+    DialogModalComponent,
+    DialogInfoComponent,
+    EditScheduleComponent,
+  ],
 
   providers: [
     AuthenticationControllerService,
@@ -151,6 +156,9 @@ FullCalendarModule.registerPlugins([
     EvaluationMarkControllerService,
     EventControllerService,
     GroupControllerService,
+    ScheduleControllerService,
+    EvaluationMarkControllerService,
+
     DonkeyService,
     FilterPipe,
     Valido,
