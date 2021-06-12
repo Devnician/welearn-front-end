@@ -175,9 +175,11 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     }
     const result = this.addForm.getRawValue();
     result.startDate = moment(result.startDate).format('yyyy-MM-DD');
-    result.endDate = moment(result.endDate).format('yyyy-MM-DD');   
-    result.startHour = moment(result.startHour).format('HH:mm:ss');
-    result.endHour = moment(result.endHour).format('HH:mm:ss');
+    result.endDate = moment(result.endDate).format('yyyy-MM-DD');
+    
+    result.startHour = moment(result.startHour).format('HH:mm');
+    result.endHour = moment(result.endHour).format('HH:mm');
+    
     result.groupId = result.group.groupId;
     delete result.group;
     result.disciplineId = result.discipline.id;
@@ -185,9 +187,16 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
  
     this.scheduleService.saveUsingPOST1(result).subscribe((data) => {
       console.log(data);
-//const id = data.
+      const scheduleId = data.id;
+
+
       //TODO GENERATE EVENTS
-     // this.scheduleService.generateEventsUsingPOST()
+      this.scheduleService.generateEventsUsingPOST(scheduleId).subscribe(
+        (result) => {
+          this.dialogRef.close({result: 'OK'})
+          console.log(data);
+        }
+      );
     }); 
   }
 }

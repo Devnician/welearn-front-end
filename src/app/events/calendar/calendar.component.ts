@@ -262,6 +262,9 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     const dialogRef = this.dialog.open(EditScheduleComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
       console.log('do something');
+      if (result) {
+        this.letShowEvents();
+      }
     });
   }
 
