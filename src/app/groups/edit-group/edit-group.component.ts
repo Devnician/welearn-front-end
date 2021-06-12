@@ -3,7 +3,7 @@ import {
   state,
   style,
   transition,
-  trigger,
+  trigger
 } from '@angular/animations';
 import { Component, ContentChild, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';

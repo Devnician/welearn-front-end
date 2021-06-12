@@ -12,11 +12,13 @@
 
 
 export interface ScheduleDto { 
-    days: string;
+    dayOfWeek: string;
     disciplineId: string;
-    endTime: Date;
+    endDate: Date;
+    endHour: Date;
     groupId: string;
     id?: string;
     resourceIds?: Array<string>;
-    startTime: Date;
+    startDate: Date;
+    startHour: Date;
 }
