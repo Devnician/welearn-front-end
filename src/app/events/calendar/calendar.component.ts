@@ -6,7 +6,7 @@ import {
   DateSelectArg,
   EventApi,
   EventClickArg,
-  EventInput,
+  EventInput
 } from '@fullcalendar/angular';
 import bgLocale from '@fullcalendar/core/locales/bg';
 import {
@@ -14,7 +14,7 @@ import {
   EventDto,
   GroupControllerService,
   GroupDto,
-  ScheduleDto,
+  ScheduleDto
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -258,10 +258,14 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     config.closeOnNavigation = false;
     config.data = data;
     config.width = '80vw';
-    // config.height = 'fit-content';
+    
     const dialogRef = this.dialog.open(EditScheduleComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
       console.log('do something');
     });
+  }
+
+  openRoom() { 
+    this.router.navigate(['home/list-event/room']);
   }
 }

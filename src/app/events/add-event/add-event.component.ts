@@ -7,8 +7,7 @@ import {
   EventControllerService,
   EventDto,
   GroupControllerService,
-  GroupDto,
-  UserDto,
+  GroupDto, UserDto
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -45,7 +44,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public bundle: any,
     private dialogRef: MatDialogRef<AddEventComponent>,
     private apiEvents: EventControllerService,
-    private apiGroups: GroupControllerService,
+    private apiGroups: GroupControllerService, 
     private s: MatSnackBar
   ) {
     super(injector, s);
