@@ -39,6 +39,12 @@ export class MainscreenComponent extends BlitcenComponent implements OnInit {
       const res: EventDto[] = result;
       const today: moment.Moment = moment().startOf('day');
       this.upcomingEvents = res.filter((e) => today.isBefore(e.startDate));
+      console.log(this.user.userId);
+      this.upcomingEvents = this.upcomingEvents.filter(ev =>
+        ev.discipline.teacher.userId === this.user.userId  || ev.discipline.assistant.userId === this.user.userId
+      );
+      console.log(this.upcomingEvents);
+
       this.upcomingEvents.sort(
         (a, b) =>
           new Date(a.startDate).getTime() - new Date(b.startDate).getTime()

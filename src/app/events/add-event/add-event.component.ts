@@ -7,8 +7,7 @@ import {
   EventControllerService,
   EventDto,
   GroupControllerService,
-  GroupDto,
-  UserDto,
+  GroupDto, UserDto
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -45,7 +44,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public bundle: any,
     private dialogRef: MatDialogRef<AddEventComponent>,
     private apiEvents: EventControllerService,
-    // private apiGroups: GroupControllerService,
+    public apiGroups: GroupControllerService, 
     private s: MatSnackBar
   ) {
     super(injector, s);
@@ -161,11 +160,12 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     const result: any = this.addForm.getRawValue();
     result.groupId = result.group.groupId;
     result.disciplineId = result.discipline.disciplineId;
-    const ev: EventDto = result as EventDto;
+    const ev: any = result as EventDto;
+    console.log(ev);
 
     switch (this.currentMode) {
       case ProcessTypes.CREATE:
-        ev.eventId = '';
+        ev.eventId = undefined;
         if (moment(ev.startDate).isAfter(ev.endDate)) {
           this.addForm.controls.startDate.setErrors({ incorrect: true });
           this.addForm.controls.endDate.setErrors({ incorrect: true });
@@ -177,12 +177,16 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
           return;
         }
 
+        ev.startDate =  moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
+        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');  
         this.apiEvents.createEventUsingPOST(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Добавихте събитие успешно.', 'ok', 2128);
         });
         break;
       case ProcessTypes.UPDATE:
+        ev.startDate =  moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
+        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss'); 
         this.apiEvents.editEventUsingPUT(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Пременихте данни за събитие успешно.', 'ok', 2128);

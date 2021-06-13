@@ -71,24 +71,25 @@ export class ListUserComponent
       // go go
     } else if (currentUserRoleAsString.includes('teacher')) {
       // API CALL - getGroupsByTeacherId
-
-      this.groups = this.groups.filter(
-        (gr) =>
-          gr.disciplines.findIndex(
-            (d) => d.teacher?.userId === this.user.userId
-          ) !== -1 ||
-          gr.disciplines.findIndex(
-            (d) => d.assistant.userId === this.user.userId
-          ) !== -1
-      );
-
-      const array = [];
-      this.groups.forEach((group) => {
-        group.users.forEach((st) => {
-          array.push(st.userId);
+      if (this.groups) {
+        this.groups = this.groups.filter(
+          (gr) =>
+            gr.disciplines.findIndex(
+              (d) => d.teacher?.userId === this.user.userId
+            ) !== -1 ||
+            gr.disciplines.findIndex(
+              (d) => d.assistant.userId === this.user.userId
+            ) !== -1
+        );
+        const array = [];
+        this.groups.forEach((group) => {
+          group.users.forEach((st) => {
+            array.push(st.userId);
+          });
         });
-      });
-      this.users = this.users.filter((x) => array.indexOf(x.userId) !== -1);
+        this.users = this.users.filter((x) => array.indexOf(x.userId) !== -1);
+      }  
+     
     } else if (currentUserRoleAsString.includes('student')) {
       this.disableEdit = true;
       this.groups = this.groups.filter(

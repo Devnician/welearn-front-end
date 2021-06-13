@@ -5,7 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   GroupControllerService,
   GroupDto,
-  ScheduleDto,
+  ScheduleControllerService,
+  ScheduleDto
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -38,12 +39,14 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: ScheduleDto,
     private dialogRef: MatDialogRef<EditScheduleComponent>,
-    // private apiGroups: GroupControllerService,
+    private scheduleService: ScheduleControllerService,
+    public apiGroups: GroupControllerService,
     private injector: Injector,
     private s: MatSnackBar
   ) {
     super(injector, s);
-    // this.addAuthorizationToService(apiGroups);
+    this.addAuthorizationToService(apiGroups);
+    this.addAuthorizationToService(scheduleService);
   }
 
   ngOnInit(): void {
@@ -51,13 +54,22 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     // TODO - this is for admin
 
     console.log(this.user.role);
-    if (this.user.role.role === 'administrator') {
+
+    // TODO - find groups for this user(only teacher can see this!)
+    if (
+      this.user.role.role === 'administrator' ||
+      this.user.role.role === 'teacher'
+    ) {
+      this.apiGroups.findAllUsingGET2().subscribe((result) => {
+        this.groups = result;
+      });
+    } else if (this.user.role.role === 'teacher') {
       this.apiGroups.findAllUsingGET2().subscribe((result) => {
         this.groups = result;
       });
     } else {
-      // TODO - find groups for this user(only teacher can see this!)
-      alert('Ont omplemented for this role');
+      this.showSnack('Нямате теобходимите права за операцията.', '', 5000);
+      return;
     }
 
     this.buildFrorm();
@@ -162,22 +174,29 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       return;
     }
     const result = this.addForm.getRawValue();
-    result.startHour = moment(result.startHour).format('HH:MM').toString();
-    result.endHour = moment(result.endHour).format('HH:MM').toString();
+    result.startDate = moment(result.startDate).format('yyyy-MM-DD');
+    result.endDate = moment(result.endDate).format('yyyy-MM-DD');
+    
+    result.startHour = moment(result.startHour).format('HH:mm');
+    result.endHour = moment(result.endHour).format('HH:mm');
+    
     result.groupId = result.group.groupId;
     delete result.group;
     result.disciplineId = result.discipline.id;
     delete result.discipline;
+ 
+    this.scheduleService.saveUsingPOST1(result).subscribe((data) => {
+      console.log(data);
+      const scheduleId = data.id;
 
-    // disciplineId: string;
-    // endTime: Date;
-    // groupId: string;
-    // id?: string;
-    // resourceIds?: Array<string>;
-    // startTime: Date;
-    // add id only for groups and disciplines
-    console.log(result);
 
-    // TODO create request -->
+      //TODO GENERATE EVENTS
+      this.scheduleService.generateEventsUsingPOST(scheduleId).subscribe(
+        (result) => {
+          this.dialogRef.close({result: 'OK'})
+          console.log(data);
+        }
+      );
+    }); 
   }
 }
