@@ -7,7 +7,7 @@ export const environment = {
   restUrl: 'http://localhost:8080',
   // user: '',
   // pass: '',
-  user: 'teacher',
+  user: 'admin',
   pass: 'admiN123+',
 };
 

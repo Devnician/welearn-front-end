@@ -27,6 +27,7 @@ import {
   EvaluationMarkControllerService,
   EventControllerService,
   GroupControllerService,
+  ResourceControllerService,
   RoleControllerService,
   ScheduleControllerService,
   UserControllerService
@@ -55,7 +56,7 @@ import { Valido } from './core/valido';
 import { DialogInfoComponent } from './dialog-info/dialog-info.component';
 // import { DATE_TIME_LOCALE } from 'angular-calendar';
 import { DialogModalComponent } from './dialog-modal/dialog-modal.component';
-import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipline.component';
+import { DndDirective } from './directives/dnd-directive';
 import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { DocumentsComponent } from './documents/documents.component';
@@ -115,11 +116,11 @@ FullCalendarModule.registerPlugins([
     EditGroupComponent,
     ListDisciplineComponent,
     RoomComponent,
-    AddGroupComponent,
-    AddDisciplineComponent,
+    AddGroupComponent, 
     EditDisciplineComponent,
     EditScheduleComponent,
-    NomenclatureUnitPipe
+    NomenclatureUnitPipe,
+    DndDirective
   ],
   imports: [
     AppRoutingModule,
@@ -143,7 +144,7 @@ FullCalendarModule.registerPlugins([
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DragDropModule,
-    ScrollingModule,
+    ScrollingModule
   ],
   entryComponents: [
     DialogModalComponent,
@@ -161,6 +162,7 @@ FullCalendarModule.registerPlugins([
     GroupControllerService,
     ScheduleControllerService,
     EvaluationMarkControllerService,
+    ResourceControllerService,
 
     DonkeyService,
     FilterPipe,

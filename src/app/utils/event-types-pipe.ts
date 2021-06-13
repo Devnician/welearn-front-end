@@ -10,8 +10,7 @@ import EVENT_TYPES from "../events/event-types";
  */
 @Pipe({ name: 'eventType' })
 export class NomenclatureUnitPipe implements PipeTransform {
-    transform(value: EVENT_TYPES): string {
-      console.log(value)
+    transform(value: EVENT_TYPES): string { 
     return EVENT_TYPES[value];
   }
 } 

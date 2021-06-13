@@ -3,10 +3,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { DisciplineControllerService, GroupDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
+import { MenuOptions } from 'src/app/model/menu.model';
 import { CollectionsUtil } from 'src/app/utils/collections-util';
+import { ProcessTypes } from 'src/app/utils/process-enum';
 
 @Component({
   selector: 'app-list-discipline',
@@ -20,6 +23,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   collectionsUtil: CollectionsUtil;
   groups: GroupDto[];
   disableEdit = false;
+  cm: MenuOptions;
 
   constructor(
     ar: ActivatedRoute,
@@ -30,10 +34,12 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
   ) {
     super(ar, injector, s);
     this.addAuthorizationToService(apiDisciplines);
+    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
   }
 
   ngOnInit(): void {
     // this.app.users.filter(x => array.indexOf(x.id) !== -1)
+
     this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
       this.disciplines = data as Discipline[];
       this.loadPaginator(this.disciplines, 'name');
@@ -59,27 +65,34 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
     // }
   }
 
-  addDiscipline() {
-    this.router.navigate(['home/list-discipline/add-discipline']);
-  }
-
   editDiscipline(discipline: Discipline) {
-    this.donkey.setData(discipline);
+    let processType = ProcessTypes.CREATE;
+    let prefix = '';
+    if (discipline === null || discipline === undefined) {
+      processType = ProcessTypes.CREATE;
+      prefix = 'Създаване';
+    } else {
+      if (this.cm.preview === true) {
+        processType = ProcessTypes.PREVIEW;
+        prefix = 'Преглед';
+      } else {
+        processType = ProcessTypes.UPDATE;
+        prefix = 'Редактиране';
+      }
+    }
+    this.donkey.setData({ prefix, processType, discipline });
     this.router.navigate(['home/list-discipline/edit-discipline']);
   }
-  deleteDiscipline(discipline: Discipline) {
-    this.apiDisciplines
-      .removeDisciplineUsingDELETE(discipline.id)
-      .subscribe((data) => {
-        if (data) {
-          this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
-            this.disciplines = data as Discipline[];
-            this.loadPaginator(this.disciplines, 'name');
-            // TODO
-            // FILTER DISCIPLINES ACCORDING USER ID
-            // show only the disciplines in which this user is involved
-          });
-        }
-      });
-  }
+  // deleteDiscipline(discipline: Discipline) {
+  //   this.apiDisciplines
+  //     .removeDisciplineUsingDELETE(discipline.id)
+  //     .subscribe((data) => {
+  //       if (data) {
+  //         this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
+  //           this.disciplines = data as Discipline[];
+  //           this.loadPaginator(this.disciplines, 'name');
+  //         });
+  //       }
+  //     });
+  // }
 }

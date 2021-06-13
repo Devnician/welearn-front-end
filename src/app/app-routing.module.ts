@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipline.component';
 import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { DocumentsComponent } from './documents/documents.component';
@@ -141,12 +140,7 @@ const routes: Routes = [
                 path: 'edit-discipline',
                 component: EditDisciplineComponent,
                 data: { breadcrumb: 'wl.edit_breadcrumb' },
-              },
-              {
-                path: 'add-discipline',
-                component: AddDisciplineComponent,
-                data: { breadcrumb: 'wl.add_breadcrumb' },
-              },
+              }, 
             ],
           },
           // Singe pages
