@@ -1,24 +1,24 @@
-<app-loader [show]="show"></app-loader>
-<table class="statistic" class="mat-elevation-z8">
+<table class="statistic" class="mat-elevation-z8"> 
+  <app-loader [show]="show"></app-loader> 
   <tr>
     <th class="card-td" colspan="6">събития</th>
   </tr>
   <tr>
-    <th scope="col" class="card-td">Дисциплина</th>
-    <th scope="col" class="card-td">Време</th>
+    <th scope="col" class="card-td">Дисциплина</th> 
     <th scope="col" class="card-td">Тип</th>
+    <th scope="col" class="card-td">Време</th>
     <th scope="col" class="card-td">Описание</th>
   </tr>
   <tr *ngFor="let row of upcomingEvents">
     <td class="card-td">{{ row.discipline.name }}</td>
+    <td class="card-td">{{ row.type | eventType }}</td>
     <td class="card-td">
       <h5>
         {{ row.startDate | date: 'dd-MM-yyyy, HH:mm' }} -
         {{ row.endDate | date: 'dd-MM-yyyy, HH:mm' }}
       </h5>
-    </td>
-    <td class="card-td">{{ row.type }}</td>
+    </td> 
     <td class="card-td">{{ row.description }}</td>
   </tr>
-</table>
+</table> 
 <router-outlet></router-outlet>

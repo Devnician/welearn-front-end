@@ -2,8 +2,8 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventControllerService, EventDto } from 'libs/rest-client/src';
 import * as moment from 'moment';
-import { AppComponent } from '../app.component';
 import { BlitcenComponent } from '../blitcen/blitcen.component';
+import { CollectionsUtil } from '../utils/collections-util';
 
 @Component({
   selector: 'app-mainscreen',
@@ -18,39 +18,40 @@ export class MainscreenComponent extends BlitcenComponent implements OnInit {
   constructor(
     injector: Injector,
     private s: MatSnackBar,
-    private eventService: EventControllerService
+    private eventService: EventControllerService,
+    private collectionsUtil:CollectionsUtil
   ) {
     super(injector, s);
     this.addAuthorizationToService(eventService);
+    
   }
 
   /**
    * Show only menu buttons in main screen for now
    */
   ngOnInit() {
-    this.menuOpt = AppComponent.myapp?.menuOptions;
-    this.show = false;
+    //this.menuOpt = AppComponent.myapp?.menuOptions; 
 
     this.eventService.findAllUsingGET1().subscribe((result) => {
       if (!result) {
-        this.showSnack('Нямате предстоящи събития.', 'OK', 2000);
+        this.showSnack('Нямате предстоящи събития.', 'OK', 5000);
         return;
       }
       const res: EventDto[] = result;
-      const today: moment.Moment = moment().startOf('day');
-      this.upcomingEvents = res.filter((e) => today.isBefore(e.startDate));
-      console.log(this.user.userId);
-      this.upcomingEvents = this.upcomingEvents.filter(ev =>
-        ev.discipline.teacher.userId === this.user.userId  || ev.discipline.assistant.userId === this.user.userId
-      );
-      console.log(this.upcomingEvents);
-
-      this.upcomingEvents.sort(
-        (a, b) =>
-          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-      );
-    });
-
-    // this.rows.push({ type: 'eventType', date: new Date(), discipline: 'DB' });
+      const today: moment.Moment = moment().startOf('day'); 
+      this.upcomingEvents = res.filter((e) => today.isBefore(e.startDate)); 
+      this.upcomingEvents = this.collectionsUtil.filterEventsAccordingUserRole(this.upcomingEvents, this.user);
+      
+      if (this.upcomingEvents.length === 0) {
+        this.showSnack('Нямате предстоящи събития.', 'OK', 5000);
+      } else {
+        this.upcomingEvents.sort(
+          (a, b) =>
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        );
+      }
+     
+      this.show = false;
+    }); 
   }
 }

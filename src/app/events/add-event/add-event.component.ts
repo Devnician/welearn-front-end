@@ -7,7 +7,8 @@ import {
   EventControllerService,
   EventDto,
   GroupControllerService,
-  GroupDto, UserDto
+  GroupDto,
+  UserDto
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -33,8 +34,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
   selectedDisciplines: DisciplineDto[];
   currentMode = ProcessTypes.PREVIEW;
   currentEvent: EventDto;
-  eventStartDateTime: Date;
-  eventEndDateTime: Date;
+
   canEditThi$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   canEditThis = this.canEditThi$ as Observable<boolean>;
 
@@ -44,15 +44,17 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public bundle: any,
     private dialogRef: MatDialogRef<AddEventComponent>,
     private apiEvents: EventControllerService,
-    private apiGroups: GroupControllerService, 
+    private apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
     this.addAuthorizationToService(apiGroups);
+    console.log(this.eventTypes);
   }
 
   ngOnInit(): void {
+    console.log(this.bundle), this.eventTypes;
     this.apiGroups.findAllUsingGET2().subscribe((data) => {
       this.groups = data;
     });
@@ -61,18 +63,20 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     const evDTO = this.bundle.eventDto;
     evDTO.group = this.bundle.group;
     this.canUserEditThisEvent(this.bundle.opt);
+    let eventStartDateTime: Date;
+    let eventEndDateTime: Date;
 
     if (this.currentMode !== ProcessTypes.CREATE) {
       this.selectedGroup = evDTO.group;
       this.selectedDisciplines = this.selectedGroup.disciplines;
-      this.eventStartDateTime = moment(evDTO.startDate).toDate();
-      this.eventEndDateTime = moment(evDTO.endDate).toDate();
+      eventStartDateTime = moment(evDTO.startDate).toDate();
+      eventEndDateTime = moment(evDTO.endDate).toDate();
     } else {
-      this.eventStartDateTime = moment(evDTO.startDate)
+      eventStartDateTime = moment(evDTO.startDate)
         .startOf('day')
         .add(8, 'hour')
         .toDate();
-      this.eventEndDateTime = moment(evDTO.startDate)
+      eventEndDateTime = moment(evDTO.startDate)
         .startOf('day')
         .add(9, 'hour')
         .toDate();
@@ -89,6 +93,9 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
       discipline: [hasValues ? evDTO.discipline : null, Validators.required],
       group: [hasValues ? evDTO.group : null, Validators.required],
     });
+
+    this.addForm.controls.startDate.setValue(eventStartDateTime);
+    this.addForm.controls.endDate.setValue(eventEndDateTime);
 
     this.addForm.updateValueAndValidity();
 
@@ -177,16 +184,16 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
           return;
         }
 
-        ev.startDate =  moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
-        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');  
+        ev.startDate = moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
+        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');
         this.apiEvents.createEventUsingPOST(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Добавихте събитие успешно.', 'ok', 2128);
         });
         break;
       case ProcessTypes.UPDATE:
-        ev.startDate =  moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
-        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss'); 
+        ev.startDate = moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
+        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');
         this.apiEvents.editEventUsingPUT(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Пременихте данни за събитие успешно.', 'ok', 2128);

@@ -21,6 +21,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
+import { CollectionsUtil } from 'src/app/utils/collections-util';
 import { ProcessTypes } from 'src/app/utils/process-enum';
 import { AddEventComponent } from '../add-event/add-event.component';
 import { EditScheduleComponent } from '../edit-schedule/edit-schedule.component';
@@ -36,10 +37,11 @@ import EVENT_TYPES from '../event-types';
 // npm install --save @fullcalendar/angular @fullcalendar/daygrid
 // npm install --save @fullcalendar/angular @fullcalendar/daygrid @fullcalendar/timegrid
 export class CalendarComponent extends BlitcenComponent implements OnInit {
+  eventTypes = EVENT_TYPES;
   myEvents: EventDto[] = [];
   upcomingEvents: EventDto[] = [];
   locales = [bgLocale /*, enLocale*/]; // bind to app locale
-
+  //labels: EventTypeLabels;
   // calendarVisible = true;
   calendarOptions: CalendarOptions = {
     locale: bgLocale,
@@ -82,15 +84,17 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     injector: Injector,
     private apiEvents: EventControllerService,
     private apiGroups: GroupControllerService,
-    private s: MatSnackBar
+    private s: MatSnackBar,
+    private collectionsUtil: CollectionsUtil
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
     this.addAuthorizationToService(apiGroups);
-    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
+    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);  
   }
 
   ngOnInit(): void {
+    console.log('ON INIT')
     this.loadGroups();
     this.gorups$.subscribe((data) => {
       if (data) {
@@ -108,15 +112,12 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
   letShowEvents() {
     const showEvents: EventInput[] = [];
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
-      this.myEvents = data;
-      // title: 'ООП, тип: Лекция ',
-      //   start: moment().add(-2, 'days').startOf('day').add(9, 'hour').toISOString(), // TODAY_STR + 'T08:00:00',
-      //   color: 'red',
-
+      this.myEvents = data;  
+      this.myEvents = this.collectionsUtil.filterEventsAccordingUserRole(this.myEvents, this.user);  
       this.myEvents.forEach((eventDto) => {
         showEvents.push({
           editable: false,
-          title: '(' + eventDto.type + ') ' + eventDto.discipline.name,
+          title: '(' + EVENT_TYPES[eventDto.type] + ') ' + eventDto.discipline.name,
           extendedProps: {
             eventDto,
           },

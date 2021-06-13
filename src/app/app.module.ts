@@ -78,6 +78,8 @@ import { ListRoleComponent } from './roles/list-role/list-role.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 import { AlertTagComponent } from './utils/alert-tag.component';
+import { CollectionsUtil } from './utils/collections-util';
+import { NomenclatureUnitPipe } from './utils/event-types-pipe';
 import { LoaderComponent } from './utils/loader.component';
 FullCalendarModule.registerPlugins([
   // register FullCalendar plugins
@@ -117,6 +119,7 @@ FullCalendarModule.registerPlugins([
     AddDisciplineComponent,
     EditDisciplineComponent,
     EditScheduleComponent,
+    NomenclatureUnitPipe
   ],
   imports: [
     AppRoutingModule,
@@ -162,6 +165,7 @@ FullCalendarModule.registerPlugins([
     DonkeyService,
     FilterPipe,
     Valido,
+    CollectionsUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

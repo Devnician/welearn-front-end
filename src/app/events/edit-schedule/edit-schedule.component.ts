@@ -11,6 +11,7 @@ import {
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import EVENT_TYPES from '../event-types';
 
 @Component({
   selector: 'app-edit-schedule',
@@ -34,6 +35,9 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
   groups: GroupDto[] = [];
   minDate: any;
   maxDate: any;
+
+  eventTypes = EVENT_TYPES;
+  // selected: EVENT_TYPES.Lection;
 
   constructor(
     private fb: FormBuilder,
@@ -81,6 +85,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       dayOfWeek: ['', Validators.required],
       startHour: [moment().startOf('day').add(8, 'hours'), Validators.required],
       endHour: [moment().startOf('day').add(10, 'hours'), Validators.required],
+      type: [EVENT_TYPES.Lection, Validators.required],
       group: [null, Validators.required],
       discipline: [null, Validators.required],
     });

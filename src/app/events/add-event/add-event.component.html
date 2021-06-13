@@ -21,21 +21,20 @@
 
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt1">
           <input
-            [(ngModel)]="eventStartDateTime"
+           
             class="form-control"
             matInput
             [owlDateTime]="dt1"
             placeholder="{{ 'wl.startDateTime' | translate }}"
             formControlName="startDate"
-            id="starDateTime"
+            id="starDateTime" 
             readonly
           />
           <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
         </mat-form-field>
 
         <mat-form-field class="three-on-row" [owlDateTimeTrigger]="dt2">
-          <input
-            [(ngModel)]="eventEndDateTime"
+          <input 
             class="form-control"
             matInput
             [owlDateTime]="dt2"
@@ -173,5 +172,5 @@
       </div>
     </form>
   </mat-card-content>
-  <!-- <pre>{{ addForm.value | json }}</pre> -->
+  <pre>{{ addForm.getRawValue() | json }}</pre>
 </mat-card>

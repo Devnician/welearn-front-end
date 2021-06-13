@@ -1,62 +1,101 @@
-<app-loader [show]=show></app-loader>
-<div class="b-bar">
-  <button mat-mini-fab aria-label="Favorite" (click)="addGroup()" matTooltip="добавяне на група">
-    <mat-icon>add</mat-icon> 
-  </button> 
+<app-loader [show]="show"></app-loader>
+<div class="b-bar" *ngIf="cm.add === true">
+  <button
+    mat-mini-fab
+    aria-label="Favorite"
+    (click)="addGroup()"
+    matTooltip="добавяне на група"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
 <div class="mat-elevation-z8">
   <table mat-table #table [dataSource]="paginator.slice">
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.id'|translate}} </th>
-      <td mat-cell *matCellDef="let group"> {{group.id}} </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'wl.id' | translate }}</th>
+      <td mat-cell *matCellDef="let group">{{ group.groupId }}</td>
     </ng-container>
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.group_name' |translate}} </th>
-      <td mat-cell *matCellDef="let group"> {{group.name}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'wl.group_name' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let group">{{ group.name }}</td>
     </ng-container>
     <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.start_date'|translate}} </th>
-      <td mat-cell *matCellDef="let group"> {{group.startDate | date:'dd/MM/yyyy'}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'wl.start_date' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let group">
+        {{ group.startDate | date: 'dd/MM/yyyy' }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="endDate">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.end_date'|translate}} </th>
-      <td mat-cell *matCellDef="let group"> {{group.endDate | date:'dd/MM/yyyy'}} </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'wl.end_date' | translate }}</th>
+      <td mat-cell *matCellDef="let group">
+        {{ group.endDate | date: 'dd/MM/yyyy' }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="disciplines">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.disciplines'|translate}} </th>
-      <td mat-cell *matCellDef="let group"> {{group.disciplines?.length}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'wl.disciplines' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let group">{{ group.disciplines?.length }}</td>
     </ng-container>
     <ng-container matColumnDef="count">
-      <th mat-header-cell *matHeaderCellDef> {{'wl.participants'|translate}} </th>
-      <td mat-cell *matCellDef="let group"> {{group.students?.length}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'wl.participants' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let group">{{ group.users?.length }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Още</th>
       <td mat-cell *matCellDef="let group">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+        >
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="editGroup(group)" [disabled]="disableEdit === true">
+          <button
+            mat-menu-item
+            (click)="editGroup(group)"
+            [disabled]="cm.edit === false"
+          >
             <mat-icon>edit</mat-icon>
-            <span>Редактирай</span>
+            <span>Редактиране</span>
           </button>
-          <button mat-menu-item (click)="deleteGroup(group.groupId)">
+
+          <button *ngIf="cm.preview === true"
+          mat-menu-item
+          (click)="editGroup(group)"
+          
+        >
+          <mat-icon>preview</mat-icon>
+          <span>Преглед</span>
+        </button>
+          <!-- <button mat-menu-item (click)="deleteGroup(group.groupId)">
             <mat-icon>delete</mat-icon>
             <span>Изтрий</span>
-          </button>
+          </button> -->
         </mat-menu>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
     <tr #noData *matNoDataRow class="mat-row no-data-row">
       <td colspan="7">Няма намерени записи!</td>
     </tr>
   </table>
-  <mat-paginator [length]=paginator.allElements [pageSize]=paginator.pageSize [pageSizeOptions]="paginator.pageOptions"
-    showFirstLastButtons (page)="handlePage($event)"></mat-paginator>
+  <mat-paginator
+    [length]="paginator.allElements"
+    [pageSize]="paginator.pageSize"
+    [pageSizeOptions]="paginator.pageOptions"
+    showFirstLastButtons
+    (page)="handlePage($event)"
+  ></mat-paginator>
 </div>

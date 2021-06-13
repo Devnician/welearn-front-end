@@ -11,10 +11,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { DisciplineDto, GroupDto, UserDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
 import { Discipline } from 'src/app/model/discipline.model';
+import { MenuOptions } from 'src/app/model/menu.model';
 @Component({
   selector: 'app-edit-group',
   templateUrl: './edit-group.component.html',
@@ -40,7 +42,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
 
   studentGroup: GroupDto;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'actions'];
-
+  cm: MenuOptions;
   constructor(
     ar: ActivatedRoute,
     private donkey: DonkeyService,
@@ -50,7 +52,9 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   ) {
     super(ar, injector, s);
     this.studentGroup = donkey.getData();
-
+    this.cm = AppComponent.myapp.getCurrentMenuObject('/home/list-group');
+   
+console.log(this.cm)
     console.log(this.studentGroup);
   }
 

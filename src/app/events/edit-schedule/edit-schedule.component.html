@@ -68,6 +68,20 @@
             >{{ 'wl.invalid_schedule_date' | translate }}
           </mat-error>
         </mat-form-field>
+
+        <mat-form-field class="three-on-row">
+          <mat-label> {{ 'wl.select_event_type' | translate }}</mat-label>
+          <mat-select name="type" formControlName="type">
+            <mat-option
+              *ngFor="let type of eventTypes | keyvalue"
+              [value]="type.value"
+              class="form-control"
+              matTooltipPosition="right"
+            >
+              {{ type.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="f-row">
@@ -145,5 +159,5 @@
       </div>
     </form>
   </mat-card-content>
-  <!-- <pre>{{ addForm.value | json }}</pre> -->
+  <pre>{{ addForm.value | json }}</pre>
 </mat-card>

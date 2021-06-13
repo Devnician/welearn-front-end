@@ -3,6 +3,5 @@ enum EVENT_TYPES {
   Exercise = 'упражнение',
   Consultation = 'консултация',
   Exam = 'изпит',
-}
-
+} 
 export default EVENT_TYPES;
