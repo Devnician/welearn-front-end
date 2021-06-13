@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { DisciplineDto, GroupDto, UserDto } from 'libs/rest-client/src';
+import { DisciplineDto, EvaluationMarkDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
@@ -103,7 +103,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   showEvaluationMarks(user: UserDto) {
     const myDisciplines: DisciplineDto[] = this.studentGroup.disciplines.filter(
       (d) =>
-        d.teacher?.userId === this.user.userId ||
+        this.user.role.id === 1 || d.teacher?.userId === this.user.userId ||
         d.assistant?.userId === this.user.userId
     );
     this.openDialog(user, myDisciplines);
@@ -118,6 +118,7 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
       data: {
         obj: user,
         collection: disciplines,
+        groupId: this.studentGroup.groupId,
         mode: 'edit',
         classType: 'marks',
       },
@@ -127,6 +128,15 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
       if (result) {
         console.log('result: ');
         console.log(result.data);
+        const evaluationMarks: EvaluationMarkDto[] = result.data.disciplines;
+        this.apiEvaluationMarks.createMarkUsingPOST(evaluationMarks).subscribe(
+          () => this.apiGroups.findByIdUsingGET(this.studentGroup.groupId).subscribe(
+            group => {
+              this.studentGroup = group
+              this.loadPaginator(this.studentGroup.users, 'firstName');
+            }
+          )
+        )
       }
     });
   }

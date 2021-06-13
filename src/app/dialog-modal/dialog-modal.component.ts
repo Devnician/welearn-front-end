@@ -27,6 +27,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
   studentNames: string;
   disciplines: FormArray = this.formBuilder.array([]);
   displayedSimColumns: string[] = ['id', 'name', 'mark'];
+  groupId: string;
 
   constructor(
     public dialogRef: MatDialogRef<DialogModalComponent>,
@@ -41,6 +42,7 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     this.classType = data?.classType;
     this.valido = new Valido();
     this.user = AppComponent.myapp?.user;
+    this.groupId = data?.groupId;
   }
 
   ngOnInit(): void {
@@ -48,26 +50,29 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     console.log(this.classType);
     switch (this.classType) {
       case 'marks':
-        this.buildMarksForm(this.objectFromPage, this.collection);
+        this.buildMarksForm(this.objectFromPage, this.collection, this.groupId);
         break;
       default:
         break;
     }
   }
 
-  buildMarksForm(user: UserDto, discpilines: Discipline[]) {
+  buildMarksForm(user: UserDto, discpilines: Discipline[], groupId: string) {
     this.studentNames =
       user.firstName + ' ' + user.middleName + ' ' + user.lastName;
     this.form = this.formBuilder.group({
-      userId: user.userId,
       disciplines: this.disciplines,
     });
     this.disciplines = this.formBuilder.array(
-      discpilines.map((d) =>
+      discpilines.map((d, index) =>
         this.formBuilder.group({
-          id: this.formBuilder.control(d.id),
+          rowSequence: this.formBuilder.control(index + 1),
+          disciplineId: this.formBuilder.control(d.id),
+          userId: user.userId,
+          groupId,
           name: this.formBuilder.control(d.name),
-          mark: this.formBuilder.control(d.mark),
+          markValue: this.formBuilder.control(user.evaluationMarks.filter(m => m.disciplineId === d.id)[0]?.markValue?.toString()),
+          id: this.formBuilder.control(user.evaluationMarks.filter(m => m.disciplineId === d.id)[0]?.id),
         })
       )
     );
@@ -82,5 +87,5 @@ export class DialogModalComponent implements OnInit, OnDestroy {
     this.dialogRef.close({ data: this.form.getRawValue() });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 }

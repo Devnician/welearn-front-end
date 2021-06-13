@@ -8,6 +8,7 @@ import {
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
+  EvaluationMarkControllerService,
   GroupControllerService,
   RoleControllerService,
   UserControllerService,
@@ -36,6 +37,7 @@ export class BlitcenComponent {
   protected apiUsers: UserControllerService;
   protected apiRoles: RoleControllerService;
   protected apiGroups: GroupControllerService;
+  protected apiEvaluationMarks: EvaluationMarkControllerService;
   protected router: Router;
   private snack: MatSnackBar;
   // protected formBuilder: FormBuilder;
@@ -60,6 +62,10 @@ export class BlitcenComponent {
 
     this.apiGroups = this.addAuthorizationToService(
       injector.get(GroupControllerService)
+    )
+
+    this.apiEvaluationMarks = this.addAuthorizationToService(
+      injector.get(EvaluationMarkControllerService)
     )
 
     this.valido = injector.get(Valido);

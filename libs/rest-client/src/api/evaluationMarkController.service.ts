@@ -64,10 +64,10 @@ export class EvaluationMarkControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
-    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto[], observe?: 'body', reportProgress?: boolean): Observable<EvaluationMarkDto>;
+    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto[], observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EvaluationMarkDto>>;
+    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto[], observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EvaluationMarkDto>>;
+    public createMarkUsingPOST(evaluationMarkDto: EvaluationMarkDto[], observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (evaluationMarkDto === null || evaluationMarkDto === undefined) {
             throw new Error('Required parameter evaluationMarkDto was null or undefined when calling createMarkUsingPOST.');
         }
@@ -97,7 +97,7 @@ export class EvaluationMarkControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<EvaluationMarkDto>(`${this.configuration.basePath}/api/evaluationMark`,
+        return this.httpClient.post<EvaluationMarkDto[]>(`${this.configuration.basePath}/api/evaluationMark`,
             evaluationMarkDto,
             {
                 withCredentials: this.configuration.withCredentials,
