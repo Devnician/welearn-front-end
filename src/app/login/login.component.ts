@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   AuthenticationControllerService,
-  UserControllerService,
+  UserControllerService
 } from 'libs/rest-client/src';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from '../app.component';
@@ -83,6 +83,7 @@ export class LoginComponent implements OnInit {
           case null:
             const map: { [key: string]: string } = {};
             map.Authorization = 'Bearer ' + data.token;
+            console.log(data.token)
             this.apiUser.configuration.apiKeys = map;
 
             this.apiUser.getUserUsingGET(data.id).subscribe((result) => {

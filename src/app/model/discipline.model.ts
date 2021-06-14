@@ -7,6 +7,7 @@ export class Discipline implements DisciplineDto {
   modifiedDate: any;
   teacher: UserDto;
   assistant: UserDto;
+  resourceIds:  Array<string>;
 
   // transient
   lectorId = '';

@@ -145,7 +145,8 @@ export class ResourceControllerService {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
-                reportProgress: reportProgress
+                reportProgress: reportProgress,
+                responseType: 'blob' as 'json'
             }
         );
     }

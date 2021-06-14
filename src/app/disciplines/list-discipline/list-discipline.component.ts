@@ -42,6 +42,7 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
 
     this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
       this.disciplines = data as Discipline[];
+      console.log(this.disciplines);
       this.loadPaginator(this.disciplines, 'name');
       // TODO
       // FILTER DISCIPLINES ACCORDING USER ID

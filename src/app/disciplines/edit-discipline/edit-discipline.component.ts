@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   DisciplineControllerService,
   ResourceControllerService,
+  ResourceDto,
   UserDto
 } from 'libs/rest-client/src';
 import { AppComponent } from 'src/app/app.component';
@@ -25,11 +26,14 @@ export class EditDisciplineComponent
   implements OnInit
 {
   form: FormGroup;
+  
   discipline: Discipline;
   lectors: UserDto[];
   roles: Role[] = [];
   processType = ProcessTypes.CREATE;
   prefix = '';
+  resources: ResourceDto[] = [];
+  newResources: ResourceDto[] = [];
 
   constructor(
     donkey: DonkeyService,
@@ -46,7 +50,7 @@ export class EditDisciplineComponent
     let data = donkey.getData();
     this.discipline = data.discipline;
     this.processType = data.processType;
-    this.prefix = data.prefix;
+    this.prefix = data.prefix; // dialog label
 
     console.log(this.processType);
 
@@ -57,10 +61,22 @@ export class EditDisciplineComponent
       this.discipline.modifiedDate = TimeUtil.adjustDateStringToDateTime(
         this.discipline.modifiedDate
       );
+
+      let fileIds = this.discipline.resourceIds; 
+      if (fileIds.length > 0) {
+        fileIds.forEach((file) => {
+          this.resourceControllerService
+            .getByIdUsingGET2(file)
+            .subscribe((dto) => { 
+              this.resources.push(dto); 
+            }); 
+        });
+      }
     }
 
     this.roles = AppComponent?.myapp?.roles;
   }
+
   /**
    * Initializes the form
    */
@@ -70,13 +86,15 @@ export class EditDisciplineComponent
       console.log(this.lectors);
     });
 
+    console.log(this.discipline);
     const roleOfTeachersID: number = this.roles?.find(
       (r) => r.role === 'teacher'
     )?.id;
     if (roleOfTeachersID) {
-      this.apiUsers.listUserUsingGET1(roleOfTeachersID).subscribe((data) => {
-        this.lectors = data;
-      });
+      //fetch lectors
+      // this.apiUsers.listUserUsingGET1(roleOfTeachersID).subscribe((data) => {
+      //   this.lectors = data;
+      // });
 
       this.form = this.formBuilder.group({
         id: this.discipline ? this.discipline.id : 0,
@@ -86,6 +104,32 @@ export class EditDisciplineComponent
       });
     }
   }
+
+  downloadFile(resourceId: string, name: string) {
+    this.resourceControllerService
+      .downloadResourceUsingGET(resourceId)
+      .subscribe((body) => {
+        var url = window.URL.createObjectURL(body);
+        var anchor = document.createElement('a');
+        anchor.download = name;
+        anchor.href = url;
+        anchor.target = '_blank';
+        anchor.click();
+        // this.fetchFile(name, url);
+      });
+  }
+  // /**
+  //  *
+  //  * @param name ticket_15.doc
+  //  * @param url the blob url
+  //  */
+  // fetchFile(name: string, url: string) {
+  //   var anchor = document.createElement('a');
+  //   anchor.download = name;
+  //   anchor.href = url;
+  //   anchor.target = '_blank';
+  //   anchor.click();
+  // }
 
   reset() {
     this.form.reset();
@@ -124,10 +168,30 @@ export class EditDisciplineComponent
         break;
 
       default:
-        alert('eeeeeee');
+       
         this.router.navigate(['home/list-discipline']);
         break;
     }
+  }
+
+  deleteExistingFile(resourceDto: ResourceDto) {  
+    let ref = this.showConfirmDialog('Изтриване на файл', 'Файлът ще бъде изтрит завинаги', undefined);
+    ref.afterClosed().subscribe(data => {
+      if (data) { 
+        if (data.res === 'confirmed') { 
+          this.resourceControllerService.deleteUsingDELETE(resourceDto.resourceId).subscribe(data => {
+            this.resources = this.resources.filter(
+              (f) => f.resourceId !== resourceDto.resourceId
+            );
+          }) 
+        }
+      }
+    }); 
+  }
+  downloadExistingFile(resourceDto: ResourceDto) {
+    let name = resourceDto.name;
+    let resourceId = resourceDto.resourceId;
+    this.downloadFile(resourceId, name);
   }
   //##############################################################
   //
@@ -140,15 +204,12 @@ export class EditDisciplineComponent
    * on file drop handler
    */
   onFileDropped($event) {
-
     this.prepareFilesList($event);
-    console.log(this.files);
-
-    this.resourceControllerService.saveUsingPOST2( this.files[0],true, this.discipline.id).subscribe(
-      data => {
-        console.log(data);
-      }
-    );
+    this.resourceControllerService
+      .saveUsingPOST2(this.files[0], true, this.discipline.id)
+      .subscribe((data) => { 
+        this.newResources.push(data);
+      });
   }
 
   /**
@@ -164,27 +225,15 @@ export class EditDisciplineComponent
    * @param index (File index)
    */
   deleteFile(index: number) {
+    let removeThis = this.files[index]; 
+    let dto = this.newResources.find(res => res.name === removeThis.name);
+    this.newResources.filter(f => f.name !== removeThis.name);
     this.files.splice(index, 1);
+    this.deleteExistingFile(dto); 
   }
 
-  /**
-   * Simulate the upload process
-   */
-  uploadFilesSimulator(index: number) {
-    setTimeout(() => {
-      if (index === this.files.length) {
-        return;
-      } else {
-        const progressInterval = setInterval(() => {
-          if (this.files[index].progress === 100) {
-            clearInterval(progressInterval);
-            this.uploadFilesSimulator(index + 1);
-          } else {
-            this.files[index].progress += 5;
-          }
-        }, 200);
-      }
-    }, 1000);
+  download(index: number) {
+    //SEND DOQNLOAD REQUEST
   }
 
   /**
@@ -196,7 +245,6 @@ export class EditDisciplineComponent
       item.progress = 0;
       this.files.push(item);
     }
-    this.uploadFilesSimulator(0);
   }
 
   /**
