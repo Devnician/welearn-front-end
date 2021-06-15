@@ -308,7 +308,8 @@
         "my_account": "my account",
         "marks": "marks",
         "mark": "mark",
-        "invalid_schedule_date":"selected date is out of course range"
+        "invalid_schedule_date":"selected date is out of course range",
+        "resources":"resources"
         
     }
 }

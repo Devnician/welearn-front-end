@@ -18,7 +18,7 @@ import { ProcessTypes } from 'src/app/utils/process-enum';
 })
 export class ListDisciplineComponent extends BaseComponent implements OnInit {
   @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
-  displayedColumns = ['name', 'lector', 'assistant', 'actions'];
+  displayedColumns = ['name', 'lector', 'assistant', 'resources', 'actions'];
   disciplines: Discipline[] = [];
   collectionsUtil: CollectionsUtil;
   groups: GroupDto[];

@@ -4,15 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import {
   DisciplineControllerService,
-  ResourceControllerService,
-  ResourceDto,
-  UserDto
+  ResourceControllerService, UserDto
 } from 'libs/rest-client/src';
 import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { Discipline } from 'src/app/model/discipline.model';
 import { Role } from 'src/app/model/role.model';
+import { FileUtil } from 'src/app/utils/file-util';
 import { ProcessTypes } from 'src/app/utils/process-enum';
 import { TimeUtil } from 'src/app/utils/time-util';
 
@@ -25,15 +24,14 @@ export class EditDisciplineComponent
   extends BlitcenComponent
   implements OnInit
 {
-  form: FormGroup;
-  
+  form: FormGroup; 
   discipline: Discipline;
   lectors: UserDto[];
   roles: Role[] = [];
   processType = ProcessTypes.CREATE;
   prefix = '';
-  resources: ResourceDto[] = [];
-  newResources: ResourceDto[] = [];
+
+  fileUtil: FileUtil ;
 
   constructor(
     donkey: DonkeyService,
@@ -47,6 +45,7 @@ export class EditDisciplineComponent
     super(injector, s);
     this.addAuthorizationToService(apiDisciplines);
     this.addAuthorizationToService(resourceControllerService);
+    this.fileUtil = new FileUtil(this.resourceControllerService,this);
     let data = donkey.getData();
     this.discipline = data.discipline;
     this.processType = data.processType;
@@ -67,8 +66,9 @@ export class EditDisciplineComponent
         fileIds.forEach((file) => {
           this.resourceControllerService
             .getByIdUsingGET2(file)
-            .subscribe((dto) => { 
-              this.resources.push(dto); 
+            .subscribe((dto) => {
+              this.fileUtil.push(dto);
+              //this.resources.push(dto); 
             }); 
         });
       }
@@ -105,31 +105,7 @@ export class EditDisciplineComponent
     }
   }
 
-  downloadFile(resourceId: string, name: string) {
-    this.resourceControllerService
-      .downloadResourceUsingGET(resourceId)
-      .subscribe((body) => {
-        var url = window.URL.createObjectURL(body);
-        var anchor = document.createElement('a');
-        anchor.download = name;
-        anchor.href = url;
-        anchor.target = '_blank';
-        anchor.click();
-        // this.fetchFile(name, url);
-      });
-  }
-  // /**
-  //  *
-  //  * @param name ticket_15.doc
-  //  * @param url the blob url
-  //  */
-  // fetchFile(name: string, url: string) {
-  //   var anchor = document.createElement('a');
-  //   anchor.download = name;
-  //   anchor.href = url;
-  //   anchor.target = '_blank';
-  //   anchor.click();
-  // }
+ 
 
   reset() {
     this.form.reset();
@@ -173,93 +149,26 @@ export class EditDisciplineComponent
         break;
     }
   }
+  
+   /**
+   * on file drop handler
+   */
+  onFileDropped($event) {
+    this.fileUtil.onFileDropped($event, this.discipline.id);
+      // this.prepareFilesList($event);
+      // this.resourceControllerService
+      //   .saveUsingPOST2(this.files[0], true, this.discipline.id)
+      //   .subscribe((data) => {
+      //     this.newResources.push(data);
+      //   });
+    }
 
-  deleteExistingFile(resourceDto: ResourceDto) {  
-    let ref = this.showConfirmDialog('Изтриване на файл', 'Файлът ще бъде изтрит завинаги', undefined);
-    ref.afterClosed().subscribe(data => {
-      if (data) { 
-        if (data.res === 'confirmed') { 
-          this.resourceControllerService.deleteUsingDELETE(resourceDto.resourceId).subscribe(data => {
-            this.resources = this.resources.filter(
-              (f) => f.resourceId !== resourceDto.resourceId
-            );
-          }) 
-        }
-      }
-    }); 
-  }
-  downloadExistingFile(resourceDto: ResourceDto) {
-    let name = resourceDto.name;
-    let resourceId = resourceDto.resourceId;
-    this.downloadFile(resourceId, name);
-  }
+  
   //##############################################################
   //
   //   UPLOAD
   //
   //##############################################################
-  files: any[] = [];
-
-  /**
-   * on file drop handler
-   */
-  onFileDropped($event) {
-    this.prepareFilesList($event);
-    this.resourceControllerService
-      .saveUsingPOST2(this.files[0], true, this.discipline.id)
-      .subscribe((data) => { 
-        this.newResources.push(data);
-      });
-  }
-
-  /**
-   * handle file from browsing
-   */
-  fileBrowseHandler(files) {
-    this.prepareFilesList(files);
-    console.log(this.files);
-  }
-
-  /**
-   * Delete file from files list
-   * @param index (File index)
-   */
-  deleteFile(index: number) {
-    let removeThis = this.files[index]; 
-    let dto = this.newResources.find(res => res.name === removeThis.name);
-    this.newResources.filter(f => f.name !== removeThis.name);
-    this.files.splice(index, 1);
-    this.deleteExistingFile(dto); 
-  }
-
-  download(index: number) {
-    //SEND DOQNLOAD REQUEST
-  }
-
-  /**
-   * Convert Files list to normal array list
-   * @param files (Files List)
-   */
-  prepareFilesList(files: Array<any>) {
-    for (const item of files) {
-      item.progress = 0;
-      this.files.push(item);
-    }
-  }
-
-  /**
-   * format bytes
-   * @param bytes (File size in bytes)
-   * @param decimals (Decimals point)
-   */
-  formatBytes(bytes, decimals) {
-    if (bytes === 0) {
-      return '0 Bytes';
-    }
-    const k = 1024;
-    const dm = decimals <= 0 ? 0 : decimals || 2;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-  }
+ 
+ 
 }

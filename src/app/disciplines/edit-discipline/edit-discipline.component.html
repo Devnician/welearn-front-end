@@ -52,7 +52,7 @@
 
           <div class="one-on-row" *ngIf="processType !== 'create'">
             <div class="exist-list">
-              <div class="single-file" *ngFor="let file of resources">
+              <div class="single-file" *ngFor="let file of fileUtil.resources">
                 <div class="file-icon" style="width: 50px">
                   <svg
                     version="1.1"
@@ -107,7 +107,7 @@
                     style="padding-right: 5px; margin-right: 5px;"
                     mat-mini-fab
                     color="primary"
-                    (click)="deleteExistingFile(file)"
+                    (click)="fileUtil.deleteExistingFile(file)"
                     matTooltip="изтриване на файл"
                   >
                     <mat-icon class="delete">delete</mat-icon>
@@ -116,7 +116,7 @@
                     style="padding-right: 5px"
                     mat-mini-fab
                     color="primary"
-                    (click)="downloadExistingFile(file)"
+                    (click)="fileUtil.downloadExistingFile(file)"
                     matTooltip="изтегляне на файл"
                   >
                     <mat-icon class="delete">download</mat-icon>
@@ -134,7 +134,7 @@
               #fileDropRef
               id="fileDropRef"
               multiple
-              (change)="fileBrowseHandler($event.target.files)"
+              (change)="fileUtil.fileBrowseHandler($event.target.files)"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +160,7 @@
             <label for="fileDropRef">потърсете</label>
           </div>
           <div class="files-list">
-            <div class="single-file" *ngFor="let file of files; let i = index">
+            <div class="single-file" *ngFor="let file of fileUtil.files; let i = index">
               <div class="file-icon" style="width: 50px">
                 <svg
                   version="1.1"
@@ -210,12 +210,12 @@
                   {{ file?.name }}
                 </h4>
                 <p class="size">
-                  {{ formatBytes(file?.size, 2) }}
+                  {{ fileUtil.formatBytes(file?.size, 2) }}
                 </p>
                 <app-progress [progress]="file?.progress"></app-progress>
               </div>
               <div>
-                <mat-icon class="delete" color="primary" (click)="deleteFile(i)"
+                <mat-icon class="delete" color="primary" (click)="fileUtil.deleteFile(i)"
                   >delete</mat-icon
                 >
               </div>
