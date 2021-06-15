@@ -3,8 +3,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { GroupControllerService, GroupDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
+import { MenuOptions } from 'src/app/model/menu.model';
+import { CollectionsUtil } from 'src/app/utils/collections-util';
 
 @Component({
   selector: 'app-list-group',
@@ -23,35 +26,30 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     'count',
     'actions',
   ];
-  disableEdit = false;
-
+   
+  
+  cm: MenuOptions;
   constructor(
     ar: ActivatedRoute,
     private donkey: DonkeyService,
     injector: Injector,
     private s: MatSnackBar,
-    private apiGroups: GroupControllerService
+    private apiGroups: GroupControllerService,
+    private collectionsUtil:CollectionsUtil
   ) {
     super(ar, injector, s);
     this.addAuthorizationToService(apiGroups);
+    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
+    console.log(this.router.url)
+     console.log(this.cm)
   }
 
   ngOnInit(): void {
     this.apiGroups?.findAllUsingGET2().subscribe((data) => {
       this.groups = data as GroupDto[];
-
-      // TODO - fliter according role
-      // if (this.user.roleId == 2) { //teacher
-      //   //API CALL - getGroupsByTeacherId
-      //   this.groups = this.groups.filter(gr => ((gr.disciplines.findIndex(d => d.lectorId === this.user.userId) !== -1)
-      //     || (gr.disciplines.findIndex(d => d.assitantId === this.user.userId) !== -1)));
-      // } else if (this.user.roleId == 3) {// students
-      //   this.disableEdit = true;
-      //   this.groups = this.groups.filter(gr => (gr.students.findIndex(st => st.userId === this.user.userId) !== -1));
-      // }
-
+      this.groups = this.collectionsUtil.filterGroupsAccordingUserRole(this.groups, this.user);
       this.loadPaginator(this.groups, 'name');
-      // this.showSnack(data.message, '', 1300);
+      this.show = false;
     });
   }
 
@@ -63,16 +61,16 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
   addGroup() {
     this.router.navigate(['home/list-group/add-group']);
   }
-
-  deleteGroup(id: string) {
-    this.apiGroups.deleteGroupUsingDELETE(id).subscribe((data) => {
-      if (data) {
-        // tslint:disable-next-line: no-shadowed-variable
-        this.apiGroups.findAllUsingGET2().subscribe((data) => {
-          this.groups = data as GroupDto[];
-          this.loadPaginator(this.groups, 'name');
-        });
-      }
-    });
-  }
+// Not now..
+  // deleteGroup(id: string) {
+  //   this.apiGroups.deleteGroupUsingDELETE(id).subscribe((data) => {
+  //     if (data) {
+  //       // tslint:disable-next-line: no-shadowed-variable
+  //       this.apiGroups.findAllUsingGET2().subscribe((data) => {
+  //         this.groups = data as GroupDto[];
+  //         this.loadPaginator(this.groups, 'name');
+  //       });
+  //     }
+  //   });
+  // }
 }

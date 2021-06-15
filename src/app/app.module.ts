@@ -27,6 +27,7 @@ import {
   EvaluationMarkControllerService,
   EventControllerService,
   GroupControllerService,
+  ResourceControllerService,
   RoleControllerService,
   ScheduleControllerService,
   UserControllerService
@@ -55,14 +56,13 @@ import { Valido } from './core/valido';
 import { DialogInfoComponent } from './dialog-info/dialog-info.component';
 // import { DATE_TIME_LOCALE } from 'angular-calendar';
 import { DialogModalComponent } from './dialog-modal/dialog-modal.component';
-import { AddDisciplineComponent } from './disciplines/add-discipline/add-discipline.component';
+import { DndDirective } from './directives/dnd-directive';
 import { EditDisciplineComponent } from './disciplines/edit-discipline/edit-discipline.component';
 import { ListDisciplineComponent } from './disciplines/list-discipline/list-discipline.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
 import { EditScheduleComponent } from './events/edit-schedule/edit-schedule.component';
-import { ListEventComponent } from './events/list-event/list-event.component';
 import { RoomComponent } from './events/room/room.component';
 import { FilterPipe } from './filter.pipe';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
@@ -78,6 +78,8 @@ import { ListRoleComponent } from './roles/list-role/list-role.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { ListUserComponent } from './users/list-user/list-user.component';
 import { AlertTagComponent } from './utils/alert-tag.component';
+import { CollectionsUtil } from './utils/collections-util';
+import { NomenclatureUnitPipe } from './utils/event-types-pipe';
 import { LoaderComponent } from './utils/loader.component';
 FullCalendarModule.registerPlugins([
   // register FullCalendar plugins
@@ -106,17 +108,17 @@ FullCalendarModule.registerPlugins([
     DialogInfoComponent,
     DocumentsComponent,
     AlertTagComponent,
-    LoaderComponent,
-    ListEventComponent,
+    LoaderComponent, 
     AddEventComponent,
     ListGroupComponent,
     EditGroupComponent,
     ListDisciplineComponent,
     RoomComponent,
-    AddGroupComponent,
-    AddDisciplineComponent,
+    AddGroupComponent, 
     EditDisciplineComponent,
     EditScheduleComponent,
+    NomenclatureUnitPipe,
+    DndDirective
   ],
   imports: [
     AppRoutingModule,
@@ -140,7 +142,7 @@ FullCalendarModule.registerPlugins([
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DragDropModule,
-    ScrollingModule,
+    ScrollingModule
   ],
   entryComponents: [
     DialogModalComponent,
@@ -158,10 +160,12 @@ FullCalendarModule.registerPlugins([
     GroupControllerService,
     ScheduleControllerService,
     EvaluationMarkControllerService,
+    ResourceControllerService,
 
     DonkeyService,
     FilterPipe,
     Valido,
+    CollectionsUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

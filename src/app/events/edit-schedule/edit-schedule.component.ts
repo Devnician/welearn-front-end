@@ -11,6 +11,8 @@ import {
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { FileUtil } from 'src/app/utils/file-util';
+import EVENT_TYPES from '../event-types';
 
 @Component({
   selector: 'app-edit-schedule',
@@ -18,6 +20,7 @@ import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
   styleUrls: ['./edit-schedule.component.scss'],
 })
 export class EditScheduleComponent extends BlitcenComponent implements OnInit {
+  fileUtil: FileUtil;
   groupHeader: BehaviorSubject<string> = new BehaviorSubject('');
   groupHeader$ = this.groupHeader as Observable<string>;
   days = [
@@ -35,13 +38,15 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
   minDate: any;
   maxDate: any;
 
+  eventTypes = EVENT_TYPES; 
+
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: ScheduleDto,
     private dialogRef: MatDialogRef<EditScheduleComponent>,
     private scheduleService: ScheduleControllerService,
-    private apiGroups: GroupControllerService,
-    private injector: Injector,
+    private apiGroups: GroupControllerService, 
+    injector: Injector,
     private s: MatSnackBar
   ) {
     super(injector, s);
@@ -81,6 +86,7 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
       dayOfWeek: ['', Validators.required],
       startHour: [moment().startOf('day').add(8, 'hours'), Validators.required],
       endHour: [moment().startOf('day').add(10, 'hours'), Validators.required],
+      type: [EVENT_TYPES.Class, Validators.required],
       group: [null, Validators.required],
       discipline: [null, Validators.required],
     });
@@ -176,27 +182,26 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     const result = this.addForm.getRawValue();
     result.startDate = moment(result.startDate).format('yyyy-MM-DD');
     result.endDate = moment(result.endDate).format('yyyy-MM-DD');
-    
+
     result.startHour = moment(result.startHour).format('HH:mm');
     result.endHour = moment(result.endHour).format('HH:mm');
-    
+
     result.groupId = result.group.groupId;
     delete result.group;
     result.disciplineId = result.discipline.id;
     delete result.discipline;
- 
+
     this.scheduleService.saveUsingPOST1(result).subscribe((data) => {
       console.log(data);
       const scheduleId = data.id;
 
-
       //TODO GENERATE EVENTS
-      this.scheduleService.generateEventsUsingPOST(scheduleId).subscribe(
-        (result) => {
-          this.dialogRef.close({result: 'OK'})
+      this.scheduleService
+        .generateEventsUsingPOST(scheduleId)
+        .subscribe((result) => {
+          this.dialogRef.close({ result: 'OK' });
           console.log(data);
-        }
-      );
-    }); 
+        });
+    });
   }
 }

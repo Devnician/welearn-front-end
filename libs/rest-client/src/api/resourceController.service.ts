@@ -145,7 +145,8 @@ export class ResourceControllerService {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
-                reportProgress: reportProgress
+                reportProgress: reportProgress,
+                responseType: 'blob' as 'json'
             }
         );
     }
@@ -310,7 +311,8 @@ export class ResourceControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+    
+    public saveUsingPOST( accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
     public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
     public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
     public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
@@ -347,8 +349,13 @@ export class ResourceControllerService {
             'multipart/form-data'
         ];
 
+        const formData = new FormData();
+        console.log(observe);
+       // formData.append()
+
+
         return this.httpClient.post<ResourceDto>(`${this.configuration.basePath}/api/resource/upload`,
-            null,
+        formData,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -358,5 +365,71 @@ export class ResourceControllerService {
             }
         );
     }
+
+        /**
+     * save
+     * 
+     * @param accessibleAll accessibleAll
+     * @param disciplineId disciplineId
+     * @param scheduleId scheduleId
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+     
+             
+             console.log(disciplineId, scheduleId);
+             let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+             if (accessibleAll !== undefined && accessibleAll !== null) {
+                 queryParameters = queryParameters.set('accessibleAll', <any>accessibleAll);
+             }
+             if (disciplineId !== undefined && disciplineId !== null) {
+                 queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
+             }
+             if (scheduleId !== undefined && scheduleId !== null) {
+                 queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
+             }
+     
+             let headers = this.defaultHeaders;
+     
+             // authentication (JWT) required
+             if (this.configuration.apiKeys["Authorization"]) {
+                 headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+             }
+     
+             // to determine the Accept header
+             let httpHeaderAccepts: string[] = [
+                 '*/*'
+             ];
+             const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+             if (httpHeaderAcceptSelected !== undefined) {
+                 headers = headers.set('Accept', httpHeaderAcceptSelected);
+             }
+     
+             // to determine the Content-Type header
+             const consumes: string[] = [
+                 'multipart/form-data'
+             ];
+     
+             const formData = new FormData();
+             console.log(file);
+             formData.append('file',file);
+     
+     
+             return this.httpClient.post<ResourceDto>(`${this.configuration.basePath}/api/resource/upload`,
+             formData,
+                 {
+                     params: queryParameters,
+                     withCredentials: this.configuration.withCredentials,
+                     headers: headers,
+                     observe: observe,
+                     reportProgress: reportProgress
+                 }
+             );
+         }
 
 }

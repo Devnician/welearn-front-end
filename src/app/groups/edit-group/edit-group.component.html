@@ -7,6 +7,7 @@
           aria-label="Favorite"
           (click)="addStudent()"
           matTooltip="добавяне на обучаван"
+          [disabled]="cm.add===false"
         >
           <mat-icon>add</mat-icon>
         </button>
@@ -113,6 +114,7 @@
         aria-label="Favorite"
         (click)="addDiscipline()"
         matTooltip="добавяне на дисциплина"
+        [disabled]="cm.add===false"
       >
         <mat-icon>book</mat-icon>
       </button>

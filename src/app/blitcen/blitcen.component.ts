@@ -4,12 +4,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarRef,
-  SimpleSnackBar,
+  SimpleSnackBar
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   RoleControllerService,
-  UserControllerService,
+  UserControllerService
 } from 'libs/rest-client/src';
 import { AppComponent } from '../app.component';
 import { DonkeyService } from '../core/donkey.service';

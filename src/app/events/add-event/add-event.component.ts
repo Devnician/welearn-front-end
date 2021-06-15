@@ -7,12 +7,15 @@ import {
   EventControllerService,
   EventDto,
   GroupControllerService,
-  GroupDto, UserDto
+  GroupDto,
+  ResourceControllerService,
+  UserDto
 } from 'libs/rest-client/src';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { MenuOptions } from 'src/app/model/menu.model';
+import { FileUtil } from 'src/app/utils/file-util';
 import { ProcessTypes } from 'src/app/utils/process-enum';
 import EVENT_TYPES from '../event-types';
 
@@ -22,19 +25,19 @@ import EVENT_TYPES from '../event-types';
   styleUrls: ['./add-event.component.scss'],
 })
 export class AddEventComponent extends BlitcenComponent implements OnInit {
+  fileUtil: FileUtil;
   addForm: FormGroup;
   eventTypes = EVENT_TYPES;
-  selected: EVENT_TYPES.Lection;
+  selected: EVENT_TYPES.Class;
   groups: GroupDto[] = [];
   owners: UserDto[] = [];
 
   selectedGroup: GroupDto;
   selectedDiscipline: DisciplineDto;
   selectedDisciplines: DisciplineDto[];
-  currentMode = ProcessTypes.PREVIEW;
-  currentEvent: EventDto;
-  eventStartDateTime: Date;
-  eventEndDateTime: Date;
+  processType = ProcessTypes.PREVIEW;
+  currentEvent: any;
+
   canEditThi$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   canEditThis = this.canEditThi$ as Observable<boolean>;
 
@@ -44,51 +47,74 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public bundle: any,
     private dialogRef: MatDialogRef<AddEventComponent>,
     private apiEvents: EventControllerService,
-    private apiGroups: GroupControllerService, 
+    private resourceControllerService: ResourceControllerService,
+    private apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
     this.addAuthorizationToService(apiGroups);
+    this.addAuthorizationToService(resourceControllerService);
+    this.fileUtil = new FileUtil(this.resourceControllerService, this);
+    console.log(this.eventTypes);
   }
 
   ngOnInit(): void {
+    console.log(this.bundle), this.eventTypes;
     this.apiGroups.findAllUsingGET2().subscribe((data) => {
       this.groups = data;
     });
 
-    this.currentMode = this.bundle.mode;
-    const evDTO = this.bundle.eventDto;
-    evDTO.group = this.bundle.group;
+    this.processType = this.bundle.mode;
+    this.currentEvent = this.bundle.eventDto;
+    this.currentEvent.group = this.bundle.group;
     this.canUserEditThisEvent(this.bundle.opt);
+    let eventStartDateTime: Date;
+    let eventEndDateTime: Date;
+    console.log(this.processType);
 
-    if (this.currentMode !== ProcessTypes.CREATE) {
-      this.selectedGroup = evDTO.group;
+    if (this.processType !== ProcessTypes.CREATE) {
+      this.selectedGroup = this.currentEvent.group;
       this.selectedDisciplines = this.selectedGroup.disciplines;
-      this.eventStartDateTime = moment(evDTO.startDate).toDate();
-      this.eventEndDateTime = moment(evDTO.endDate).toDate();
+      eventStartDateTime = moment(this.currentEvent.startDate).toDate();
+      eventEndDateTime = moment(this.currentEvent.endDate).toDate();
     } else {
-      this.eventStartDateTime = moment(evDTO.startDate)
+      eventStartDateTime = moment(this.currentEvent.startDate)
         .startOf('day')
         .add(8, 'hour')
         .toDate();
-      this.eventEndDateTime = moment(evDTO.startDate)
+      eventEndDateTime = moment(this.currentEvent.startDate)
         .startOf('day')
         .add(9, 'hour')
         .toDate();
     }
 
-    const hasValues = this.currentMode !== ProcessTypes.CREATE;
+    const hasValues = this.processType !== ProcessTypes.CREATE;
     this.addForm = this.formBuilder.group({
-      eventId: [hasValues ? evDTO.eventId : ''],
-      type: [hasValues ? evDTO.type : null, Validators.required],
-      name: [hasValues ? evDTO.name : null, Validators.required],
-      startDate: [hasValues ? evDTO.startDate : null, Validators.required],
-      endDate: [hasValues ? evDTO.endDate : null, Validators.required],
-      description: [hasValues ? evDTO.description : null, Validators.required],
-      discipline: [hasValues ? evDTO.discipline : null, Validators.required],
-      group: [hasValues ? evDTO.group : null, Validators.required],
+      eventId: [hasValues ? this.currentEvent.eventId : ''],
+      type: [hasValues ? this.currentEvent.type : null, Validators.required],
+      name: [hasValues ? this.currentEvent.name : null, Validators.required],
+      startDate: [
+        hasValues ? this.currentEvent.startDate : null,
+        Validators.required,
+      ],
+      endDate: [
+        hasValues ? this.currentEvent.endDate : null,
+        Validators.required,
+      ],
+      description: [
+        hasValues ? this.currentEvent.description : null,
+        Validators.required,
+      ],
+      discipline: [
+        hasValues ? this.currentEvent.discipline : null,
+        Validators.required,
+      ],
+      group: [hasValues ? this.currentEvent.group : null, Validators.required],
     });
+
+    this.addForm.controls.startDate.setValue(eventStartDateTime);
+    this.addForm.controls.endDate.setValue(eventEndDateTime);
 
     this.addForm.updateValueAndValidity();
 
@@ -144,6 +170,9 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.selectedGroup = group;
     this.selectedDisciplines = this.selectedGroup.disciplines;
   }
+  goToClassRoom() { 
+    this.dialogRef.close({ result: 'ok' ,class: this.currentEvent});
+  }
 
   /**
    * Submit form if is valid
@@ -163,7 +192,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     const ev: any = result as EventDto;
     console.log(ev);
 
-    switch (this.currentMode) {
+    switch (this.processType) {
       case ProcessTypes.CREATE:
         ev.eventId = undefined;
         if (moment(ev.startDate).isAfter(ev.endDate)) {
@@ -177,16 +206,16 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
           return;
         }
 
-        ev.startDate =  moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
-        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');  
+        ev.startDate = moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
+        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');
         this.apiEvents.createEventUsingPOST(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Добавихте събитие успешно.', 'ok', 2128);
         });
         break;
       case ProcessTypes.UPDATE:
-        ev.startDate =  moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
-        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss'); 
+        ev.startDate = moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
+        ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');
         this.apiEvents.editEventUsingPUT(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Пременихте данни за събитие успешно.', 'ok', 2128);
@@ -202,5 +231,14 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     const mmtMidnight = m.clone().startOf('day');
     const diffMinutes = m.diff(mmtMidnight, 'minutes');
     return diffMinutes;
+  }
+
+  /**
+   * on file drop handler
+   */
+  onFileDropped($event) {
+    let id = this.currentEvent.eventId;
+    console.log(id);
+    this.fileUtil.onFileDropped($event, 'event', id);
   }
 }

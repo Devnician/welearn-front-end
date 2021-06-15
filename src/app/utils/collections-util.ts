@@ -1,4 +1,64 @@
+import { Injectable } from '@angular/core';
+import { EventDto, GroupDto, UserDto } from 'libs/rest-client/src';
+
+@Injectable()
 export class CollectionsUtil {
+  constructor() {}
+
+  filterEventsAccordingUserRole(events: EventDto[], user: UserDto): EventDto[] {
+    console.log(user.userId);
+    switch (user.role.role) {
+      case 'administrator':
+      case 'observe':
+        break;
+      case 'teacher':
+        events = events.filter(
+          (ev) =>
+            ev.discipline.teacher.userId === user.userId ||
+            ev.discipline.assistant.userId === user.userId
+        );
+        break;
+      case 'student': 
+        if (user.groupId) {
+          events = events.filter((ev) => ev.groupId === user.groupId);
+        } else {
+          return [];
+        }
+        break; 
+      default:
+        break;
+    } 
+    console.log(events);
+    return events;
+  }
+
+  filterGroupsAccordingUserRole(groups: GroupDto[], user:UserDto) {
+    console.log(user.userId);
+    switch (user.role.role) {
+      case 'administrator':
+      case 'observe':
+        break;
+      case 'teacher':
+        console.log(groups);
+        groups = groups.filter(
+          (gr) =>   gr.disciplines.findIndex( element => (element.teacher.userId === user.userId || element.assistant.userId === user.userId)  )  > -1  
+        );
+        console.log(groups);
+        break;
+      case 'student': 
+        if (user.groupId) {
+          groups = groups.filter((ev) => ev.groupId === user.groupId);
+        } else {
+          return [];
+        }
+        break; 
+      default:
+        break;
+    } 
+    console.log(groups);
+    return groups;
+  }
+
   // public getUsers(): User[] {
   //   let users: User[] = [];
   //   let user: User = new User();

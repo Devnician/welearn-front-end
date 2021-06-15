@@ -308,6 +308,7 @@
         "my_account": "моят профил",
         "marks": "оценки",
         "mark": "оценка",
-        "invalid_schedule_date":"Изберете дата в интервала на курса"
+        "invalid_schedule_date":"Изберете дата в интервала на курса",
+        "resources":"ресурси"
     }
 }
