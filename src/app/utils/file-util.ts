@@ -30,14 +30,28 @@ export class FileUtil {
   /**
    * on file drop handler
    */
-  onFileDropped($event, disciplineId: string) {
-    if (this.prepareFilesList($event) === true) {
-      this.resourceControllerService
-        .saveUsingPOST2(this.files[0], true, disciplineId)
-        .subscribe((data) => {
-          this.newResources.push(data);
-        });
-    }
+  onFileDropped($event, helderIdentifier: string, holder: string) {
+    if (holder === 'event') {
+
+      console.log("hereeeee")
+      if (this.prepareFilesList($event) === true) {
+        this.resourceControllerService
+          .saveUsingPOST2(this.files[0], true,   helderIdentifier)
+          .subscribe((data) => {
+            this.newResources.push(data);
+          });
+      }
+    } else if (holder === 'discipline') {
+      if (this.prepareFilesList($event) === true) {
+        this.resourceControllerService
+          .saveUsingPOST2(this.files[0], true, helderIdentifier)
+          .subscribe((data) => {
+            this.newResources.push(data);
+          });
+      }
+    } else { ';-)'}
+
+   
   }
 
   /**
@@ -59,7 +73,7 @@ export class FileUtil {
     this.deleteExistingFile(dto);
   }
 
-  deleteExistingFile(resourceDto: ResourceDto) {
+  deleteExistingFile(resourceDto: ResourceDto) { 
     let ref = this.parent.showConfirmDialog(
       'Изтриване на файл',
       'Файлът ще бъде изтрит завинаги',

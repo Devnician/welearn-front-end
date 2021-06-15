@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
           case null:
             const map: { [key: string]: string } = {};
             map.Authorization = 'Bearer ' + data.token;
-            console.log(data.token)
+            console.log(data.token);
             this.apiUser.configuration.apiKeys = map;
 
             this.apiUser.getUserUsingGET(data.id).subscribe((result) => {

@@ -4,7 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import {
   DisciplineControllerService,
-  ResourceControllerService, UserDto
+  ResourceControllerService,
+  UserDto
 } from 'libs/rest-client/src';
 import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
@@ -24,14 +25,14 @@ export class EditDisciplineComponent
   extends BlitcenComponent
   implements OnInit
 {
-  form: FormGroup; 
+  form: FormGroup;
   discipline: Discipline;
   lectors: UserDto[];
   roles: Role[] = [];
   processType = ProcessTypes.CREATE;
   prefix = '';
 
-  fileUtil: FileUtil ;
+  fileUtil: FileUtil;
 
   constructor(
     donkey: DonkeyService,
@@ -45,7 +46,7 @@ export class EditDisciplineComponent
     super(injector, s);
     this.addAuthorizationToService(apiDisciplines);
     this.addAuthorizationToService(resourceControllerService);
-    this.fileUtil = new FileUtil(this.resourceControllerService,this);
+    this.fileUtil = new FileUtil(this.resourceControllerService, this);
     let data = donkey.getData();
     this.discipline = data.discipline;
     this.processType = data.processType;
@@ -61,15 +62,15 @@ export class EditDisciplineComponent
         this.discipline.modifiedDate
       );
 
-      let fileIds = this.discipline.resourceIds; 
+      let fileIds = this.discipline.resourceIds;
       if (fileIds.length > 0) {
         fileIds.forEach((file) => {
           this.resourceControllerService
             .getByIdUsingGET2(file)
             .subscribe((dto) => {
               this.fileUtil.push(dto);
-              //this.resources.push(dto); 
-            }); 
+              //this.resources.push(dto);
+            });
         });
       }
     }
@@ -104,8 +105,6 @@ export class EditDisciplineComponent
       });
     }
   }
-
- 
 
   reset() {
     this.form.reset();
@@ -144,31 +143,15 @@ export class EditDisciplineComponent
         break;
 
       default:
-       
         this.router.navigate(['home/list-discipline']);
         break;
     }
   }
-  
-   /**
+
+  /**
    * on file drop handler
    */
   onFileDropped($event) {
-    this.fileUtil.onFileDropped($event, this.discipline.id);
-      // this.prepareFilesList($event);
-      // this.resourceControllerService
-      //   .saveUsingPOST2(this.files[0], true, this.discipline.id)
-      //   .subscribe((data) => {
-      //     this.newResources.push(data);
-      //   });
-    }
-
-  
-  //##############################################################
-  //
-  //   UPLOAD
-  //
-  //##############################################################
- 
- 
+    this.fileUtil.onFileDropped($event,'discipline', this.discipline.id);
+  }
 }

@@ -381,6 +381,8 @@ export class ResourceControllerService {
          public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
          public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
      
+             
+             console.log(disciplineId, scheduleId);
              let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
              if (accessibleAll !== undefined && accessibleAll !== null) {
                  queryParameters = queryParameters.set('accessibleAll', <any>accessibleAll);

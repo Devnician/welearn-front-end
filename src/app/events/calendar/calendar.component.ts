@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
+import { DonkeyService } from 'src/app/core/donkey.service';
 import { MenuOptions } from 'src/app/model/menu.model';
 import { CollectionsUtil } from 'src/app/utils/collections-util';
 import { ProcessTypes } from 'src/app/utils/process-enum';
@@ -85,16 +86,17 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     private apiEvents: EventControllerService,
     private apiGroups: GroupControllerService,
     private s: MatSnackBar,
-    private collectionsUtil: CollectionsUtil
+    private collectionsUtil: CollectionsUtil,
+    private donkey: DonkeyService
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
     this.addAuthorizationToService(apiGroups);
-    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);  
+    this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
   }
 
   ngOnInit(): void {
-    console.log('ON INIT')
+    console.log('ON INIT');
     this.loadGroups();
     this.gorups$.subscribe((data) => {
       if (data) {
@@ -112,12 +114,16 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
   letShowEvents() {
     const showEvents: EventInput[] = [];
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
-      this.myEvents = data;  
-      this.myEvents = this.collectionsUtil.filterEventsAccordingUserRole(this.myEvents, this.user);  
+      this.myEvents = data;
+      this.myEvents = this.collectionsUtil.filterEventsAccordingUserRole(
+        this.myEvents,
+        this.user
+      );
       this.myEvents.forEach((eventDto) => {
         showEvents.push({
           editable: false,
-          title: '(' + EVENT_TYPES[eventDto.type] + ') ' + eventDto.discipline.name,
+          title:
+            '(' + EVENT_TYPES[eventDto.type] + ') ' + eventDto.discipline.name,
           extendedProps: {
             eventDto,
           },
@@ -150,7 +156,7 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
         return '#F08080';
       case EVENT_TYPES.Exercise:
         return '#BDB76B';
-      case EVENT_TYPES.Lection:
+      case EVENT_TYPES.Class:
         return '#7FFFD4';
       default:
         return 'yellow';
@@ -245,8 +251,13 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     config.data = bundle;
     const dialogRef = this.dialog.open(AddEventComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-      this.letShowEvents();
+      if (result) {
+        if (result.class) {
+          this.openRoom(result.class);
+        } else {
+          this.letShowEvents();
+        }
+      }
     });
   }
 
@@ -259,17 +270,17 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     config.closeOnNavigation = false;
     config.data = data;
     config.width = '80vw';
-    
+
     const dialogRef = this.dialog.open(EditScheduleComponent, config);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('do something');
       if (result) {
         this.letShowEvents();
       }
     });
   }
 
-  openRoom() { 
+  openRoom(eventDto: any) {
+    this.donkey.setData(eventDto);
     this.router.navigate(['home/list-event/room']);
   }
 }
