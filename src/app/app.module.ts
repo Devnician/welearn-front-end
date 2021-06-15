@@ -63,7 +63,6 @@ import { DocumentsComponent } from './documents/documents.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
 import { EditScheduleComponent } from './events/edit-schedule/edit-schedule.component';
-import { ListEventComponent } from './events/list-event/list-event.component';
 import { RoomComponent } from './events/room/room.component';
 import { FilterPipe } from './filter.pipe';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
@@ -109,8 +108,7 @@ FullCalendarModule.registerPlugins([
     DialogInfoComponent,
     DocumentsComponent,
     AlertTagComponent,
-    LoaderComponent,
-    ListEventComponent,
+    LoaderComponent, 
     AddEventComponent,
     ListGroupComponent,
     EditGroupComponent,
