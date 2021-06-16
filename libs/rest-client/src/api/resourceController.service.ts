@@ -157,14 +157,14 @@ export class ResourceControllerService {
      * @param resourceId resourceId
      * @param accessibleAll accessibleAll
      * @param disciplineId disciplineId
-     * @param scheduleId scheduleId
+     * @param eventId eventId
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
-    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
-    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
-    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+    public editUsingPUT(resourceId: string, accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (resourceId === null || resourceId === undefined) {
             throw new Error('Required parameter resourceId was null or undefined when calling editUsingPUT.');
         }
@@ -179,8 +179,8 @@ export class ResourceControllerService {
         if (resourceId !== undefined && resourceId !== null) {
             queryParameters = queryParameters.set('resourceId', <any>resourceId);
         }
-        if (scheduleId !== undefined && scheduleId !== null) {
-            queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
+        if (eventId !== undefined && eventId !== null) {
+            queryParameters = queryParameters.set('eventId', <any>eventId);
         }
 
         let headers = this.defaultHeaders;
@@ -307,15 +307,15 @@ export class ResourceControllerService {
      * 
      * @param accessibleAll accessibleAll
      * @param disciplineId disciplineId
-     * @param scheduleId scheduleId
+     * @param eventId eventId
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
     
-    public saveUsingPOST( accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
-    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
-    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
-    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public saveUsingPOST( accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+    public saveUsingPOST(accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (accessibleAll !== undefined && accessibleAll !== null) {
@@ -324,8 +324,8 @@ export class ResourceControllerService {
         if (disciplineId !== undefined && disciplineId !== null) {
             queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
         }
-        if (scheduleId !== undefined && scheduleId !== null) {
-            queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
+        if (eventId !== undefined && eventId !== null) {
+            queryParameters = queryParameters.set('eventId', <any>eventId);
         }
 
         let headers = this.defaultHeaders;
@@ -371,18 +371,18 @@ export class ResourceControllerService {
      * 
      * @param accessibleAll accessibleAll
      * @param disciplineId disciplineId
-     * @param scheduleId scheduleId
+     * @param eventId eventId
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
     
-         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
-         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
-         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
-         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, scheduleId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'body', reportProgress?: boolean): Observable<ResourceDto>;
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ResourceDto>>;
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ResourceDto>>;
+         public saveUsingPOST2(file:File,accessibleAll?: boolean, disciplineId?: string, eventId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
      
              
-             console.log(disciplineId, scheduleId);
+             console.log(disciplineId, eventId);
              let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
              if (accessibleAll !== undefined && accessibleAll !== null) {
                  queryParameters = queryParameters.set('accessibleAll', <any>accessibleAll);
@@ -390,8 +390,8 @@ export class ResourceControllerService {
              if (disciplineId !== undefined && disciplineId !== null) {
                  queryParameters = queryParameters.set('disciplineId', <any>disciplineId);
              }
-             if (scheduleId !== undefined && scheduleId !== null) {
-                 queryParameters = queryParameters.set('scheduleId', <any>scheduleId);
+             if (eventId !== undefined && eventId !== null) {
+                 queryParameters = queryParameters.set('eventId', <any>eventId);
              }
      
              let headers = this.defaultHeaders;
