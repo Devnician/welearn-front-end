@@ -18,7 +18,7 @@
       <span class="mdc-fab__icon material-icons">call_end</span>
     </button>
     <div class="divider"></div>
-    <button mat-fab color="primary">
+    <button mat-fab color="primary" [ngClass]="{'blinking':blink}" (click)=downloadFiles()> {{availablefiles}}
       <span class="mdc-fab__icon material-icons">download</span>
     </button>
     <div class="divider"></div>

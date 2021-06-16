@@ -1,20 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ResourceControllerService } from 'libs/rest-client/src';
+import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
+import { FileUtil } from 'src/app/utils/file-util';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent extends BlitcenComponent implements OnInit {
+  fileUtil: FileUtil;
   eventDto;
-  constructor(private donkey: DonkeyService) {
+  availablefiles;
+  blink = false;
+  private interval: any;
+  
+  constructor(
+    private donkey: DonkeyService,
+    private resourceControllerService: ResourceControllerService,
+    private s: MatSnackBar,
+    
+    injector: Injector
+  ) {
+    super(injector, s);
+    this.addAuthorizationToService(resourceControllerService);
+    this.fileUtil = new FileUtil(this.resourceControllerService, this);
+
     if (donkey.isLoaded()) {
       this.eventDto = donkey.getData();
       console.log(this.eventDto);
-       
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let fileIds = this.eventDto.resourceIds;
+    if (fileIds.length > 0) {
+      fileIds.forEach((file) => {
+        this.resourceControllerService
+          .getByIdUsingGET2(file)
+          .subscribe((dto) => {
+            this.fileUtil.push(dto);
+            this.availablefiles = this.fileUtil.resources.length;
+          });
+      });
+
+      this.interval = setInterval(() => {
+        this.blink = true;
+    setTimeout(function(){this.blink = false;}.bind(this),300)
+      }, 2500);
+    }
+  }
+ 
+  downloadFiles() {
+    console.log('download');
+    if (this.fileUtil.resources.length > 0) {
+      this.fileUtil.resources.forEach(f => {
+        this.fileUtil.downloadExistingFile(f);
+      }) 
+    } 
+    
+    clearInterval(this.interval);
+  }
 }

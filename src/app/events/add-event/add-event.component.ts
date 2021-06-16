@@ -78,6 +78,19 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
       this.selectedDisciplines = this.selectedGroup.disciplines;
       eventStartDateTime = moment(this.currentEvent.startDate).toDate();
       eventEndDateTime = moment(this.currentEvent.endDate).toDate();
+
+      let fileIds = this.currentEvent.resourceIds;
+      if (fileIds.length > 0) {
+        fileIds.forEach((file) => {
+          this.resourceControllerService
+            .getByIdUsingGET2(file)
+            .subscribe((dto) => {
+              this.fileUtil.push(dto);
+              //this.resources.push(dto);
+            });
+        });
+      }
+
     } else {
       eventStartDateTime = moment(this.currentEvent.startDate)
         .startOf('day')
@@ -237,8 +250,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
    * on file drop handler
    */
   onFileDropped($event) {
-    let id = this.currentEvent.eventId;
-    console.log(id);
-    this.fileUtil.onFileDropped($event, 'event', id);
+    let id = this.currentEvent.eventId;   
+    this.fileUtil.onFileDropped($event,id, 'event');
   }
 }

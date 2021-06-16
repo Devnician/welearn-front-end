@@ -36,7 +36,7 @@ export class FileUtil {
       console.log("hereeeee")
       if (this.prepareFilesList($event) === true) {
         this.resourceControllerService
-          .saveUsingPOST2(this.files[0], true,   helderIdentifier)
+          .saveUsingPOST2(this.files[0], true, undefined,  helderIdentifier)
           .subscribe((data) => {
             this.newResources.push(data);
           });
@@ -100,6 +100,7 @@ export class FileUtil {
     let resourceId = resourceDto.resourceId;
     this.downloadFile(resourceId, name);
   }
+
   private downloadFile(resourceId: string, name: string) {
     this.resourceControllerService
       .downloadResourceUsingGET(resourceId)
