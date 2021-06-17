@@ -45,8 +45,8 @@ export class EditScheduleComponent extends BlitcenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: ScheduleDto,
     private dialogRef: MatDialogRef<EditScheduleComponent>,
     private scheduleService: ScheduleControllerService,
-    private apiGroups: GroupControllerService, 
     injector: Injector,
+    public apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);

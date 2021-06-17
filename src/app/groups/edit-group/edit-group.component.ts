@@ -10,8 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { DisciplineDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { AppComponent } from 'src/app/app.component';
+import { DisciplineDto, EvaluationMarkDto, GroupDto, UserDto } from 'libs/rest-client/src';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
@@ -43,6 +43,8 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
   studentGroup: GroupDto;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'actions'];
   cm: MenuOptions;
+  studentsList: Array<UserDto>;
+
   constructor(
     ar: ActivatedRoute,
     private donkey: DonkeyService,
@@ -63,6 +65,14 @@ console.log(this.cm)
       alert('Group is null');
     } else {
       this.loadPaginator(this.studentGroup.users, 'firstName');
+      console.log(this.paginator)
+      this.apiUsers.listUserUsingGET().subscribe(
+        data => {
+          const students = data.filter(s => s.role.id === 3 && !s.groupId); //Take students only
+          this.studentsList = students;
+        }
+      )
+
     }
   }
   addStudent() {
@@ -74,8 +84,14 @@ console.log(this.cm)
     // });
   }
 
-  removeStudent(user: UserDto) {
+  removeStudent(userId: string) {
     alert('arer you sure');
+
+    this.apiGroups.removeStudentFromGroupPUT(this.studentGroup.groupId, userId).subscribe(
+      data => {
+        this.studentGroup = data
+        this.loadPaginator(this.studentGroup.users, 'firstName');
+      })
   }
 
   addDiscipline() {
@@ -91,7 +107,7 @@ console.log(this.cm)
   showEvaluationMarks(user: UserDto) {
     const myDisciplines: DisciplineDto[] = this.studentGroup.disciplines.filter(
       (d) =>
-        d.teacher?.userId === this.user.userId ||
+        this.user.role.id === 1 || d.teacher?.userId === this.user.userId ||
         d.assistant?.userId === this.user.userId
     );
     this.openDialog(user, myDisciplines);
@@ -106,6 +122,7 @@ console.log(this.cm)
       data: {
         obj: user,
         collection: disciplines,
+        groupId: this.studentGroup.groupId,
         mode: 'edit',
         classType: 'marks',
       },
@@ -115,7 +132,28 @@ console.log(this.cm)
       if (result) {
         console.log('result: ');
         console.log(result.data);
+        const evaluationMarks: EvaluationMarkDto[] = result.data.disciplines;
+        this.apiEvaluationMarks.createMarkUsingPOST(evaluationMarks).subscribe(
+          () => this.apiGroups.findByIdUsingGET(this.studentGroup.groupId).subscribe(
+            group => {
+              this.studentGroup = group
+              this.loadPaginator(this.studentGroup.users, 'firstName');
+            }
+          )
+        )
       }
     });
   }
+
+  onStudentSelect(userId: string) {
+    console.log(this.studentGroup)
+    this.apiGroups.saveStudentToGroupPUT(this.studentGroup.groupId, userId).subscribe(
+      data => {
+        this.studentGroup = data
+        this.loadPaginator(this.studentGroup.users, 'firstName');
+
+      }
+    )
+  }
+
 }

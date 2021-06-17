@@ -27,12 +27,12 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
     injector: Injector,
     private formBuilder: FormBuilder,
     private apiDisciplines: DisciplineControllerService,
-    private apiGroups: GroupControllerService,
+    // private apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiDisciplines);
-    this.addAuthorizationToService(apiGroups);
+    // this.addAuthorizationToService(this.apiGroups);
   }
 
   ngOnInit(): void {

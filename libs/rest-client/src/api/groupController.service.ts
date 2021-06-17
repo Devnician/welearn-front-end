@@ -29,7 +29,7 @@ export class GroupControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
         if (configuration) {
             this.configuration = configuration;
@@ -65,7 +65,7 @@ export class GroupControllerService {
     public deleteGroupUsingDELETE(id: string, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
     public deleteGroupUsingDELETE(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
     public deleteGroupUsingDELETE(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public deleteGroupUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteGroupUsingDELETE(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling deleteGroupUsingDELETE.');
         }
@@ -110,7 +110,7 @@ export class GroupControllerService {
     public editGroupUsingPUT(groupDto: GroupDto, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>;
     public editGroupUsingPUT(groupDto: GroupDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupDto>>;
     public editGroupUsingPUT(groupDto: GroupDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupDto>>;
-    public editGroupUsingPUT(groupDto: GroupDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public editGroupUsingPUT(groupDto: GroupDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (groupDto === null || groupDto === undefined) {
             throw new Error('Required parameter groupDto was null or undefined when calling editGroupUsingPUT.');
         }
@@ -160,7 +160,7 @@ export class GroupControllerService {
     public findAllUsingGET2(observe?: 'body', reportProgress?: boolean): Observable<Array<GroupDto>>;
     public findAllUsingGET2(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<GroupDto>>>;
     public findAllUsingGET2(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<GroupDto>>>;
-    public findAllUsingGET2(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllUsingGET2(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -202,7 +202,7 @@ export class GroupControllerService {
     public findByIdUsingGET(id: string, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>;
     public findByIdUsingGET(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupDto>>;
     public findByIdUsingGET(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupDto>>;
-    public findByIdUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findByIdUsingGET(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling findByIdUsingGET.');
         }
@@ -247,7 +247,7 @@ export class GroupControllerService {
     public saveGroupUsingPOST(groupDto: GroupDto, observe?: 'body', reportProgress?: boolean): Observable<GroupDto>;
     public saveGroupUsingPOST(groupDto: GroupDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupDto>>;
     public saveGroupUsingPOST(groupDto: GroupDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupDto>>;
-    public saveGroupUsingPOST(groupDto: GroupDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public saveGroupUsingPOST(groupDto: GroupDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
         if (groupDto === null || groupDto === undefined) {
             throw new Error('Required parameter groupDto was null or undefined when calling saveGroupUsingPOST.');
         }
@@ -288,4 +288,32 @@ export class GroupControllerService {
         );
     }
 
+    public saveStudentToGroupPUT(groupId: string, studentId: string, observe?: 'body', reportProgress?: boolean): Observable<GroupDto> {
+
+        let headers = this.defaultHeaders;
+        return this.httpClient.put<GroupDto>(`${this.configuration.basePath}/api/group/addstudent`,
+            { groupId, studentId, remove: false},
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+
+    public removeStudentFromGroupPUT(groupId: string, studentId: string, observe?: 'body', reportProgress?: boolean): Observable<GroupDto> {
+
+        let headers = this.defaultHeaders;
+        return this.httpClient.put<GroupDto>(`${this.configuration.basePath}/api/group/removestudent`,
+            { groupId, studentId, remove: true },
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
 }

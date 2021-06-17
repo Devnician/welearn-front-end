@@ -84,14 +84,14 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     private dialog: MatDialog,
     injector: Injector,
     private apiEvents: EventControllerService,
-    private apiGroups: GroupControllerService,
+    public apiGroups: GroupControllerService,
     private s: MatSnackBar,
     private collectionsUtil: CollectionsUtil,
     private donkey: DonkeyService
   ) {
     super(injector, s);
     this.addAuthorizationToService(apiEvents);
-    this.addAuthorizationToService(apiGroups);
+    // this.addAuthorizationToService(apiGroups);
     this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
   }
 

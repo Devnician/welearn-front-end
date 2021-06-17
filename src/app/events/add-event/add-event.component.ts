@@ -48,7 +48,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     private dialogRef: MatDialogRef<AddEventComponent>,
     private apiEvents: EventControllerService,
     private resourceControllerService: ResourceControllerService,
-    private apiGroups: GroupControllerService,
+    public apiGroups: GroupControllerService,
     private s: MatSnackBar
   ) {
     super(injector, s);

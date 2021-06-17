@@ -34,7 +34,7 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     private donkey: DonkeyService,
     injector: Injector,
     private s: MatSnackBar,
-    private apiGroups: GroupControllerService,
+    public apiGroups: GroupControllerService,
     private collectionsUtil:CollectionsUtil
   ) {
     super(ar, injector, s);
