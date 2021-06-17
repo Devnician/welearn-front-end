@@ -1,9 +1,11 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, Optional } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResourceControllerService } from 'libs/rest-client/src';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { FileUtil } from 'src/app/utils/file-util';
+import { ExamMaterialsComponent } from '../exam-materials/exam-materials.component';
 
 @Component({
   selector: 'app-room',
@@ -17,11 +19,13 @@ export class RoomComponent extends BlitcenComponent implements OnInit {
   blink = false;
   private interval: any;
   
-  constructor(
+  
+  constructor( 
+    @Optional()  private dialogRef: MatDialogRef<ExamMaterialsComponent>,
+   private dialog:MatDialog,
     private donkey: DonkeyService,
     private resourceControllerService: ResourceControllerService,
-    private s: MatSnackBar,
-    
+    private s: MatSnackBar, 
     injector: Injector
   ) {
     super(injector, s);
@@ -59,8 +63,30 @@ export class RoomComponent extends BlitcenComponent implements OnInit {
       this.fileUtil.resources.forEach(f => {
         this.fileUtil.downloadExistingFile(f);
       }) 
-    } 
-    
+    }  
     clearInterval(this.interval);
+  }
+
+  openExamUploadDialog() {
+
+    const config = new MatDialogConfig();
+    config.closeOnNavigation = false;
+    config.disableClose = true;
+    config.data = { 
+      data: {
+        user: this.user,
+        event: this.eventDto
+      },
+    }
+    const dialogRef = this.dialog.open(ExamMaterialsComponent, config);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+        this.dialogRef.close();
+        // console.log('result: ');
+        // console.log(result.data);
+      }
+    });
   }
 }
