@@ -6,23 +6,30 @@
      
           {{ eventDto.name }} 
           {{ eventDto.description }} 
-    </pre
-  >
+  </pre>
+ 
 
   <div class="d-bar">
-    <button mat-fab color="primary">
+    <button mat-fab color="primary" [disabled]="true">
       <span class="mdc-fab__icon material-icons">call</span>
     </button>
     <div class="divider"></div>
-    <button mat-fab color="primary">
+    <button mat-fab color="primary" [disabled]="true">
       <span class="mdc-fab__icon material-icons">call_end</span>
     </button>
     <div class="divider"></div>
-    <button mat-fab color="primary" [ngClass]="{'blinking':blink}" (click)=downloadFiles()> {{availablefiles}}
+    <button
+      mat-fab
+      color="primary"
+      [ngClass]="{ blinking: blink }"
+      (click)="downloadFiles()"
+      matTooltip="Материали за изтегляне"
+    >
+      {{ availablefiles }}
       <span class="mdc-fab__icon material-icons">download</span>
     </button>
     <div class="divider"></div>
-    <button mat-fab color="primary">
+    <button mat-fab color="primary" (click)="openExamUploadDialog()">
       <span class="mdc-fab__icon material-icons">file_upload</span>
     </button>
   </div>

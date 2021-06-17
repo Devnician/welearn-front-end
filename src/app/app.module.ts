@@ -10,6 +10,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Calendar module
@@ -63,6 +64,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
 import { CalendarComponent } from './events/calendar/calendar.component';
 import { EditScheduleComponent } from './events/edit-schedule/edit-schedule.component';
+import { ExamMaterialsComponent } from './events/exam-materials/exam-materials.component';
 import { RoomComponent } from './events/room/room.component';
 import { FilterPipe } from './filter.pipe';
 import { AddGroupComponent } from './groups/add-group/add-group.component';
@@ -117,6 +119,7 @@ FullCalendarModule.registerPlugins([
     AddGroupComponent, 
     EditDisciplineComponent,
     EditScheduleComponent,
+    ExamMaterialsComponent,
     NomenclatureUnitPipe,
     DndDirective
   ],
@@ -142,7 +145,8 @@ FullCalendarModule.registerPlugins([
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DragDropModule,
-    ScrollingModule
+    ScrollingModule,
+    MatDialogModule
   ],
   entryComponents: [
     DialogModalComponent,
@@ -183,7 +187,7 @@ FullCalendarModule.registerPlugins([
     // { provide: OwlDateTimeIntl, useClass: DefaultIntl },
     // { provide: DateAdapter, useClass: MyDateAdapter },
     // { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    // { provide: NGX_MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    // { provide: NGX_MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },dialog
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
