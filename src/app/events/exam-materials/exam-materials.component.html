@@ -5,7 +5,7 @@
   <mat-card-content>
     <div class="inner-row-upload">
       <!-- <div class="inner-row-upload" style="display: none;"> -->
-      <div class="container" appDnd (fileDropped)="onFileDropped($event)">
+      <div class="container" appDnd (fileDropped)="fileUtil.onFileDropped($event)">
         <input
           type="file"
           #fileDropRef

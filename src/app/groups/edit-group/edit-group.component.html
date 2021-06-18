@@ -146,11 +146,11 @@
       <ng-container
         *cdkVirtualFor="let discipline of studentGroup?.disciplines"
       >
-        <div class="disciplines-row" (click)="editDiscipline(discipline)">
+        <div class="disciplines-row"  >
           <div>{{ discipline.name }}</div>
           <div>
-            лектор : {{ discipline.lector?.firstName }}
-            {{ discipline.lector?.lastName }}
+            лектор : {{ discipline.teacher?.firstName }}
+            {{ discipline.teacher?.lastName }}
           </div>
           <div>
             асистент: {{ discipline.assistant?.firstName }}

@@ -30,28 +30,29 @@ export class FileUtil {
   /**
    * on file drop handler
    */
-  onFileDropped($event, helderIdentifier: string, holder: string) {
-    if (holder === 'event') {
+  onFileDropped($event ) {
+    if (this.prepareFilesList($event) === true) {
+      console.log(this.files) 
+    } 
+  }
+  saveFilesForEvent(eventId: string, isExam: boolean) { 
+      this.files .forEach(element => {
+        this.resourceControllerService .saveUsingPOST2(element, !isExam,undefined, eventId)
+        .subscribe((data) => {
+          this.newResources.push(data);
+        });
+      }); 
+  }
 
-      console.log("hereeeee")
-      if (this.prepareFilesList($event) === true) {
-        this.resourceControllerService
-          .saveUsingPOST2(this.files[0], true, undefined,  helderIdentifier)
+  saveFilesForDiscipline(disciplineId: string) {
+    this.files .forEach(element => {
+      this.resourceControllerService
+          .saveUsingPOST2(element, true, disciplineId)
           .subscribe((data) => {
             this.newResources.push(data);
           });
-      }
-    } else if (holder === 'discipline') {
-      if (this.prepareFilesList($event) === true) {
-        this.resourceControllerService
-          .saveUsingPOST2(this.files[0], true, helderIdentifier)
-          .subscribe((data) => {
-            this.newResources.push(data);
-          });
-      }
-    } else { ';-)'}
-
-   
+    });
+     
   }
 
   /**
@@ -110,8 +111,7 @@ export class FileUtil {
         anchor.download = name;
         anchor.href = url;
         anchor.target = '_blank';
-        anchor.click();
-        // this.fetchFile(name, url);
+        anchor.click(); 
       });
   }
 

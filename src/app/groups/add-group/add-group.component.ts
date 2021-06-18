@@ -3,9 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import {
-  DisciplineControllerService,
-  GroupControllerService,
-  GroupDto,
+  DisciplineControllerService, GroupDto
 } from 'libs/rest-client/src';
 import { BlitcenComponent } from 'src/app/blitcen/blitcen.component';
 import { Discipline } from 'src/app/model/discipline.model';
@@ -38,6 +36,7 @@ export class AddGroupComponent extends BlitcenComponent implements OnInit {
   ngOnInit(): void {
     this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
       this.disciplines = data as Discipline[];
+      console.log(this.disciplines);
     });
 
     this.addForm = this.formBuilder.group({

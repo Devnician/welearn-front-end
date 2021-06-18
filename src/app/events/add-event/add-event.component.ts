@@ -56,11 +56,10 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.addAuthorizationToService(apiGroups);
     this.addAuthorizationToService(resourceControllerService);
     this.fileUtil = new FileUtil(this.resourceControllerService, this);
-    console.log(this.eventTypes);
+     
   }
 
-  ngOnInit(): void {
-    console.log(this.bundle), this.eventTypes;
+  ngOnInit(): void { 
     this.apiGroups.findAllUsingGET2().subscribe((data) => {
       this.groups = data;
     });
@@ -70,25 +69,23 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.currentEvent.group = this.bundle.group;
     this.canUserEditThisEvent(this.bundle.opt);
     let eventStartDateTime: Date;
-    let eventEndDateTime: Date;
-    console.log(this.processType);
+    let eventEndDateTime: Date; 
 
     if (this.processType !== ProcessTypes.CREATE) {
       this.selectedGroup = this.currentEvent.group;
       this.selectedDisciplines = this.selectedGroup.disciplines;
       eventStartDateTime = moment(this.currentEvent.startDate).toDate();
       eventEndDateTime = moment(this.currentEvent.endDate).toDate();
-
-      let fileIds = this.currentEvent.resourceIds;
+      console.log(this.currentEvent);
+      let fileIds = this.currentEvent.resourceIds; 
       if (fileIds.length > 0) {
         fileIds.forEach((file) => {
           this.resourceControllerService
             .getByIdUsingGET2(file)
             .subscribe((dto) => {
-              this.fileUtil.push(dto);
-              //this.resources.push(dto);
+              this.fileUtil.push(dto); 
             });
-        });
+        }); 
       }
 
     } else {
@@ -177,7 +174,7 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     this.addForm.reset();
   }
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close({result:'closed'});
   }
   onGroupSelected(group: any) {
     this.selectedGroup = group;
@@ -203,7 +200,6 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     result.groupId = result.group.groupId;
     result.disciplineId = result.discipline.disciplineId;
     const ev: any = result as EventDto;
-    console.log(ev);
 
     switch (this.processType) {
       case ProcessTypes.CREATE:
@@ -224,12 +220,14 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
         this.apiEvents.createEventUsingPOST(ev).subscribe((data) => {
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Добавихте събитие успешно.', 'ok', 2128);
+         
         });
         break;
       case ProcessTypes.UPDATE:
         ev.startDate = moment(ev.startDate).format('yyyy-MM-DD HH:mm:ss');
         ev.endDate = moment(ev.endDate).format('yyyy-MM-DD HH:mm:ss');
         this.apiEvents.editEventUsingPUT(ev).subscribe((data) => {
+          this.fileUtil.saveFilesForEvent(this.currentEvent.eventId,false);
           this.dialogRef.close({ result: 'ok' });
           this.showSnack('Пременихте данни за събитие успешно.', 'ok', 2128);
         });
@@ -246,11 +244,11 @@ export class AddEventComponent extends BlitcenComponent implements OnInit {
     return diffMinutes;
   }
 
-  /**
-   * on file drop handler
-   */
-  onFileDropped($event) {
-    let id = this.currentEvent.eventId;   
-    this.fileUtil.onFileDropped($event,id, 'event');
-  }
+  // /**
+  //  * on file drop handler
+  //  */
+  // onFileDropped($event) {
+  //   let id = this.currentEvent.eventId;   
+  //   this.fileUtil.onFileDropped($event);//, id );
+  // }
 }

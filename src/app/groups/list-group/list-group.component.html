@@ -11,10 +11,7 @@
 </div>
 <div class="mat-elevation-z8">
   <table mat-table #table [dataSource]="paginator.slice">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>{{ 'wl.id' | translate }}</th>
-      <td mat-cell *matCellDef="let group">{{ group.groupId }}</td>
-    </ng-container>
+   
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>
         {{ 'wl.group_name' | translate }}
@@ -58,11 +55,12 @@
         >
           <mat-icon>more_vert</mat-icon>
         </button>
+        <!-- [disabled]="cm.edit === false" -->
         <mat-menu #menu="matMenu">
           <button
             mat-menu-item
             (click)="editGroup(group)"
-            [disabled]="cm.edit === false"
+           
           >
             <mat-icon>edit</mat-icon>
             <span>Редактиране</span>

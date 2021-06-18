@@ -10,12 +10,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNoDataRow } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { DisciplineDto, EvaluationMarkDto, GroupDto, UserDto } from 'libs/rest-client/src';
+import { AppComponent } from 'src/app/app.component';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DonkeyService } from 'src/app/core/donkey.service';
 import { DialogModalComponent } from 'src/app/dialog-modal/dialog-modal.component';
-import { Discipline } from 'src/app/model/discipline.model';
 import { MenuOptions } from 'src/app/model/menu.model';
 @Component({
   selector: 'app-edit-group',
@@ -38,7 +37,7 @@ import { MenuOptions } from 'src/app/model/menu.model';
   ],
 })
 export class EditGroupComponent extends BaseComponent implements OnInit {
-  @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
+  @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow; 
 
   studentGroup: GroupDto;
   displayedColumns = ['id', 'firstName', 'middleName', 'lastName', 'actions'];
@@ -55,9 +54,8 @@ export class EditGroupComponent extends BaseComponent implements OnInit {
     super(ar, injector, s);
     this.studentGroup = donkey.getData();
     this.cm = AppComponent.myapp.getCurrentMenuObject('/home/list-group');
-   
-console.log(this.cm)
-    console.log(this.studentGroup);
+   console.log(this.studentGroup)
+ 
   }
 
   ngOnInit(): void {
@@ -65,13 +63,16 @@ console.log(this.cm)
       alert('Group is null');
     } else {
       this.loadPaginator(this.studentGroup.users, 'firstName');
-      console.log(this.paginator)
+     
       this.apiUsers.listUserUsingGET().subscribe(
         data => {
           const students = data.filter(s => s.role.id === 3 && !s.groupId); //Take students only
-          this.studentsList = students;
+          this.studentsList = students; 
+          console.log(this.studentsList);
         }
       )
+
+
 
     }
   }
@@ -95,14 +96,12 @@ console.log(this.cm)
   }
 
   addDiscipline() {
+
     // TODO open dialog with multiselect
     alert('not implemented yet');
   }
 
-  editDiscipline(discipline: Discipline) {
-    console.log(discipline);
-    alert('edit ...');
-  }
+  
 
   showEvaluationMarks(user: UserDto) {
     const myDisciplines: DisciplineDto[] = this.studentGroup.disciplines.filter(
@@ -146,7 +145,8 @@ console.log(this.cm)
   }
 
   onStudentSelect(userId: string) {
-    console.log(this.studentGroup)
+     
+    
     this.apiGroups.saveStudentToGroupPUT(this.studentGroup.groupId, userId).subscribe(
       data => {
         this.studentGroup = data
