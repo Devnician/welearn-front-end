@@ -42,7 +42,6 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
 
     this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
       this.disciplines = data as Discipline[];
-      console.log(this.disciplines);
       this.loadPaginator(this.disciplines, 'name');
       // TODO
       // FILTER DISCIPLINES ACCORDING USER ID
@@ -84,16 +83,4 @@ export class ListDisciplineComponent extends BaseComponent implements OnInit {
     this.donkey.setData({ prefix, processType, discipline });
     this.router.navigate(['home/list-discipline/edit-discipline']);
   }
-  // deleteDiscipline(discipline: Discipline) {
-  //   this.apiDisciplines
-  //     .removeDisciplineUsingDELETE(discipline.id)
-  //     .subscribe((data) => {
-  //       if (data) {
-  //         this.apiDisciplines.getDisciplinesUsingGET().subscribe((data) => {
-  //           this.disciplines = data as Discipline[];
-  //           this.loadPaginator(this.disciplines, 'name');
-  //         });
-  //       }
-  //     });
-  // }
 }

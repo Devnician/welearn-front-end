@@ -17,8 +17,7 @@ import { CollectionsUtil } from 'src/app/utils/collections-util';
 export class ListGroupComponent extends BaseComponent implements OnInit {
   @ContentChild(MatNoDataRow) noDataRow: MatNoDataRow;
   groups: GroupDto[];
-  displayedColumns = [
-    'id',
+  displayedColumns = [ 
     'name',
     'startDate',
     'endDate',
@@ -40,8 +39,8 @@ export class ListGroupComponent extends BaseComponent implements OnInit {
     super(ar, injector, s);
     this.addAuthorizationToService(apiGroups);
     this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
-    console.log(this.router.url)
-     console.log(this.cm)
+    // console.log(this.router.url)
+    //  console.log(this.cm)
   }
 
   ngOnInit(): void {

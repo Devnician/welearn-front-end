@@ -30,8 +30,7 @@ export class EditDisciplineComponent
   lectors: UserDto[];
   roles: Role[] = [];
   processType = ProcessTypes.CREATE;
-  prefix = '';
-
+  prefix = ''; 
   fileUtil: FileUtil;
 
   constructor(
@@ -52,9 +51,8 @@ export class EditDisciplineComponent
     this.processType = data.processType;
     this.prefix = data.prefix; // dialog label
 
-    console.log(this.processType);
-
-    if (this.discipline) {
+    if (this.discipline) { 
+      
       this.discipline.creationDate = TimeUtil.adjustDateStringToDateTime(
         this.discipline.creationDate
       );
@@ -63,13 +61,16 @@ export class EditDisciplineComponent
       );
 
       let fileIds = this.discipline.resourceIds;
+
+      console.log(fileIds);
+      
       if (fileIds.length > 0) {
         fileIds.forEach((file) => {
           this.resourceControllerService
             .getByIdUsingGET2(file)
             .subscribe((dto) => {
               this.fileUtil.push(dto);
-              //this.resources.push(dto);
+              console.log(dto);
             });
         });
       }
@@ -83,25 +84,18 @@ export class EditDisciplineComponent
    */
   ngOnInit(): void {
     this.apiUsers.listUserUsingGET1(2).subscribe((data) => {
-      this.lectors = data;
-      console.log(this.lectors);
-    });
-
-    console.log(this.discipline);
+      this.lectors = data; 
+    }); 
+    
     const roleOfTeachersID: number = this.roles?.find(
       (r) => r.role === 'teacher'
     )?.id;
-    if (roleOfTeachersID) {
-      //fetch lectors
-      // this.apiUsers.listUserUsingGET1(roleOfTeachersID).subscribe((data) => {
-      //   this.lectors = data;
-      // });
-
+    if (roleOfTeachersID) { 
       this.form = this.formBuilder.group({
         id: this.discipline ? this.discipline.id : 0,
         name: this.discipline ? this.discipline.name : null,
-        teacherId: this.discipline ? this.discipline.teacher.userId : null,
-        assistantId: this.discipline ? this.discipline.assistant.userId : null,
+        teacherId: this.discipline ? this.discipline.teacher?.userId : null,
+        assistantId: this.discipline ? this.discipline.assistant?.userId : null,
       });
     }
   }
@@ -135,6 +129,9 @@ export class EditDisciplineComponent
           .subscribe((data) => {
             if (data) {
               this.showSnack('данните бяха промемени', '', 1300);
+
+              this.fileUtil.saveFilesForDiscipline(this.discipline.id);
+
               this.router.navigate(['home/list-discipline']);
             } else {
               this.showSnack('Нещо се обърка.', '', 1300);
@@ -146,12 +143,5 @@ export class EditDisciplineComponent
         this.router.navigate(['home/list-discipline']);
         break;
     }
-  }
-
-  /**
-   * on file drop handler
-   */
-  onFileDropped($event) {
-    this.fileUtil.onFileDropped($event,'discipline', this.discipline.id);
-  }
+  } 
 }

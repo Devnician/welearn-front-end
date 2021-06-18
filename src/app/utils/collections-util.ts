@@ -6,7 +6,7 @@ export class CollectionsUtil {
   constructor() {}
 
   filterEventsAccordingUserRole(events: EventDto[], user: UserDto): EventDto[] {
-    console.log(user.userId);
+   
     switch (user.role.role) {
       case 'administrator':
       case 'observe':
@@ -14,8 +14,8 @@ export class CollectionsUtil {
       case 'teacher':
         events = events.filter(
           (ev) =>
-            ev.discipline.teacher.userId === user.userId ||
-            ev.discipline.assistant.userId === user.userId
+            ev.discipline.teacher?.userId === user.userId ||
+            ev.discipline.assistant?.userId === user.userId
         );
         break;
       case 'student': 
@@ -27,23 +27,23 @@ export class CollectionsUtil {
         break; 
       default:
         break;
-    } 
-    console.log(events);
+    }  
     return events;
   }
 
   filterGroupsAccordingUserRole(groups: GroupDto[], user:UserDto) {
-    console.log(user.userId);
+  
+    
     switch (user.role.role) {
       case 'administrator':
       case 'observe':
         break;
       case 'teacher':
-        console.log(groups);
+     
         groups = groups.filter(
-          (gr) =>   gr.disciplines.findIndex( element => (element.teacher.userId === user.userId || element.assistant.userId === user.userId)  )  > -1  
+          (gr) =>   gr.disciplines.findIndex( element => (element.teacher?.userId === user.userId || element.assistant?.userId === user.userId)  )  > -1  
         );
-        console.log(groups);
+      
         break;
       case 'student': 
         if (user.groupId) {
@@ -55,7 +55,7 @@ export class CollectionsUtil {
       default:
         break;
     } 
-    console.log(groups);
+  
     return groups;
   }
 

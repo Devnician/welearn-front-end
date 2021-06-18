@@ -90,13 +90,12 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
     private donkey: DonkeyService
   ) {
     super(injector, s);
-    this.addAuthorizationToService(apiEvents);
-    // this.addAuthorizationToService(apiGroups);
+    this.addAuthorizationToService(apiEvents); 
     this.cm = AppComponent.myapp.getCurrentMenuObject(this.router.url);
   }
 
   ngOnInit(): void {
-    console.log('ON INIT');
+  
     this.loadGroups();
     this.gorups$.subscribe((data) => {
       if (data) {
@@ -114,6 +113,7 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
   letShowEvents() {
     const showEvents: EventInput[] = [];
     this.apiEvents.findAllUsingGET1().subscribe((data) => {
+      
       this.myEvents = data;
       this.myEvents = this.collectionsUtil.filterEventsAccordingUserRole(
         this.myEvents,
@@ -255,6 +255,7 @@ export class CalendarComponent extends BlitcenComponent implements OnInit {
         if (result.class) {
           this.openRoom(result.class);
         } else {
+       
           this.letShowEvents();
         }
       }
